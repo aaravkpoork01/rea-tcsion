@@ -23,6 +23,7 @@ export const all = async () => {
     brand_icon: ui.brand.icon,
     brand_admin_title: ui.brand.adminTitle,
     brand_admin_sidebar: ui.brand.adminSidebar,
+    brand_version: ui.brand.version,
     exam_topbar: JSON.stringify(ui.topbar),
     exam_tools: JSON.stringify(ui.tools),
     exam_languages: ui.languages.join(","),

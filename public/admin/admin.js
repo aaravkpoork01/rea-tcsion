@@ -2734,6 +2734,7 @@ async function renderSettings() {
     icon: settings.brand_icon || "",
     adminTitle: settings.brand_admin_title || "Assessment Admin",
     adminSidebar: settings.brand_admin_sidebar || "Admin Console",
+    version: settings.brand_version || "17.07.00",
   };
 
   let pendingIcon; // undefined = untouched, "" = cleared, data URL = new icon
@@ -2757,6 +2758,7 @@ async function renderSettings() {
           <label>Logo mark (text, when no icon)<input name="brand_mark" value="${esc(brand.mark)}" maxlength="16" /></label>
           <label>Admin panel title<input name="brand_admin_title" value="${esc(brand.adminTitle)}" maxlength="80" /></label>
           <label>Sidebar label<input name="brand_admin_sidebar" value="${esc(brand.adminSidebar)}" maxlength="40" /></label>
+          <label>Console version (exam footer)<input name="brand_version" value="${esc(brand.version)}" maxlength="40" placeholder="e.g. 17.07.00" /></label>
         </div>
       </div>
     </div>
@@ -2799,6 +2801,7 @@ async function renderSettings() {
       brand_mark: $("#view [name=brand_mark]").value.trim(),
       brand_admin_title: $("#view [name=brand_admin_title]").value.trim(),
       brand_admin_sidebar: $("#view [name=brand_admin_sidebar]").value.trim(),
+      brand_version: $("#view [name=brand_version]").value.trim(),
     };
     if (pendingIcon !== undefined) body.brand_icon = pendingIcon;
     try {
@@ -2823,6 +2826,7 @@ async function renderSettings() {
         brand_icon: "",
         brand_admin_title: "Assessment Admin",
         brand_admin_sidebar: "Admin Console",
+        brand_version: "17.07.00",
       } });
       toast("Branding reset.", "success");
       await loadBranding();

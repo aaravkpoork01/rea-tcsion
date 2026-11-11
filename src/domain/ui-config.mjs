@@ -36,6 +36,7 @@ export const BRAND_DEFAULTS = Object.freeze({
   icon: "",
   adminTitle: "Assessment Admin",
   adminSidebar: "Admin Console",
+  version: "17.07.00",
 });
 
 export const DEFAULT_LANGUAGES = Object.freeze(["English", "Hindi", "Gujarati"]);
@@ -72,6 +73,7 @@ export function buildConfig(settings = {}) {
     icon: normaliseIcon(settings.brand_icon) ? settings.brand_icon : "",
     adminTitle: text(settings.brand_admin_title, BRAND_DEFAULTS.adminTitle, 80),
     adminSidebar: text(settings.brand_admin_sidebar, BRAND_DEFAULTS.adminSidebar, 40),
+    version: text(settings.brand_version, BRAND_DEFAULTS.version, 40),
   };
 
   const storedTopbar = parseJson(settings.exam_topbar, {});
@@ -155,6 +157,7 @@ export function settingsFromAdmin(body = {}) {
   if ("brand_mark" in body) rows.brand_mark = text(body.brand_mark, BRAND_DEFAULTS.mark, 16);
   if ("brand_admin_title" in body) rows.brand_admin_title = text(body.brand_admin_title, BRAND_DEFAULTS.adminTitle, 80);
   if ("brand_admin_sidebar" in body) rows.brand_admin_sidebar = text(body.brand_admin_sidebar, BRAND_DEFAULTS.adminSidebar, 40);
+  if ("brand_version" in body) rows.brand_version = text(body.brand_version, BRAND_DEFAULTS.version, 40);
 
   if ("brand_icon" in body) {
     const icon = String(body.brand_icon ?? "").trim();
