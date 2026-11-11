@@ -1,4 +1,5 @@
 // Assessment administration and question bank.
+import { logger } from "../core/logger.mjs";
 import { nowIso } from "../core/time.mjs";
 import { badRequest, conflict, notFound } from "../core/errors.mjs";
 import { parseCsv } from "../core/csv.mjs";
