@@ -27,7 +27,9 @@ CREATE TABLE IF NOT EXISTS assessments (
   show_feedback INTEGER NOT NULL DEFAULT 1,
   use_default_feedback INTEGER NOT NULL DEFAULT 1,
   store_response INTEGER NOT NULL DEFAULT 0,
+  enable_fullscreen INTEGER NOT NULL DEFAULT 0,
   require_fullscreen INTEGER NOT NULL DEFAULT 0,
+  track_fullscreen INTEGER NOT NULL DEFAULT 1,
   max_attempts INTEGER NOT NULL DEFAULT 1,
   open_to_all INTEGER NOT NULL DEFAULT 1,
   created_at TEXT NOT NULL

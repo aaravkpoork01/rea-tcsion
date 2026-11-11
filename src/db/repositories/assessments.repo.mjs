@@ -18,28 +18,30 @@ export const listBrief = async () =>
 export const create = async (row) =>
   run(`INSERT INTO assessments
       (id, org_id, name, description, type, base_path, duration_min, total_marks, status,
-       show_feedback, use_default_feedback, store_response, require_fullscreen, max_attempts, created_at)
-      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+       show_feedback, use_default_feedback, store_response, enable_fullscreen, require_fullscreen, track_fullscreen, max_attempts, created_at)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
   row.id, row.orgId, row.name, row.description, row.type, row.basePath, row.durationMin, row.totalMarks,
   row.status, row.showFeedback, row.useDefaultFeedback, row.storeResponse,
-  row.requireFullscreen ? 1 : 0, row.maxAttempts, row.createdAt);
+  row.enableFullscreen ? 1 : 0, row.requireFullscreen ? 1 : 0, row.trackFullscreen ? 1 : 0, row.maxAttempts, row.createdAt);
 
 export const update = async (id, fields) =>
   run(`UPDATE assessments SET name=?, description=?, duration_min=?, status=?, show_feedback=?,
-        use_default_feedback=?, store_response=?, require_fullscreen=?, max_attempts=?, start_at=?, end_at=? WHERE id=?`,
+        use_default_feedback=?, store_response=?, enable_fullscreen=?, require_fullscreen=?, track_fullscreen=?, max_attempts=?, start_at=?, end_at=? WHERE id=?`,
   fields.name, fields.description, fields.durationMin, fields.status, fields.showFeedback,
-  fields.useDefaultFeedback, fields.storeResponse, fields.requireFullscreen, fields.maxAttempts,
+  fields.useDefaultFeedback, fields.storeResponse, fields.enableFullscreen ? 1 : 0, fields.requireFullscreen ? 1 : 0, fields.trackFullscreen ? 1 : 0, fields.maxAttempts,
   fields.startAt, fields.endAt, id);
 
 export const updateMeta = async (id, fields) =>
   run(`UPDATE assessments SET name=?, description=?, duration_min=?, total_marks=?,
         max_attempts=COALESCE(?, max_attempts), show_feedback=COALESCE(?, show_feedback),
         use_default_feedback=COALESCE(?, use_default_feedback), store_response=COALESCE(?, store_response),
-        require_fullscreen=COALESCE(?, require_fullscreen)
+        enable_fullscreen=COALESCE(?, enable_fullscreen), require_fullscreen=COALESCE(?, require_fullscreen),
+        track_fullscreen=COALESCE(?, track_fullscreen)
         WHERE id=?`,
   fields.name, fields.description, fields.durationMin, fields.totalMarks,
   fields.maxAttempts ?? null, fields.showFeedback ?? null,
-  fields.useDefaultFeedback ?? null, fields.storeResponse ?? null, fields.requireFullscreen ?? null, id);
+  fields.useDefaultFeedback ?? null, fields.storeResponse ?? null,
+  fields.enableFullscreen ?? null, fields.requireFullscreen ?? null, fields.trackFullscreen ?? null, id);
 
 export const updateStatus = async (id, status) =>
   run("UPDATE assessments SET status = ? WHERE id = ?", status, id);

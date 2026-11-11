@@ -213,7 +213,12 @@ export default async function handler(req, res) {
 
   const run = async () => {
     await ensureInit();
-    if (pathname === ADMIN_PREFIX || pathname.startsWith(`${ADMIN_PREFIX}/`)) {
+    if (pathname === ADMIN_PREFIX) {
+      res.writeHead(302, { Location: `${ADMIN_PREFIX}/` });
+      res.end();
+      return;
+    }
+    if (pathname.startsWith(`${ADMIN_PREFIX}/`)) {
       return await serveAdminUi(res, pathname);
     }
     if (router.has(req.method || "GET", pathname)) {

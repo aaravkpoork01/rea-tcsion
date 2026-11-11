@@ -139,10 +139,17 @@
 		global.ExamApi.fetchState().then(function (state) {
 			runtime.stateLoaded = true;
 			if (!state) return;
-			if (state.requireFullscreen) runtime.required = true;
+			if (state.requireFullscreen !== undefined) runtime.required = Boolean(state.requireFullscreen);
+			if (state.enableFullscreen !== undefined) runtime.enabled = Boolean(state.enableFullscreen);
+			if (state.trackFullscreen !== undefined) runtime.track = Boolean(state.trackFullscreen);
 			var stored = Number(state.fullscreenSeconds);
 			if (Number.isFinite(stored) && stored > runtime.totalSeconds) {
 				runtime.totalSeconds = stored;
+				persist();
+			}
+			var toggles = Number(state.fullscreenToggleCount);
+			if (Number.isFinite(toggles) && toggles > runtime.toggleCount) {
+				runtime.toggleCount = toggles;
 				persist();
 			}
 		}).catch(function () {
@@ -373,6 +380,8 @@
 
 	function boot() {
 		runtime.required = storedFlag();
+		runtime.enabled = readSession("enableFullscreen") === "1" || runtime.required;
+		runtime.track = readSession("trackFullscreen") !== "0";
 		syncFromSnapshot();
 		loadPolicy();
 		attach();

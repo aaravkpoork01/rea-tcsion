@@ -553,10 +553,25 @@ function assessmentForm(assessment, assessments = [], options = {}) {
           ${["active", "draft", "archived"].map((s) => `<option value="${s}" ${draftValue("status", a.status) === s ? "selected" : ""}>${s}</option>`).join("")}
         </select></label>`}
       </div>
-      <label class="row"><input type="checkbox" name="requireFullscreen" ${draftValue("requireFullscreen", a.require_fullscreen) ? "checked" : ""} style="width:auto" /> Require fullscreen to answer</label>
+      <div style="border: 1px solid var(--border, #374151); border-radius: 8px; padding: 12px; margin: 12px 0; background: rgba(255,255,255,0.02);">
+        <label class="row" style="font-weight: 600; margin: 0; cursor: pointer;">
+          <input type="checkbox" name="enableFullscreen" ${draftValue("enableFullscreen", (a.enable_fullscreen != null ? a.enable_fullscreen : (a.require_fullscreen || a.track_fullscreen))) ? "checked" : ""} style="width:auto" />
+          Enable fullscreen mode
+        </label>
+        <div id="fullscreenSubOptions" style="margin-top: 10px; margin-left: 22px; display: flex; flex-direction: column; gap: 8px; border-left: 2px solid var(--border, #4b5563); padding-left: 12px;">
+          <label class="row" style="cursor: pointer;">
+            <input type="checkbox" name="requireFullscreen" ${draftValue("requireFullscreen", a.require_fullscreen) ? "checked" : ""} style="width:auto" />
+            Require fullscreen to answer
+          </label>
+          <label class="row" style="cursor: pointer;">
+            <input type="checkbox" name="trackFullscreen" ${draftValue("trackFullscreen", (a.track_fullscreen != null ? a.track_fullscreen : 1)) ? "checked" : ""} style="width:auto" />
+            Count how much time fullscreen button (track time &amp; toggles in result)
+          </label>
+        </div>
+      </div>
       <div class="grid2">
-        <label class="row" data-feedback-option><input type="checkbox" name="showFeedback" ${draftValue("showFeedback", a.show_feedback) ? "checked" : ""} style="width:auto" /> Show feedback page</label>
-        <label class="row" data-feedback-option><input type="checkbox" name="useDefaultFeedback" ${draftValue("useDefaultFeedback", a.use_default_feedback) ? "checked" : ""} style="width:auto" /> Use default feedback form</label>
+        <label class="row"><input type="checkbox" name="showFeedback" ${draftValue("showFeedback", a.show_feedback) ? "checked" : ""} style="width:auto" /> Show feedback page</label>
+        <label class="row"><input type="checkbox" name="useDefaultFeedback" ${draftValue("useDefaultFeedback", a.use_default_feedback) ? "checked" : ""} style="width:auto" /> Use default feedback form</label>
         <label class="row"><input type="checkbox" name="storeResponse" ${draftValue("storeResponse", a.store_response) ? "checked" : ""} style="width:auto" /> Server-side response store</label>
       </div>
       ${lockedDraft ? `<p class="field-note">This assessment is saved as <strong>draft</strong>. After saving, use <em>Upload CSV</em> to add its question paper; the assessment becomes active automatically. The paper folder is managed for you.</p>` : ""}
@@ -568,6 +583,21 @@ function assessmentForm(assessment, assessments = [], options = {}) {
   const orgInput = m.root.querySelector("[name=orgId]");
   const nameInput = m.root.querySelector("[name=name]");
 
+  const masterFullscreen = m.root.querySelector("[name=enableFullscreen]");
+  const subOptionsContainer = m.root.querySelector("#fullscreenSubOptions");
+  const requireFullscreenInput = m.root.querySelector("[name=requireFullscreen]");
+  const trackFullscreenInput = m.root.querySelector("[name=trackFullscreen]");
+
+  const syncFullscreenSubOptions = () => {
+    const isEnabled = masterFullscreen.checked;
+    subOptionsContainer.style.display = isEnabled ? "flex" : "none";
+    if (!isEnabled) {
+      requireFullscreenInput.checked = false;
+    }
+  };
+  masterFullscreen.addEventListener("change", syncFullscreenSubOptions);
+  syncFullscreenSubOptions();
+
   const captureDraft = () => ({
     orgId: orgInput.value.trim(),
     name: nameInput.value,
@@ -578,16 +608,10 @@ function assessmentForm(assessment, assessments = [], options = {}) {
     showFeedback: m.root.querySelector("[name=showFeedback]").checked,
     useDefaultFeedback: m.root.querySelector("[name=useDefaultFeedback]").checked,
     storeResponse: m.root.querySelector("[name=storeResponse]").checked,
-    requireFullscreen: m.root.querySelector("[name=requireFullscreen]").checked,
+    enableFullscreen: masterFullscreen.checked,
+    requireFullscreen: masterFullscreen.checked && requireFullscreenInput.checked,
+    trackFullscreen: masterFullscreen.checked && trackFullscreenInput.checked,
   });
-  const fullscreenToggle = m.root.querySelector("[name=requireFullscreen]");
-  const syncFeedbackVisibility = () => {
-    m.root.querySelectorAll("[data-feedback-option]").forEach((row) => {
-      row.style.display = fullscreenToggle.checked ? "none" : "";
-    });
-  };
-  fullscreenToggle.addEventListener("change", syncFeedbackVisibility);
-  syncFeedbackVisibility();
   const reopenWithDraft = (callback) => {
     const draft = captureDraft();
     callback(() => assessmentForm(assessment, assessments, { ...options, draft }));
@@ -646,7 +670,9 @@ function assessmentForm(assessment, assessments = [], options = {}) {
       showFeedback: m.root.querySelector("[name=showFeedback]").checked,
       useDefaultFeedback: m.root.querySelector("[name=useDefaultFeedback]").checked,
       storeResponse: m.root.querySelector("[name=storeResponse]").checked,
-      requireFullscreen: m.root.querySelector("[name=requireFullscreen]").checked,
+      enableFullscreen: masterFullscreen.checked,
+      requireFullscreen: masterFullscreen.checked && requireFullscreenInput.checked,
+      trackFullscreen: masterFullscreen.checked && trackFullscreenInput.checked,
     };
     if (isNew) body.basePath = autoBasePath(bodyOrg, id);
 
