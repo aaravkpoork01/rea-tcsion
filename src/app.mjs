@@ -189,9 +189,21 @@ async function serveMirror(res, pathname) {
 
 // Default export satisfies Vercel's module-validation pass on bundled .mjs files.
 export default async function handler(req, res) {
-  // On Vercel rewrites, req.url may be rewritten to destination (e.g. /api/index.mjs).
-  // Read Vercel's x-matched-path or x-forwarded-uri header to recover the original request path.
-  const rawPath = req.headers["x-forwarded-uri"] || req.headers["x-matched-path"] || req.url || "/";
+  // On Vercel rewrites:
+  // - req.url may be rewritten to destination (e.g. /api/index.mjs or /api/index)
+  // - x-now-route-matches: 1=test or x-matched-path contains the original URL or pattern
+  // Check multiple Vercel headers in priority order:
+  let rawPath = req.headers["x-forwarded-uri"] ||
+                req.headers["x-original-url"] ||
+                req.headers["x-now-route-matches"] ||
+                req.headers["x-matched-path"] ||
+                req.url || "/";
+
+  // If rawPath starts with /api/index, fallback to x-matched-path or req.url
+  if (rawPath === "/api/index.mjs" || rawPath === "/api/index") {
+    rawPath = req.headers["x-matched-path"] || req.headers["x-forwarded-uri"] || "/";
+  }
+
   const url = new URL(rawPath, `http://${req.headers.host || config.host}`);
   const { pathname } = url;
 

@@ -32,10 +32,6 @@
     {
       "source": "/tools/:match*",
       "destination": "/api/index.mjs"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/api/index.mjs"
     }
   ]
 }
