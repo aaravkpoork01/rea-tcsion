@@ -34,13 +34,8 @@ export function sendCsv(res, filename, csv) {
 /** Turn a thrown error into a response. */
 export function sendFromError(res, error, scope = "http") {
   const { status, body } = toHttpError(error);
-  if (status >= 500) {
-    logger.error(`${scope}: ${error?.stack || error?.message}`, { status });
-    // In serverless debug: include error details in response
-    body.details = String(error?.stack || error?.message || "");
-  } else {
-    logger.debug(`${scope}: ${error?.message}`, { status });
-  }
+  if (status >= 500) logger.error(`${scope}: ${error?.stack || error?.message}`, { status });
+  else logger.debug(`${scope}: ${error?.message}`, { status });
   if (!res.headersSent) sendJson(res, status, body);
   else res.end();
 }

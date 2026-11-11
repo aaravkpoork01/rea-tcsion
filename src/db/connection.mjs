@@ -108,14 +108,31 @@ export async function run(sql, ...params) {
 
   const isInsert = /^\s*INSERT/i.test(sql);
   const q = pgSql(sql, params);
-  const finalSql = isInsert && !/ RETURNING /i.test(q.text)
+  
+  // Only add RETURNING id if id is actually a column in the target table (or not a table with non-id PK like sessions, meta, settings, orgs, assessments)
+  const isNoIdTable = /^\s*INSERT\s+INTO\s+(["`]?)(?:sessions|meta|settings|orgs|assessments)\1/i.test(sql);
+  const finalSql = isInsert && !isNoIdTable && !/ RETURNING /i.test(q.text)
     ? q.text + " RETURNING id"
     : q.text;
-  const result = await pool.query(finalSql, q.values);
-  return {
-    changes: result.rowCount ?? 0,
-    lastInsertRowid: result.rows[0]?.id ?? null,
-  };
+
+  try {
+    const result = await pool.query(finalSql, q.values);
+    return {
+      changes: result.rowCount ?? 0,
+      lastInsertRowid: result.rows[0]?.id ?? null,
+    };
+  } catch (err) {
+    // If RETURNING id failed because column "id" does not exist, retry without it
+    if (err?.message?.includes('column "id" does not exist') && finalSql.endsWith(" RETURNING id")) {
+      const fallbackSql = finalSql.slice(0, -" RETURNING id".length);
+      const result = await pool.query(fallbackSql, q.values);
+      return {
+        changes: result.rowCount ?? 0,
+        lastInsertRowid: null,
+      };
+    }
+    throw err;
+  }
 }
 
 /** Fetch one row or null. */
