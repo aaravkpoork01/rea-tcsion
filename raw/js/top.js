@@ -4460,6 +4460,7 @@ function readSysInstructionsXMLQuizPage(QPxml,xml,orgId,mockId,isResumed){
 			}
 		}
 	} 
+	if(!consoleVersion){ try{ consoleVersion = sessionStorage.consoleVersion || $.cookie("consoleVersion") || (window.__ION_BRAND__ && window.__ION_BRAND__.version) || "17.07.00"; }catch(e){ consoleVersion = "17.07.00"; } }
 	$("#footer").html("Version : " +consoleVersion+"</div>");
 	quizXml = QPxml;
 	confXml = xml;
@@ -30036,6 +30037,7 @@ function loadInstruLabels(){
 	$('.sysInstruLabel').html($(xml).find('Instructions').text());
 	$('.otherInstruLabel').html($(xml).find('OtherImportantInstructions').text());
 	$('#iframeId').contents().find('.otherInstruLabel').html($(xml).find('OtherImportantInstructions').text());
+	if(!consoleVersion){ try{ consoleVersion = sessionStorage.consoleVersion || $.cookie("consoleVersion") || (window.__ION_BRAND__ && window.__ION_BRAND__.version) || "17.07.00"; }catch(e){ consoleVersion = "17.07.00"; } }
 	$("#footer").html("Version : " +consoleVersion+"</div>");
 	$("#readylink").text($(xml).find('Next').text());
 	if(assessmentId!=undefined && assessmentId.indexOf("M") == -1){
@@ -30164,6 +30166,7 @@ function feedbackPageLabel(tempVal){
 		$('.candOrigName').html(mockVar.mockCandidateName);
 		document.title = $(xml).find('FeedBackAssessmentExaminationCenter').text();
 	}
+	if(!consoleVersion){ try{ consoleVersion = sessionStorage.consoleVersion || $.cookie("consoleVersion") || (window.__ION_BRAND__ && window.__ION_BRAND__.version) || "17.07.00"; }catch(e){ consoleVersion = "17.07.00"; } }
 	$("#footer").html("Version : " +consoleVersion+"</div>");
 	$('#feedbackClose').html($(xml).find('close').text());
 	$('.Ok').html($(xml).find('Ok').text());
@@ -30225,6 +30228,7 @@ function loadClosePageLabel(){
 		//$("#closeBtn").attr("title",$(xml).find('ClosePageMessageOA').attr('CloseBtnText'));
 	}
 	}
+	if(!consoleVersion){ try{ consoleVersion = sessionStorage.consoleVersion || $.cookie("consoleVersion") || (window.__ION_BRAND__ && window.__ION_BRAND__.version) || "17.07.00"; }catch(e){ consoleVersion = "17.07.00"; } }
 	$("#footer").html("Version : " +consoleVersion+"</div>");
 	// $('.noteToCloseWindowMessage').html($(xml).find('noteshiftEsc').text());
 	// $('.noteToCloseWindow').html($(xml).find('Note').text());

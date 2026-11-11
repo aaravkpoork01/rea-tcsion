@@ -14,6 +14,7 @@ import * as authService from "./auth.service.mjs";
 import * as feedbackService from "./feedback.service.mjs";
 import * as translationsRepo from "../db/repositories/translations.repo.mjs";
 import * as candidateGroupsService from "./candidate-groups.service.mjs";
+import * as settingsService from "./settings.service.mjs";
 import { extractLanguages } from "../domain/paper-languages.mjs";
 import { statSync } from "node:fs";
 
@@ -134,6 +135,7 @@ export async function signIn({ orgId, assessmentId, login, password, context = {
         enableFullscreen: Boolean(assessment.enable_fullscreen ?? assessment.require_fullscreen),
         requireFullscreen: Boolean(assessment.enable_fullscreen ? assessment.require_fullscreen : false),
         trackFullscreen: Boolean(assessment.enable_fullscreen ? (assessment.track_fullscreen ?? 1) : false),
+        version: (await settingsService.all()).brand_version || "17.07.00",
         questions: attempt.total_questions,
         duration: assessment.duration_min,
         questionCount: attempt.total_questions,
@@ -172,6 +174,7 @@ export async function xmlPathDescriptor(orgId, assessmentId) {
 
   const base = assessment.base_path.endsWith("/") ? assessment.base_path : `${assessment.base_path}/`;
   const stamp = paperRevision(assessment);
+  const settings = await settingsService.all();
   return {
     RequiredData: `${assessment.id}@@${assessment.org_id}@@static@@0@@0`,
     hasCustLangXml: "false",
@@ -179,7 +182,7 @@ export async function xmlPathDescriptor(orgId, assessmentId) {
     xmlProcFilePath: { quizPath: `${base}quiz.xml`, confPath: `${base}confDetails.xml` },
     xmlPath: base,
     validity: assessment.status === "active" ? "Live" : "Expired",
-    version: "17.07.00",
+    version: settings.brand_version || "17.07.00",
     lastModified: String(stamp),
     custJsonLastModified: String(stamp),
     lastLangModified: String(stamp),

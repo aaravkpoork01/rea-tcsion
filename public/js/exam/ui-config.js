@@ -435,6 +435,16 @@
 				headerImage.appendChild(logo);
 			}
 		}
+		if (brand.version) {
+			try {
+				sessionStorage.consoleVersion = brand.version;
+				document.cookie = "consoleVersion=" + encodeURIComponent(brand.version) + "; path=/";
+			} catch (e) {}
+			var footer = document.getElementById("footer");
+			if (footer) {
+				footer.innerHTML = "Version : " + brand.version + "</div>";
+			}
+		}
 		global.__ION_BRAND__ = brand;
 	}
 

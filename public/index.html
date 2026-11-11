@@ -241,6 +241,8 @@
 				sessionStorage.enableFullscreen = data.assessment.enableFullscreen ? "1" : "0";
 				sessionStorage.requireFullscreen = data.assessment.requireFullscreen ? "1" : "0";
 				sessionStorage.trackFullscreen = data.assessment.trackFullscreen ? "1" : "0";
+				sessionStorage.consoleVersion = (data.assessment && data.assessment.version) || data.version || "17.07.00";
+				document.cookie = "consoleVersion=" + encodeURIComponent(sessionStorage.consoleVersion) + "; path=/";
 				sessionStorage.assessType = "Mock";
 				sessionStorage.notificationPrompt = "false";
 				sessionStorage.isOnline = "1";
