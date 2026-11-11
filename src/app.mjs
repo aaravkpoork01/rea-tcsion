@@ -143,6 +143,23 @@ async function servePaperXml(res, pathname) {
   // serves them from the versioned mirror (`/per/g03/pub/726/...`). Rewrite
   // them while serving so the embedded viewer does not request a 404.
   if (hit[2].toLowerCase() !== "quiz") {
+    const dynamicTags = {
+      AssessmentName: assessment.name || assessment.id,
+      AssessmentDescription: assessment.description || "",
+      AssessmentDuration: String(Math.max(1, Number(assessment.duration_min) || 60)),
+      MaxNoOfAttempt: String(Math.max(1, Number(assessment.max_attempts) || 1)),
+      ShowFeedback: assessment.show_feedback ? "YES" : "NO",
+      UseDefaultFeedback: assessment.use_default_feedback ? "YES" : "NO",
+      StoreCandResponse: assessment.store_response ? "YES" : "NO",
+      RequireFullscreen: assessment.require_fullscreen ? "YES" : "NO",
+    };
+    for (const [tag, val] of Object.entries(dynamicTags)) {
+      const tagRe = new RegExp(`(<${tag}>)[\\s\\S]*?(</${tag}>)`, "i");
+      if (tagRe.test(xml)) {
+        xml = xml.replace(tagRe, `$1${val}$2`);
+      }
+    }
+
     const prefix = String(assessment.base_path || "").match(/^(\/per\/[^/]+\/pub\/)/i)?.[1] || "";
     const orgPrefix = `${assessment.org_id}/`;
     if (prefix && orgPrefix) {

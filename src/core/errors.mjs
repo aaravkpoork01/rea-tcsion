@@ -23,11 +23,11 @@ export function toHttpError(error) {
   if (isAppError(error)) {
     return {
       status: error.status,
-      body: { ok: false, error: error.expose ? error.message : "Internal server error.", code: error.code },
+      body: { ok: false, error: error.message, code: error.code, details: error.details },
     };
   }
   return {
     status: 500,
-    body: { ok: false, error: "Internal server error.", code: "internal_error" },
+    body: { ok: false, error: error?.message || "Internal server error.", code: "internal_error" },
   };
 }
