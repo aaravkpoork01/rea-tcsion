@@ -189,7 +189,10 @@ async function serveMirror(res, pathname) {
 
 // Default export satisfies Vercel's module-validation pass on bundled .mjs files.
 export default async function handler(req, res) {
-  const url = new URL(req.url || "/", `http://${req.headers.host || config.host}`);
+  // On Vercel rewrites, req.url may be rewritten to destination (e.g. /api/index.mjs).
+  // Read Vercel's x-matched-path or x-forwarded-uri header to recover the original request path.
+  const rawPath = req.headers["x-forwarded-uri"] || req.headers["x-matched-path"] || req.url || "/";
+  const url = new URL(rawPath, `http://${req.headers.host || config.host}`);
   const { pathname } = url;
 
   const run = async () => {
