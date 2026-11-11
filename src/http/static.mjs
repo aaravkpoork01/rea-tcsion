@@ -53,8 +53,34 @@ export async function sendFile(res, filePath, urlPath) {
   return true;
 }
 
-/** Serve `urlPath` from `root`; a trailing slash maps to index.html. */
+/** Serve `urlPath` from `root`; checks multiple candidate fallback locations. */
 export async function serveStatic(res, root, urlPath) {
   const relative = urlPath.endsWith("/") ? `${urlPath}index.html` : urlPath;
-  return sendFile(res, resolveWithin(root, relative), urlPath);
+  const primaryPath = resolveWithin(root, relative);
+  const primaryExists = await stat(primaryPath).then(s => s.isFile()).catch(() => false);
+  if (primaryExists) {
+    return sendFile(res, primaryPath, urlPath);
+  }
+
+  // Fallbacks for serverless environments where cwd / root may vary or mirror is in raw/
+  const clean = relative.replace(/^([/\\])+/, "");
+  const fallbackRoots = [
+    root,
+    join(root, "..", "public"),
+    join(root, "..", "raw"),
+    join(process.cwd(), "public"),
+    join(process.cwd(), "raw"),
+    join("/var/task", "public"),
+    join("/var/task", "raw")
+  ];
+
+  for (const altRoot of fallbackRoots) {
+    const candidate = resolveWithin(altRoot, clean);
+    const candidateExists = await stat(candidate).then(s => s.isFile()).catch(() => false);
+    if (candidateExists) {
+      return sendFile(res, candidate, urlPath);
+    }
+  }
+
+  return sendFile(res, primaryPath, urlPath);
 }

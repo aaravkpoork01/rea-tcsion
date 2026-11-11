@@ -3,7 +3,7 @@
   "cleanUrls": false,
   "functions": {
     "api/index.mjs": {
-      "includeFiles": "src/**,config/**,public/**,raw/**",
+      "includeFiles": "{src,config,public,raw}/**",
       "memory": 1024,
       "maxDuration": 60
     }
