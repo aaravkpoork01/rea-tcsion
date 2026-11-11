@@ -47,8 +47,11 @@ if (usePostgres) {
     pool = new Pool({ connectionString });
   } else {
     const { default: pg } = await import("pg");
+    // Strip ?sslmode=... because pg parses sslmode=require into verify-full,
+    // which rejects self-signed cloud certs (like Aiven).
+    const cleanConnectionString = connectionString.replace(/[\?&]sslmode=[^&]+/g, "");
     pool = new pg.Pool({
-      connectionString,
+      connectionString: cleanConnectionString,
       ssl: { rejectUnauthorized: false }
     });
   }
