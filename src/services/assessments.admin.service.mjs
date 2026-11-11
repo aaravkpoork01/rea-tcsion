@@ -226,7 +226,11 @@ export async function updateUsefulData(assessmentId, body = {}) {
   for (let index = 1; index <= USEFUL_DATA_MAX; index += 1) {
     xml = setConfTag(xml, usefulDataTag(index), byIndex.get(index) || "");
   }
-  writeFileSync(file, xml, "utf8");
+  try {
+    writeFileSync(file, xml, "utf8");
+  } catch (error) {
+    logger.warn(`Could not write useful data to confDetails.xml: ${error.message}`);
+  }
   return getUsefulData(assessment.id);
 }
 
@@ -486,31 +490,47 @@ const paperFiles = (basePath) => ({
  */
 function syncConfFromAssessment(assessment) {
   if (!assessment) return;
-  const file = paperPath(assessment, "confDetails.xml");
-  if (!existsSync(file)) return;
-  let xml = readFileSync(file, "utf8");
-  const next = {
-    AssessmentName: assessment.name || assessment.id,
-    AssessmentDescription: assessment.description || "",
-    AssessmentDuration: String(Math.max(1, Number(assessment.duration_min) || 60)),
-    MaxNoOfAttempt: String(Math.max(1, Number(assessment.max_attempts) || 1)),
-    ShowFeedback: assessment.show_feedback ? "YES" : "NO",
-    UseDefaultFeedback: assessment.use_default_feedback ? "YES" : "NO",
-    StoreCandResponse: assessment.store_response ? "YES" : "NO",
-    RequireFullscreen: assessment.require_fullscreen ? "YES" : "NO",
-  };
-  for (const [tag, value] of Object.entries(next)) xml = setConfTag(xml, tag, value);
-  writeFileSync(file, xml, "utf8");
+  try {
+    const file = paperPath(assessment, "confDetails.xml");
+    if (!existsSync(file)) return;
+    let xml = readFileSync(file, "utf8");
+    const next = {
+      AssessmentName: assessment.name || assessment.id,
+      AssessmentDescription: assessment.description || "",
+      AssessmentDuration: String(Math.max(1, Number(assessment.duration_min) || 60)),
+      MaxNoOfAttempt: String(Math.max(1, Number(assessment.max_attempts) || 1)),
+      ShowFeedback: assessment.show_feedback ? "YES" : "NO",
+      UseDefaultFeedback: assessment.use_default_feedback ? "YES" : "NO",
+      StoreCandResponse: assessment.store_response ? "YES" : "NO",
+      RequireFullscreen: assessment.require_fullscreen ? "YES" : "NO",
+    };
+    for (const [tag, value] of Object.entries(next)) xml = setConfTag(xml, tag, value);
+    try {
+    writeFileSync(file, xml, "utf8");
+  } catch (error) {
+    logger.warn(`Could not write useful data to confDetails.xml: ${error.message}`);
+  }
+  } catch (error) {
+    logger.warn(`Could not sync confDetails.xml (filesystem may be read-only): ${error.message}`);
+  }
 }
 
 /** Apply a group/section edit to quiz.xml when the paper exists. */
 function writeQuizXml(assessment, transform) {
   if (!assessment) return;
-  const file = paperPath(assessment, "quiz.xml");
-  if (!existsSync(file)) return;
-  const xml = readFileSync(file, "utf8");
-  const next = transform(xml);
-  if (next !== xml) writeFileSync(file, next, "utf8");
+  try {
+    const file = paperPath(assessment, "quiz.xml");
+    if (!existsSync(file)) return;
+    const xml = readFileSync(file, "utf8");
+    const next = transform(xml);
+    try {
+    if (next !== xml) writeFileSync(file, next, "utf8");
+  } catch (error) {
+    logger.warn(`Could not update question instructions in quiz.xml: ${error.message}`);
+  }
+  } catch (error) {
+    logger.warn(`Could not sync quiz.xml (filesystem may be read-only): ${error.message}`);
+  }
 }
 
 export async function importFrom(body, id) {
@@ -699,7 +719,11 @@ export async function updateQuestionInstructions(assessmentId, body = {}) {
       normaliseInstruction(item?.instruction, primary.id),
     );
   }
-  if (next !== xml) writeFileSync(file, next, "utf8");
+  try {
+    if (next !== xml) writeFileSync(file, next, "utf8");
+  } catch (error) {
+    logger.warn(`Could not update question instructions in quiz.xml: ${error.message}`);
+  }
   return getQuestionInstructions(assessment.id);
 }
 
