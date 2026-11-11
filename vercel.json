@@ -18,20 +18,24 @@
       "destination": "/index.html"
     },
     {
-      "source": "/IBA/:match*",
-      "destination": "/api/index.mjs"
+      "source": "/IBA/:path*",
+      "destination": "/api"
     },
     {
-      "source": "/IBACC/:match*",
-      "destination": "/api/index.mjs"
+      "source": "/IBACC/:path*",
+      "destination": "/api"
     },
     {
-      "source": "/api/admin/:match*",
-      "destination": "/api/index.mjs"
+      "source": "/api/admin/:path*",
+      "destination": "/api"
     },
     {
-      "source": "/tools/:match*",
-      "destination": "/api/index.mjs"
+      "source": "/api/config",
+      "destination": "/api"
+    },
+    {
+      "source": "/tools/:path*",
+      "destination": "/api"
     }
   ]
 }
