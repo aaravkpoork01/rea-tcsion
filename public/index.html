@@ -238,7 +238,9 @@
 				sessionStorage.questionCount = data.assessment.questionCount != null ? String(data.assessment.questionCount) : "";
 				sessionStorage.isResumed = data.attempt.resumed ? "1" : "0";
 				sessionStorage.showfeedbackpage = data.assessment.showFeedback ? "1" : "0";
+				sessionStorage.enableFullscreen = data.assessment.enableFullscreen ? "1" : "0";
 				sessionStorage.requireFullscreen = data.assessment.requireFullscreen ? "1" : "0";
+				sessionStorage.trackFullscreen = data.assessment.trackFullscreen ? "1" : "0";
 				sessionStorage.assessType = "Mock";
 				sessionStorage.notificationPrompt = "false";
 				sessionStorage.isOnline = "1";

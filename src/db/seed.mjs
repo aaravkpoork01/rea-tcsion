@@ -43,6 +43,8 @@ async function ensureAssessmentColumns() {
   if (usePostgres) {
     await db.query("ALTER TABLE assessments ADD COLUMN IF NOT EXISTS open_to_all INTEGER NOT NULL DEFAULT 1");
     await db.query("ALTER TABLE assessments ADD COLUMN IF NOT EXISTS require_fullscreen INTEGER NOT NULL DEFAULT 0");
+    await db.query("ALTER TABLE assessments ADD COLUMN IF NOT EXISTS enable_fullscreen INTEGER NOT NULL DEFAULT 0");
+    await db.query("ALTER TABLE assessments ADD COLUMN IF NOT EXISTS track_fullscreen INTEGER NOT NULL DEFAULT 1");
     return;
   }
   const columns = db.prepare("PRAGMA table_info(assessments)").all();
@@ -51,6 +53,12 @@ async function ensureAssessmentColumns() {
   }
   if (!columns.some((column) => column.name === "require_fullscreen")) {
     await db.query("ALTER TABLE assessments ADD COLUMN require_fullscreen INTEGER NOT NULL DEFAULT 0");
+  }
+  if (!columns.some((column) => column.name === "enable_fullscreen")) {
+    await db.query("ALTER TABLE assessments ADD COLUMN enable_fullscreen INTEGER NOT NULL DEFAULT 0");
+  }
+  if (!columns.some((column) => column.name === "track_fullscreen")) {
+    await db.query("ALTER TABLE assessments ADD COLUMN track_fullscreen INTEGER NOT NULL DEFAULT 1");
   }
 }
 
