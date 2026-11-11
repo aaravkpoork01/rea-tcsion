@@ -1,0 +1,21 @@
+{
+  "name": "ion-mock-platform",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Self-hosted TCS iON style mock assessment platform: mirrored candidate console, dual-mode storage (SQLite locally, Postgres/Neon on Vercel), admin back office.",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "dev": "node --watch src/server.mjs",
+    "seed": "node tools/seed.mjs",
+    "check": "node tools/check.mjs",
+    "db:reset": "node tools/reset-db.mjs"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.2.0",
+    "ws": "^8.22.1"
+  }
+}

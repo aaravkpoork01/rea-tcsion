@@ -1,0 +1,1 @@
+"use strict";CKEDITOR.htmlParser.text=function(t){this.value=t,this._={isBlockLike:!1}},CKEDITOR.htmlParser.text.prototype=CKEDITOR.tools.extend(new CKEDITOR.htmlParser.node,{type:CKEDITOR.NODE_TEXT,filter:function(t,e){if(!(this.value=t.onText(e,this.value,this)))return this.remove(),!1},writeHtml:function(t,e){e&&this.filter(e),t.text(this.value)}});

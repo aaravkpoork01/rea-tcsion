@@ -1,0 +1,1 @@
+CKEDITOR.dom.nodeList=function(n){this.$=n},CKEDITOR.dom.nodeList.prototype={count:function(){return this.$.length},getItem:function(n){if(n<0||n>=this.$.length)return null;var t=this.$[n];return t?new CKEDITOR.dom.node(t):null},toArray:function(){return CKEDITOR.tools.array.map(this.$,function(n){return new CKEDITOR.dom.node(n)})}};

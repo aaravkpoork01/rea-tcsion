@@ -1,0 +1,910 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DETAILS>
+<TestExpire3><![CDATA[Login]]></TestExpire3>
+<GuestMode2><![CDATA[Password :]]></GuestMode2>
+<LoginPage4><![CDATA[Sign In]]></LoginPage4>
+<Next><![CDATA[Next]]></Next>
+<Previous><![CDATA[Previous]]></Previous>
+<AgreementMessage><![CDATA[I have read and understood the instructions. All computer hardware allotted to me are in proper working condition. I declare  that I am not in possession of / not wearing / not  carrying any prohibited gadget like mobile phone, bluetooth  devices  etc. /any prohibited material with me into the Examination Hall.I agree that in case of not adhering to the instructions, I shall be liable to be debarred from this Test and/or to disciplinary action, which may include ban from future Tests / Examinations.]]></AgreementMessage>
+<OAAgreementMessage><![CDATA[I have read and understood the instructions and agree to adhere to them.]]></OAAgreementMessage>
+<ChooseYourDefaultLanguage><![CDATA[Choose your default language :]]></ChooseYourDefaultLanguage>
+<DefaultLanguageMessage><![CDATA[Please note all questions will appear in your default language. This language can be changed for a particular question later on.]]></DefaultLanguageMessage>
+<ReadyToBegin><![CDATA[I am ready to begin]]></ReadyToBegin>
+<Proceed><![CDATA[Proceed]]></Proceed>
+<OtherImportantInstructions><![CDATA[Other Important Instructions]]></OtherImportantInstructions>
+<CandidateDetails><![CDATA[Candidate Details]]></CandidateDetails>
+<CandidateId><![CDATA[Candidate ID]]></CandidateId>
+<LoginId><![CDATA[Login ID]]></LoginId>
+<RollNO><![CDATA[Roll No]]></RollNO>
+<RPALoader1><![CDATA[Please wait...]]></RPALoader1>
+<RPALoader2><![CDATA[Your system configuration is currently being reviewed.]]></RPALoader2>
+<accessVolumeCtrl><![CDATA[Volume Control]]></accessVolumeCtrl>
+<accessToolheader><![CDATA[Accessibility Tools]]></accessToolheader>
+<accessCC><![CDATA[ Colour Contrast]]></accessCC>
+<accessCO><![CDATA[ Colour Overlay]]></accessCO>
+<accessTS><![CDATA[ Text Size]]></accessTS>
+<secInstruc><![CDATA[Section Instructions]]></secInstruc>
+<CandidateName><![CDATA[Name]]></CandidateName>
+<CandDateOfBirth><![CDATA[Date of Birth (DD-MM-YYYY)]]></CandDateOfBirth>
+<CandidateEmailId><![CDATA[Email ID]]></CandidateEmailId>
+<CandidateMobileNo><![CDATA[Contact No]]></CandidateMobileNo>
+<ChangeLanguage><![CDATA[Change Language ]]></ChangeLanguage>
+<ChangeQPLanguage><![CDATA[QP Language]]></ChangeQPLanguage>
+<UsefulData><![CDATA[Useful Data]]></UsefulData>
+<TimeLeft><![CDATA[Time Left : ]]></TimeLeft>
+<Hint><![CDATA[Hint :]]></Hint>
+<Candidate><![CDATA[Candidate]]></Candidate>
+<Section><![CDATA[Section]]></Section>
+<OptionSectionInfo><![CDATA[<b>[Attempt any <span id="maxOptSec"></span>&nbsp;of the <span id="noOptSec"></span>&nbsp;optional sections. Please click on the Check Box to attempt the section.]</b>]]></OptionSectionInfo>
+<MarksForCorrectAnswer><![CDATA[Marks for correct answer:]]></MarksForCorrectAnswer>
+<NegativeMarks><![CDATA[Negative Marks: ]]></NegativeMarks>
+<QuestionType><![CDATA[Question Type: ]]></QuestionType>
+<QuestionNum><![CDATA[Question No]]></QuestionNum>
+<ViewIn><![CDATA[View in :]]></ViewIn>
+<Calculator><![CDATA[Calculator]]></Calculator>
+<Compile><![CDATA[Compile]]></Compile>
+<SubmitCode><![CDATA[Submit Code]]></SubmitCode>
+<MarkForReview><![CDATA[Mark for Review]]></MarkForReview>
+<MarkForReviewNext><![CDATA[Mark for Review & Next]]></MarkForReviewNext>
+<ClearResponse><![CDATA[Clear Response]]></ClearResponse>
+<SaveAndNext><![CDATA[Save & Next]]></SaveAndNext>
+<Save><![CDATA[Save]]></Save>
+<MarkAsAnswered><![CDATA[Mark as Answered]]></MarkAsAnswered>
+<YouAreViewing><![CDATA[You are viewing]]></YouAreViewing>
+<QuestionPalette><![CDATA[Question Palette]]></QuestionPalette>
+<Legend><![CDATA[Legend]]></Legend>
+<Answered><![CDATA[Answered]]></Answered>
+<NotAnswered><![CDATA[Not Answered]]></NotAnswered>
+<Marked><![CDATA[Marked for Review]]></Marked>
+<NotVisited><![CDATA[Not Visited]]></NotVisited>
+<Profile><![CDATA[Profile]]></Profile>
+<Instructions><![CDATA[Instructions]]></Instructions>
+<QuestionPaper><![CDATA[Question Paper]]></QuestionPaper>
+<viewInstruction><![CDATA[View Instructions]]></viewInstruction>
+<profile><![CDATA[PROFILE]]></profile>
+<more><![CDATA[MORE]]></more>
+<yourSelection><![CDATA[Your Selection]]></yourSelection>
+<Submit><![CDATA[Submit]]></Submit>
+<Yes><![CDATA[Yes]]></Yes>
+<No><![CDATA[No]]></No>
+<Back><![CDATA[Back]]></Back>
+<Reset><![CDATA[Reset]]></Reset>
+<KeyStrokesCount><![CDATA[Keystrokes Count]]></KeyStrokesCount>
+<BackSpaceCount><![CDATA[Backspace Count]]></BackSpaceCount>
+<ErrorCount><![CDATA[Error Count]]></ErrorCount>
+<TotalWordCount><![CDATA[Total Word Count]]></TotalWordCount>
+<TypedWordCount><![CDATA[Typed Word Count]]></TypedWordCount>
+<PendingWordCount><![CDATA[Pending Word Count]]></PendingWordCount>
+<TypingInstructionRestricted1><![CDATA[Kindly type the highlighted characters shown on the screen to proceed further.]]></TypingInstructionRestricted1>
+<TypingInstructionRestricted2><![CDATA[Kindly note, it is not possible for you to edit the texts that you have typed.]]></TypingInstructionRestricted2>
+<TypingInstructionCommon1><![CDATA[Kindly note, it is mandatory for you to type the entire text contents to submit.]]></TypingInstructionCommon1>
+<TypingInstructionCommon2><![CDATA[Upon timeout, the system will automatically save all your responses.]]></TypingInstructionCommon2>
+<TypingInstructionUnrestricted1><![CDATA[Kindly type the highlighted word to proceed further.]]></TypingInstructionUnrestricted1>
+<TypingInstructionUnrestricted2><![CDATA[Kindly note, you can edit the text contents that you have typed.]]></TypingInstructionUnrestricted2>
+<TypingInstructionUnrestricted3><![CDATA[Correct/Wrong words turn Green/Red respectively.]]></TypingInstructionUnrestricted3>
+<ResettingMessage1><![CDATA[ALERT: Upon resetting, all the responses provided by you to all the questions in this section will be DELETED. Are you sure, do you want to proceed further and reset  <span id='resetSections'></span> section ?]]></ResettingMessage1>
+<OptionalSectionWarningMessage><![CDATA[WARNING:<br/>You have chosen to change the optional section. You are required to reset the previously chosen optional sections by clicking on the corresponding checkbox in the table given below and then clicking on the RESET button. Please be aware that by resetting one of the previously chosen optional Sections, all the answers you have provided for questions in that Section will be DELETED. (If you choose to come back to this section later, you have to start answering this Section afresh.). Are you sure that you want to reset an optional section now?<br><br>If YES, click the checkbox next to section you wish to reset and click on <b>Reset</b> button to reset that section.]]></OptionalSectionWarningMessage>
+<SectionSelectionToReset><![CDATA[Please select the section(s) from the following list to reset:]]></SectionSelectionToReset>
+<OptionalSectionSummary Answered="Answered" MarkForReview="Marked for Review" NoOfQuestions="No. of Questions" NotAnswered="Not Answered" NotVisited="Not Visited" OptionalSectionName="Optional Section Name" SectionName="Section Name"><![CDATA[Summary of Optional Section(s) :]]></OptionalSectionSummary>
+<DeselectingMessage><![CDATA[Deselecting the checkbox will DELETE all the options marked in this section. Are you sure, do you want to deselect this section?]]></DeselectingMessage>
+<BreakTimeLeft><![CDATA[Break Time Left :]]></BreakTimeLeft>
+<ProceedToNextGroup><![CDATA[Proceed to Next Group]]></ProceedToNextGroup>
+<MarkedAndAnswered><![CDATA[Answered & Marked for Review (will not be considered for evaluation)]]></MarkedAndAnswered>
+<MarkedAndAnsweredForEvaluation><![CDATA[Answered & Marked for Review (will also be evaluated)]]></MarkedAndAnsweredForEvaluation>
+<MarkedAndNotAnswered><![CDATA[Marked for Review]]></MarkedAndNotAnswered>
+<ActionButtonHoverMessage2><![CDATA[Kindly select the section to proceed to answer this question.]]></ActionButtonHoverMessage2>
+<ActionButtonHoverMessage1><![CDATA[Kindly note, it is not possible for you to edit the responses in this group. Please get in touch with the administrator for further assistance.]]></ActionButtonHoverMessage1>
+<ProfileHover><![CDATA[View Profile]]></ProfileHover>
+<QuestionPaperHover><![CDATA[View Entire Question Paper]]></QuestionPaperHover>
+<GroupSubmitTitle1><![CDATA[Submit Group]]></GroupSubmitTitle1>
+<QuestionLimitMessageOnlyAnswered><![CDATA[Dear Candidate, Please note that you have attempted @@quesToBeConsidered@@ out of @@totalQuestions@@ questions, which is the maximum number of questions you can attempt in this section. If you wish to answer this question you need to reset the responses of the questions already answered.]]></QuestionLimitMessageOnlyAnswered>
+<QuestionLimitMessageWithMarkedForReview><![CDATA[Dear Candidate, Please note that you have attempted @@quesToBeConsidered@@ out of @@totalQuestions@@ questions, which is the maximum number of questions you can attempt in this section. If you wish to answer this question you need to reset the responses of the questions already answered or marked for review & answered. ]]></QuestionLimitMessageWithMarkedForReview>
+<ScoreCard Accuracy="Accuracy" Attempted="Attempted" CandidateName="Candidate Name : " Correct="Correct" GrossWPM="Gross WPM" Incorrect="Incorrect" NetWPM="Net WPM" NotEvaluated="Not Evaluated" Proceed="Proceed" SectionPercentage="Section Percentage" SectionScore="Section Score" cutOffMarks="Cut Off Marks" fail="Fail" pass="Pass" result="Result" score="Score" evaluationPending="Evaluation Pending" enterScore="Enter Total Score" scoreNotMatched="For given group(s) typed scored and group score not matched :"/>
+<CandidateFeedbackForm Header="Candidate Feedback Form" TableHeader1="S.No" TableHeader2="Questions" TableHeader3="Response"><![CDATA[Dear <span id="candOriginalName"></span>,<br></br>We solicit your valuable feedback to understand your views and your experience on the digital examination.<br/>Your feedback will enable us to improve the overall candidate experience.<br></br>For each question listed below, request you to specify the performance rating as per scale below.]]></CandidateFeedbackForm>
+<dearMsg><![CDATA[Dear <span id="candOriginalName"></span>,<br></br>]]></dearMsg>
+<feedbackContent1><![CDATA[We Solicit your valuable feedback to understand your views and your experience on the digital examination.</br>]]></feedbackContent1>
+<feedbackContent2><![CDATA[Your feedback will enable us to improve the overall candidate experience.<br></br>]]></feedbackContent2>
+<feedbackContent3><![CDATA[For each question listed below, request you to specify the performance rating as per scale below.]]></feedbackContent3>
+<CandidateFeedbackQuestion1><![CDATA[How was your experience with the exam support provided including usefulness of the mock test, access to exam related information, helpline support, etc?]]></CandidateFeedbackQuestion1>
+<CandidateFeedbackQuestion2><![CDATA[How was your experience in giving a digital exam on aspects such as navigating on the candidate console, ease of using the candidate console, etc?]]></CandidateFeedbackQuestion2>
+<CandidateFeedbackQuestion3><![CDATA[How was your experience as to the following aspects of the test-center:]]></CandidateFeedbackQuestion3>
+<CandidateFeedbackQuestion3a><![CDATA[Ease of Locating the Test Center.]]></CandidateFeedbackQuestion3a>
+<CandidateFeedbackQuestion3b><![CDATA[Ease of finding your designated exam seat through clear notice board instructions, directional arrows, staff guidance, etc.]]></CandidateFeedbackQuestion3b>
+<CandidateFeedbackQuestion3c><![CDATA[Seating arrangement]]></CandidateFeedbackQuestion3c>
+<CandidateFeedbackQuestion3d><![CDATA[Availability of basic facilities like water dispenser, rest rooms, etc.]]></CandidateFeedbackQuestion3d>
+<CandidateFeedbackQuestion3e><![CDATA[Exam node/ desktop quality]]></CandidateFeedbackQuestion3e>
+<CandidateFeedbackQuestion3f><![CDATA[Behavior of staff, their knowledge and competency of conducting the exam.]]></CandidateFeedbackQuestion3f>
+<CandidateFeedbackQuestion4><![CDATA[How was your overall experience of taking up a digital exam?]]></CandidateFeedbackQuestion4>
+<CandidateFeedBackOptions CandidateFeedBackOption1="Exceeded expectations" CandidateFeedBackOption2="Met expectations" CandidateFeedBackOption3="Improvement needed" CandidateFeedBackOption4="Failed to meet expectations"/>
+<AnswerSubmissionRequest6><![CDATA[Dear Candidate, This question is not available in the @@langName@@ language. Kindly select the alternate language to view the question.]]></AnswerSubmissionRequest6>
+<SummaryAlert1><![CDATA[Dear Candidate, The time duration allotted to you for the assessment has exhausted. Be assured that all the responses provided by you are saved in the system.]]></SummaryAlert1>
+<CodeTypeMsg><![CDATA[Type your code here]]></CodeTypeMsg>
+<CompileAlertMsg><![CDATA[In the actual programming test, your code will get compiled on click of this button.]]></CompileAlertMsg>
+<ExecutionAlertMsg><![CDATA[In the actual programming test, your code will get executed on click of this button.]]></ExecutionAlertMsg>
+<CompileSuccessStatus><![CDATA[Compiled Successfully]]></CompileSuccessStatus>
+<ExecutionSuccessStatus><![CDATA[Executed Successfully]]></ExecutionSuccessStatus>
+<NameNotYours><![CDATA[Kindly contact the invigilator if there are any discrepancies in the Name and Photograph displayed on the screen or if the photograph is not yours]]></NameNotYours>
+<SystemName><![CDATA[System Name :]]></SystemName>
+<CandName><![CDATA[Candidate Name :]]></CandName>
+<Subject><![CDATA[Subject :]]></Subject>
+<NotMySystem><![CDATA[Kindly note, on clicking this, the login window will get closed. This will enable you to login with the different system.]]></NotMySystem>
+<ClosePageMessage CloseBtnText="Exit Exam"><![CDATA[Dear Candidate, You have now successfully completed the Exam.<br/><br/> Please click on the below button to exit.]]></ClosePageMessage>
+<ClosePageMessageOA CloseBtnText="Exit Assessment"><![CDATA[Dear Candidate, You have now successfully completed the Assessment. <br/><br/>Please click on the below button to exit.]]></ClosePageMessageOA>
+<ExaminerClosePageMessageOA CloseBtnText="Exit Assessment"><![CDATA[Dear User, You have now successfully completed the Assessment. <br/><br/>Please click on the below button to exit.]]></ExaminerClosePageMessageOA>
+<InstructionHover><![CDATA[Read Instructions]]></InstructionHover>
+<SubmitGroup><![CDATA[Are you sure to submit this Group? Click 'Yes' to proceed; Click 'No' to go back.]]></SubmitGroup>
+<SubmitGroupFinal><![CDATA[Dear Candidate, Thank you. Please note that, your Exam is about to be submitted. Click on 'OK' to proceed further.]]></SubmitGroupFinal>
+<SubmitGroupFinalOA><![CDATA[Dear Candidate, Thank you. Please note that, your Assessment is about to be submitted. Click on 'OK' to proceed further.]]></SubmitGroupFinalOA>
+<OASummary><![CDATA[Assessment Summary]]></OASummary>
+<ExamSummary AttemptedGroup="Attempted Group " BackSpaceCount="Backspace Count" CurrentGroup=" : ( Current Group )" EditAllowed="; Edit allowed" EditNotAllowed="; Edit not allowed" ElapsedTime="Elapsed Time (In Mins)" GrossKeyStrokesCount="Gross KeyStrokes Count" ViewAllowed="; View allowed" ViewNotAllowed="; View not allowed" YetToAttempt=" : ( Yet to attempt )"><![CDATA[Exam Summary]]></ExamSummary>
+<Ok><![CDATA[OK]]></Ok>
+<Cancel><![CDATA[Cancel]]></Cancel>
+<SubmitExam><![CDATA[Are you sure to submit the group "<span id='curGrpName'></span>"?]]></SubmitExam>
+<WPM><![CDATA[Word Per Minute]]></WPM>
+<cutOffMarks><![CDATA[Cut Off Marks]]></cutOffMarks>
+<pass><![CDATA[pass]]></pass>
+<fail><![CDATA[fail]]></fail>
+<score><![CDATA[score]]></score>
+<result><![CDATA[result]]></result>
+<GroupInstructions><![CDATA[Group Instructions]]></GroupInstructions>
+<SectionInstructions><![CDATA[Section Instructions]]></SectionInstructions>
+<QuestionInstructions><![CDATA[Question Instructions]]></QuestionInstructions>
+<ProceedtoNext><![CDATA[Proceed]]></ProceedtoNext>
+<InstructionTimer><![CDATA[Instruction Timer]]></InstructionTimer>
+<ChooseaQuestion><![CDATA[Choose a Question]]></ChooseaQuestion>
+<QuestionNumber><![CDATA[Question Number]]></QuestionNumber>
+<Instruction><![CDATA[Instruction]]></Instruction>
+<close><![CDATA[Close]]></close>
+<FeedBackThanks><![CDATA[Thanks for your valuable feedback..! You have successfully completed the exam...!]]></FeedBackThanks>
+<PasteCodeToDebugger><![CDATA[In the actual examination, you can copy the content in the editor and paste the same in the debugger.]]></PasteCodeToDebugger>
+<Login><![CDATA[Login]]></Login>
+<Name><![CDATA[Name]]></Name>
+<IamReadyToBegin><![CDATA[I am ready to begin]]></IamReadyToBegin>
+<Selectdefaultlanguage><![CDATA[Please select the default language]]></Selectdefaultlanguage>
+<ConfirmofSubmittingExam><![CDATA[Are you sure to submit the exam?]]></ConfirmofSubmittingExam>
+<ContactNumber><![CDATA[Contact Number]]></ContactNumber>
+<ThissectionDisplaysResultOfPublicTestCases><![CDATA[This section displays the result of public test cases]]></ThissectionDisplaysResultOfPublicTestCases>
+<InputsForTestCase1><![CDATA[Inputs for TestCase 1]]></InputsForTestCase1>
+<InputsForTestCase2><![CDATA[Inputs for TestCase 2]]></InputsForTestCase2>
+<Expectedoutput><![CDATA[Expected output]]></Expectedoutput>
+<Inputs><![CDATA[Inputs]]></Inputs>
+<Output><![CDATA[Output]]></Output>
+<TestCaseNo><![CDATA[TestCase No]]></TestCaseNo>
+<ClickToViewReport><![CDATA[Click to View Report]]></ClickToViewReport>
+<KeyBoardLayout><![CDATA[KeyBoard Layout]]></KeyBoardLayout>
+<ScratchPad><![CDATA[Scratch Pad]]></ScratchPad>
+<Ruler><![CDATA[Ruler]]></Ruler>
+<TypingInfo><![CDATA[Typing Info]]></TypingInfo>
+<Protractor><![CDATA[Protractor]]></Protractor>
+<NotePad><![CDATA[NotePad]]></NotePad>
+<ZoomIn><![CDATA[Zoom In]]></ZoomIn>
+<ZoomOut><![CDATA[Zoom Out]]></ZoomOut>
+<AccessibilityTools><![CDATA[Accessibility Tools]]></AccessibilityTools>
+<VolumeControl><![CDATA[Volume Control]]></VolumeControl>
+<TextHighlighter><![CDATA[Text Highlighter]]></TextHighlighter>
+<Small><![CDATA[Small]]></Small>
+<Regular><![CDATA[Regular]]></Regular>
+<Medium><![CDATA[Medium]]></Medium>
+<Large><![CDATA[Large]]></Large>
+<AlreadyTakenMmaximumAllowedAttempts><![CDATA[Dear Candidate, the assessment could not be submitted since you have exhausted the maximum number of allowed attempts.]]></AlreadyTakenMmaximumAllowedAttempts>
+<NotAllowedtoSubmitThisAssessment><![CDATA[Dear Candidate, It is not possible for you to submit the assessment right now. Kindly get in touch with the administrator for further assistance.]]></NotAllowedtoSubmitThisAssessment>
+<UnexpectedErrorSeemsToHaveOccurred><![CDATA[An unexpected error seems to have occurred. Please connect with Help Desk or try re-taking the test.]]></UnexpectedErrorSeemsToHaveOccurred>
+<AssessmentSubmittedSuccessfully><![CDATA[<span class="dearCandmsg">Dear Candidate,</span> <span>All the responses provided by you are saved in the system and the assessment has been submitted successfully.</span>]]></AssessmentSubmittedSuccessfully>
+<AssessmentSubmittedSuccessfully1><![CDATA[All the responses provided by you are saved in the system and the assessment has been submitted successfully.]]></AssessmentSubmittedSuccessfully1>
+<TimeOut><![CDATA[Dear Candidate, You have exhausted the maximum time limit allowed for the Assessment.]]></TimeOut>
+<CouldNotConnectToServer><![CDATA[Dear Candidate, your system is experiencing slow internet connectivity. Kindly check the connectivity and try again.]]></CouldNotConnectToServer>
+<PleaseRelaunchTheAssessment><![CDATA[Please relaunch the assessment]]></PleaseRelaunchTheAssessment>
+<AssessmentNotSubmittedNetworkFailure><![CDATA[Dear Candidate, the assessment could not be submitted since your system is experiencing slow internet connectivity. Kindly check the connectivity and try again.]]></AssessmentNotSubmittedNetworkFailure>
+<E505><![CDATA[Dear Candidate, Kindly use Internet Explorer (version 8 or above), Mozilla Firefox (version 13 or above) or Google Chrome(version 20 or above) browsers to proceed with the assessment.]]></E505>
+<E404><![CDATA[There is a momentary problem connecting with server. Please try after few minutes.]]></E404>
+<E103><![CDATA[Dear Candidate, Your current session has expired. Please login again to proceed.]]></E103>
+<E105><![CDATA[Dear Candidate, the assessment you are trying to launch has expired. Kindly get in touch with the Administrator.]]></E105>
+<E106><![CDATA[Dear Candidate, You have exhausted the maximum number of allowed attempts for the assessment and hence couldn't proceed.]]></E106>
+<AlreadyTakenMaximumAattemptsForThisExam><![CDATA[You have already taken the maximum number of attempts for this exam.]]></AlreadyTakenMaximumAattemptsForThisExam>
+<E107><![CDATA[Dear Candidate, it seems that you have entered the incorrect login credentials. Kindly check the same and try logging in again.]]></E107>
+<E108><![CDATA[Dear Candidate, it seems that you have entered the incorrect login credentials. Kindly check the same and try logging in again.]]></E108>
+<E109><![CDATA[Dear Candidate, The system is unable to process the request. This might be due to many reasons. Do not panic. Kindly try again by relaunching the application.]]></E109>
+<E110><![CDATA[Dear Candidate, the assessment hasn't started yet. <div>Please launch the assessment only in the permitted time frame. Please reload this page in case you have issues with the launch button.</div>]]></E110>
+<E111><![CDATA[Dear Candidate, it seems that you have entered the incorrect login credentials. Kindly check the same and try logging in again.]]></E111>
+<E112><![CDATA[Dear Candidate, it seems that you have entered the incorrect login credentials. Kindly check the same and try logging in again.]]></E112>
+<E113><![CDATA[Dear Candidate, It is mandatory to submit the assessment to view your report card. ]]></E113>
+<E114><![CDATA[Dear Candidate, the exam cannot be started now. Please launch the assessment only in the permitted time frame.]]></E114>
+<E114e><![CDATA[Dear Examiner, the exam cannot be started now. Please launch the assessment only in the permitted time frame.]]></E114e>
+<E115><![CDATA[Dear Candidate, your account is locked and hence you could not proceed. Please get in touch with administrator for further assistance.]]></E115>
+<YourAssessmentConsoleisLocked><![CDATA[Dear Candidate, your assessment is locked and hence you could not proceed. Please get in touch with administrator for further assistance.]]></YourAssessmentConsoleisLocked>
+<E116><![CDATA[System records every single interruption during the Assessment. You have exceeded the number of allowed interruptions. Hence, your Assessment is now locked. Kindly get in touch with the Administrator to unlock your Assessment to proceed further.<br/><br/> Interruption is recorded in the system due one of the following possible reasons: <br/>1) You were trying to minimize OR toggle Assessment window. <br/>2) You have pressed special keys from your keyboard which are not allowed during Assessment. <br/>3) You have tried to move out of Assessment window which is not allowed. <br/>4) You have tried to refresh the page.<br/>5) Please click on this Submit button if you want to submit this assessment. Otherwise, please connect with Admin to unlock the attempt. <br/>This window will close down now and you have to re-launch the Assessment only after it is unlocked. Please be advised not to move out of window during the assessment and not to navigate to other applications during the assessment.]]></E116>
+<YouCanSubmitThisAttempttoAvoidadminIntervention><![CDATA[You can submit this attempt to avoid admin intervention.  ]]></YouCanSubmitThisAttempttoAvoidadminIntervention>
+<Thisattemptwillbecompletedandnextattemptcanbestarted><![CDATA[This attempt will be completed and next attempt can be started.]]></Thisattemptwillbecompletedandnextattemptcanbestarted>
+<ToSubmitthisAttemptPleaseClickOnSubmit><![CDATA[Please click on 'Submit' to proceed.]]></ToSubmitthisAttemptPleaseClickOnSubmit>
+<E117><![CDATA[Dear Candidate, It is possible for you to view the report now. Please view the report in the defined time window. Get in touch with the administrator for further assistance.]]></E117>
+<E118><![CDATA[Dear Candidate, The system is currently processing your request at the backend.  Kindly try again by relaunching the application after sometime.]]></E118>
+<E119><![CDATA[Dear Candidate,Your attempt for this assessment appears to be currently active in another window/system. Hence, you cannot proceed further here.]]></E119>
+<E119Examiner><![CDATA[Dear Examiner, This assessment appears to be already launched by another Examiner. Hence, you cannot proceed further here.]]></E119Examiner>
+<E119HowToProceedExaminer><![CDATA[Please close this window.]]></E119HowToProceedExaminer>
+<E120><![CDATA[Dear Candidate, You cannot proceed to view the Report since your attempt is locked.]]></E120>
+<VerificationProccessIsRequiredAssessment><![CDATA[Registration proccess is required for this assessment.]]></VerificationProccessIsRequiredAssessment>
+<PleaseVerifyYourselfWithco-ordinator><![CDATA[Dear Candidate, please note that it is mandatory for you go through the process of registration to take this assessment.]]></PleaseVerifyYourselfWithco-ordinator>
+<PleaseAskco-ordinatorForApprovalToRe-LaunchAssessment><![CDATA[Dear Candidate, please note that it is mandatory for you go through the process of registration and get it approved to take this assessment.]]></PleaseAskco-ordinatorForApprovalToRe-LaunchAssessment>
+<YourVerificationProcessCompleted><![CDATA[Dear Candidate, your Registration process has been completed. Please wait for the further instructions or get in touch with your co-ordinator for approval to launch the assessment.]]></YourVerificationProcessCompleted>
+<YourVerificationProcessPartiallyCompleted><![CDATA[Dear Candidate, your Registration process has been partially completed. Please wait for the further instructions or get in touch with your co-ordinator for approval to launch the assessment.]]></YourVerificationProcessPartiallyCompleted>
+<Yourco-ordinatorHasDeclaredYouasManualAbsent><![CDATA[Dear Candidate, your attendance has been marked as 'Absent'. Kindly get in touch with the coordinator for any assistance.]]></Yourco-ordinatorHasDeclaredYouasManualAbsent>
+<E124><![CDATA[Dear Candidate, your assessment could not be launched. This may happen if the system could not fetch the question paper and present it to you for the assessment.]]></E124>
+<E125><![CDATA[System records every single interruption during the Assessment. <br/><br/> Interruption is recorded in the system due one of the following possible reasons: <br/>1) You were trying to minimize OR toggle Assessment Console. <br/>2) You have pressed special keys from your keyboard which are not allowed during Assessment. <br/>3) You have tried to move out of Assessment Console which is not allowed. <br/>4) You have tried to refresh the page. <br/>This window will close down and you have to re-launch the Assessment only after it is unlocked. Please be advised not to move out of console during the assessment and not to navigate to other applications during the assessment.]]></E125>
+<E150><![CDATA[System records every single interruption during the Assessment. <br/><br/> Interruption is recorded in the system due one of the following possible reasons: <br/>1) You were trying to minimize OR toggle Assessment Console. <br/>2) You have pressed special keys from your keyboard which are not allowed during Assessment. <br/>3) You have tried to move out of Assessment Console which is not allowed. <br/>4) You have tried to refresh the page. <br/>This window will close down and you have to re-launch the Assessment only after it is unlocked. Please be advised not to move out of console during the assessment and not to navigate to other applications during the assessment.]]></E150>
+<E126><![CDATA[Dear Candidate, It is mandatory for you to wait for a defined time to give the next attempt.</br> You can launch the next attempt at <b><span id="coolOfPeriodTime"></span></b> (YYYY-MM-DD HH:MM:SS)]]></E126>
+<E127><![CDATA[Dear Candidate, since you have already cleared this assessment, it is not possible for you to give further attempts.]]></E127>
+<E128><![CDATA[Dear Candidate, system is unable to process your request. This may be due to various reasons. Do not panic. Kindly try again by relaunching the assessment. If not resolved, please get in touch with the administrator for further assistance.]]></E128>
+<E129><![CDATA[Dear Candidate, system is unable to process your request. This may be due to various reasons. Do not panic. Kindly try again by relaunching the assessment. If not resolved, please get in touch with the administrator for further assistance.]]></E129>
+<E130><![CDATA[Dear Examiner, This group has been submitted successfully. Kindly inform the candidate to continue with their group and proceed with the assessment.]]></E130>
+<E131><![CDATA[Dear Examiner, the Group you are trying to launch was already submitted.]]></E131>
+<E132><![CDATA[Dear Examiner, the Group has been submitted successfully. Kindly inform the candidate to proceed further.]]></E132>
+<shiftEsc><![CDATA[Please press<b> Right Shift + Esc</b> to close. Please use <b>Alt+F4</b>, only if it does not work.]]></shiftEsc>
+<shiftEscMac><![CDATA[Please press<b> OK </b> to close the assessment.]]></shiftEscMac>
+<Yourco-ordinatorHasDeclaredYouasAbsent><![CDATA[Dear Candidate, your attendance has been marked as 'Absent'. Kindly get in touch with the coordinator for further assistance.]]></Yourco-ordinatorHasDeclaredYouasAbsent>
+<YourRequestHasBeenRejectedByYourco-ordinator><![CDATA[Dear Candidate, it is not possible for you to proceed further. Kindly get in touch with the coordinator for further assistance.]]></YourRequestHasBeenRejectedByYourco-ordinator>
+<key><![CDATA[Key]]></key>
+<PleaseLaunchTheLauncherApplication><![CDATA[Please note the above key and download the launcher by clicking the icon for your operating system.<br/><a href='#' id='windows' class='Launcher'>Click here to download windows launcher.</a><a href='#' id='linux' class='Launcher'>Click here to download linux launcher.</a><br/>Please launch the launcher application and use the above highlighted key for launching the assessment.]]></PleaseLaunchTheLauncherApplication>
+<E122><![CDATA[Report is not yet published.]]></E122>
+<E123><![CDATA[Report is not available as attempt is submitted by admin when candidate is in instructions page.]]></E123>
+<SorryFortheInconvenience><![CDATA[Sorry for the inconvenience]]></SorryFortheInconvenience>
+<Note><![CDATA[Note : ]]></Note>
+<OAFeedbackQues1><![CDATA[Is the Assessment Console easy to use?]]></OAFeedbackQues1>
+<OAFeedbackQues2><![CDATA[Does the candidate console slows down during the course of examination?]]></OAFeedbackQues2>
+<OAFeedbackQues3><![CDATA[Did you find the Number Palette provided convenient?]]></OAFeedbackQues3>
+<OAFeedbackQues4><![CDATA[Are you aware about the functions of all the labels such as, Mark for Review, Save and Next, Clear Response?]]></OAFeedbackQues4>
+<OAFeedbackQues5><![CDATA[Have you faced any issue while using tools such as, Calculator, Scale etc?]]></OAFeedbackQues5>
+<OAFeedbackQues6><![CDATA[Navigating across the assessment is easier?]]></OAFeedbackQues6>
+<OAFeedbackQues7><![CDATA[Are you facing any issues while resuming the assessment?]]></OAFeedbackQues7>
+<OAFeedbackQues8><![CDATA[Any time based issues faced during the course of assessment?]]></OAFeedbackQues8>
+<OAFeedbackQues9><![CDATA[Have you faced any technical issues on the candidate console? If Yes, please mention in the Suggestions/Improvement section.]]></OAFeedbackQues9>
+<OAFeedbackQues10><![CDATA[Additional comments/suggestions]]></OAFeedbackQues10>
+<OAFeedbackOption1><![CDATA[Strongly Agree]]></OAFeedbackOption1>
+<OAFeedbackOption2><![CDATA[Agree]]></OAFeedbackOption2>
+<OAFeedbackOption3><![CDATA[Disagree]]></OAFeedbackOption3>
+<OAFeedbackOption4><![CDATA[StronglyDisagree]]></OAFeedbackOption4>
+<keyNo0><![CDATA[Registration is required for this assessment. Please verify yourself with co-ordinator.]]></keyNo0>
+<keyNo1><![CDATA[Please ask your co-ordinator for approval to re-launch the assessment.]]></keyNo1>
+<keyNo2><![CDATA[Your Registration process has been completed. Please wait until further instructions are given or connect with your co-ordinator for approval to launch the assessment.]]></keyNo2>
+<keyNo3><![CDATA[Your Registration process has been partially completed. Please wait until further instructions are given or connect with your co-ordinator for approval to launch the assessment.]]></keyNo3>
+<keyNo4><![CDATA[Your co-ordinator has declared you as manual absent. If you are in assessment center then please connect with your co-ordinator.]]></keyNo4>
+<keyNo5><![CDATA[Your co-ordinator has declared you as absent. If you are in assessment center then please connect with your co-ordinator.]]></keyNo5>
+<keyNo6><![CDATA[Your request has been rejected by your co-ordinator. Please connect with your co-ordinator for more clarification.]]></keyNo6>
+<keyNo><![CDATA[Dear Candidate, please note that it is mandatory for you go through the process of registration to take this assessment.]]></keyNo>
+<TimerMessageSpan><![CDATA[<span style='color:red;'>Key is Invalid now. Please close the window and launch the assessment to generate new key.</span>]]></TimerMessageSpan>
+<KeyTimer><![CDATA[Note: Key is valid only for <span id="timerSpan"></span> minutes.]]></KeyTimer>
+<KeyNoteText><![CDATA[Please make a note/copy the launch key provided above and download the launcher from the options listed below. Once the application is started, please enter this launch key to initiate the assessment.]]></KeyNoteText>
+<DownloadLauncher><![CDATA[DOWNLOAD iLEON APP]]></DownloadLauncher>
+<InstallationGuide><![CDATA[View Installation Guide For Windows]]></InstallationGuide>
+<LauncherStep1><![CDATA[Extract the downloaded file.]]></LauncherStep1>
+<LauncherStep2><![CDATA[Please double-click the iLEON App application that you have downloaded to proceed.]]></LauncherStep2>
+<LauncherStep3><![CDATA[Please enter the key that you have noted/copied from the application download page.]]></LauncherStep3>
+<LauncherStep4><![CDATA[Select your browser for the assessment from the dropdown. Google Chrome is the recommended browser.]]></LauncherStep4>
+<LauncherStep5><![CDATA[Please select the checkbox. Once selected, the 'Launch' button will become active for use.]]></LauncherStep5>
+<LauncherStep6><![CDATA[Click the 'Launch' button to initiate the assessment. Please note that upon selecting 'Launch', all other active applications and processes on your system will close automatically, and the assessment process will begin.]]></LauncherStep6>
+<LauncherTerms><![CDATA[This application is not supported in MAC OS.]]></LauncherTerms>
+<LauncherAndroidStep1><![CDATA[Download and open the iLEON App in your Android mobile.]]></LauncherAndroidStep1>
+<LauncherAndroidStep2><![CDATA[After launching the iLEON App, provide all the required permissions prompted.]]></LauncherAndroidStep2>
+<LauncherAndroidStep3><![CDATA[Understand the warning messages and click on Proceed Button. Review the permissions granted and proceed.]]></LauncherAndroidStep3>
+<LauncherAndroidStep4><![CDATA[Select the iLEON Keyboard and make it as default. Set Screen Pinning as required.]]></LauncherAndroidStep4>
+<LauncherAndroidStep5><![CDATA[Enter the launcher key displayed on this page.]]></LauncherAndroidStep5>
+<LauncherAndroidStep6><![CDATA[Upon entering the valid key, the control will navigate to Assessment Screen.]]></LauncherAndroidStep6>
+<LauncherAndroidStep7><![CDATA[Exit the App post completion of assessment and choose to revert the input keyboard as required.]]></LauncherAndroidStep7>
+<Step><![CDATA[STEP]]></Step>
+<RingTheBellSubmit><![CDATA[Dear Candidate, you have reached the end time of the assessment. All your responses are saved and the assesment is submitted.]]></RingTheBellSubmit>
+<recordedAudioSpan><![CDATA[Recorded Audio :]]></recordedAudioSpan>
+<audioRecordingStartClickMessage><![CDATA[Press Start button to start the Audio Recording]]></audioRecordingStartClickMessage>
+<audioRecordingFailureMessage><![CDATA[Your system does not support audio recording. Please launch the assessment again after properly connecting the microphone and allowing the browser to access the microphone.]]></audioRecordingFailureMessage>
+<timerText><![CDATA[Recording Timer :]]></timerText>
+<mmssSpan><![CDATA[ (MM:SS)]]></mmssSpan>
+<hhmmssSpan><![CDATA[ (HH:MM:SS)]]></hhmmssSpan>
+<hhmmSpan><![CDATA[ (HH:MM)]]></hhmmSpan>
+<startRecording><![CDATA[Start]]></startRecording>
+<stopRecording><![CDATA[Stop]]></stopRecording>
+<pauseRecording><![CDATA[Pause]]></pauseRecording>
+<resumeRecording><![CDATA[Resume]]></resumeRecording>
+<saveRecording><![CDATA[Save]]></saveRecording>
+<recordedVideoSpan><![CDATA[Recorded Video :]]></recordedVideoSpan>
+<videoRecordingStartClickMessage><![CDATA[Press the "Start" button to start recording. Please note that, after clicking on the "Stop", recording will be saved and cannot be re-recorded.]]></videoRecordingStartClickMessage>
+<videoRecordingStartClickMessagewhenRerecordTrue><![CDATA[Press Start button to start the Video Recording]]></videoRecordingStartClickMessagewhenRerecordTrue>
+<videoRecordingFailureMessage><![CDATA[Your system does not support video recording. Please launch the assessment again after properly connecting the microphone/webcam and allowing the browser to access the microphone/webcam.]]></videoRecordingFailureMessage>
+<videoRecordingStartClickMessageExaminer><![CDATA[Press the "Start" button to start recording. Please note that, after clicking on the "Stop", recording will be saved and cannot be re-recorded.]]></videoRecordingStartClickMessageExaminer>
+<videoRecordingFailureMessageExaminer><![CDATA[Your system does not support video recording. Please launch the assessment again after properly connecting the microphone/webcam and allowing the browser to access the microphone/webcam.]]></videoRecordingFailureMessageExaminer>
+<recordingLimitReachedPopupMessage><![CDATA[Dear Candidate, You have exhausted the maximum time limit to do the recording. Please click on 'Save' to save your response.]]></recordingLimitReachedPopupMessage>
+<info><![CDATA[Info]]></info>
+<saveAndNextRecordingPopupMsg><![CDATA[Your recording won't get saved without clicking on 'Save'. Are you sure, do you want to move forward without saving the current recording?]]></saveAndNextRecordingPopupMsg>
+<numberPanelRecordingPopupMsg><![CDATA[Your recording won't get saved without clicking on 'Save'. Are you sure, do you want to move forward without saving the current recording?]]></numberPanelRecordingPopupMsg>
+<sectionNavigationRecordingPopupMsg><![CDATA[Your recording won't get saved without clicking on 'Save'. Are you sure, do you want to move forward without saving the current recording?]]></sectionNavigationRecordingPopupMsg>
+<groupNavigationRecordingPopupMsg><![CDATA[Your recording won't get saved without clicking on 'Save'. Are you sure, do you want to move forward without saving the current recording?]]></groupNavigationRecordingPopupMsg>
+<recordingUploadFailurePopupMsg><![CDATA[The system could not upload the response provided by you. Do you want to try uploading the response again?]]></recordingUploadFailurePopupMsg>
+<SubmitEnabledAfter><![CDATA[Submit' button will be enabled after]]></SubmitEnabledAfter>
+<recordingSavedSuccesfully><![CDATA[<b>NOTE : </b>Your recording has been saved successfully in the system. Click on 'Start' button to record again.]]></recordingSavedSuccesfully>
+<reRecordPopUpMsg><![CDATA[If you start recording again and save, the previous recording will be overwritten. Are you sure to start recording again?]]></reRecordPopUpMsg>
+<reRecordingNotAllowed><![CDATA[<b>NOTE : </b>Your recording has been saved successfully in the system.]]></reRecordingNotAllowed>
+<scrollToTop><![CDATA[Scroll Up]]></scrollToTop>
+<scrollToBottom><![CDATA[Scroll Down]]></scrollToBottom>
+<maxalert><![CDATA[Dear Candidate, you have typed maximum number of allowed words and hence you cannot type further.]]></maxalert>
+<copyContent><![CDATA[Copy the content]]></copyContent>
+<changeEditor><![CDATA[Change the Editor]]></changeEditor>
+<changeTextArea><![CDATA[Change Text Area]]></changeTextArea>
+<maximizeIcon><![CDATA[maximize]]></maximizeIcon>
+<clickToSelectMarker><![CDATA[Select Marker]]></clickToSelectMarker>
+<clickToSelectEraser><![CDATA[Select Eraser]]></clickToSelectEraser>
+<widthOfTool><![CDATA[select the width for the selected tool]]></widthOfTool>
+<chooseFile><![CDATA[Choose File]]></chooseFile>
+<addFile><![CDATA[Add File]]></addFile>
+<fileOnly><![CDATA[file only]]></fileOnly>
+<maxSize><![CDATA[ Max Size:]]></maxSize>
+<scientificText><![CDATA[Scientific Calculator]]></scientificText>
+<complexText><![CDATA[Scientific Calculator with Complex Number]]></complexText>
+<nextImage><![CDATA[Next Image]]></nextImage>
+<prevImage><![CDATA[Prev Image]]></prevImage>
+<wordTyped><![CDATA[word typed]]></wordTyped>
+<wordsTyped><![CDATA[words typed]]></wordsTyped>
+<noteshiftEsc><![CDATA[<b>Note:</b>Please press<b> Right Shift + Esc</b> to close the assessment window. Please press <b>Alt+F4</b>, only if it does not work]]></noteshiftEsc>
+<acceptDisclaimerMessage><![CDATA[Please accept terms and conditions before proceeding.]]></acceptDisclaimerMessage>
+<eraser><![CDATA[Eraser]]></eraser>
+<marker><![CDATA[Marker]]></marker>
+<clear><![CDATA[Clear]]></clear>
+<OAFeedBackThanks><![CDATA[Thanks for your valuable feedback..! All the responses given by you are saved in the system. You have successfully completed the assessment...!]]></OAFeedBackThanks>
+<closePageLXMessage><![CDATA[Dear Learner,<br/>You have now successfully submitted the assessment.  Click on "Exit Assessment" to close this window.]]></closePageLXMessage>
+<closePageLXIsAppMessage><![CDATA[Dear Learner,<br/>You have now successfully submitted the assessment. You may please close this window now to check your results, as applicable.]]></closePageLXIsAppMessage>
+<closePageWindowMessage><![CDATA[Dear Candidate,<br/>You have now successfully completed the assessment. You may please close this window now.]]></closePageWindowMessage>
+<closePageWindowMessageLauncher><![CDATA[Dear Candidate,<br/>You have now successfully completed the assessment.]]></closePageWindowMessageLauncher>
+<grpSubmitMsg1><![CDATA[Dear Candidate, Once the Group is submitted, you cannot revisit and edit your responses.]]></grpSubmitMsg1>
+<grpSubmitMsg2><![CDATA[Dear Candidate, Once the Group is submitted, you cannot edit your responses.]]></grpSubmitMsg2>
+<grpSubmitMsg3><![CDATA[You can revisit and edit your responses upon submission.]]></grpSubmitMsg3>
+<AllowViewEditMessage><![CDATA[Dear Candidate, You have already attempted <span id="groupNameInAlert"></span> group. It is not possible for you to revisit and edit your responses now.]]></AllowViewEditMessage>
+<enabledAfter><![CDATA[Will be enabled after ]]></enabledAfter>
+<errorDivHeader><![CDATA[Online Assessment System prerequisite check]]></errorDivHeader>
+<statusHeader><![CDATA[Status]]></statusHeader>
+<systemConfig><![CDATA[System Configuration]]></systemConfig>
+<browserConfig><![CDATA[Browser Configuration]]></browserConfig>
+<screenResol><![CDATA[Screen Resolution 1024 X 720 or Above]]></screenResol>
+<browserType><![CDATA[Chrome/Edge browser]]></browserType>
+<pdfReader><![CDATA[PDF Reader Available]]></pdfReader>
+<popupStat><![CDATA[Popup Allowed]]></popupStat>
+<cookieStat><![CDATA[Cookie Enabled]]></cookieStat>
+<zoomStat><![CDATA[Zoom Level(100%)]]></zoomStat>
+<ClickStart><![CDATA[Click on <b>Start</b> button to check recording : ]]></ClickStart>
+<videoRecordingNoteMessage><![CDATA[Please ensure that you are able to view your face clearly in the 'Preview'. Click on 'Proceed' button only after ensuring that you clearly preview your face.]]></videoRecordingNoteMessage>
+<Startbtn><![CDATA[Start]]></Startbtn>
+<agreementMessageDef><![CDATA[I understand that my system is not able to meet one or more system configuration prerequisite parameters(resolution/pdf reader). I accept that system will not be in its best view and some of the features might not work as expected during the course of the assessment. I give my consent to this and would like to continue with the assessment.]]></agreementMessageDef>
+<clickProceed><![CDATA[If you have played and previewed the recording, click the Proceed button to continue to the next step.]]></clickProceed>
+<proceedBtn><![CDATA[Proceed]]></proceedBtn>
+<tryAgainBtn><![CDATA[Try Again]]></tryAgainBtn>
+<configNote1><![CDATA[Dear Candidate, please note, your system is not confirming to some of the prerequisites required to start Online Assessment. Please update your system and try again. It is mandatory that your system should be compliant to the prerequisites.]]></configNote1>
+<configNote2><![CDATA[Dear Candidate, your system is currently unable to record audio or video. Please restart the assessment, making sure that your microphone and webcam are correctly connected, and grant the browser permission to use them.]]></configNote2>
+<configNote4><![CDATA[Dear Candidate, The system could not detect any voice/ background audio in your recorded media. Please make sure to speak clearly while recording and try again.]]></configNote4>
+<configNote3><![CDATA[Dear Candidate, please ensure that your mobile device is recording the entire room accurately.]]></configNote3>
+<configNote5><![CDATA[Dear Candidate, We couldn’t capture your video clearly. Please check your camera, ensure there is enough lighting, and make sure your face is clearly visible. When you’re ready, click Start to record your video again.]]></configNote5>
+<launchingAssessment><![CDATA[LAUNCHING ASSESSMENT]]></launchingAssessment>
+<processing><![CDATA[Processing]]></processing>
+<fileUploadSizeError><![CDATA[Dear Candidate, Maximum size of a file should be <span class="fileSize"></span> MB only.]]></fileUploadSizeError>
+<fileUploadTypeError><![CDATA[Dear Candidate, Please upload only "<span class="fileType"></span>" files.]]></fileUploadTypeError>
+<audioReplaysExceeded><![CDATA[Dear Candidate, You have exhausted the maximum number of allowed replays allowed for this audio. Hence, you cannot replay it further.]]></audioReplaysExceeded>
+<videoReplaysExceeded><![CDATA[Dear Candidate, You have exhausted the maximum number of allowed replays allowed for this video. Hence, you cannot replay it further.]]></videoReplaysExceeded>
+<fileUploadError><![CDATA[File upload was not successful. Kindly upload the file again]]></fileUploadError>
+<grpAlreadyAttempted><![CDATA[You have already attempted <span class="attemptedGroupName"></span> group. Viewing or editing this group is not allowed upon submission.]]></grpAlreadyAttempted>
+<total><![CDATA[Total]]></total>
+<uploading><![CDATA[Uploading...]]></uploading>
+<UploadLoaderMessage><![CDATA[This process will not have impact on overall assessment duration.]]></UploadLoaderMessage>
+<dropHere><![CDATA[Drop Here]]></dropHere>
+<selectOption><![CDATA[--Select Option--]]></selectOption>
+<NeverEnableGroupSubmit><![CDATA[You are not required to click on 'Submit' button ; The system will auto submit at the end.]]></NeverEnableGroupSubmit>
+<normalText><![CDATA[Normal Calculator]]></normalText>
+<warning><![CDATA[Warning]]></warning>
+<interruptionPopupMsg><![CDATA[Your Assessment is interrupted due to one of the following reasons: <br></br> <ol><li> You were trying to minimize OR toggle Assessment console </li><li> You have pressed special keys from your keyboard which are not allowed during Assessment. </li> <li> You have tried to move out of Assessment console which is not allowed.</li> <li> You have tried to refresh the page.</li></ol> All the interruptions during the Assessment are recorded.If you have exceed the number of allowed interruptions, your Assessment will be locked and can only be unlocked by Administrator. You can submit the attempt, to avoid Admin Intervention and new attempt can be started, as applicable<br></br><span style='color:red;text-transform:uppercase;font-weight:bold'>Your Assessment Window will close down in <br> <span id='interruptionTimer' style='color:black;font-size:30px;margin-left:140px'>10</span> seconds <br> Click OK to resume</span>]]></interruptionPopupMsg>
+<textHighlighter><![CDATA[Text Highlighter]]></textHighlighter>
+<defaultLanguageAlert><![CDATA[Please select the default Language to proceed further]]></defaultLanguageAlert>
+<maxQuestionsAlert><![CDATA[You have attempted <span class="quesToBeConsidered"></span> question, which is more than the  maximum limit (<span class="maxOptQuesToAns"></span>) of this section.  Please reset the questions which are already answered to attempt further set of questions.]]></maxQuestionsAlert>
+<ResponseTypeMsg><![CDATA[Please type your response here]]></ResponseTypeMsg>
+<TypeYourCodeIn><![CDATA[Please type your code here in]]></TypeYourCodeIn>
+<programmingLanguage><![CDATA[langauge ]]></programmingLanguage>
+<Run><![CDATA[Run]]></Run>
+<SubmitResponse><![CDATA[Submit Response]]></SubmitResponse>
+<AlreadySubmitGroupEditable><![CDATA[This Group has already been submitted. Please Save your Responses.]]></AlreadySubmitGroupEditable>
+<AlreadySubmitGroupNonEditable><![CDATA[This Group has already been submitted. it is not possible for you to edit your responses now. ]]></AlreadySubmitGroupNonEditable>
+<clickImageToZoom><![CDATA[Click on the Image to Zoom]]></clickImageToZoom>
+<ImageZoom><![CDATA[Click on the Image to Zoom]]></ImageZoom>
+<joinVideoCallPopupMsg><![CDATA[Do you want to join the video call to begin the Group?]]></joinVideoCallPopupMsg>
+<mockSubName><![CDATA[Mock Exam]]></mockSubName>
+<mockSysNum><![CDATA[C001]]></mockSysNum>
+<UseGroupNavigationToMoveForward><![CDATA[Please navigate to next Group(s) from the Groups tab.]]></UseGroupNavigationToMoveForward>
+<ExaminersAvailable><![CDATA[Examiners Available]]></ExaminersAvailable>
+<GroupName><![CDATA[Group Name]]></GroupName>
+<UnableToCreateMeeting><![CDATA[Dear Candidate, system is unable to setup the meeting now. This may be due to various reasons. Kindly try again.]]></UnableToCreateMeeting>
+<ClickToCreateMeeting><![CDATA[Kindly click the button below to initiate the meeting with the Examiner.]]></ClickToCreateMeeting>
+<CreateMeeting><![CDATA[Create Meeting]]></CreateMeeting>
+<CreatingMeeting><![CDATA[Creating the meeting]]></CreatingMeeting>
+<VideoCallStartMessage><![CDATA[As soon as the video call starts, your video would be visible and your voice would be audible.]]></VideoCallStartMessage>
+<JoinMeeting><![CDATA[Join Meeting]]></JoinMeeting>
+<PleaseWaitForExaminer><![CDATA[Please wait till the system allocates the Examiner for you.]]></PleaseWaitForExaminer>
+<ExaminerNowAvaiable><![CDATA[The Examiner is now available and you can start the meeting.]]></ExaminerNowAvaiable>
+<reVisitMsg><![CDATA[<b>Note: You cannot revisit this question upon navigating. Please take care not to move to previous/next question without attempting this Question.</b>]]></reVisitMsg>
+<reEditMsg><![CDATA[<b>Note: You cannot edit the response for this question upon navigating. Please take care not to move to previous/next question without attempting this Question.</b>]]></reEditMsg>
+<MandatoryQuestion><![CDATA[Mandatory Questions:  ]]></MandatoryQuestion>
+<MandatoryQuestionMsg><![CDATA[. Please answer this question before you proceed further.]]></MandatoryQuestionMsg>
+<MandatoryQuesMsg><![CDATA[This question is mandatory for you to attempt. Please answer this question before you proceed further.]]></MandatoryQuesMsg>
+<MandatoryQuesMsg2><![CDATA[This question is mandatory for you to attempt. Please save the recording before you proceed further.]]></MandatoryQuesMsg2>
+<MandatoryQuesMsg3><![CDATA[There are questions in the group which are mandatory for you to attempt. Please answer them and save your responses before you proceed further.]]></MandatoryQuesMsg3>
+<MandatoryQuesMsg4><![CDATA[It is not possible for you to revisit any of the questions in this group upon submission. ]]></MandatoryQuesMsg4>
+<MandatoryQuesMsg5><![CDATA[You cannot view any of the questions in this Section]]></MandatoryQuesMsg5>
+<MandatoryQuesMsg6><![CDATA[There are questions in this group which are mandatory for you to attempt. ]]></MandatoryQuesMsg6>
+<MandatoryQuesMsg7><![CDATA[<b>Note: There are questions in this section which are mandatory for you to attempt.</b>]]></MandatoryQuesMsg7>
+<MandatoryQuesMsg8><![CDATA[<b>Note: This question is mandatory for you to attempt.</b>]]></MandatoryQuesMsg8>
+<MandatoryQuesMsg9><![CDATA[<b>Note: This question is mandatory for you to attempt. In addition, you cannot re-visit this question. Please take care not to navigate to previous/next question without attempting this Question.</b>]]></MandatoryQuesMsg9>
+<MandatoryQuesMsg10><![CDATA[<b>Note: This question is mandatory for you to attempt. In addition, you cannot edit the response while revisiting. Please take care not to navigate to previous/next question without attempting this Question.</b>]]></MandatoryQuesMsg10>
+<MandatoryQuesMsg11><![CDATA[It is not possible for you to revisit any of the questions in this group upon submission.]]></MandatoryQuesMsg11>
+<AllOptionsSelectedMsg><![CDATA[Kindly select each of the criteria at least once across your examples to submit your testimony.]]></AllOptionsSelectedMsg>
+<MandatoryQuesMsg12><![CDATA[Kindly answer all mandatory questions and accept the disclaimer to proceed.]]></MandatoryQuesMsg12>
+<Yourresponseswillbesavedautomatically><![CDATA[The system will save your responses automatically.]]></Yourresponseswillbesavedautomatically>
+<AssessmentCenter><![CDATA[Remote Assessment]]></AssessmentCenter>
+<AssessmentExaminationCenter><![CDATA[Assessment Examination Center]]></AssessmentExaminationCenter>
+<InstructionsAssessmentCenter><![CDATA[Instructions - Assessment Center]]></InstructionsAssessmentCenter>
+<InstructionsAssessmentExaminationCenter><![CDATA[Instructions - Assessment Examination Center]]></InstructionsAssessmentExaminationCenter>
+<FeedBackAssessmentCenter><![CDATA[Feed Back - Assessment Center]]></FeedBackAssessmentCenter>
+<FeedBackAssessmentExaminationCenter><![CDATA[Feed Back - Assessment Examination Center]]></FeedBackAssessmentExaminationCenter>
+<ExitPageAssessmentExaminationCenter><![CDATA[Exit Page - Assessment Examination Center]]></ExitPageAssessmentExaminationCenter>
+<ExitPageAssessmentCenter><![CDATA[Exit Page - Assessment Center]]></ExitPageAssessmentCenter>
+<PreRequisites><![CDATA[Pre Requisites]]></PreRequisites>
+<ErrorPage><![CDATA[Error Page]]></ErrorPage>
+<StayOnPage><![CDATA[Please stay on this page. Do not go back or close or refresh the page. You will be now automatically redirected to the Assessment Exit Page.]]></StayOnPage>
+<ClickHereForFullScreen><![CDATA[Click Here to proceed with the Assessment]]></ClickHereForFullScreen>
+<OADashCamera><![CDATA[Camera]]></OADashCamera>
+<btnPreview><![CDATA[Preview]]></btnPreview>
+<videoStreamNotAvail><![CDATA[Video stream is not available right now.]]></videoStreamNotAvail>
+<regGuidelines><![CDATA[<b>Guidelines for face registration : </b><br>1. Please avoid registering in low light or against the light. Face should be well-lit.<br>2. Your face should occupy more than 50% in the registered image .<br>3. Please look straight into the camera, so that entire face is clearly visible for capture.<br>4. Make sure that your entire face is clearly visible and not covered by any objects (e.g: sunglasses etc).]]></regGuidelines>
+<captureFaceInfo1><![CDATA[Dear Candidate, Your system does not support capturing the images. Please launch again ensuring that webcam is connected properly and allow the browser to access the microphone/webcam. Please refresh the window upon providing the access.]]></captureFaceInfo1>
+<captureFaceInfo2><![CDATA[Photos are saved successfully.]]></captureFaceInfo2>
+<captureFaceInfo3><![CDATA[ Please delete the image(s) as mentioned and capture again as per the required specifications.]]></captureFaceInfo3>
+<captureFaceInfo4><![CDATA[Please note that it is mandatory for you to capture five images as per the specifications.]]></captureFaceInfo4>
+<captureFaceInfo5><![CDATA[Please capture the photo before clicking on save button.]]></captureFaceInfo5>
+<captureFaceInfo6><![CDATA[You can capture maximum of 5 images. If you want to capture another one, please delete any of the existing images and then capture the new one.]]></captureFaceInfo6>
+<registrationText><![CDATA[Self Registration and Candidate Consent]]></registrationText>
+<cameraCheckText><![CDATA[Camera Check and Candidate Consent]]></cameraCheckText>
+<capturingPhotos><![CDATA[Capturing Photos]]></capturingPhotos>
+<capturingConsent><![CDATA[Capturing Consent]]></capturingConsent>
+<selfRegistrationText1><![CDATA[Please ensure that your face is clearly visible in the photos.]]></selfRegistrationText1>
+<tryAgain><![CDATA[Try Again]]></tryAgain>
+<selfRegistrationText2><![CDATA[To continue with the process of Self Registration,<br/>Kindly click your pictures using the camera button below.]]></selfRegistrationText2>
+<selfRegistrationText3><![CDATA[Please ensure that the browser is able to access the camera.]]></selfRegistrationText3>
+<selfRegistrationText4><![CDATA[For best results, please ensure that your face is clearly visible in the photos.]]></selfRegistrationText4>
+<selfRegistrationText5><![CDATA[View Photo Specifications]]></selfRegistrationText5>
+<selfRegistrationText6><![CDATA[The system is currently processing your request. Kindly wait for a moment.]]></selfRegistrationText6>
+<selfRegistrationText7><![CDATA[The system is currently processing your request. Kindly wait for a moment.  In the meantime, you may work on other things.<br/> You will be notified once the process is completed.]]></selfRegistrationText7>
+<selfRegistrationText8><![CDATA[The system could not detect any human face in the captured image. Please try again ensuring you capture the images as per the specifications.]]></selfRegistrationText8>
+<selfRegistrationText9><![CDATA[Validation Successful!<br/> Your Face Unlock is now Active]]></selfRegistrationText9>
+<selfRegistrationText10><![CDATA[You can click more photos for better Face detection capability.]]></selfRegistrationText10>
+<selfRegistrationText11><![CDATA[Video stream is not available right now.]]></selfRegistrationText11>
+<selfRegistrationText12><![CDATA[<span>Note: </span> Capture 5 Photos for Self Registration]]></selfRegistrationText12>
+<takePhoto><![CDATA[Take Photo]]></takePhoto>
+<btnValidate><![CDATA[Validate]]></btnValidate>
+<btnProceed><![CDATA[Proceed to Assessment]]></btnProceed>
+<videoProctoredMsg><![CDATA[<b>Please note that the proctoring is currently in progress</b>]]></videoProctoredMsg>
+<downloadWindows><![CDATA[Note: You can download the iLEON app in either 'zip' or 'exe' formats. On some systems, downloading an exe file may not be permitted; if that's the case, select the 'zip' version, unzip it, and then run the 'exe' file found inside the zip.]]></downloadWindows>
+<selfRegistrationText15><![CDATA[To continue with Face Unlock,<br/>Kindly click your pictures using the camera button below.]]></selfRegistrationText15>
+<guidelinesText1><![CDATA[Photo Upload Guidelines]]></guidelinesText1>
+<btnClose><![CDATA[Close]]></btnClose>
+<guidelinesText2><![CDATA[Individual Photo]]></guidelinesText2>
+<guidelinesText3><![CDATA[Please avoid capturing the photos in low light or against the light. Your face should be well-lit.]]></guidelinesText3>
+<guidelinesText4><![CDATA[Please ensure that your face occupies more than 50% in the image captured.]]></guidelinesText4>
+<guidelinesText5><![CDATA[Please ensure to look straight into the camera, so that entire face is clearly visible for capturing.]]></guidelinesText5>
+<guidelinesText6><![CDATA[ Please ensure that the entire face is clearly visible and not covered by any objects.]]></guidelinesText6>
+<guidelinesText7><![CDATA[(e.g: sunglasses etc)]]></guidelinesText7>
+<guidelinesText8><![CDATA[Please note, for Self Registration, it is mandatory for you to capture five images as per the defined specifications.]]></guidelinesText8>
+<guidelinesText9><![CDATA[Are you sure to delete this photo?]]></guidelinesText9>
+<selfRegistrationPopup1><![CDATA[<label>The current session has expired. Please relaunch the assessment again to proceed further.</label>]]></selfRegistrationPopup1>
+<selfRegistrationPopup2><![CDATA[Your browser is not able to connect to the selected camera. We have observed that some antivirus software installed on your device, blocks browsers to connect to camera. We recommend that you grant permission in antivirus software for browsers to connect to camera. Once this is done, you will be able to complete your registration process. This is very important step to ensure that your antivirus is not preventing camera access during exam. There is an alternative to complete your registration process using your mobile device. But this approach will help you only completing registration process and for actual exam, you would need to enable camera access in your antivirus software. To complete registration process on your mobile, you can access login page simply by pasting link in your mobile device, login and follow the steps to complete your registration process. Once you finish registration on your mobile device, you can re-login on your desktop. You will be able to proceed further for your exam. Please do not panic, we are sure you will be able to grant permission to the camera in your antivirus software, complete registration process and proceed for your examination.]]></selfRegistrationPopup2>
+<cameraNotDetected><![CDATA[This exam is high stakes exam and we would require camera access on your device. We tried to detect installed camera on your device. Unfortunately, we could not find any camera. There are 2 reasons why this may happen - Either there is no camera installed on your device OR camera stops functioning due to outdated / corrupt camera drivers on your device. If you are sure that you have camera installed on your device, you will need to upgrade your camera drivers for exam application to detect and use. Every device is made up of different make and brand, you would need to find suitable camera drivers based on your deviceâ€™s make / brand and install it. Once you install / upgrade drivers OR install camera, we are very sure that your device would be compatible for the exam.]]></cameraNotDetected>
+<selfRegistrationPopup3><![CDATA[Images that does not meet the required specifications are shown with red borders. Please delete those images by clicking on them and take new photo(s).]]></selfRegistrationPopup3>
+<selfRegistrationPopup4><![CDATA[Please note, it is mandatory for you to capture five images as per the defined specifications.]]></selfRegistrationPopup4>
+<launcherDownloadMessage><![CDATA[The launcher(iLEON App), once downloaded can be used for the further assessments. It is not required to download the launcher everytime. System will upgrade the launcher, if any is available while launching.]]></launcherDownloadMessage>
+<faqsq1><![CDATA[1. Can I use a mobile hotspot to take the Internet Based Assessment?]]></faqsq1>
+<faqsa1><![CDATA[Using a mobile hotspot is not a preferred option to take the Internet Based Assessment.]]></faqsa1>
+<faqsq2><![CDATA[2. What are the points to remember before I launch the Internet Based Assessment?]]></faqsq2>
+<faqsa3><![CDATA[1. Any antivirus running in your system should be first disabled. This is a mandatory step.]]></faqsa3>
+<faqsa4><![CDATA[2. Save all data before you launch the assessment.]]></faqsa4>
+<faqsa5><![CDATA[3. All unsaved data will be lost and cannot be recovered.]]></faqsa5>
+<faqsa6><![CDATA[4. For Proctored assessments, your system should be enabled with a camera. Wireless cameras are not permitted.]]></faqsa6>
+<faqsq3><![CDATA[3. Do I have to download the launcher every time I take an assessment?]]></faqsq3>
+<faqsa7><![CDATA[No, the launcher, once downloaded can be used for future assessments. It is not necessary to download the launcher every time. The system will upgrade the launcher, if any upgrade is available while launching.]]></faqsa7>
+<faqsq4><![CDATA[4. What should I do once I complete the assessment?]]></faqsq4>
+<faqsa8><![CDATA[Once you have completed the assessment, please close the assessment player using "Right Shift + Esc". Please press "Alt+F4", only if "Right Shift + Esc" does not work. Once the assessment player is closed, the launcher application will take some time to bring back your system for normal use. Do not perform any action till your system comes back to normal mode, otherwise it will freeze/hang.]]></faqsa8>
+<launcherOSBrowserHeading><![CDATA[5. What OS and Browsers are supported in the iLEON App?]]></launcherOSBrowserHeading>
+<launcherOSBrowserWindows10><![CDATA[1. Windows 10/11 (64 bit) - Google Chrome - Version 136 and above.]]></launcherOSBrowserWindows10>
+<launcherOSBrowserWindows10IE><![CDATA[7. Windows 7/10 (64 bit) - Internet Explorer - All versions.]]></launcherOSBrowserWindows10IE>
+<launcherOSBrowserWindows10FF><![CDATA[2. Windows 11 (64 bit) - Firefox - Version 143 and above.]]></launcherOSBrowserWindows10FF>
+<launcherOSBrowserWindows10ME><![CDATA[3. Windows 11 (64 bit) - Microsoft Edge - Version 136 and above.]]></launcherOSBrowserWindows10ME>
+<launcherOSBrowserUbuntu><![CDATA[5. Ubuntu 16 (64 bit) - Firefox - Version 143 and above.]]></launcherOSBrowserUbuntu>
+<launcherOSBrowserUbuntu1><![CDATA[4. Ubuntu 16/22 (64 bit) - Google Chrome - Version 136 and above.]]></launcherOSBrowserUbuntu1>
+<launcherOSBrowserUbuntuME><![CDATA[6. Ubuntu 16/22 (64 bit) - Microsoft Edge - Version 136 and above.]]></launcherOSBrowserUbuntuME>
+<launcherOSBrowserWindowsMac><![CDATA[7. MAC OS (11) - Safari - Version 18.5]]></launcherOSBrowserWindowsMac>
+<launcherOSBrowserWindowsMac1><![CDATA[2. MAC OS (15.6) - Google Chrome - Version 155 and above.]]></launcherOSBrowserWindowsMac1>
+<launcherOSBrowserWindows7NS><![CDATA[3. Windows 7 - Not supported.]]></launcherOSBrowserWindows7NS>
+<iEMsgShow><![CDATA[It is recommended to use Google Chrome browser for Self Registration. Internet Explorer is not supported.]]></iEMsgShow>
+<launcherRules><![CDATA[Using Mobile hotspot is not a preferred option to take Internet Based Assessment. Any antivirus running in your system should be DISABLED. This is MANDATORY.]]></launcherRules>
+<postureposition><![CDATA[Please maintain proper posture and proper eye contact with the camera. Not following this will lead to disqualification.]]></postureposition>
+<mobiledetected><![CDATA[Mobile seen in your vicinity. Keep it away.  Your action will lead to disqualification.]]></mobiledetected>
+<audiodetected><![CDATA[Voice detected in your vicinity. Do not read out the questions loud. Please take the exam quietly and do not talk to others. It will lead to disqualification.]]></audiodetected>
+<nolight><![CDATA[Lighting is poor / light source at your back . This is preventing proper capture of your video. Not fixing this issue will lead to disqualification.]]></nolight>
+<multiplefacesfound><![CDATA[There are other people visible in your vicinity. Please adhere to exam confidentiality norms. Your action will lead to disqualification.]]></multiplefacesfound>
+<facenotfound><![CDATA[You are not visible or only partial face is visible. Please change camera orientation or adjust your sitting position. Not following this will lead to disqualification.]]></facenotfound>
+<other><![CDATA[Other]]></other>
+<errorcode0><![CDATA[The system is not able to find human face in the captured image. Kindly ensure that your face size is not too small for the system to detect.]]></errorcode0>
+<errorcode1><![CDATA[The image should not be hazy. Kindly capture the image as per the defined specifications.]]></errorcode1>
+<errorcode2><![CDATA[Image uploaded successfully.]]></errorcode2>
+<errorcode3><![CDATA[Multiple Faces Found]]></errorcode3>
+<errorcode4><![CDATA[The face in the image doesn't match with rest of the images]]></errorcode4>
+<captureDocumentDesc><![CDATA[Please capture your @documentName@]]></captureDocumentDesc>
+<captureDocumentDesc1><![CDATA[Please ensure that the browser is allowed to access the camera to capture your @documentName@]]></captureDocumentDesc1>
+<NotYetApproved><![CDATA[ The proctor will assist you shortly and notify you if your photos are acceptable or need to be retaken. We appreciate your eagerness to begin the exam but ask for your patience.   Security and transparency are crucial and must not be compromised. The proctor is prioritizing your case and will update you promptly.  Please remain on this page ; You may click 'Check Status' button to know the updated status. If your browser closes or you need to re-login, you will return directly to this page.<br>Current Status <span id='approvalStatus'></span>]]></NotYetApproved>
+<imageQualityFailed1><![CDATA[Thank you for providing your photographs. Quality of your photographs are very important aspect of this exam. Your photographs will be used by Artificial Intelligence system to invigilate and assist proctors during examination. We have detected that some of the photograph's quality are not good, this may be issue in your camera resolution, lighting arrangement at your end. We recommend you to give this exam in well lit area. If light reflects on your camera, system will not be able to detect your faces accurately. Please ensure that there is no light reflection on the camera. After making required changes, we request you to capture the photographs one more time and let us assist you for the next step.]]></imageQualityFailed1>
+<imageQualityFailed2><![CDATA[Thank you for providing your photographs. Quality of your photographs are very important aspect of this exam. Your photographs will be used by Artificial Intelligence system to invigilate and assist proctors during the examination. We have detected that some of the photograph's quality are not good, this may be issue in your camera resolution, lighting arrangement at your end. We recommend you to give this exam in well lit area. If light reflects on your camera, system will not be able to detect your faces accurately. Please ensure that there is no light reflection on the camera. As you have already made 2 attempts, you have following 2 options: 1. After making required changes, we request you to capture the photographs one more time OR 2. Request the invigilator to verify your photographs and assist on further steps.]]></imageQualityFailed2>
+<verifyWithProctor><![CDATA[Verify with Proctor]]></verifyWithProctor>
+<samePersonCheck1><![CDATA[Thank you for providing your photographs. Quality of your photographs are very important aspect of this exam. Your photographs will be used by Artificial Intelligence system to invigilate and assist proctors during the examination. Our system could not find your face consistently in all the photographs. It is very important that all photographs belong to you only. This may be issue in your camera resolution, lighting arrangement at your end OR your face coverage during photograph. We recommend you to give this exam in well lit area and ensure that your face is visible fully in the photograph. If light reflects on your camera, system will not be able to detect your faces accurately. Please ensure that there is no light reflection on the camera. After making required changes and increased coverage of your face, we request you to capture the photographs one more time and let us assist you for the further steps.]]></samePersonCheck1>
+<samePersonCheck2><![CDATA[Thank you for providing your photographs. Quality of your photographs are very important aspect of this exam. Your photographs will be used by Artificial Intelligence system to invigilate and assist proctors during examination. Our system could not find your face consistently in all the photographs. It is important that all photographs belong to you only. This may be issue in your camera resolution, lighting arrangement at your end OR your face coverage during photograph. We recommend you to give this exam in well lit area and ensure that your face is visible fully in the photograph. If light reflects on your camera, system will not be able to detect your faces accurately. Please ensure that there is no light reflection on the camera. As you have already made 2 attempts, you have following 2 options: 1. After making required changes, we request you to capture the photographs one more time OR 2. request Invigilator to verify your photographs and assist on further steps.]]></samePersonCheck2>
+<E133><![CDATA[You cannot launch this assessment now since you are trying to launch beyond the start time permitted.]]></E133>
+<!-- <E133><![CDATA[You cannot launch this assessment now since you are trying to launch beyond the permitted timings. Please contact the administrator.]]></E133> -->
+<E134><![CDATA[You cannot launch this assessment now since maximum time allowed to read the instructions has exceeded. Please contact the administrator.]]></E134>
+<E505HowToProceed><![CDATA[Please download the launcher(iLEON App) and launch the assessment with any of the supported browsers as mentioned above. Please refer to the instructions / guidelines provided or get in touch with the assessment administrator for assistance.]]></E505HowToProceed>
+<E404HowToProceed><![CDATA[Please check the URL and launch the assessment from the login page with your credentials. Do not manually change the URL contents. This may lock your assessment and you will be logged out.]]></E404HowToProceed>
+<E103HowToProceed><![CDATA[Since you were inactive for a while, you are logged out. Please login with your credentials and launch the assessment again.]]></E103HowToProceed>
+<E105HowToProceed><![CDATA[This assessment is either not active or you have exceeded the allowed number of attempts. Please refer to the instructions / guidelines provided or get in touch with the assessment administrator for assistance.]]></E105HowToProceed>
+<E106HowToProceed><![CDATA[Since you have exceeded the allowed number of attempts, you cannot launch the assessment now. Please check the assessment dashboard for the completion details. Get in touch with the assessment administrator for further assistance.]]></E106HowToProceed>
+<E107HowToProceed><![CDATA[Please check the URL and your login credentials. Please login again and check the assessment you are trying to launch. Get in touch with the assessment administrator for further assistance.]]></E107HowToProceed>
+<E108HowToProceed><![CDATA[Please check the URL and your login credentials. Please login again and check the assessment you are trying to launch. Get in touch with the assessment administrator for further assistance.]]></E108HowToProceed>
+<E109HowToProceed><![CDATA[Please check the URL, login credentials and login again after few minutes. Get in touch with the assessment administrator for further assistance.]]></E109HowToProceed>
+<E110HowToProceed><![CDATA[<span id='timeLeftMessage'>Dear Candidate your assessment is yet to start. Please continue to stay here and Launch button will be enabled in <b><span id='launchAssessmentTimeLeft'>0</span><span id='timeFormat'></span></b></span><span id='launchEnabledMessage' style='display:none'>You can start your assessment NOW. Click on LAUNCH button to start.</span><br> (OR) <br><span id='nonSecuredStartTime' style='display:none'>You can close this Window and launch the assessment at <b><span class='assessmentStartTime'></span></b></span><span id='securedStartTime' style='display:none'>You can close the launcher now and launch again at-least 5 minutes before actual assessment start time <b><span class='assessmentStartTime'></span></b> (so that all open applications can be closed and you can start the assessment on time)</span><br>]]></E110HowToProceed>
+<launchButton><![CDATA[LAUNCH]]></launchButton>
+<E111HowToProceed><![CDATA[Please check the URL and your login credentials. Please login again and check the assessment you are trying to launch. Get in touch with the assessment administrator for further assistance.]]></E111HowToProceed>
+<E112HowToProceed><![CDATA[Please check the URL and your login credentials. Please login again and check the assessment you are trying to launch. Get in touch with the assessment administrator for further assistance.]]></E112HowToProceed>
+<E113HowToProceed><![CDATA[Resume / relaunch the assessment, complete and submit the assessment. If the assessment is locked, get in touch with the assessment administrator for further assistance.]]></E113HowToProceed>
+<E114HowToProceed><![CDATA[The assessment is either not active or you are trying to launch it beyond the allowed timings. Get in touch with the assessment administrator for further assistance.]]></E114HowToProceed>
+<E115HowToProceed><![CDATA[Please refer to the instructions / guidelines provided. Get in touch with the assessment administrator to get the assessment unlocked. Resume / relaunch the assessment post the confirmation from the administrator.]]></E115HowToProceed>
+<E116HowToProceed><![CDATA[This window will close down now and you can re-launch the Assessment only after your assessment is unlocked by the administrator.<br>Please ensure that you do not move out of Assessment window during the assessment. Use only mouse to navigate.<br>Please press "Right Shift + Esc" to close the assessment player. Please press Alt+F4, only if it does not work.]]></E116HowToProceed>
+<E117HowToProceed><![CDATA[Please refer to the instructions / guidelines provided.Get in touch with the assessment administrator for further assistance.]]></E117HowToProceed>
+<E118HowToProceed><![CDATA[Please check the URL, login credentials and login again after few minutes. Get in touch with the assessment administrator for further assistance.]]></E118HowToProceed>
+<E119HowToProceed><![CDATA[Resume the assessment from the window/system where you have started the assessment or to relaunch the assessment immediately please click "Relaunch".]]></E119HowToProceed>
+<E119HowToProceedlaunchButton><![CDATA[Resume the assessment from the window/system where you have started the assessment. If you closed the window inadvertently, please wait for a minute before launching the assessment again.To relaunch the assessment immediately, please click "Relaunch".<br/> <button id='ForceLaunchAssessment' class='normalBtn btn btn-primary-save'>Relaunch</button>]]></E119HowToProceedlaunchButton>
+<E120HowToProceed><![CDATA[Get in touch with assessment administrator to unlock the assessment. Resume the assessment, complete and submit the assessment. Post submission of the assessment, the report will be available at the time as specified by the assessment administrator.]]></E120HowToProceed>
+<E122HowToProceed><![CDATA[Please refer to the instructions provided or get in touch with the assessment administrator for time of report publication.]]></E122HowToProceed>
+<E123HowToProceed><![CDATA[You cannot view the report since you have not started the assessment after reading the instructions.Get in touch with the assessment administrator for further assistance.]]></E123HowToProceed>
+<E124HowToProceed><![CDATA[Get in touch with the assessment administrator for further assistance. Please launch the assessment post the confirmation from the administrator.]]></E124HowToProceed>
+<E125HowToProceed><![CDATA[This window will close down now and you can re-launch the Assessment only after your assessment is unlocked by the administrator.<br>Please ensure that you do not move out of Assessment window during the assessment. Use only mouse to navigate.]]></E125HowToProceed>
+<E150HowToProceed><![CDATA[This window will close down now.<br>Please ensure that you do not move out of Assessment window during the assessment. Use only mouse to navigate.]]></E150HowToProceed>
+<E126HowToProceed><![CDATA[You must wait for the time duration as specified to launch the next attempt. Please refer to the instructions provided or get in touch with the assessment administrator for further assistance.]]></E126HowToProceed>
+<E127HowToProceed><![CDATA[It is not possible for you to attempt the assessment again. You can track the details of your assessment completion in the assessment dashboard. Please refer to the instructions provided or get in touch with the assessment administrator for further assistance.]]></E127HowToProceed>
+<E128HowToProceed><![CDATA[Please check the URL, login credentials and login again. Get in touch with the assessment administrator for further assistance.]]></E128HowToProceed>
+<E129HowToProceed><![CDATA[Please check the URL, login credentials and login again. Get in touch with the assessment administrator for further assistance.]]></E129HowToProceed>
+<E130HowToProceed><![CDATA[If applicable, please inform the candidates to proceed further with the assessment of their part.<br>You can close the assessment window now from your side.]]></E130HowToProceed>
+<E131HowToProceed><![CDATA[If applicable, inform the candidates to proceed further with the assessment of their part.<br>You can close the assessment window now from your side.]]></E131HowToProceed>
+<E132HowToProceed><![CDATA[You can close this assessment window now.<br>Please inform the candidates to proceed with the assessment from their end if applicable.]]></E132HowToProceed>
+<E133HowToProceed><![CDATA[It is not possible for you to launch the assessment now, since the permitted timings are passed.<br>Please refer to the instructions / guidelines provided or get in touch with the assessment administrator for further assistance.]]></E133HowToProceed>
+<E134HowToProceed><![CDATA[It is not possible for you to launch the assessment since max instrustions time is exceeded.<br>Please refer to the instructions / guidelines provided or get in touch with the assessment administrator for assistance.]]></E134HowToProceed>
+<E116HowToProceedMobile><![CDATA[This window will close down now and you can re-launch the Assessment only after your assessment is unlocked by the administrator.<br>Please ensure that you do not move out of Assessment window during the assessment.]]></E116HowToProceedMobile>
+<E121a><![CDATA[Verification process is mandatory for this assessment. Please get yourself verified with the co-ordinator.]]></E121a>
+<E121b><![CDATA[Please ask your co-ordinator for the approval to re-launch the assessment.]]></E121b>
+<E121c><![CDATA[Your verification process has been completed. Please wait until further instructions are given or connect with your co-ordinator for approval to launch the assessment.]]></E121c>
+<E121d><![CDATA[Your verification process has been partially completed. Please wait until further instructions are given or connect with your co-ordinator for approval to launch the assessment.]]></E121d>
+<E121e><![CDATA[Your co-ordinator has declared you as absent. If you are in the test center,  please get in touch with your co-ordinator.]]></E121e>
+<E121f><![CDATA[Your co-ordinator has declared you as absent. If you are in the test center,  please get in touch with your co-ordinator.]]></E121f>
+<E121g><![CDATA[Your request is not approved. Please get in touch with your co-ordinator for further assistance.]]></E121g>
+<E121h><![CDATA[Please note the above key and download the launcher(iLEON App) by clicking the link given below for your operating system.<br><br><b>Note:</b> <span id='timerMessageSpan'>The key is valid for <span id='timerSpan'></span> minutes only.</span><br><br><a href='#' id='windows' class='Launcher'>Click here to download windows launcher.</a><br><br><a href='#' id='linux14' class='Launcher'>Click here to download launcher for Ubuntu 14.</a><br><br><a href='#' id='linux16' class='Launcher'>Click here to download launcher for Ubuntu 16.</a><br><br><a href='#' id='linux22' class='Launcher'>Click here to download launcher for Ubuntu 22.</a><br><br>Currently we are not supporting Secured Online Digital Assessment for IOS and Android.<br><br><b>Please follow the below mentioned instructions to launch the assessment.</b><br><br><ol style='margin-left:20px'><li>Extract the downloaded file</br></br></li><li>Launch the application and enter the above mentioned key in the key field and select browser from the dropdown</br></br></li><li>Selected browser will be used for launching the assessment.</br></br></li><li>After entering the key and browser selection, click on launch button for launching the assessment.</br></br></li></ol>]]></E121h>
+<E121HowToProceeda><![CDATA[Please verify your identity with the administrator / coordinator by producing the valid identity cards, as specified to proceed. Refer the instructions provided and get in touch with the administrator for any assistance.]]></E121HowToProceeda>
+<E121HowToProceedb><![CDATA[Please verify your identity with the administrator / coordinator by producing the valid identity cards, as specified to proceed. Refer the instructions provided and get in touch with the administrator for any assistance.]]></E121HowToProceedb>
+<E121HowToProceedc><![CDATA[Please get in touch with the administrator for approval of your registration process. Please wait till the assessment start time or get in touch with the administrator for any assistance.]]></E121HowToProceedc>
+<E121HowToProceedd><![CDATA[Please verify your identity with the administrator / coordinator by producing the valid identity cards, as specified to proceed. Refer the instructions provided and get in touch with the administrator for any assistance.]]></E121HowToProceedd>
+<E121HowToProceede><![CDATA[It is not possible for you to launch the assessment now. Refer to the instructions provided and get in touch with the administrator for any assistance.]]></E121HowToProceede>
+<E121HowToProceedf><![CDATA[It is not possible for you to launch the assessment now. Refer to the instructions provided and get in touch with the administrator for any assistance.]]></E121HowToProceedf>
+<E121HowToProceedg><![CDATA[Please verify your identity with the administrator / coordinator by producing the valid identity cards, as specified to proceed. Refer the instructions provided and get in touch with the administrator for any assistance.]]></E121HowToProceedg>
+<E121HowToProceedh><![CDATA[Please download and launch the assessment with any of the supported browsers as mentioned above. Please refer to the instructions / guidelines provided or get in touch with the assessment administrator for assistance.]]></E121HowToProceedh>
+<HowToProceed><![CDATA[How to proceed]]></HowToProceed>
+<RegistrationNotDoneHowToProceed><![CDATA[Dear Candidate, Registration is mandatory before launching the assessment hence please do the registration with Test center Admin to proceed further.]]></RegistrationNotDoneHowToProceed>
+<idCard><![CDATA[ID Card]]></idCard>
+<reCaptureButton><![CDATA[OK]]></reCaptureButton>
+<proctorErrorMessage1><![CDATA[Thank you for your patience. After verification, the proctor has identified discrepancies in your photographs and sent the following message to you:]]></proctorErrorMessage1>
+<proctorErrorMessage2><![CDATA[Either the image uploaded during the application phase does not match the one submitted during self-registration, or your face is not clearly or consistently visible in the photographs provided during self-registration. To proceed, the original candidate must be present, and you are required to re-capture clear and consistent photographs. Any mismatch or poor-quality submission may be treated as a potential impersonation concern.]]></proctorErrorMessage2>
+<revisitNotAllowedPopUpSubmitEnabled><![CDATA[Dear Candidate,<br>You have visited/attempted all the questions in the Group and reached the end. Please submit the group to proceed further.]]></revisitNotAllowedPopUpSubmitEnabled>
+<revisitNotAllowedPopUpSubmitAutomatically><![CDATA[Dear Candidate,<br>You have visited/attempted all the questions in the Group and reached the end.<br>All your responses are saved in the system but  it is mandatory for you to stay on this page for <span class='popUpTimer'></span>.<br>Your responses will be auto submitted by the system after <span class='popUpTimer'></span>.]]></revisitNotAllowedPopUpSubmitAutomatically>
+<revisitNotAllowedPopUpSubmitEnableAfter><![CDATA[Dear Candidate,<br>You have visited/attempted all the questions in the Group and reached the end.<br>All your responses are saved in the system but it is mandatory for you to wait for <span class='popUpTimer'></span> for the <b>Submit</b> button to be enabled. Kindly wait till then.<br>You can submit the Group once <b>Submit</b> button is enabled.]]></revisitNotAllowedPopUpSubmitEnableAfter>
+<E136><![CDATA[Your device is not supported to take the assessment. Kindly log on, launch the assessment from the device / OS as instructed and download the launcher(iLEON App). <!-- The supported OS is <span id = "launcherOS"></span> -->]]></E136>
+<E136HowToProceed><![CDATA[Please get in touch with the administrator for further assistance.]]></E136HowToProceed>
+<checkBoxEnableMessage><![CDATA[<br/><b>Note : </b>Check box will be enabled in <span id='checkBoxEnableTime'></span>]]></checkBoxEnableMessage>
+<selectCam><![CDATA[--Select Camera--]]></selectCam>
+<camerPermisionDeniedMsg><![CDATA[Camera permission is not available/detected. If camera is available, then follow the process. Step 1 : ]]></camerPermisionDeniedMsg>
+<selfRegistrationText13><![CDATA[I hereby give my explicit consent for my photograph to be taken for registration purposes and for the capture of photo/video during proctoring (AI-assisted invigilation) to prevent misconduct during the assessment.<br>I acknowledge that this consent is necessary for the collection and use of personal data for the identified purposes, i.e., AI-assisted invigilation and analysis.<br>I understand that my images will not be disclosed to any third parties and will be retained only for the duration as required for the identified purposes.]]></selfRegistrationText13>
+<selfRegistrationText14><![CDATA[I provide my explicit consent to capture my photo/video for proctoring (invigilation) to prevent malpractices during the assessment.<br>I understand that, this consent is required for the collection and use of personal data for identified purposes. i.e., invigilation and analysis.<br>I understand that my images will not be shared with any third party and will be retained for only as long as is required for ..................]]></selfRegistrationText14>
+<selfRegistrationText18><![CDATA[VALIDATE]]></selfRegistrationText18>
+<selfRegistrationText16><![CDATA[Proceed To Assessment]]></selfRegistrationText16>
+<selfRegistrationText17><![CDATA[Save]]></selfRegistrationText17>
+<liveCapture><![CDATA[<span> </span>Live Capture]]></liveCapture>
+<uploadfile><![CDATA[<span> </span>Upload File<input type="file" size="40" accept="application/pdf,image/png, .jpeg, .jpg" id="fileUpload" class="multipe_select fileUpload" >]]></uploadfile>
+<revisitmsg><![CDATA[You cannot revisit this question upon navigating. Are you sure to navigate further?]]></revisitmsg>
+<invalidatedByAdmin><![CDATA[Your attempt has been invalidated by admin. Please get in touch with the administrator for further assistance.]]></invalidatedByAdmin>
+<submittedByAdmin><![CDATA[Your attempt has been submitted by admin. Please get in touch with the administrator for further assistance.]]></submittedByAdmin>
+<examinerGroupSubmit><![CDATA[This group has been submitted by examiner. Click to proceed with remaining assessment.]]></examinerGroupSubmit>
+<networkErrorMsg><![CDATA[The system is not able to submit your assessment. Do not panic. Kindly try again by checking your internet connectivity.]]></networkErrorMsg>
+<allowedTpyes><![CDATA[Note: Following file types are allowed -  PDF / jpg / jpeg / png]]></allowedTpyes>
+<infopopup1><![CDATA[An error seems to have occurred. Please try again later.]]></infopopup1>
+<infopopup2><![CDATA[Session Expired.]]></infopopup2>
+<infopopup3><![CDATA[Invalid Parameters.]]></infopopup3>
+<infopopup4><![CDATA[Internal Exception.]]></infopopup4>
+<infopopup5><![CDATA[Exception has occurred while retrieving subject. Please contact Assessment Help Desk.]]></infopopup5>
+<infopopup6><![CDATA[Exception has occurred while creating XML. Please contact Assessment Help Desk.]]></infopopup6>
+<infopopup7><![CDATA[DB Entry operation failed. Please contact Assessment Help Desk.]]></infopopup7>
+<infopopup8><![CDATA[Invalid Request Served. Please cancel the current state and submit the form once again.]]></infopopup8>
+<infopopup9><![CDATA[Invalid Token Error. Please try again]]></infopopup9>
+<infopopup10><![CDATA[You do not have sufficient privileges to access this page]]></infopopup10>
+<infopopup11><![CDATA[The candidate did not start the assessment.]]></infopopup11>
+<infopopup12><![CDATA[You have already submitted the assessment for this attempt]]></infopopup12>
+<infopopup13><![CDATA[An Error occurred while creating configuration file]]></infopopup13>
+<infopopup14><![CDATA[An error occurred while creating instructions file]]></infopopup14>
+<infopopup15><![CDATA[The assessment got interrupted due to the slow network connection or due to the antivirus running on your system. Please re-launch the assessment by disabling the antivirus software and ensuring good network speed]]></infopopup15>
+<infopopup16><![CDATA[No candidates found for selected action / This attempt is already submitted by Admin.]]></infopopup16>
+<infopopup17><![CDATA[Please press Right Shift + Esc to close the assessment player. Please press Alt+F4, only if it does not work.]]></infopopup17>
+<infopopup18><![CDATA[Since the assessment end time has passed, your assessment is submitted automatically by the system.]]></infopopup18>
+<infopopup19><![CDATA[Assessment needs a re-launch. Please do not panic, all your answers would have been saved. Kindly Re-launch the assessment to proceed.]]></infopopup19>
+<infopopup20><![CDATA[The attempt has been completed. Since you haven't started the assessment, you will not be able to view any report and the score is zero]]></infopopup20>
+<infopopup22><![CDATA[It is observed that the launcher(iLEON App) is not downloaded properly. Kindly download the launcher again.]]></infopopup22>
+<infopopup23><![CDATA[Face in the image doesn't match with rest of the images]]></infopopup23>
+<debuggermsg><![CDATA[In actual exam you will be able to copy the content in the editor to paste in the debugger]]></debuggermsg>
+<verticalLayout><![CDATA[Switch to Vertical Layout]]></verticalLayout>
+<horizontalLayout><![CDATA[Switch to Horizontal Layout]]></horizontalLayout>
+<clearResponseTitle><![CDATA[You cannot clear the response]]></clearResponseTitle>
+<revisitTitle><![CDATA[You cannot Mark this question as Revisit of this question is not allowed]]></revisitTitle>
+<markedTitle><![CDATA[You cannot Mark this question as Marked & Answered are not considered for evaluation]]></markedTitle>
+<fileUploadSuccess><![CDATA[File has been uploaded successfully <br> File name: <span class='uploadedFileName'></span><br> File size: <span class='uploadedFileSize'></span><br><b> Note : </b>Please click on <b>Ok</b> to mark the question as <b>Answered</b>]]></fileUploadSuccess>
+<uploadedFile><![CDATA[Uploaded File :]]></uploadedFile>
+<fileSize><![CDATA[File Size :]]></fileSize>
+<fileUploadStatus><![CDATA[File Upload Status :]]></fileUploadStatus>
+<E137><![CDATA[Dear Candidate, It is not possible for you now to carry out the process of Self Registration since the time window has surpassed.]]></E137>
+<E137HowToProceed><![CDATA[It is not possible for you to proceed with Self Registration since the permitted timings are passed.<br>Please refer to the instructions / guidelines provided to you or get in touch with the assessment administrator for further assistance.]]></E137HowToProceed>
+<lockedByAdmin><![CDATA[Your attempt has been locked by admin.]]></lockedByAdmin>
+<E138><![CDATA[Your attempt has been locked by admin.]]></E138>
+<E138HowToProceed><![CDATA[Please get in touch with the administrator for further assistance.]]></E138HowToProceed>
+<ProfileConfirmationErr1><![CDATA[Dear Candidate, It is mandatory for you to verify and confirm your profile details to proceed with the assessment. Since you have rejected your profile details, you cannot proceed to launch the assessment.]]></ProfileConfirmationErr1>
+<ProfileConfirmationErr1HowToProceed><![CDATA[Please get in touch with the administrator to reset your profile confirmation. Upon resetting, please verify and confirm your profile to launch the assessment.]]></ProfileConfirmationErr1HowToProceed>
+<checkBoxEnableTitleMessage><![CDATA[Check box will be enabled in ]]></checkBoxEnableTitleMessage>
+<ReadyToBeginTitle><![CDATA[You will be navigated to assessment in ]]></ReadyToBeginTitle>
+<MinTimeToSpend><![CDATA[Your responses will be auto saved. You will be navigated to the next question in]]></MinTimeToSpend>
+<QuesMinTimeToSpend><![CDATA[You will be allowed to proceed to next question in]]></QuesMinTimeToSpend>
+<displaySeconds><![CDATA[Seconds]]></displaySeconds>
+<lookingSidewaysFrequently><![CDATA[You are frequently looking side ways/away from computer screen. This appears to be a suspicious behaviour. Not correcting this will lead to your  disqualification.]]></lookingSidewaysFrequently>
+<dontGoAway><![CDATA[Do not move away from your system till the time your exam time is over and your exam is submitted.  Seems suspicious. Continuing to do this will lead to  disqualification.]]></dontGoAway>
+<improperIdCard><![CDATA[Your ID card image that you had captured earlier during registration, does not seem to be proper. Show once again in front of the camera for about 5 secs so that it can be recorded]]></improperIdCard>
+<videoFeedsInactive><![CDATA[Check your internet connection or check if your camera is switched on and working. Your videos are not getting received properly. If you do not fix this, it will lead to disqualification]]></videoFeedsInactive>
+<showRoughbookToCamera><![CDATA[If you are doing any rough work, make it visible to the camera. Also, make sure you are using plain white paper as rough sheet. Using printed paper for rough work will lead to disqualification]]></showRoughbookToCamera>
+<dontReferReadingMaterial><![CDATA[Do not refer to any reading or writing material.  Such behaviour will lead to disqualification]]></dontReferReadingMaterial>
+<eatingNotAllowed><![CDATA[Only drinking water is allowed. Eating food or smoking is not allowed during exam.]]></eatingNotAllowed>
+<gadgetsNotAllowed><![CDATA[Do not use Mobile phones, Calculator, Ear phones/headphones, Bluetooth or any other electronic gadgets while taking the exam. This will lead to disqualification]]></gadgetsNotAllowed>
+<attireRelated><![CDATA[Maintain proper attire. Remove mask/scarf that covers your face. Make sure that your background is clear, neat and plain without any pictures or photos. Do not sleep during your exam]]></attireRelated>
+<differentPersonTakingExam><![CDATA[Image captured at the time of registration is different from candidate taking exam. This will lead to disqualification]]></differentPersonTakingExam>
+<suspiciousBehaviour><![CDATA[Malpractice or suspicious behaviour is observed.  You will be disqualified from taking the exam, if you do not change your behaviour.]]></suspiciousBehaviour>
+<contactHelpDesk><![CDATA[For any technical issues contact the technical helpdesk using the live chat option in your home page of the Assessment link]]></contactHelpDesk>
+<allTheBest><![CDATA[ALL THE BEST!! Write your examination in a fair manner, as you would do in a physical set up. Any attempt to use unfair means will lead to your disqualification]]></allTheBest>
+<thinkText><![CDATA[Think Timer :]]></thinkText>
+<QuestionLimitForCompre><![CDATA[Dear Candidate, Please note that you have attempted @@quesToBeConsidered@@ out of @@totalQuestions@@ questions, which is the maximum number of questions you can attempt in this comprehension. If you wish to answer this question you need to reset the responses of the questions already answered.]]></QuestionLimitForCompre>
+<QuestionLimitForCompreWithMarkedForReview><![CDATA[Dear Candidate, Please note that you have attempted @@quesToBeConsidered@@ out of @@totalQuestions@@ questions, which is the maximum number of questions you can attempt in this comprehension. If you wish to answer this question you need to reset the responses of the questions already answered or marked for review & answered.]]></QuestionLimitForCompreWithMarkedForReview>
+<maxQuestionsPopUpForCompreinGroupAllSec><![CDATA[Total number of child questions answered by you for one or more comprehension questions is more than the allowed limit.]]></maxQuestionsPopUpForCompreinGroupAllSec>
+<maxQuestionsAlertForCompreinGroupAllSec><![CDATA[Dear Candidate, Please note that you have already answered @@quesToBeConsidered@@ questions, which is the maximum number of questions you can attempt in this Comprehension question. If you wish to answer this question you need to reset the responses of the questions already answered.]]></maxQuestionsAlertForCompreinGroupAllSec><QuestionLimitMessageOnlyAnsweredAtGroupLevel><![CDATA[Dear Candidate, Please note that you have attempted @@quesToBeConsidered@@ out of @@totalQuestions@@ questions, which is the maximum number of questions you can attempt in this group. If you wish to answer this question you need to reset the responses of the questions already answered.]]></QuestionLimitMessageOnlyAnsweredAtGroupLevel>
+<QuestionLimitMessageWithMarkedForReviewAtGroupLevel><![CDATA[Dear Candidate, Please note that you have attempted @@quesToBeConsidered@@ out of @@totalQuestions@@ questions, which is the maximum number of questions you can attempt in this group. If you wish to answer this question you need to reset the responses of the questions already answered or marked for review & answered. ]]></QuestionLimitMessageWithMarkedForReviewAtGroupLevel>
+<maxQuestionsAlertForGrpLimit><![CDATA[You have attempted <span class="quesToBeConsidered"></span> question, which is more than the  maximum limit (<span class="maxOptQuesToAns"></span>) of this group.  Please reset the questions which are already answered to attempt further set of questions.]]></maxQuestionsAlertForGrpLimit>
+<QuestionLimitForGrpComprePopUp><![CDATA[You have attempted <span class="quesToBeConsidered"></span> question, which is more than the  maximum limit (<span class="maxOptQuesToAns"></span>) of this comprehension question.  Please reset the questions which are already answered to attempt further set of questions.]]></QuestionLimitForGrpComprePopUp>
+<E119HowToProceed1><![CDATA[The system/window where you were capturing/scanning your responses is still active. Please continue the process of capturing/scanning from the same system window. Else, please close the same and click on 'Proceed' button here. If still you are getting the same page after closing the previous window and click the proceed button, then please click after 70 seconds.]]></E119HowToProceed1>
+<E119HowToProceedisRoomCapturingPage><![CDATA[The system/window where you were capturing the room is still active. Please continue the process of room capturing from the same system window. Else, please close the same and click on 'Proceed' button here. If still you are getting the same page after closing the previous window and click the proceed button, then please click after 70 seconds.]]></E119HowToProceedisRoomCapturingPage>
+<timeOutForScanAndUpload><![CDATA[Dear Candidate, Please note that you have exhausted the time duration allotted to you for capturing/uploading your responses.
+Please click "Proceed" button to continue.]]></timeOutForScanAndUpload>
+<successfullyCaptured><![CDATA[Dear Candidate, All the Responses captured by you are successfully saved in system. Click 'OK' button to exit.]]></successfullyCaptured>
+<successfullyUploaded><![CDATA[Dear Candidate, @@FileName@@ uploaded by you is successfully saved in system. Click 'OK' button to exit.]]></successfullyUploaded>
+<cameraNotDetectedForCapture><![CDATA[This exam is high stakes exam and we would require camera access on your device. We tried to detect installed camera on your device. Unfortunately, we could not find any camera. There are 2 reasons why this may happen - Either there is no camera installed on your device OR camera stops functioning due to outdated / corrupt camera drivers on your device. If you are sure that you have camera installed on your device, you will need to upgrade your camera drivers for exam application to detect and use. Every device is made up of different make and brand, you would need to find suitable camera drivers based on your deviceâ€™s make / brand and install it. Once you install / upgrade drivers OR install camera, we are very sure that your device would be compatible for the exam.]]></cameraNotDetectedForCapture>
+<E139><![CDATA[Your device is not supported to take the assessment. We would require camera/microphone access on your device. We tried to detect installed camera/microphone on your device. Unfortunately, we could not find any camera. There are 2 reasons why this may happen - Either there is no camera/microphone installed on your device OR camera/microphone stops functioning due to outdated / corrupted camera/microphone drivers on your device / You have not allowed permissions to access the camera/microphone from browser. If you are sure that you have camera/microphone installed on your device, you will need to upgrade your camera/microphone drivers for exam application to detect and use. Every device is made up of different make and brand, you would need to find suitable camera/microphone drivers based on your deviceâ€™s make / brand and install it. Once you install / upgrade drivers OR install camera/microphone, your device would be compatible for the exam. ]]></E139>
+<E139HowToProceed><![CDATA[Please follow the instructions as mentioned or get in touch with the administrator for further assistance.]]></E139HowToProceed>
+<E140><![CDATA[Dear Candidate, It is mandatory for you to wait for a defined time to give this attempt.</br> You can launch the assessment at <b><span id="waitingTime"></span></b> (YYYY-MM-DD HH:MM)]]></E140>
+<E140HowToProceed><![CDATA[You must wait for the time duration as specified to launch the assessment. Please refer to the instructions provided or get in touch with the assessment administrator for further assistance. ]]></E140HowToProceed>
+<Eexpired><![CDATA[Dear Candidate, Please note that you have exhausted the time duration allotted to you for capturing/uploading your responses or you have already uploaded/captured your responses.]]></Eexpired>
+<roomCapture2><![CDATA[ Dear Candidate, To  proceed with the room capturing process, please select your camera and place your mobile device in a position that allows for the entire room to be clearly recorded. Once ready, click on "Start Recording".]]></roomCapture2>
+<roomCapture3><![CDATA[Please ensure that the browser is able to access the camera.]]></roomCapture3>
+<qrCodeMessage1><![CDATA[Dear Candidate, Please scan the above QR code using your mobile device, capture/scan your written responses and upload the same on to the system.<br/><span style='color:blue;font-style:italic'>Note:Please close this window upon capturing the responses.</span>]]></qrCodeMessage1>
+<qrCodeMessage2><![CDATA[Dear Candidate, Please choose any of the following options:<br/>1)To capture/scan your written responses using the mobile device and upload the same on to the system,<br/> please scan the above QR code or launch the URL shown to proceed further.<br/><span style='color:blue;font-style:italic'>Note:Please close this window upon capturing the responses.</span><br/>(OR)<br/>2)To capture/scan your written responses using this device, please click the below button to proceed.]]></qrCodeMessage2>
+<qrCodeButton><![CDATA[Capture the Responses]]></qrCodeButton>
+<reRecordingAttemptLabel><![CDATA[No. of re-recording Allowed :]]></reRecordingAttemptLabel>
+<recordingLimitReachedPopupMessageForReRecordNotAllowed><![CDATA[Dear Candidate, Your recording is completed and is saved in the system. Please proceed.]]></recordingLimitReachedPopupMessageForReRecordNotAllowed>
+<InvalidSession><![CDATA[Please use the latest instance of this page to capture/upload responses]]></InvalidSession>
+<CookieConflictError><![CDATA[It seems like there's already an assessment in progress. Please close that before launching this new one, or try using incognito mode to avoid any session conflicts.]]></CookieConflictError>
+<SelectCamera><![CDATA[Please select camera again.]]></SelectCamera>
+<loadingAsessmentForFullScreen><![CDATA[Loading Your Assessment]]></loadingAsessmentForFullScreen>
+<assessmentReadyForFullScreen><![CDATA[Your Assessment is Ready Now]]></assessmentReadyForFullScreen>
+<bcCopyright><![CDATA[Â© 2022 British Council]]></bcCopyright>
+<revisitmsgForMandQues><![CDATA[This Question is mandatory for you to attempt. Since you cannot revisit this question, please provide your answer to proceed further]]></revisitmsgForMandQues>
+<Starts><![CDATA[Starts]]></Starts>
+<ATTEMPTSAVAILABLE><![CDATA[ATTEMPTS AVAILABLE]]></ATTEMPTSAVAILABLE>
+<DURATION><![CDATA[DURATION]]></DURATION>
+<HOURS><![CDATA[HOURS]]></HOURS>
+<MINUTES><![CDATA[MINUTES]]></MINUTES>
+<Attempt><![CDATA[Attempt]]></Attempt>
+<TotalAttempts><![CDATA[Total Attempts]]></TotalAttempts>
+<Duration><![CDATA[Duration]]></Duration>
+<yettostartmessage><![CDATA[You are yet to start the assessment]]></yettostartmessage>
+<videoFeedsValidate><![CDATA[Please show your hand in front of camera. This is to validate your live video feeds.]]></videoFeedsValidate>
+<instructionPage><![CDATA[Note that the timer is ticking. Kindly close this window to attend to the questions.]]></instructionPage>
+<questionPaperPage><![CDATA[Note that the timer is ticking while you read this question paper. Close this page to return to answering the questions.]]></questionPaperPage>
+<Sections><![CDATA[Sections]]></Sections>
+<secInstruTimerLabelForQuesPreview><![CDATA[Question Preview Timer ]]></secInstruTimerLabelForQuesPreview>
+<FileUploadComments><![CDATA[Comments:(Optional) Max Words : 500 ]]></FileUploadComments>
+<ReferenceData><![CDATA[Reference Document ]]></ReferenceData>
+<wordLeft><![CDATA[Word Left ]]></wordLeft>
+<wordsLeft><![CDATA[Words Left ]]></wordsLeft>
+<E141><![CDATA[Dear Candidate, the Mock hasn't started yet. <div>Please launch the assessment only in the permitted time frame.</div>]]></E141>
+<E141HowToProceed><![CDATA[This assessment is not active. Please get in touch with the assessment administrator for assistance.]]></E141HowToProceed>
+<ReliableSlowNetwork><![CDATA[Dear Candidate, your system is experiencing slow internet connectivity. Kindly check the connectivity and try again. ]]></ReliableSlowNetwork>
+<ReliableResponseDownload><![CDATA[Your Assessment has been Completed.Please share the response file to the admin to Evaluate the responses ]]></ReliableResponseDownload>
+<ReliableLoader><![CDATA[Loading your Assessment. Please Wait...]]></ReliableLoader>
+<MediaFileDowloadError><![CDATA[All the Media Files are not downloaded. Please check your internet and relaunch the assessment once internet is available]]></MediaFileDowloadError>
+<group><![CDATA[Group]]></group>
+<AnswerTimeText><![CDATA[Answer Time]]></AnswerTimeText>
+<QuestionTimeText><![CDATA[Question Time]]></QuestionTimeText>
+<InfoCompleteExam><![CDATA[Great! You have attempted all questions. Please click Ok to review your responses.]]></InfoCompleteExam>
+<InfoSubmitPaper><![CDATA[Are you sure you want to submit your answer?]]></InfoSubmitPaper>
+<InfoReviewPaper><![CDATA[Below are the audio answers you have submitted for all questions respectively. You can submit only when you have listened to all your answers.]]></InfoReviewPaper>
+<PlayAllPaper><![CDATA[Play All]]></PlayAllPaper>
+<Reviewing><![CDATA[REVIEWING]]></Reviewing>
+<Reviewed><![CDATA[Reviewed]]></Reviewed>
+<StartDateTime><![CDATA[Start Date, Time]]></StartDateTime>
+<EndDateTime><![CDATA[End Date, Time]]></EndDateTime>
+<SubmitPaper><![CDATA[SUBMIT]]></SubmitPaper>
+<ThinkTime><![CDATA[Think Time]]></ThinkTime>
+<RecordingThinkTimerText><![CDATA[Recording will start after think time is over.]]></RecordingThinkTimerText>
+<BarcodeTxt><![CDATA[Barcode]]></BarcodeTxt>
+<AnswerTimeNotePaper><![CDATA[Time to answer question has started, please speak to record your answer]]></AnswerTimeNotePaper>
+<AnswerTextPaper><![CDATA[A.]]></AnswerTextPaper>
+<ScreenRecordingScreenMandatory><![CDATA[Screen Sharing is Mandatory for this Assessment.]]></ScreenRecordingScreenMandatory>
+<ScreenRecordingScreenSelection><![CDATA[Please select Entire screen for screen sharing.]]></ScreenRecordingScreenSelection>
+<groupSelectionSubheading><![CDATA[Select the groups (one or more) to proceed.]]></groupSelectionSubheading>
+<ScreenRecordingNotSupported><![CDATA[Your browser/device does not support screenrecording. Please launch assesssment from a different browser/device.]]></ScreenRecordingNotSupported>
+<zoomStatusMessage><![CDATA[Please ensure system Text Size is also set to 100%.]]></zoomStatusMessage>
+<questionNoOf><![CDATA[Of]]></questionNoOf>
+<RefreshNotAllowed><![CDATA[You are not allowed to refresh the page.]]></RefreshNotAllowed>
+<RefreshNotAllowedHowToProceed><![CDATA[Please close this tab and generate console like preview again.]]></RefreshNotAllowedHowToProceed>
+<browserVersionNotSupported><![CDATA[You are using a Browser Version which is not compatible. Request you to use another browser to complete the test.]]></browserVersionNotSupported>
+<browserVersionNotSupportedHowToProceed><![CDATA[Close this browser tab and launch the test on another browser to proceed.]]></browserVersionNotSupportedHowToProceed>
+<MarkForReviewExamLab><![CDATA[Mark for Review ]]></MarkForReviewExamLab>
+<Ok_intrupt><![CDATA[OK]]></Ok_intrupt>
+<cameraIcon1><![CDATA[Camera]]></cameraIcon1>
+<Startbtn1><![CDATA[Start]]></Startbtn1>
+<Stopbtn1><![CDATA[Stop]]></Stopbtn1>
+<submit_btn1><![CDATA[Submit]]></submit_btn1>
+<guidelinesText10><![CDATA[To retake a photo, select the photo you wish to remove and click the delete button. You can then retake the photo.]]></guidelinesText10>
+<reg_error><![CDATA[How to Proceed]]></reg_error>
+<screensharingInterruptionNote><![CDATA[Note: You may hide the screen sharing prompt now. Clicking on 'Stop sharing' or 'Hide' after proceeding to the assessment will result in interruption.]]></screensharingInterruptionNote>
+<RPVideosInactive><![CDATA[We are unable to access the camera/record your videos.Please try using different browser/System to continue the assessment.]]></RPVideosInactive>
+<ScreenVideosInactive><![CDATA[Dear Candidate, We are unable to record your screen videos. Please use a different browser or system to continue the assessment.]]></ScreenVideosInactive>
+<E146><![CDATA[Dear Candidate, The system has detected another parallel login for your credentials. Hence, you cannot proceed further to launch the assessment.]]></E146>
+<E146HowToProceed><![CDATA[Please ensure that there no parallel logins for your credentials. Ensure that you login only to a single system using your credentials and then launch the assessment. Get in touch with your administrator if you need any further assistance.]]></E146HowToProceed>
+<E151><![CDATA[Dear Candidate, your assessment could not be launched. This may happen if the system could not fetch the data from the server.]]></E151>
+<E151HowToProceed><![CDATA[Get in touch with the assessment administrator for further assistance. Please launch the assessment post the confirmation from the administrator.]]></E151HowToProceed>
+<E152><![CDATA[Dear Candidate, your assessment could not be launched. Your current session has expired. Please login again to proceed.]]></E152>
+<E152HowToProceed><![CDATA[Since you were inactive for a while, you are logged out. Please login with your credentials and launch the assessment again.]]></E152HowToProceed>
+<E153><![CDATA[This URL cannot be accessed directly and requires authentication.]]></E153>
+<E153HowToProceed><![CDATA[Dear User, Please login through Webtop to access this page.]]></E153HowToProceed>
+<maximizeLabel><![CDATA[Maximize]]></maximizeLabel>
+<minimizeLabel><![CDATA[Minimize]]></minimizeLabel>
+<printcpymsg><![CDATA[Copied Successfully...!!]]></printcpymsg>
+<cpyresultcalculation><![CDATA[Copy With Expression]]></cpyresultcalculation>
+<calcMin><![CDATA[minimize]]></calcMin>  
+<timerWrap><![CDATA[Time Remaining]]></timerWrap>
+<showQsnPanel><![CDATA[Show Question Number Panel]]></showQsnPanel>
+<flagBtn><![CDATA[Flag]]></flagBtn>
+<collapsePanel><![CDATA[Collapse Question No. Panel]]></collapsePanel>
+<btnRefreshInterval><![CDATA[Check Status]]></btnRefreshInterval>
+<previewTimerText1><![CDATA[Preview <span class="previewVideoText">Video</span> Timer ]]></previewTimerText1>
+<previewTimerText2><![CDATA[Preview <span class="previewAudioText">Audio</span> Timer ]]></previewTimerText2>
+<fileUploadedName><![CDATA[Uploaded Filename :]]></fileUploadedName>
+<newSubmit><![CDATA[The submit button will become active once you have fulfilled the exit criteria.]]></newSubmit>
+<cat-button><![CDATA[pencil]]></cat-button>
+<page-title><![CDATA[Photograph Verification]]></page-title>
+<title3><![CDATA[Click the <b>Capture Photographs button</b> to auto capture your face to continue with the self registration process.]]></title3>
+<note-bedge><![CDATA[<span>Note:</span> 3 Photographs will be auto captured with a set timer of 3 seconds each. Select any one of the clear and best photograph for submission once clicked.]]></note-bedge>
+<title4><![CDATA[Photo Specifications]]></title4>
+<cc-specification-txt><![CDATA[Please avoid capturing the photos in low light or against the light. Your face should be well-lit.]]></cc-specification-txt>
+<cc-specification-txt1><![CDATA[Please ensure that your face occupies more than 50% in the image captured not covered by any objects. (E.g. sunglasses etc)]]></cc-specification-txt1>
+<cc-specification-txt2><![CDATA[Please ensure to look straight into the camera, so that entire face is clearly visible to capturing]]></cc-specification-txt2>
+<cc-success-button><![CDATA[Capture Photographs]]></cc-success-button>
+<lang_name><![CDATA[English]]></lang_name>
+<form-check-label><![CDATA[Please select one clear and best photograph from the options above to proceed. If none are appropriate, you may recapture.<br> <strong>Note:</strong> Only <span class="recapture1">2</span> <strong> recapture</strong> attempts are allowed.]]></form-check-label>
+<completedText><![CDATA[You have completed]]></completedText>
+<continuePressH4><![CDATA[Click <strong>Continue</strong> to proceed to the next section.]]></continuePressH4>
+<continue><![CDATA[Continue]]></continue>
+<mins><![CDATA[Mins]]></mins>
+<ques><![CDATA[Ques]]></ques>
+<okay><![CDATA[Okay]]></okay>
+<skip><![CDATA[Skip]]></skip>
+<all><![CDATA[All]]></all>
+<forReview><![CDATA[For Review]]></forReview>
+<viewExamSummary><![CDATA[View Exam Summary]]></viewExamSummary>
+<completedExamMessage><![CDATA[You have completed your exam, view exam summary and proceed to submit.]]></completedExamMessage>
+<hrs><![CDATA[HRS]]></hrs>
+<min><![CDATA[MIN]]></min>
+<sec><![CDATA[SEC]]></sec>
+<totalQues><![CDATA[Total Questions]]></totalQues>
+<confMessage><![CDATA[Do you want to Submit this Group and finish the Exam?]]></confMessage>
+<sectionName><![CDATA[Section Name]]></sectionName>
+<noOfQues><![CDATA[No of Questions]]></noOfQues>
+<examSummaryHeader><![CDATA[Exam Summary]]></examSummaryHeader>
+<canvasCommentBox><![CDATA[Explanation(Optional):]]></canvasCommentBox>
+<EMediaPermission><![CDATA[Error, no Camera / Microphone detected.You must correct any device issues before you can continue with the test. ]]></EMediaPermission>
+<EMediaPermissionHowToProceed><![CDATA[Please follow the instructions as mentioned or get in touch with the administrator for further assistance.]]></EMediaPermissionHowToProceed>
+<EScreenShare><![CDATA[Screen sharing has been stopped or rejected.Continuous screen sharing is mandatory during the assessment.The test cannot be continued without screen access.]]></EScreenShare>
+<EScreenShareHowToProceed><![CDATA[Please ensure all required permissions are enabled as per the instructions.If you are unable to proceed,immediately contact the assessment administrator.]]></EScreenShareHowToProceed>
+<fontSize><![CDATA[font Size]]></fontSize>
+<contrastMode><![CDATA[contrastMode]]></contrastMode>
+<infoLabelShortCut><![CDATA[Keyboard and Screen Reader Shortcuts]]></infoLabelShortCut>
+<ShortCutLabel><![CDATA[ShortCuts Menu]]></ShortCutLabel>
+<E144><![CDATA[<b>Important:</b> Dear Candidate, this assessment contains programming questions. You must enable third-party cookies before starting.]]></E144>
+<E144HowToProceed><![CDATA[Please enable third-party cookies before starting. Once the required settings are enabled, relaunch the assessment to continue. ]]></E144HowToProceed>
+<SaveSAASFileError><![CDATA[Your answer was not saved. Please clear the response, re-enter your response and click Save again.]]></SaveSAASFileError>
+<actionHeader><![CDATA[Action]]></actionHeader>
+<keyboardShortcutHeader><![CDATA[Keyboard Shortcut]]></keyboardShortcutHeader>
+<shortcutAction_0><![CDATA[Listen to the remaining time (screen reader only).]]></shortcutAction_0>
+<shortcutAction_1><![CDATA[Announce the summary of current group (screen reader only).]]></shortcutAction_1>
+<shortcutAction_2><![CDATA[Save and move to next question.]]></shortcutAction_2>
+<shortcutAction_3><![CDATA[Save and move to previous question.]]></shortcutAction_3>
+<shortcutAction_4><![CDATA[Mark the current question for review.]]></shortcutAction_4>
+<shortcutAction_5><![CDATA[Clear the responses for the current question.]]></shortcutAction_5>
+<shortcutAction_6><![CDATA[Submit the current group.]]></shortcutAction_6>
+<shortcutAction_7><![CDATA[Open or close keyboard shortcuts menu.]]></shortcutAction_7>
+<vjs-ended><![CDATA[Replay]]></vjs-ended>
+<vjs-fullscreen-control><![CDATA[Fullscreen]]></vjs-fullscreen-control>
+<vjs-mute-control><![CDATA[Mute]]></vjs-mute-control>
+<vjs-picture-in-picture-control><![CDATA[Picture-in-Picture]]></vjs-picture-in-picture-control>
+<newCookieStat><![CDATA[ThirdParty Cookie]]></newCookieStat>
+<ReplaysLeft><![CDATA[Replays Left :]]></ReplaysLeft>
+<reportQuestion><![CDATA[Report Question]]></reportQuestion>
+<beforeRecording1><![CDATA[Dear candidate, please note that access to your camera and microphone is required, as audio and video recording are essential elements of this assessment.]]></beforeRecording1>
+<beforeRecording2><![CDATA[Please click the  <b>Start</b>  button to begin your recording.]]></beforeRecording2>
+<beforeRecording3><![CDATA[<b>Before proceeding, ensure the following:</b>]]></beforeRecording3>
+<beforeRecordingMsg1><![CDATA[Grant permission for camera and microphone access when prompted.]]></beforeRecordingMsg1>
+<beforeRecordingMsg2><![CDATA[Make sure your webcam is clearly visible and unobstructed.]]></beforeRecordingMsg2>
+<beforeRecordingMsg3><![CDATA[Confirm that your microphone is enabled and your voice is audible.]]></beforeRecordingMsg3>
+<beforeRecordingMsg4><![CDATA[Sit in a well-lit and quiet environment.]]></beforeRecordingMsg4>
+<beforeRecordingMsg5><![CDATA[Recording will commence automatically upon clicking the start button.]]></beforeRecordingMsg5>
+<afterRecording><![CDATA[Please preview the recorded video and ensure that you are able to view your face clearly.]]></afterRecording>
+<ClickStop><![CDATA[Click the Stop button to preview your recording. Once you have stopped the recording, the recorded video will automatically be available for preview.]]></ClickStop>
+<rp-handle><![CDATA[My Camera Feed]]></rp-handle>
+<proceedBtn_nocn><![CDATA[Proceed to next step]]></proceedBtn_nocn>
+<OnlineAssessmentLabel><![CDATA[Online Assessment]]></OnlineAssessmentLabel>
+<CurrentLabel><![CDATA[Current]]></CurrentLabel>
+<UpcomingLabel><![CDATA[Upcoming]]></UpcomingLabel>
+<CompletedLabel><![CDATA[Completed]]></CompletedLabel>
+<PassMarksLabel><![CDATA[Pass Marks]]></PassMarksLabel>
+<reviewSubmit><![CDATA[Review & Submit]]></reviewSubmit>
+<contrast><![CDATA[Contrast]]></contrast>
+<chkdTxt><![CDATA[On]]></chkdTxt>
+<unChkdTxt><![CDATA[Off]]></unChkdTxt>
+<EScreenBlankFrames><![CDATA[<b>Assessment Paused - Screen Sharing Stopped or Not Available</b> <br><br> <div style="display:inline-block;text-align:left;padding-left: 30px;"> Your assessment has been paused because screen sharing has stopped or is not available. <br><br><b>This may be because:</b> <ul style="padding-left: 40px;"> <li>Screen sharing was stopped or cancelled.</li> <li>Screen sharing permission was not allowed.</li> <li>The required screen or display is no longer being shared.</li> <li>Your browser or device settings are preventing screen sharing.</li> </ul> Continuous screen sharing is required during the assessment. The assessment cannot continue <br> until screen sharing is restored. <br><br> Don't worry - your assessment progress has been saved.<br></div>]]></EScreenBlankFrames>
+<EScreenBlankFramesHowToProceed><![CDATA[<div style="display:inline-block;text-align:left;">Please check the following before relaunching:<br><br><ol><li>Allow screen sharing when prompted.</li><li>Make sure the required screen or display is selected for sharing.</li><li>Check that the necessary browser and device permissions are enabled.</li><li>Ensure screen sharing remains active throughout the assessment.</li><li>Click Relaunch when ready.</li><li>If you are still unable to proceed, please contact the assessment administrator immediately.</li></ol>Once screen sharing is active, you can continue with your assessment.</div>]]></EScreenBlankFramesHowToProceed>
+<EBlankFrames><![CDATA[<b>Assessment Paused - Camera or Microphone Not Detected</b> <br><br> <div style="display:inline-block;text-align:left;padding-left: 120px;"> Your assessment has been paused because we cannot detect your camera or microphone. <br><br> <b>This may be because:</b> <ul style="padding-left: 40px;"> <li>Your camera or microphone permissions are blocked.</li> <li>Your camera or microphone is disconnected.</li> <li>Another application is using your camera or microphone.</li> <li>The lighting is too poor for the camera to see you clearly.</li> <li>Your internet connection is unstable.</li> </ul> Don't worry - your progress has been saved. <br></div>]]></EBlankFrames>
+<EBlankFramesHowToProceed><![CDATA[<div style="display:inline-block;text-align:left;">Please check the following before relaunching:<br><br><ol><li>Allow camera and microphone access in your browser and device settings.</li><li>Check your camera and microphone are connected and working.</li><li>Close any other apps using your camera or microphone.</li><li>Sit in a well-lit area so your face is clearly visible.</li><li>Check that your internet connection is stable.</li><li>Click Relaunch when ready.</li><li>Check you can see yourself clearly in the camera preview.</li></ol>Once everything is working, you can continue your assessment.</div>]]></EBlankFramesHowToProceed>
+<EFrozen><![CDATA[<b>Assessment Paused - Camera Not Detected</b><br><br><div style="display:inline-block;text-align:left;padding-left: 50px;">Your assessment has been paused because we cannot detect your camera.<br><br><b>This may be because:</b><ul style="padding-left:30px;"><li>Your camera has become disconnected.</li><li>The camera lens is covered.</li><li>The camera feed has frozen.</li><li>Another application is using the camera.</li></ul>Don't worry - your progress has been saved.<br></div>]]></EFrozen>
+<EFrozenHowToProceed><![CDATA[<div style="display:inline-block;text-align:left;"><ol><li>Check that your camera is connected and working.</li><li>Make sure the camera lens is not covered.</li><li>Close any other apps using your camera.</li><li>Click <b>Relaunch</b> when ready.</li><li>Check you can see yourself clearly in the camera preview.</li></ol>Once everything is working, you can continue your assessment.</div>]]></EFrozenHowToProceed>
+<proceedToNextStep><![CDATA[proceed to next step]]></proceedToNextStep>
+<ELowSizeVideo><![CDATA[<b>Assessment Temporarily Paused - Camera Recording Unavailable</b> <br><br> <div style="display:inline-block;text-align:left;padding-left: 10px;"> We're sorry for the interruption. Your assessment has been temporarily paused<br> because we are unable to record your camera video at the moment. <br><br> <b>This may be because:</b> <ul style="padding-left: 30px;"> <li>Your camera is disconnected or unavailable.</li> <li>Camera permissions have been blocked.</li> <li>Another application is using your camera.</li> <li>There is a temporary device or connection issue.</li> </ul> Don't worry - your progress has been saved. <br><br></div>]]></ELowSizeVideo>
+<ELowSizeVideoHowToProceed><![CDATA[<div style="display:inline-block;text-align:left;"><ol> <li>Check your camera is connected and working.</li> <li>Allow camera and microphone access in your browser and device settings.</li> <li>Close any other apps using your camera.</li> <li>Click <b>Relaunch</b> when ready.</li> <li>Check you can see yourself clearly in the camera preview.</li> </ol> Once everything is working, you can continue your assessment.</div>]]></ELowSizeVideoHowToProceed>
+<relaunch><![CDATA[Relaunch]]></relaunch>
+<CloseCand><![CDATA[close]]></CloseCand>
+<AnalysisReportAvailable><![CDATA[Analysis Report Available]]></AnalysisReportAvailable>
+<AnalysisReportPostCompletion><![CDATA[Analysis Report will be available post attempt completion]]></AnalysisReportPostCompletion>
+<StartEndDate><![CDATA[Start & End Date]]></StartEndDate>
+<ViewAttempts><![CDATA[View Attempts]]></ViewAttempts>
+<ASSESSMENT_WINDOW_INACTIVE><![CDATA[<b>Assessment Window Inactive</b><br/>Dear Candidate, The assessment has been paused because the assessment window was inactive for longer than the allowed time.<br/><br/>Please keep the assessment window active and visible at all times. Switching tabs, opening other applications, minimizing the browser, or other system activities may cause the assessment to be locked temporarily.]]></ASSESSMENT_WINDOW_INACTIVE>
+<INACTIVEProceed><![CDATA[Please close this window and <b>Relaunch</b> the test.]]></INACTIVEProceed>
+<previewAudioText><![CDATA[Audio]]></previewAudioText>
+<previewVideoText><![CDATA[Video]]></previewVideoText>
+<ScoreCardLabel><![CDATA[Score Card]]></ScoreCardLabel>
+<Certificate><![CDATA[Certificate]]></Certificate>
+<AnalysisReport><![CDATA[Analysis Report]]></AnalysisReport>
+<Expand><![CDATA[Expand]]></Expand>
+<Collapse><![CDATA[Collapse]]></Collapse>
+<magnify><![CDATA[Screen Magnifier]]></magnify>
+<progressBar><![CDATA[Loading]]></progressBar>
+
+</DETAILS>

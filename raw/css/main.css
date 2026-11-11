@@ -1,0 +1,146 @@
+
+*, body {margin: 0; padding: 0; position: static;}
+html, body{
+	font: 11px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	color: #252525;
+	margin:0px;
+	padding:0px;
+	height:100%;
+	background-color:#B6C9CF;
+	overflow-y:hidden;	
+}
+#wrapper {display: block; position: absolute; min-height: 100%;
+    /* min-height: 100%;
+      height: auto !important;
+       height: 100%;
+       margin: 0 auto -45px 0px;*/
+	   min-width:600px;
+	   width:100%;
+   }
+   
+  a{ outline-style:none; outline-width:none; outline-color:#cde6fa;}
+  
+   input{ outline-style:none; outline-width:none;}
+     input:focus{ outline-style:solid; outline-width:2px; outline-color:#cde6fa;}
+   select{ outline-style:none; outline-width:none;}
+   select:focus{ outline-style:solid; outline-width:2px; outline-color:#cde6fa;}
+
+a {
+	font-weight:normal;
+	color:#1c8bb9;
+	text-decoration:none;
+}
+a:hover {
+	font-weight:normal;
+	color:#1c8bb9;
+	text-decoration: underline;
+}
+img {
+	border:0px;
+	outline:0px;
+	outline-style:none;
+	outline-width:none;
+}
+
+#minwidth {
+min-width:600px;
+/*width:expression(((document.documentElement.clientWidth || document.body.clientWidth) < 1004)? "1004px" : "100%");*/
+	min-height:100%;
+	height:100%;
+}
+#header {
+	padding:0px 0px 0px 0px;
+	height:51px;
+	background:url(../images/header_bg.gif) repeat-x bottom left;
+}
+
+
+#footer {position: absolute; display: block; bottom: 0; display: block;background:#323e54 url(../images/footer_bg.gif) repeat-x top left;
+	height:45px;
+	/*min-width:600px;
+	font-size:11px;
+	color:#fff;
+	*/
+	width:100%;
+	
+	
+}
+#footer a {
+	color:#fff;
+	text-decoration:none;
+}
+#footer a:hover {
+	color:#fff;
+	text-decoration:underline;
+}
+.copyright_footer {padding-top:10px; font-size:11px; color:#fff; text-align:center;	display:block;}
+
+.clear {
+	clear:both;
+	height:0px;
+	font-size:0px;
+	line-height:0px;
+}
+
+
+
+.pagecontainer{bottom:44px;
+margin-left:0;
+overflow-x:auto;
+overflow-y:auto;
+position:absolute;
+top:0px;
+width:100%;}			
+
+
+.header_tata_logo{float:right; padding-right:20px;}
+.error_alert_container{/*background:url(../images/error_alert_bg.gif) repeat top left;*/background-color:white;height:auto;margin:10px; padding:20px;}
+.assistance_container{background:url(../images/assistance_bg.gif) repeat top left; /*min-height:330px*/;border:1px solid #8babc3; margin:0 10px 10px; clear:both;position: relative;top: 300px;} 
+.alert_image{float:left; padding-right:20px; height:40px}
+.alert_msg{ color:#333; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:22px; padding-top:7px; height:37px;}
+.alert_msg_description{color:#333333; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:22px; /*padding:10px 0 0 423px;*/ /*font-weight:bold;*/}
+.assistance_title{font-size:15px;color:#333333; font-weight:bold; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; padding-left:40px; padding-top:40px;}
+.assistance_options_container{ padding:30px 40px 0 40px; width:550px;}
+.assistance_options{ width:270px; float:left; padding-bottom:20px;}
+.assistance_options_image{float:left; padding-right:20px; height:50px;}
+
+.img_position{padding-top:11px; display:block;}
+.img_position_Email{padding-top:9px; display:block;}
+
+.assistance_options_description{color:#999999;font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:12px; height:50px;font-weight:bold;}
+.contact_number{color:#000; font-size:14px;}
+.toll_free{font-size:10px;}
+
+.error_code{float:right;color:#333; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:14px; padding-right:20px;}
+.alert_container{background:url(../images/assistance_bg.gif) repeat top left; height:410px; margin:10px; padding:40px;border:1px solid #8babc3;}
+.session_expired{background:url(../images/session_expired_%20bg.gif) repeat top left;width: 350px; height:130px; border:1px solid #cce0ef;margin:0px auto 0; padding:15px 20px;}
+.session_expired_alert_msg{color:#333; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:16px; padding-top:7px; font-weight:bold;}
+.session_expired_alert_msg_description{color:#333333; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:14px; padding:10px 0 0 57px;}
+.button_container{height:26px; margin-left:40%; margin-top:20px;}
+a.loginbttn {
+    /* Sliding right image */
+    background: transparent url(../images/login_bttn_rght.gif) no-repeat scroll top right; 
+display: block;
+float: left; line-height:22px;
+height: 22px; /* CHANGE THIS VALUE ACCORDING TO IMAGE HEIGHT */
+margin-right: 4px;
+padding-right: 25px; /* CHENGE THIS VALUE ACCORDING TO RIGHT IMAGE WIDTH */
+/* FONT PROPERTIES */
+text-decoration: none;
+color: #000;
+font-family: Arial, Helvetica, sans-serif;
+font-size:11px;
+font-weight:bold; margin-top:0px; }
+ a.loginbttn span {
+/* Background left image */ 
+background: transparent url(../images/login_bttn_left.gif) no-repeat; 
+display: block;
+line-height: 22px; /* CHANGE THIS VALUE ACCORDING TO BUTTONG HEIGHT */
+padding: 0px 0 0px 25px;
+margin-right:0px;
+} 
+ a.loginbttn:hover span{
+text-decoration:none;
+}

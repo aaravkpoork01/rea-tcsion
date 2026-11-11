@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SYSTEMINSTRUCTIONS>
+<INSTRUCTION>
+<LANGID>1</LANGID>
+<LANGNAME>English</LANGNAME>
+<INSTRUCTIONTEXT><![CDATA[<div style="padding:10px">
+<h3>General Instructions</h3>
+<ol>
+<li>Total duration of the examination is <span class="completeDuration"></span> minutes.</li>
+<li>The countdown timer at the top right shows the time remaining. The examination ends automatically when the timer reaches zero.</li>
+<li>Use the question palette on the right to move between questions.</li>
+<li>Click <strong>Save &amp; Next</strong> to save your answer and move to the next question.</li>
+<li>Do not close, refresh or navigate away from the examination window.</li>
+</ol>
+</div>]]></INSTRUCTIONTEXT>
+</INSTRUCTION>
+</SYSTEMINSTRUCTIONS>

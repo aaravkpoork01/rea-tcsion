@@ -1,0 +1,198 @@
+:root {
+    --primary-color: #000000;
+    --primary-color1:#333335;
+    --secondary-color: #FFFFFF;
+    --secondary-color1: #FAFAFA;
+    --light-grey: #E8E8E8;
+    --light-gray1:#FCFCFC;
+    --light-gray2: #dbdada;
+    --light-gray3: #767676;
+    --light-gray4: #B9BBCA33;
+    --light-gray5: #F6F8FE;
+    --light-gray6: #CACFCF;
+    --light-gray11: #525252;
+    --light-gray12: #D6D6D6;
+    --light-gray13: #787A7A;
+    --light--gray14: #A1A8A8;
+    --light-gray15: #E2E8F4;
+    --light-gray16: #00000033;
+    --light-gray17: #0000003D;
+    --light-gray18: #adb3c0;
+    --light-gray19: #f3f4f7;
+    --light-gray20: #64657D;
+    --light-gray21: #dfd7e1;
+    --light-gray22:#BFBFBF;
+    --light-gray23:#4F4F4F;
+    --light-gray24:#7A7A7A;
+    --light-gray25: #F7F8FC;
+    --light-gray26: #E6E7EB;
+    --light-gray27:#E9ECF2;
+    --light-gray28: #8D9099;
+    --light-gray29: #F5F5F5;
+    --trnp-gray: #333335B8;
+    --dark-gray: #495A5A;
+    --dark-gray3:#70707066;
+    --black: #212529;
+    --blue-color:#1A66DD;
+    --blue-color3: #1A65DD;
+    --border-gray:#E0E2E2;
+    --redcolor:#E63939;
+    --redcolor1:#E4112A;
+    --redcolor2: #EB3600;
+    --hovercolor: #1654B8;
+    --btnHover: #11418F;
+    --bordercolor1: #BDC8DE;
+    --headerbg:#0A0A0A;
+    --timer-bg:#CCCCCC1A;
+    --labelcolor:#aaaaaa;
+    --butnbg:#292929;
+    --profilelabel:#cccccc;
+    --profileshad:#0B0B0B38;
+    --grouptmer:#787474f3;
+    --accessibilitybg:#F2F3F9;
+    --black:#000;
+    --black8: #121516;
+    --black9: #141824;
+    --black10: #323a4f;
+    --black11:#1d2434; 
+    --black12: #212121;
+    --black13: #2f2d2d;
+    --black14: #0a0a0a;
+    --black15: #141619;
+    --black16: #3d4045;
+    --black17: #3a3a46;
+    --black18: #2e3442;
+    --black19: #0c0d0f;
+    --black20: #434550;
+    --black21: #1D1D1F;
+    --black22: #2D3033;
+    --black23: #17181A;
+    --black24:#2d2f33;
+    --black25: #404347;
+    --black26: #1c1d1f;
+    --black27: #252629;
+    --black28: #5B6066;
+    --black29: #3B3D3D;
+    --black30: #3D3D3D;
+    --black31: #646666;
+    --lanpopbor:#CACFCF;
+    --selcss:#A3A3A3;
+    --lanpoplab:#707071;
+    --accesheading:#2a4a59;
+    --pallateborder:#dfd7e14f;
+    --Resizeshadow: #b7b7b728;
+    --timerorange:#FFAD0529;
+    --orange-color: #FFAD02;
+    --listcolor: #6D7676;
+    --tableBG: #FAFCFF;
+    --tableh: #EBFCF5;
+    --tableh1: #FFE6E5;
+    --tableh2: #FFF1D6;
+    --tableh3: #edf3fc;
+    --tabletr: #ebfbf5;
+    --tabletr1: #ffe6e6;
+    --tabletr2: #fffcf6;
+    --tabletr3: #edf3fc;
+    --bg-ligth-blue: #d3def5;
+    --bg-light-blue:#E2E8F4;
+    --bg-light-blue1: #d6e5ff;
+    --blue2: #172B4D;
+    --blue3: #24405c;
+    --bg-green: #287B36;
+    --bg-green3: #1E5C29;
+    --bg-green1: #85D692;
+    --light-blue: #F2F6FC;
+    --bg-green4: #2B8039;
+    --bg-green5: #00A846;
+    --border-color6: #D0D0D0;
+    --border-color4: #707070;
+    --light-blue1: #c7d2ff;
+    --light-blue2: #EEF2FD;
+    --light-blue3: #E0EBFF;
+    --brown-color: #47350B;
+    --gray-transparent: (250, 250, 250, 0.3);
+     --gray-transparent1: rgb(250 250 250 / 30%);
+    --openSans-regular : 'OpenSans-Regular';
+    --openSans-semibold: 'OpenSans-Semibold';
+
+   
+}
+.darkThemeParent {
+    --primary-color: #FFFFFF;
+    --primary-color1: #FFFFFF;
+    --light-gray1:#212529;
+    --secondary-color:#212529;
+    --secondary-color1: #212529;
+    --light-gray3:#FFFFFF;
+    --light-gray5:#212529;
+    --dark-gray: #FFFFFF;
+    --headerbg:#fff;
+    --headbg: #0A0A0A;
+    --timer-bg:#ffffff1A;
+    --labelcolor:#aaaaaa;
+    --profilelabel:#cccccc;
+    --profileshad:#5f5f5f38;
+    --grouptmer:#b1adadf3;
+    --accessibilitybg:#414141;
+    --fontResizeEm:#2a4a59;
+    --black:#fff;
+    --lanpopbor:#343636;
+    --selcss:#1b1b1b;
+    --lanpoplab:#707071;
+    --accesheading:#5997b4;
+    --pallateborder:#4a484b4f;
+    --Resizeshadow: #50505028;
+    --trnp-gray: #fff;
+    --dark-black: #000000;
+    --white1: #FAFAFA;
+}
+.darkThemeParent .actionBtn,
+.darkThemeParent .ca-primary-button,
+.darkThemeParent .tablesaw-sortable .tablesaw-sortable-head button{
+    --secondary-color: #FFFFFF;
+}
+.darkThemeParent .Asmnt_section{
+
+    --secondary-color:#333335;
+}
+.darkThemeParent .actionBtn,
+.darkThemeParent .ca-primary-button,
+.darkThemeParent .tablesaw-sortable .tablesaw-sortable-head button {
+    color: var(--secondary-color);
+}
+.darkThemeParent .cand-popup .btn-close {
+    filter: brightness(0) saturate(100%) invert(71%) sepia(2%) saturate(14%) hue-rotate(352deg) brightness(95%) contrast(88%);
+}
+.darkThemeParent .cand-popup .btn-close:hover {
+    filter: invert(1)
+}
+.darkThemeParent .cand-popup .ca-secondary-button {
+    background: #36393D;
+    border: 1px solid transparent;
+}
+.darkThemeParent .cand-popup .ca-secondary-button:hover {
+    background: #494D52;
+    color: #fff;
+}
+
+.darkThemeParent .r1,
+.darkThemeParent .r2,
+.darkThemeParent .r3,
+.darkThemeParent .r4
+{
+    --primary-color1: #000000;
+}
+.darkThemeParent .anspop .largetxt,
+.darkThemeParent .anspop .smltxt,
+.darkThemeParent .resPop .largetxt,
+.darkThemeParent .resPop .smltxt,
+.darkThemeParent .listpadding {
+    color: #FFFFFF;
+}
+.darkThemeParent .resultIcon,
+.darkThemeParent .staticIcon{
+    filter: invert(1);
+}
+.darkThemeParent .mandatrysec ul, .darkThemeParent .optionalSec ul{
+ color: #f6f6f6;
+}

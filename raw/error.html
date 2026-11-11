@@ -1,0 +1,1146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Error page</title>
+
+	<!-- <link rel="stylesheet" type="text/css"  href="css/main.css"  />
+	<link rel="stylesheet" type="text/css"  href="css/style.css"  />
+	<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="js/ReportMain.js"></script>
+	<script type="text/javascript" src="js/jquery.cookie.js"></script> -->
+	<script>
+	var cdnPath = sessionStorage.cdnPath+"OnlineAssessment";
+	var jsVersion = sessionStorage.jsVersion !=undefined ? sessionStorage.jsVersion : '17.05.03.05';
+	if(typeof(sessionStorage.cdnPath)=="undefined")
+		sessionStorage.cdnPath = "";
+	if(sessionStorage.cdnPath == ""){
+	document.write('<link rel="stylesheet" type="text/css" href="css/main.css?v='+jsVersion+'"\/\>');
+    document.write('<link rel="stylesheet" type="text/css" href="css/style.css?v='+jsVersion+'"\/\>'); 
+   /*document.write('<script type="text/javascript" src="js/jquery-1.8.0.min.js?v=' + jsVersion + '"\><\/script>');
+   	document.write('<script type="text/javascript" src="js/jquery-migrate-1.4.1.min.js?v=' + jsVersion + '"\><\/script>');  
+	document.write('<script type="text/javascript" src="js/jquery-3.3.0.min.js?v=' + jsVersion + '"\><\/script>');
+	document.write('<script type="text/javascript" src="js/jquery-migrate-3.3.0.min.js?v=' + jsVersion + '"\><\/script>');  */
+	document.write('<script type="text/javascript" src="js/jquery-3.6.0.min.js?v=' + jsVersion + '"\><\/script>'); 
+   	document.write('<script type="text/javascript" src="js/ReportMain.js?v=' + jsVersion + '"\><\/script>');
+    document.write('<script src="js/jquery-e.min.js?v='+jsVersion+'"\><\/script>');
+    document.write('<script src="js/bootstrapError.js?v='+jsVersion+'"\><\/script>');
+   // document.write('<script src="js/customError.js?v='+jsVersion+'"\><\/script>');
+    document.write('<link rel="stylesheet" type="text/css" href="css/bootstrapError.css?v='+jsVersion+'"\/\>');
+    document.write('<link rel="stylesheet" type="text/css" href="css/styleError.css?v='+jsVersion+'"\/\>');
+    document.write('<script type="text/javascript" src="js/jquery.cookie.js?v='+jsVersion+'"\><\/script>');
+    document.write('<script type="text/javascript" src="js/cacheFiles.js?v='+jsVersion+'"\><\/script>');
+    document.write('<script type="text/javascript" src="js/candidateconsolechanges.js?v='+jsVersion+'"\><\/script>');
+    }else{
+    document.write('<link rel="stylesheet" type="text/css" href="'+cdnPath+'/css/main.css?v='+jsVersion+'"\/\>');
+    document.write('<link rel="stylesheet" type="text/css" href="'+cdnPath+'/css/style.css?v='+jsVersion+'"\/\>'); 
+   /* document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-1.8.0.min.js?v=' + jsVersion + '"\><\/script>');
+	document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-migrate-1.4.1.min.js?v=' + jsVersion + '"\><\/script>');   
+	document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-3.3.0.min.js?v=' + jsVersion + '"\><\/script>');
+	document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-migrate-3.3.0.min.js?v=' + jsVersion + '"\><\/script>');  */
+	document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-3.6.0.min.js?v=' + jsVersion + '"\><\/script>');  
+   	document.write('<script type="text/javascript" src="'+cdnPath+'/js/ReportMain.js?v=' + jsVersion + '"\><\/script>');
+    document.write('<script src="'+cdnPath+'/js/jquery-e.min.js?v='+jsVersion+'"\><\/script>');
+    document.write('<script src="'+cdnPath+'/js/bootstrapError.js?v='+jsVersion+'"\><\/script>');
+   // document.write('<script src="'+cdnPath+'/js/customError.js?v='+jsVersion+'"\><\/script>');
+    document.write('<link rel="stylesheet" type="text/css" href="'+cdnPath+'/css/bootstrapError.css?v='+jsVersion+'"\/\>');
+    document.write('<link rel="stylesheet" type="text/css" href="'+cdnPath+'/css/styleError.css?v='+jsVersion+'"\/\>');
+    document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery.cookie.js?v='+jsVersion+'"\><\/script>');
+    document.write('<script type="text/javascript" src="'+cdnPath+'/js/cacheFiles.js?v='+jsVersion+'"\><\/script>');
+    document.write('<script type="text/javascript" src="'+cdnPath+'/js/candidateconsolechanges.js?v='+jsVersion+'"\><\/script>');
+    }
+    
+     
+    </script>
+    
+	<script type="text/javascript">
+	var sequenceoptionscolorForBC = "";
+	var timeCounter ='';
+	var globalXMLVar='';
+	var gblparamErrorId='';
+	var timeFormat='';
+	var shiftEscVisible=false;
+	var selectedLang = sessionStorage.viewLangName!=undefined?sessionStorage.viewLangName:'English';
+	$(document).on("keydown", function (e) {
+    if ((e.which == 8 && !$(e.target).is("input, textarea")) || (e.which == 37 && e.altKey) || (e.which == 39 && e.altKey) ) {
+        e.preventDefault();
+    }
+});
+	$(document).on('click','.Launcher',function(e){
+		//console.log(e.target.id);
+		var id = e.target.id;
+		if(id == 'windows'){
+			window.open("/OnlineAssessment/Launcher/IBAWindowsLauncher.zip");
+		} else if(id == 'linux14') {
+			window.open("/OnlineAssessment/Launcher/IBALinuxLauncher14.tar.gz");
+			}else{
+				window.open("/OnlineAssessment/Launcher/IBALinuxLauncher16.tar.gz");
+			}
+	});
+		$(document).ready(function(){
+			if(typeof(sessionStorage.assessmentLogoPath)!='undefined'){
+				document.head.insertAdjacentHTML(
+					  "beforeend",
+					  '<link rel="icon" class="favicon" type="image/png" href="'+sessionStorage.assessmentLogoPath+'?v=' + Date.now() +'">'
+					);
+			}
+			loadDataFromCache().then(function(e){
+				console.log(e);
+			}).finally(function(){
+				try{
+				if(sessionStorage.isSecured=="true" && sessionStorage.operatingSystem !=undefined && (sessionStorage.operatingSystem=='Mac OS' || sessionStorage.operatingSystem=='Mac OS X' || sessionStorage.operatingSystem=='iOS') && sessionStorage.isPaperDevice == "false")
+	{
+				 	window.webkit.messageHandlers.exit.postMessage("exit") ;
+	
+				}
+				}
+				catch(e)
+				{
+		
+				}
+				var url = document.URL;
+				shiftEscVisible = document.URL.indexOf('isLauncher') >= 0 ? true : false;
+				var params = url.split(".html");
+				//changelanguage('selectedLang');
+				if($.trim(params[1]).length>0){
+				 gblparamErrorId = ($.trim(params[1])).split("?")[1].split("#")[0];
+				 if(gblparamErrorId.indexOf('isApp')>-1){
+					 gblparamErrorId=gblparamErrorId.substring(0,gblparamErrorId.indexOf('isApp'));
+				 }
+				 if(gblparamErrorId.indexOf('isLauncher')>-1){
+					 gblparamErrorId=gblparamErrorId.substring(0,gblparamErrorId.indexOf('isLauncher'));
+				 }
+				 changelanguage(selectedLang);
+				 $(".lang-btn").html(selectedLang + ' <span aria-hidden="true">▼</span>');				
+				 $('.error_top_section .header_language').find('.hdr_lan .lang_name').text(selectedLang);
+				 
+					if((gblparamErrorId=="E105")||(gblparamErrorId=="E106")||(gblparamErrorId=="E114")||(gblparamErrorId=="E115")||(gblparamErrorId=="E117")||(gblparamErrorId=="E119")||(gblparamErrorId=="E120")||(gblparamErrorId=="E123")||(gblparamErrorId=="E127") || (gblparamErrorId=="Eexpired")||(gblparamErrorId=="ProfileConfirmationErr1")||(gblparamErrorId=="InvalidSession") || gblparamErrorId=="RefreshNotAllowed" || gblparamErrorId=="E153")
+					{
+						$('.sorryForInconvenienceDiv').hide();
+						$("#noteId").hide();
+						$('.error_image_div3').show();
+						if(gblparamErrorId=="Eexpired"){
+							$(".error_msg_body").hide();
+						}
+						if(gblparamErrorId=="InvalidSession"){
+							$(".error_msg_body").hide();
+						}
+						
+					} else if(gblparamErrorId=="ENotification"){
+						$('.sorryForInconvenienceDiv').hide();
+						$("#noteId").hide();
+						$('.error_image_div3').show();
+						$("#HowToProceedDiv").html(sessionStorage.PermissionGuideMessage);
+					}
+					else if(gblparamErrorId=="E505"){
+						$('.error_image_div3').show();
+						$('.assistance_container').show();
+						$('.sorryForInconvenienceDiv').hide();
+						$("#noteId").hide();	
+						//$('.error_image_div2').show();
+						
+					}
+					
+					else if(gblparamErrorId=="E110"){
+						if(typeof(sessionStorage.LauncherApps) != "undefined" && (sessionStorage.LauncherApps.indexOf("1") > -1 || (sessionStorage.LauncherApps.indexOf("2") > -1 && sessionStorage.operatingSystem.toUpperCase() == "WINDOWS" )|| (sessionStorage.LauncherApps.indexOf("3")  > -1 && (sessionStorage.operatingSystem.toUpperCase() == "LINUX" || sessionStorage.operatingSystem.toUpperCase() == "UNIX") ) || (sessionStorage.LauncherApps.indexOf("4")  > -1 && sessionStorage.operatingSystem.toUpperCase() == "ANDROID" ))){
+						$('#launchAssessmentButton').show();
+						$('#launchAssessmentButton').val($(globalXMLVar).find('launchButton').text());
+						} else {
+							//$(".deviceNotApplicable").show();
+							//$(".deviceNotApplicable").append($(globalXMLVar).find('E136').text());
+							if(typeof(sessionStorage.LauncherApps) != "undefined" && (sessionStorage.LauncherApps.indexOf("6") > -1)){
+								gblparamErrorId ="E114";
+								$("#HowToProceedDiv").html($(globalXMLVar).find('E114HowToProceed').text());
+							}
+							else{
+							gblparamErrorId = "E136";
+							$("#HowToProceedDiv").html($(globalXMLVar).find('E136').text());
+							}
+						}
+						$('.error_image_div').show();
+						$('.sorryForInconvenienceDiv').hide();
+						$(".startTime").empty();
+						timeFormat=$(globalXMLVar).find('mmssSpan').text();
+						if(sessionStorage.assessmentStartDate != "NA" && sessionStorage.assessmentStartDate != undefined){
+							$(".assessmentStartTime").html(sessionStorage.assessmentStartDate.substr(0,19).split(" ")[1].split(":")[0]+":"+sessionStorage.assessmentStartDate.substr(0,19).split(" ")[1].split(":")[1]+" "+$(globalXMLVar).find('hhmmSpan').text());
+						}
+						$("#noteId").hide();
+						if(shiftEscVisible){
+							$('#securedStartTime').show();
+						}else{
+							$('#nonSecuredStartTime').show();
+						}
+						/* setTimeout(function(){
+							sessionStorage.timeRemainingToLaunch=sessionStorage.timeRemainingToLaunch-1;
+							},1000); */
+						if(sessionStorage.timeRemainingToLaunch!=undefined && sessionStorage.timeRemainingToLaunch>0)
+						startTimerToLaunchAssessment(sessionStorage.timeRemainingToLaunch!=undefined ? sessionStorage.timeRemainingToLaunch : 0);
+						else if(typeof(sessionStorage.LauncherApps) != "undefined" && (sessionStorage.LauncherApps.indexOf("1") > -1 || (sessionStorage.LauncherApps.indexOf("2") > -1 && sessionStorage.operatingSystem.toUpperCase() == "WINDOWS" )|| (sessionStorage.LauncherApps.indexOf("3")  > -1 && (sessionStorage.operatingSystem.toUpperCase() == "LINUX" || sessionStorage.operatingSystem.toUpperCase() == "UNIX") ) || (sessionStorage.LauncherApps.indexOf("4")  > -1 && sessionStorage.operatingSystem.toUpperCase() == "ANDROID" ))){
+							$('#launchAssessmentButton').attr('disabled',false);	
+							$('#timeLeftMessage').hide();
+							$('#launchEnabledMessage').show();
+						}
+					}
+					else if($.trim(params[1]).indexOf("?E116") >= 0){
+						$('.error_image_div3').show();
+						$('.sorryForInconvenienceDiv').hide();
+						$("#noteId").hide();
+						$(".alert_msg").text("Your Assessment Console is Locked...!");
+						if(document.URL.split("#")[1].split("@@")[4]=='1'){
+						//	$("#message").append("</br>You can submit this attempt to avoid admin intervention. This attempt will be completed and next attempt can be started.</br>To Submit this attempt please click on Submit<input type='button' style='margin-left:5px;line-height:33px' id='savenext' onclick = 'submitLockedAttempt()' class='normalBtn btn btn-primary-save' value='Submit'/>");	
+						$("#message").append($(globalXMLVar).find('adminIntervention').text()+"<input type='button' style='margin-left:5px;line-height:33px' id='savenext' onclick = 'submitLockedAttempt()' class='normalBtn btn btn-primary-save submit_btn1' value='Submit'/>");
+						$('#savenext').attr("value",$(globalXMLVar).find("submit_btn1").text());
+					
+								
+						}
+					}
+					else if(gblparamErrorId=="E143"){
+					     $("#message").empty();
+					    $('.error_qn').empty();
+						$("#message").append("Dear Candidate, We had to close your assessment as the assessment timer went into halt after you moved away from the test window. Please try again by relaunching the assessment after some time.");	
+					    $('.error_qn').hide();
+					}
+					else if(gblparamErrorId=="E121"){
+						$('.error_image_div3').show();
+						$("#noteId").hide();
+						var securityValues = url.split("?E121")[1];
+						//console.log(securityValues);
+						var securityValueDetails = securityValues.split("@@");
+						if(securityValueDetails[1] == "1"){
+						
+						} else {
+						
+						}
+						document.title = "Secured Online Digital Assessment";
+						$(".alert_msg").html("Verification proccess is required for this assessment.");
+						if(securityValueDetails[2] == "7" || securityValueDetails[2] == "8"){
+							document.title = "Secured Online Digital Assessment";
+							securityValueDetails[4] = securityValueDetails[4].split("#")[0];
+							var keyText = "<span style='font-size:35px;'>Key :</span> <span style='color:red;font-size:35px;'>"+(securityValueDetails[4])+"</span><br>";
+							$(".alert_msg").html(keyText);
+							$("#message").html("Please note the above key and download the launcher by clicking the link given below for your operating system.<br><br><b>Note:</b> <span id='timerMessageSpan'>The key is valid for <span id='timerSpan'></span> minutes only.</span><br><br><a href='#' id='windows' class='Launcher'>Click here to download windows launcher.</a><br><br><a href='#' id='linux14' class='Launcher'>Click here to download launcher for Ubuntu 14.</a><br><br><a href='#' id='linux16' class='Launcher'>Click here to download launcher for Ubuntu 16.</a><br><br><a href='#' id='linux22' class='Launcher'>Click here to download launcher for Ubuntu 22.</a><br><br>Currently we are not supporting Secured Online Digital Assessment for IOS and Android.<br><br><b>Please follow the below mentioned instructions to launch the assessment.</b><br><br><ol style='margin-left:20px'><li>Extract the downloaded file</br></br></li><li>Launch the application and enter the above mentioned key in the key field and select browser from the dropdown</br></br></li><li>Selected browser will be used for launching the assessment.</br></br></li><li>After entering the key and browser selection, click on launch button for launching the assessment.</br></br></li></ol>");
+							//$(".alert_image").hide();
+							$("#shiftEsc").hide();
+							$(".alert_msg").css({'padding-left':'65px'});
+							startTimer(600);
+						} 	
+					}
+					else if(gblparamErrorId=="E140"){
+						$('.error_image_div3').show();
+						$("#noteId").hide();
+						var howToProceedId=gblparamErrorId+"HowToProceed";
+						$("#message").html("<span id="+gblparamErrorId+"a"+">"+$(globalXMLVar).find(gblparamErrorId).text()+"</span>");
+						$("#waitingTime").html("<span id="+gblparamErrorId+"a"+">"+(sessionStorage.waitingTime.substring(0,sessionStorage.waitingTime.length-3))+"</span>");
+						$("#HowToProceedDiv").html("<span id="+howToProceedId+">"+$(globalXMLVar).find(howToProceedId).text()+"</span>");
+	
+					}else if(gblparamErrorId=="E144"){
+						$('.error_image_div3').show();
+						$("#noteId").hide();
+						var howToProceedId=gblparamErrorId+"HowToProceed";
+						$("#message").html("<span id="+gblparamErrorId+"a"+">"+$(globalXMLVar).find(gblparamErrorId).text()+"</span>");
+						$("#HowToProceedDiv").html("<span id="+howToProceedId+">"+$(globalXMLVar).find(howToProceedId).text()+"</span>");
+	
+					}
+					else if(gblparamErrorId=="E125" || gblparamErrorId=="E150" || gblparamErrorId=="ASSESSMENT_WINDOW_INACTIVE"){
+						$('.error_image_div3').show();
+						$('.sorryForInconvenienceDiv').hide();
+						//$(".alert_msg").text("Your Assessment Console is Interrupted...!");	
+						$(".alert_msg").text($(globalXMLVar).find('alert_msg').text());
+					}else if(gblparamErrorId=="INVALID_LINK"){
+						$('.sorryForInconvenienceDiv,.error_msg_body,.error_alert_container').hide();
+						//$(".alert_msg").text("Your Assessment Console is Interrupted...!");	
+							$('.error_image_div3').show();
+						$("#message").text("The assessment link appears to be corrupted or modified. Please request a new link.");
+					}
+					else if((gblparamErrorId=="E130")||(gblparamErrorId=="E131")||(gblparamErrorId=="E132")){	
+						//$('.alert_image').hide();
+					$('.error_image_div4').show();
+						$('.alert_msg').hide();
+						document.title = $(globalXMLVar).find('AssessmentCenter').text();
+					}
+					else if(($.trim(params[1])).indexOf("?EAlert") >= 0){
+						$('.error_image_div').show();
+						$("#message").html("<span id='EAlert'>"+(sessionStorage.ErrorMessage)+"</span>");
+					} else if(gblparamErrorId == "Eexpired"){
+						$("#message").html("<span id='Eexpired'>"+($(globalXMLVar).find('Eexpired').text())+"</span>");
+						$(".error_msg_body").hide();
+					}
+					else if(!gblparamErrorId) {
+						$('.error_image_div2').show();
+						$('.alert_msg').text('This link isn’t accessible or may be invalid. Please check the URL and try again.');
+						$('#noteId').hide();
+						$('.error_qn').hide();
+						$('#HowToProceedDiv').hide();
+					}
+					else if(gblparamErrorId=="EScreenShare"){
+						$('.sorryForInconvenienceDiv').hide();
+						$("#noteId").hide();
+						$('.error_image_div2').hide();
+						$('.error_image_div3').show();
+						$("#HowToProceedDiv").html("<span id='EScreenShareHowToProceed'>"+$(globalXMLVar).find("EScreenShareHowToProceed").text()+"</br><button id='ForceLaunchAssessment' class='normalBtn btn btn-primary-save'>"+$(globalXMLVar).find("relaunch").text()+"</button></span>");
+					}
+					else if(gblparamErrorId=="EMediaPermission"){
+						$('.sorryForInconvenienceDiv').hide();
+						$("#noteId").hide();
+						$('.error_image_div3').show();
+						$("#HowToProceedDiv").html("<span id='EMediaPermissionHowToProceed'>"+$(globalXMLVar).find("EMediaPermissionHowToProceed").text()+"</br><button id='ForceLaunchAssessment' class='normalBtn btn btn-primary-save'>"+$(globalXMLVar).find("relaunch").text()+"+</button></span>");
+					}
+					else if(gblparamErrorId=="EBlankFrames"){
+						$('.sorryForInconvenienceDiv').hide();
+						$("#noteId").hide();
+						$('.error_image_div3').show();
+						$("#message").html("<span id='EBlankFrames'>"+($(globalXMLVar).find("EBlankFrames").text())+"</span>");
+						$("#HowToProceedDiv").html("<span id='EBlankFramesHowToProceed'>"+$(globalXMLVar).find("EBlankFramesHowToProceed").text()+"</br><button id='ForceLaunchAssessment' class='normalBtn btn btn-primary-save'>"+$(globalXMLVar).find("relaunch").text()+"</button></span>");
+						if(typeof(sessionStorage.isRoomCapturingPage) != "undefined"){
+							$("#ForceLaunchAssessment").hide();	
+							$("#launchAssessmentButtonAgain").show();
+							$('#launchAssessmentButtonAgain').html("Relaunch");
+						}
+					}
+					else if(gblparamErrorId=="EFrozen"){
+						$('.sorryForInconvenienceDiv').hide();
+						$("#noteId").hide();
+						$('.error_image_div3').show();
+						$("#message").html("<span id='EFrozen'>"+($(globalXMLVar).find("EFrozen").text())+"</span>");
+						$("#HowToProceedDiv").html("<span id='EFrozenHowToProceed'>"+$(globalXMLVar).find("EFrozenHowToProceed").text()+"</br><button id='ForceLaunchAssessment' class='normalBtn btn btn-primary-save'>"+$(globalXMLVar).find("relaunch").text()+"</button></span>");
+						if(typeof(sessionStorage.isRoomCapturingPage) != "undefined"){
+							$("#ForceLaunchAssessment").hide();	
+							$("#launchAssessmentButtonAgain").show();
+							$('#launchAssessmentButtonAgain').html("Relaunch");
+						}
+					}
+					else if(gblparamErrorId=="ELowSizeVideo"){
+						$('.sorryForInconvenienceDiv').hide();
+						$("#noteId").hide();
+						$('.error_image_div3').show();
+						$("#message").html("<span id='ELowSizeVideo'>"+($(globalXMLVar).find("ELowSizeVideo").text())+"</span>");
+						$("#HowToProceedDiv").html("<span id='ELowSizeVideoHowToProceed'>"+$(globalXMLVar).find("ELowSizeVideoHowToProceed").text()+"</br><button id='ForceLaunchAssessment' class='normalBtn btn btn-primary-save'>"+$(globalXMLVar).find("relaunch").text()+"</button></span>");
+						if(typeof(sessionStorage.isRoomCapturingPage) != "undefined"){
+							$("#ForceLaunchAssessment").hide();	
+							$("#launchAssessmentButtonAgain").show();
+							$('#launchAssessmentButtonAgain').html("Relaunch");
+						}
+					}
+					else if(gblparamErrorId=="EScreenBlankFrames"){
+						$('.sorryForInconvenienceDiv').hide();
+						$("#noteId").hide();
+						$('.error_image_div3').show();
+						$("#message").html("<span id='EScreenBlankFrames'>"+($(globalXMLVar).find("EScreenBlankFrames").text())+"</span>");
+						$("#HowToProceedDiv").html("<span id='EScreenBlankFramesHowToProceed'>"+$(globalXMLVar).find("EScreenBlankFramesHowToProceed").text()+"</br><button id='ForceLaunchAssessment' class='normalBtn btn btn-primary-save'>"+$(globalXMLVar).find("relaunch").text()+"</button></span>");
+					}
+					else{
+						$('.error_image_div2').show();
+					}
+														
+				 }else{
+					//$("#message").html("There is a momentary problem connecting with server. Please try after few minutes.");
+					$('.error_image_div2').show();
+					$('.alert_msg').text('This link isn’t accessible or may be invalid. Please check the URL and try again.');
+					$('#noteId').hide();
+					$('.error_qn').hide();
+					$('#HowToProceedDiv').hide();
+				}
+				if(gblparamErrorId == "Eexpired" && shiftEscVisible){
+					$('.error_msg_body').show();
+					$("#shiftEsc").show();
+				}
+				if(((document.URL.indexOf('isApp') >= 0) ? true : false)){
+					$('#shiftEsc').html('<b>Please click on close button present in the top right corner to close the window.</b>');
+				}
+				else if(((document.URL.indexOf('isLauncher') >= 0) ? true : false)){
+					$("#shiftEsc").show();
+					}
+				else{
+					$("#shiftEsc").hide();
+				}
+				if(sessionStorage.isLauncher=="true" && (gblparamErrorId == "Eexpired")){
+					$('.error_msg_body').show();
+					$("#shiftEsc").show();
+				}
+				if(sessionStorage.isLauncher=="true" && (gblparamErrorId == "InvalidSession")){
+					$('.error_msg_body').show();
+					$("#shiftEsc").show();
+				}
+				
+				
+				if(sessionStorage.getItem("isPaperDevice")!=undefined && sessionStorage.getItem("isPaperDevice")=="true"){
+					$('.btnsection').show();
+				} 
+				
+				
+	
+				   //catelogue Mobile
+				    $(".languageSelector li").on("click", function () {
+				        $(".languageSelector li").removeClass("active");
+				        $(this).addClass("active");
+				    });
+	
+				    // Language Open Dropdown ends
+	
+				    $(".hdr_lan").on('click', function () {
+				        $(this).parents(".header_language").find(".langdropdown").toggle();
+				    })
+	
+	
+				    $(document).on("click", ".langdropdown li", function () {
+				        var $this = $(this).find('.eng_lang');
+				        $this.parents('.header_language').find('.hdr_lan .lang_name').text($this.text());
+				        $(".langdropdown").hide();
+	
+				        $(".langdropdown li").removeClass("langselected");
+	
+				        $(this).addClass("langselected");
+				        changelanguage($this.text());
+	
+				    })
+	
+				    $(document).bind("click touchstart", function (e) {
+				        if (!$(e.target).parents().children().hasClass('langdropdown')) {
+				            $(".langdropdown").hide();
+				        }
+				    });
+			    // Language Open Dropdown ends
+			});
+			const dropdown = document.querySelector(".lang-dropdown");
+			const button = document.getElementById("languageButton");
+			const list = document.getElementById("languageList");
+			const options = [...list.querySelectorAll('[role="option"]')];
+
+			let currentIndex = 0;
+
+			function openDropdown() {
+			    dropdown.classList.add("open");
+			    button.setAttribute("aria-expanded", "true");
+			    options[currentIndex].focus();
+			}
+
+			function closeDropdown() {
+			    dropdown.classList.remove("open");
+			    button.setAttribute("aria-expanded", "false");
+			}
+			function selectOption(option) {
+			    const lang = option.dataset.value;
+			    options.forEach(opt =>
+			        opt.setAttribute("aria-selected", "false")
+			    );
+			    option.setAttribute("aria-selected", "true");
+			    button.childNodes[0].nodeValue = option.textContent + " ";
+			    /* document.getElementById("selectedLang").value = lang; */
+			    changelanguage(lang);
+			    closeDropdown();
+			    button.focus();
+			}
+			button.addEventListener("click", () => {
+			    dropdown.classList.contains("open") ? closeDropdown() : openDropdown();});
+
+			options.forEach((option, index) => {
+			    option.addEventListener("click", () => {  currentIndex = index; selectOption(option);});
+			    option.addEventListener("keydown", e => {
+			        switch (e.key) {
+
+			            case "ArrowDown":
+			                e.preventDefault();
+			                currentIndex = (index + 1) % options.length;
+			                options[currentIndex].focus();
+			                break;
+
+			            case "ArrowUp":
+			                e.preventDefault();
+			                currentIndex =
+			                    (index - 1 + options.length) % options.length;
+			                options[currentIndex].focus();
+			                break;
+
+			            case "Enter":
+			            case " ":
+			                e.preventDefault();
+			                selectOption(option);
+			                break;
+
+			            case "Escape":
+			                closeDropdown();
+			                button.focus();
+			                break;
+			        }
+			    });
+			});
+			document.addEventListener("click", e => {
+			    if (!dropdown.contains(e.target)) {
+			        closeDropdown();
+			    }
+			});
+			button.addEventListener("keydown", e => {
+			    if (
+			        e.key === "Enter" ||
+			        e.key === " " ||
+			        e.key === "ArrowDown"
+			    ) {
+			        e.preventDefault();
+			        openDropdown();
+			    }
+			});
+			
+		});
+		function changelanguage(lang){
+			console.log("language is :: "+lang);
+			var xml = "",pathPrefix="";
+			if(sessionStorage.isCustmLangxml=="true") {
+				
+				if(typeof(sessionStorage.cdnPath)!="undefined" && sessionStorage.cdnPath != ""){ 
+					pathPrefix+=sessionStorage.cdnPath;
+				}
+					pathPrefix+=sessionStorage.custLangXMLPath;
+					var custLangVersion =  (typeof(sessionStorage.custLangVersion)!="undefined" && sessionStorage.custLangVersion != "") ? sessionStorage.custLangVersion : "123";
+					xml = readAndReturnXML(pathPrefix+'LangXML/'+lang+'.xml'+'?v='+custLangVersion,false);	
+			} else {
+				
+				pathPrefix = (typeof(sessionStorage.cdnPath)!="undefined" && sessionStorage.cdnPath != "") ? sessionStorage.cdnPath+"OnlineAssessment/" : "";
+				xml = readAndReturnXML(pathPrefix+'LangXML/'+lang+'.xml'+'?v='+jsVersion,false);
+			}
+			
+			globalXMLVar=xml;var url = document.URL;
+			var howToProceedId=gblparamErrorId+"HowToProceed";
+			if(gblparamErrorId=="ASSESSMENT_WINDOW_INACTIVE"){
+				howToProceedId ="INACTIVEProceed";
+				}
+			if(gblparamErrorId.length>=0){
+			$("#message").html("<span id="+gblparamErrorId+">"+$(xml).find(gblparamErrorId).text()+"</span>");
+			$("#coolOfPeriodTime").html("<span>"+(sessionStorage.coolOffPeriodTime)+"</span>");
+            if(((/Android/.test(window.navigator.userAgent))?true:false) && gblparamErrorId=="E116"){
+            	howToProceedId=gblparamErrorId+"HowToProceedMobile";
+				$("#HowToProceedDiv").html("<span id="+howToProceedId+">"+$(xml).find(howToProceedId).text()+"</span>");
+			} if(gblparamErrorId=="E119" && sessionStorage.isResponseUploadPending == "1"){
+				$("#HowToProceedDiv").html("<span id="+howToProceedId+">"+$(xml).find(howToProceedId+sessionStorage.isResponseUploadPending).text()+"</span>");
+				$("#launchAssessmentButtonAgain").show();
+				$('#launchAssessmentButtonAgain').html($(xml).find('ProceedtoNext').text());
+			} 
+			
+			else if(gblparamErrorId=="E119" && typeof(sessionStorage.isRoomCapturingPage) != "undefined"){
+				$("#HowToProceedDiv").html("<span id="+howToProceedId+">"+$(xml).find(howToProceedId+"isRoomCapturingPage").text()+"</span>");
+				$("#launchAssessmentButtonAgain").show();
+				$('#launchAssessmentButtonAgain').html($(xml).find('ProceedtoNext').text());
+			}else if(gblparamErrorId=="E119" && typeof(sessionStorage.isExaminer)!='undefined' && sessionStorage.isExaminer=='true'){
+				$("#message").html("<span id="+gblparamErrorId+">"+$(xml).find(gblparamErrorId+"Examiner").text()+"</span>");
+				$("#HowToProceedDiv").html("<span id="+howToProceedId+">"+$(xml).find(howToProceedId+"Examiner").text()+"</span>");
+			}
+			else if(gblparamErrorId=="E143"){
+			        $("#message").empty();
+				    $('.error_qn').empty();
+					$("#message").append("Dear Candidate, We had to close your assessment as the assessment timer went into halt after you moved away from the test window. Please try again by relaunching the assessment after some time.");	
+				    $('.error_qn').hide();
+			}else if(gblparamErrorId=="E119" || gblparamErrorId == "EScreenBlankFrames" || gblparamErrorId == "ELowSizeVideo" || gblparamErrorId == "EFrozen" || gblparamErrorId == "EBlankFrames" || gblparamErrorId == "EMediaPermission" || gblparamErrorId == "EScreenShare") {
+				$("#HowToProceedDiv").html("<span id="+howToProceedId+">"+$(xml).find(howToProceedId).text()+"</br><button id='ForceLaunchAssessment' class='normalBtn btn btn-primary-save'>"+$(globalXMLVar).find("relaunch").text()+"</button></span>");
+			}
+			 else {
+				$("#HowToProceedDiv").html("<span id="+howToProceedId+">"+$(xml).find(howToProceedId).text()+"</span>");
+			}
+			$(".error_qn").html($(xml).find("HowToProceed").text());
+			}
+			else{
+				$("#message").html("There is a momentary problem connecting with server. Please try after few minutes.");
+				$(".error_qn").html($(xml).find(HowToProceed).text());
+				}
+			
+			if(gblparamErrorId=="E121"){
+				var securityValues = url.split("?E121")[1];
+				var securityValueDetails = securityValues.split("@@");
+				if(securityValueDetails[2] == "1"){
+					if(securityValueDetails[3] == "0"){
+						$("#message").html("<span id="+gblparamErrorId+"a"+">"+$(xml).find(gblparamErrorId+"a").text()+"</span>");
+					$("#HowToProceedDiv").html("<span id="+howToProceedId+"a"+">"+$(xml).find(howToProceedId+"a").text()+"</span>");
+					}
+					else{
+						$("#message").html("<span id="+gblparamErrorId+"b"+">"+$(xml).find(gblparamErrorId+"b").text()+"</span>");
+						$("#HowToProceedDiv").html("<span id="+howToProceedId+"b"+">"+$(xml).find(howToProceedId+"b").text()+"</span>");
+					}
+				} else if(securityValueDetails[2] == "2"){
+					$("#message").html("<span id="+gblparamErrorId+"c"+">"+$(xml).find(gblparamErrorId+"c").text()+"</span>");
+					$("#HowToProceedDiv").html("<span id="+howToProceedId+"c"+">"+$(xml).find(howToProceedId+"c").text()+"</span>");
+				} else if(securityValueDetails[2] == "3"){
+					$("#message").html("<span id="+gblparamErrorId+"d"+">"+$(xml).find(gblparamErrorId+"d").text()+"</span>");
+					$("#HowToProceedDiv").html("<span id="+howToProceedId+"d"+">"+$(xml).find(howToProceedId+"d").text()+"</span>");
+				} else if(securityValueDetails[2] == "4"){
+					$("#message").html("<span id="+gblparamErrorId+"e"+">"+$(xml).find(gblparamErrorId+"e").text()+"</span>");
+					$("#HowToProceedDiv").html("<span id="+howToProceedId+"e"+">"+$(xml).find(howToProceedId+"e").text()+"</span>");
+				} else if(securityValueDetails[2] == "5"){
+					$("#message").html("<span id="+gblparamErrorId+"f"+">"+$(xml).find(gblparamErrorId+"f").text()+"</span>");
+					$("#HowToProceedDiv").html("<span id="+howToProceedId+"f"+">"+$(xml).find(howToProceedId+"f").text()+"</span>");
+				} else if(securityValueDetails[2] == "6"){
+					$("#message").html("<span id="+gblparamErrorId+"g"+">"+$(xml).find(gblparamErrorId+"g").text()+"</span>");
+					$("#HowToProceedDiv").html("<span id="+howToProceedId+"g"+">"+$(xml).find(howToProceedId+"g").text()+"</span>");
+				} 
+				else if(securityValueDetails[2] == "7" || securityValueDetails[2] == "8"){
+					$("#message").html("<span id="+gblparamErrorId+"h"+">"+$(xml).find(gblparamErrorId+"h").text()+"</span>");
+					$("#HowToProceedDiv").html("<span id="+howToProceedId+"h"+">"+$(xml).find(howToProceedId+"h").text()+"</span>");
+				}
+			}
+			//Defect_398175
+			if(gblparamErrorId=="E114" && typeof(sessionStorage.isExaminer)!='undefined' && sessionStorage.isExaminer=='true'){
+				$("#message").html("<span id="+gblparamErrorId+"e"+">"+$(xml).find(gblparamErrorId+"e").text()+"</span>");
+			}
+				
+			if((/Android/.test(window.navigator.userAgent))?true:false){
+				$('#shiftEsc').html('');
+			}else{
+				if(sessionStorage.isSecured=="true" && sessionStorage.operatingSystem !=undefined && (sessionStorage.operatingSystem=='Mac OS' || sessionStorage.operatingSystem=='Mac OS X' || sessionStorage.operatingSystem=='iOS') && sessionStorage.isPaperDevice == "false")
+					$('.shiftEsc').html($(xml).find('shiftEscMac').text());
+				else
+					$('.shiftEsc').html($(xml).find('shiftEsc').text());
+				
+			}
+			if(url.split(".html")[1].length>1)
+			{
+				$('.alert_msg').html($(xml).find('SorryFortheInconvenience').text());
+			}
+			else
+			{
+				$('.alert_msg').text('This link isn’t accessible or may be invalid. Please check the URL and try again.');
+			}
+			$('#noteId').html($(xml).find('Note').text());
+			//$('.alert_msg').html($(xml).find('SorryFortheInconvenience').text());
+			$('#changeLanguage').html($(xml).find('ChangeLanguage').text());
+            $('.chnge_text').html($(xml).find('ChangeLanguage').text());
+			var parameters = document.URL.split(".html");
+			if((($.trim(parameters[1])).indexOf("?E130") >= 0 || ($.trim(parameters[1])).indexOf("?E131") >= 0 || ($.trim(parameters[1])).indexOf("?E132") >= 0)){
+				 document.title = $(globalXMLVar).find('AssessmentCenter').text();
+			 }else{
+				 document.title = $(globalXMLVar).find('ErrorPage').text();
+			 }
+			
+			document.documentElement.setAttribute('lang',langCodeFromXML(lang));
+			
+			}
+		/* function readAndReturnXML(filePath){
+			var xml="";
+			$.ajax({
+			type: "POST",
+			url: filePath,
+			async : false,
+			dataType: "xml",
+			success: function(data) {
+				if (typeof data == "string") {
+				xml = new ActiveXObject("Microsoft.XMLDOM");
+				xml.async = false;
+				xml.loadXML(data);
+				} else {
+					xml = data;
+				}
+			},error : function(){
+				setTimeout(function(){
+				window.location.href="error.html?E404";
+				},50);
+			}
+			});
+			return xml;
+		} */
+		function readAndReturnXML(filePath,isAssFile){
+			// alert(filePath);
+				var xml="";
+				var fileName =  filePath.substr(filePath.lastIndexOf('/')+1,filePath.length);
+				if(typeof(fileURL) == "undefined" || typeof(fileURL[fileName])=="undefined" || fileURL[fileName]==undefined){
+					$.ajax({
+						type: "POST",
+						url: filePath,
+						async : false,
+						dataType: ($.support.msie) ? "text" : "xml",
+								success: function(data) {
+									if (typeof data == "string") {
+										xml = new ActiveXObject("Microsoft.XMLDOM");
+										xml.async = false;
+										xml.loadXML(data);
+										storeAssessmentFile(fileName,xml,isAssFile);
+									} else {
+										xml = data;
+										storeAssessmentFile(fileName,xml,isAssFile);
+									}
+									// alert(xml);
+								},error : function(e){
+								// alert('Gone To Error Page');
+									//alert(e.status + " :: "+e.responseText);
+									
+									setTimeout(function(){
+										 window.location.href="error.html?E404"+((sessionStorage.getItem("isApp")=="true")?"isApp":"")+((sessionStorage.getItem("isLauncher")=="true")?"isLauncher":"");
+									},50);
+								}
+					});
+				}else{
+					$.ajax({
+						type: "GET",
+						url: fileURL[fileName],
+						async : false,
+						dataType: ($.support.msie) ? "text" : "xml",
+								success: function(data) {
+									if (typeof data == "string") {
+										xml = new ActiveXObject("Microsoft.XMLDOM");
+										xml.async = false;
+										xml.loadXML(data);
+									} else {
+										xml = data;
+									}
+									// alert(xml);
+								},error : function(e){
+									console.log("error while getting the data",e);
+									delete fileURL[fileName];
+									xml = readAndReturnXML(filePath,isAssFile);
+								}
+					});
+				}
+				return xml;
+			}
+		function submitLockedAttempt(){
+			var url = document.URL;
+			var orgId;
+			var assessmentId;
+			var attemptId ;
+			var candMasterId ;
+			var paramsData= url.split("#");
+			if(paramsData.length>1){
+				var params =paramsData[1];
+			}
+			var paramValues=params.split("@@");
+
+			orgId= paramValues[0];
+			assessmentId = paramValues[1];
+			attemptId = paramValues[2];
+			candMasterId = paramValues[3];
+
+			if(assessmentId.indexOf("M") == -1){
+				$("#pWait").show();
+				var xmlURL = "/IBACC/MockAssessmentAction.do?action=CandidateSubmit&orgId="+orgId+"&mockId="+assessmentId+"&candMasterId="+candMasterId+"&attemptNo="+attemptId;
+				jQuery.ajax({
+					url: xmlURL,
+					async: false,
+					type: 'POST',
+					dataType: 'text',
+					success: function(data) {
+						if(typeof(data)!='undefined' && data!=''){
+							cnfPop('forceSubmitAssessment');
+							$("#submitOnlineMsg").html(data);
+							$("#pWait").hide();
+						}
+					}
+				});
+			}
+		}
+
+
+	function windowClose(){
+		window.close();
+	}		
+	function cnfPop(id){
+		$('.overlay').show();
+		$('#'+id).show();
+		var pLft = ( $(window).width() - $('#'+id).width() )/2;
+		var pTop = ( $(window).height() - $('#'+id).height() )/2;
+		$('#'+id).css({'left':pLft+'px'});
+		$('#'+id).css({'top':pTop+'px'});
+	}	
+	function startTimer(timeLeft){
+		$("#timerSpan").html( "<b><span style='color:red;'>"+convertTime(timeLeft)+"</span></b>");
+		if(timeLeft>0){
+			timeCounter = setTimeout(function(){startTimer(timeLeft-1);},1000);
+
+		}else{
+			$("#timerSpan").hide();
+			$("#timerMessageSpan").html("<span style='color:red;'>Key is Invalid now. Please close the window and launch the assessment to generate new key.</span>");
+		}
+	}
+	
+	function convertTime(time){
+		return showMin(time)+":"+showSec(time);
+	}
+	function showMin(time){
+		var min = 0;
+		// time = time%3600;
+		min = parseInt(time/60);
+		return min;
+	}
+	function showSec(time){
+		var sec="";
+		if((time%60)>9)
+			sec = time%60;
+		else
+			sec = "0"+time%60;
+		return sec;	
+	}
+	
+	function launchAssessmentAgain(){
+		window.location.href= sessionStorage.configureURL+="&deleteAuthenticationFiles=true";
+		
+	}
+	
+	function launchAssessment(){
+		window.location.href=document.referrer+"&fromErrorPage=true";
+	}
+	function startTimerToLaunchAssessment(timeLeft){
+		$('#launchAssessmentButton').attr('disabled',true);
+		$("#launchAssessmentTimeLeft").html(convertTime(timeLeft));
+		$("#timeFormat").html(timeFormat);
+		if(timeLeft>0){
+			timeCounter = setTimeout(function(){startTimerToLaunchAssessment(timeLeft-1);
+			sessionStorage.timeRemainingToLaunch=sessionStorage.timeRemainingToLaunch-1;
+			},1000);
+			$('#launchAssessmentButton').attr('disabled',true);
+		}else{
+			$('#launchAssessmentButton').attr('disabled',false);	
+			$('#timeLeftMessage').hide();
+			$('#launchEnabledMessage').show();
+		}
+	}
+	function deleteAuthenticationFileAndGenerateLaunchkey(){
+		var url = document.URL;
+		var orgId;
+		var assessmentId;
+		var attemptId;
+		var candMasterId;
+		orgId = sessionStorage.orgId;
+		assessmentId = sessionStorage.assessmentId;
+		attemptId = sessionStorage.attemptId;
+		candMasterId = sessionStorage.cand_master_id;
+		if(assessmentId.indexOf("M") == -1){
+			var xmlURL = "/IBACC/MockAssessmentAction.do?action=deleteAuthenticationFile&orgId="+orgId+"&mockId="+assessmentId+"&candMasterId="+candMasterId+"&attemptNo="+attemptId+"&generateLaunchKey=true";
+			jQuery.ajax({
+				url: xmlURL,
+				async: false,
+				type: 'POST',
+				dataType: 'text',
+				success: function(data) {			
+					window.location.href = JSON.parse(data).URL;
+				}
+			});
+		}
+	}
+	$(document).on('click','#ForceLaunchAssessment',function(e){console.log(e);
+    	//deleteAuthenticationFileAndGenerateLaunchkey();
+			window.location.href = sessionStorage.configureURL+="&deleteAuthenticationFiles=true";
+	});
+	function langCodeFromXML(lang){
+		var languages = {
+				Albanian : "sq",
+				Arabic : "ar",
+				Assamese : "as",
+				Bahasa : "id",
+				Bahasa_Indonesia : "id",
+				Belarusian : "be",
+				Bengali : "bn",
+				Bodo : "brx",
+				Bulgarian : "bg",
+				Catalan : "ca",
+				Chinese : "zh",
+				Croatian : "hr",
+				Czech : "cs",
+				Danish : "da",
+				Dogri : "dgo",
+				Dutch : "nl",
+				English : "en",
+				Estonian : "et",
+				Finnish : "fi",
+				French : "fr",
+				German : "de",
+				Greek : "el",
+				Gujarati : "gu",
+				Hebrew : "he",
+				Hindi : "hi",
+				Hungarian : "hu",
+				Icelandic : "is",
+				Irish : "ga",
+				Italian : "it",
+				Japanese : "ja",
+				Kannada : "kn",
+				Kashmiri : "ks",
+				Korean : "ko",
+				Latvian : "lv",
+				Lithuanian : "lt",
+				Macedonian : "mk",
+				Maithili : "mai",
+				Malay : "ms",
+				Malayalam : "ml",
+				Maltese : "mt",
+				Manipuri : "mni",
+				Marathi : "mr",
+				Norwegian : "no",
+				Odia : "or",
+				Pashto : "ps",
+				Polish : "pl",
+				Portuguese : "pt",
+				Punjabi : "pa",
+				Rajasthani : "raj",
+				Romanian : "ro",
+				Russian : "ru",
+				Sanskrit : "sa",
+				Santali : "sat",
+				Serbian : "sr",
+				Sindhi : "sd",
+				Slovak : "sk",
+				Slovenian : "sl",
+				Spanish : "es",
+				Swedish : "sv",
+				Tamil : "ta",
+				Telugu : "te",
+				Thai : "th",
+				Tswana : "tn",
+				Turkish : "tr",
+				Ukrainian : "uk",
+				Urdu : "ur",
+				Vietnamese : "vi"
+		};
+		return languages[lang.includes(' ')?lang.replaceAll(' ','_'):lang];
+	}
+	</script>
+	<!--[if lt IE 7]>
+	<style>
+	body, #wrapper {height: 100%;}
+	</style>
+	<![endif]-->
+	</head>
+	<body>
+		<div id="wrapper error_page_wrapper">
+		<div id="pWait" style="display:none;background:grey;height:100%;width:100%;z-index:1999;position:absolute;opacity:0.99;filter:alpha(opacity=85);">
+	<div style="top:45%;position:relative;color:white">
+	<center><img src="images/busy4.gif" style="transparent url(none) no-repeat;padding:'32px 0 0 36px',width:'320px',height:'110px', margin:'0 0 0 10% display:block;"/><br>Submitting Assessment</center>
+	</div>
+</div>
+		  <div id="minwidth">
+			<div class="btnsection" align="center" style="height:60px; display:none; float: right;padding-right: 10px;">
+			<input class="btn " id="closeBtn"  value="Close" title="" type="button" onclick="IBA.exit();"/></div>
+			
+			<div class="pagecontainer">
+			  <div class="error_alert_container">
+				<div class="error_top_section">
+					<div class="header_language">
+							<div data-tooltip="tooltip" title="Change Language"
+								data-placement="top">
+								<div class="hdr_lan">
+									<i class="globeimg" role="img"></i> <span role="label"
+										id="change_lang_label" class="chnge_text"> Change
+										Language:</span>
+									<!--   <span class="lang_drpdn_blk">
+                            <span class="lang_name"> English</span>
+                            <i class="langarrow"></i>
+                        </span> -->
+									<!--  <select aria-labelledby="change_lang_label" onchange="changelanguage(this.value);">
+						<option value="Arabic">Arabic</option>
+						<option value="Assamese">Assamese</option>
+						<option value="Bahasa">Bahasa Indonesia</option>
+						<option value="Bengali">Bengali</option>
+						<option value="Chinese">Chinese</option>
+						<option value="English" selected="selected">English</option>
+						<option value="German">German</option>
+						<option value="Gujarati">Gujarati</option>
+						<option value="Hindi">Hindi</option>
+						<option value="Japanese">Japanese</option>
+						<option value="Kannada">Kannada</option>
+						<option value="Malayalam">Malayalam</option>
+						<option value="Manipuri">Manipuri</option>
+						<option value="Marathi">Marathi</option>
+						<option value="Oriya">Oriya</option>
+						<option value="Punjabi">Punjabi</option>
+						<option value="Portuguese">Portuguese</option>
+						<option value="Sanskrit">Sanskrit</option>
+						<option value="Spanish">Spanish</option>
+						<option value="Tamil">Tamil</option>
+						<option value="Telugu">Telugu</option>
+						<option value="Urdu">Urdu</option>
+						
+						</select> -->
+									<div class="lang-dropdown">
+										<button type="button" class="lang-btn" id="languageButton"
+											aria-labelledby="change_lang_label" aria-haspopup="listbox"
+											aria-expanded="false" aria-controls="languageList">
+											English <span aria-hidden="true">▼</span>
+										</button>
+
+										<ul class="lang-menu" id="languageList" role="listbox"
+											tabindex="-1" aria-labelledby="change_lang_label">
+											<li role="option" tabindex="-1" data-value="Arab ic" aria-selected="false">Arabic</li>
+											<li role="option" tabindex="-1" data-value="Assamese" aria-selected="false">Assamese</li>
+											<li role="option" tabindex="-1" data-value="Bahasa" aria-selected="true">Bahasa Indonesia</li>
+											<li role="option" tabindex="-1" data-value="Bengali" aria-selected="false">Bengali</li>
+											<li role="option" tabindex="-1" data-value="Chinese" aria-selected="false">Chinese</li>
+											<li role="option" tabindex="-1" data-value="English" aria-selected="false">English</li>
+											<li role="option" tabindex="-1" data-value="German" aria-selected="false">German</li>
+											<li role="option" tabindex="-1" data-value="Gujarati" aria-selected="false">Gujarati</li>
+											<li role="option" tabindex="-1" data-value="Hindi" aria-selected="false">Hindi</li>
+											<li role="option" tabindex="-1" data-value="Japanese" aria-selected="false">Japanese</li>
+											<li role="option" tabindex="-1" data-value="Kannada" aria-selected="false">Kannada</li>
+											<li role="option" tabindex="-1" data-value="Malayalam" aria-selected="false">Malayalam</li>
+											<li role="option" tabindex="-1" data-value="Manipuri" aria-selected="false">Manipuri</li>
+											<li role="option" tabindex="-1" data-value="Marathi" aria-selected="false">Marathi</li>
+											<li role="option" tabindex="-1" data-value="Oriya" aria-selected="false">Oriya</li>
+											<li role="option" tabindex="-1" data-value="Punjabi" aria-selected="false">Punjabi</li>
+											<li role="option" tabindex="-1" data-value="Portuguese" aria-selected="false">Portuguese</li>
+											<li role="option" tabindex="-1" data-value="Sanskrit" aria-selected="false">Sanskrit</li>
+											<li role="option" tabindex="-1" data-value="Spanish" aria-selected="false">Spanish</li>
+											<li role="option" tabindex="-1" data-value="Tamil" aria-selected="false">Tamil</li>
+											<li role="option" tabindex="-1" data-value="Telugu" aria-selected="false">Telugu</li>
+											<li role="option" tabindex="-1" data-value="Urdu" aria-selected="false">Urdu</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<!-- 	<div class="langdropdown">
+
+                    	<ul class="dropdown" role="listbox">
+                    	<li>
+                            <a class="eng_lang" href="javascript:void(0)">Arabic</a>
+                        </li>
+						<li>
+                            <a class="eng_lang" href="javascript:void(0)">Assamese</a>
+                        </li>
+						<li>
+                            <a class="eng_lang" href="javascript:void(0)">Bengali</a>
+                         </li>
+						<li>
+                            <a class="eng_lang" href="javascript:void(0)">Chinese</a>
+                        </li>
+						<li class="langselected">
+                            <a class="eng_lang" href="javascript:void(0)">English</a>
+                        </li>
+                        <li>
+                            <a class="eng_lang" href="javascript:void(0)">Gujarati</a>
+                        </li>
+                        <li>
+                            <a class="eng_lang" href="javascript:void(0)">Japanese</a>
+                        </li>
+                        <li>
+                            <a class="eng_lang" href="javascript:void(0)">German</a>
+                        </li>
+						<li>
+                            <a class="eng_lang" href="javascript:void(0)">Hindi</a>
+                         </li>
+						<li>
+                            <a class="eng_lang" href="javascript:void(0)">Kannada</a>
+                        </li>
+						<li>
+                            <a class="eng_lang" href="javascript:void(0)">Malayalam</a>
+                        </li>
+                        <li>
+                            <a class="eng_lang" href="javascript:void(0)">Manipuri</a>
+                        </li>
+						<li>
+                            <a class="eng_lang" href="javascript:void(0)">Marathi</a>
+                         </li>
+						<li>
+                            <a class="eng_lang" href="javascript:void(0)">Odia</a>
+                        </li>
+						<li>
+                            <a class="eng_lang" href="javascript:void(0)">Punjabi</a>
+                        </li>
+						<li>
+                            <a class="eng_lang" href="javascript:void(0)">Portuguese</a>
+                        </li>
+                        <li>
+                            <a class="eng_lang" href="javascript:void(0)">Sanskrit</a>
+                        </li>
+						<li>
+                            <a class="eng_lang" href="javascript:void(0)">Spanish</a>
+                         </li>
+						<li>
+                            <a class="eng_lang" href="javascript:void(0)">Tamil</a>
+                        </li>
+						<li>
+                            <a class="eng_lang" href="javascript:void(0)">Telugu</a>
+                        </li>
+                        <li>
+                            <a class="eng_lang" href="javascript:void(0)">Urdu</a>
+                        </li>
+					</ul>
+                </div>  -->
+					</div>	</div></div>
+					<div class="error_content" style="margin-top:20px;">
+							<div role="img" aria-label="error logo" class="error_image_div" style="display:none"></div>	
+							<div role="img" aria-label="error logo" class="error_image_div2" style="display:none"></div>	
+							<div role="img" aria-label="error logo" class="error_image_div3" style="display:none;"></div>
+							<div role="img" aria-label="error logo" class="error_image_div4" style="display:none;"></div>	
+										
+					<div class="sorryForInconvenienceDiv error_message_wrapper">
+						<!-- <div class="alert_image"><img src="images/alert_icon.gif"/></div>  -->
+						<div role="heading" aria-level="1"  class="alert_msg error_heading2">Sorry for the inconvenience</div>
+					</div>
+					
+					<div class="alert_msg_description error_msg1">
+					<span style="color:#F00" id="noteId">Note: </span><span id="message" style="font-family: OpenSans-Regular;color:#666;></span><span class="startTime" style="padding-left:5px;"></span>
+					<br><span class="deviceNotApplicable"></span><input type="button" style="margin-left:5px;display:none;" id="launchAssessmentButton" onclick="launchAssessment()" class="normalBtn btn btn-primary-save" value="Launch Assessment" disabled="disabled" />
+					<br><div class="error_msg_body">
+					<div class="error_border_bottom"></div>
+					 <h4 role="heading" aria-level="2" class="error_qn" style="font-family: OpenSans-Semibold;">How to proceed</h4>
+					<span id="HowToProceedDiv" style="font-family: OpenSans-Regular;color:#666;"></span>
+					<span id="shiftEsc">Please press<b> Right Shift + Esc</b> to close the assessment player. Please press <b>Alt+F4</b>, only if it does not work.</span>
+					<br><span></span><input type="button" style="margin-left:5px;display:none;" id="launchAssessmentButtonAgain" onclick="launchAssessmentAgain()" class="normalBtn btn btn-primary-save" value="Proceed"/>
+					
+					<!-- <span id="shiftEsc1" style="color: #666;font-family: OpenSans-Regular;">Please press<b> Right Shift + Esc</b> to close the assessment player. Please press <b>Alt+F4</b>, only if it does not work.</span> -->
+					</div></div></div>
+			  </div>
+			  
+				<div class="assistance_container" style="display:none">
+					<div class="min_height_div"></div>
+					<div class="assistance_title">Please find the below links to download this browsers,</div>
+					<div class="assistance_options_container">
+						<div class="assistance_options">
+							<div class="assistance_options_image"><img src="images/firefox_ico.png"/></div>
+							<div class="assistance_options_description">
+								<p>Version 13</p>
+								<p class="contact_number"><a href="http://www.mozilla.org/en-US/firefox/new/" target="_blank" >Click Here to download</a></p>
+							</div>
+							
+						</div> <div class="clear"></div>
+						<div class="assistance_options">
+							<div class="assistance_options_image"><img src="images/ie_ico.png"/></div>
+							<div class="assistance_options_description">
+								<p>Version 8</p>
+								<p class="contact_number"><a href="http://www.microsoft.com/en-us/download/internet-explorer-8-details.aspx" target="_blank">Click Here to download</a></p>
+							</div>
+						</div> <div class="clear"></div>
+						<div class="assistance_options">
+							<div class="assistance_options_image"><img src="images/chrome_ico.png"/></div>
+							<div class="assistance_options_description">
+								<p>Version 20</p>
+								<p class="contact_number"><a href="https://www.google.com/intl/en_in/chrome/browser/" target="_blank">Click Here to download</a></p>
+							</div>
+						</div> <div class="clear"></div>
+					</div>   
+				</div>
+			</div>
+			<div class="clear"></div>
+		  </div>
+		 <div id="footer">
+			 <!-- <table border="0" cellspacing="0" cellpadding="0" width="100%" height="44">
+			  <tr>
+			   <td width="10">&nbsp;</td>
+			   <td width="140" height="41"><span></span></td>
+			   <td align="center" ></td>
+			   <td width="140" align="right" height="44"></td>
+			   <td width="10">&nbsp;</td>
+			  </tr>
+			 </table> -->
+			 <center>
+            <div id="VersionNo"> Version 17.05.21</div></center>
+            <div class="clear"></div>
+		  </div>
+		</div>
+		
+		<div class="overlay" style="display:none;"></div>
+		<div class="confrmPopup" id="forceSubmitAssessment" aria-live="assertive">
+		<div class="cnfPopHdr">
+			<div class="cnfPopHdrLbl info">Info</div>
+			<a href="javascript:void(0)" class="fRight popCloseSubmit" tabindex="0" role="button" onclick="windowClose()">Close</a>
+			<div class="float-clear"></div>
+		</div>
+		<div class="cnfPopBdy">
+			<img src="images/info.gif" style="vertical-align: middle; margin-right: 10px;" class="info-icon"/><span id="submitOnlineMsg" class="info-lbl"></span>
+		</div>
+		<div class="cnfPopBtnPnl">
+			<a href="javascript:void(0)" class="greenBtn" tabindex="0" role="button" onclick="windowClose()">Ok</a>
+		</div>
+	
+		
+		
+		
+	</div>
+	<!-- <div class="btnsection" align="center" style="height:60px; display:none; float: right;padding-right: 10px;">
+			<input class="btn " id="closeBtn"  value="Close" title="" type="button" onclick="IBA.exit();"/></div> -->
+	<script src="js/exam/ui-config.js"></script>
+	<script src="js/exam/inspector-unlock.js"></script>
+	</body>
+</html>

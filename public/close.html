@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<!-- 	<link rel="stylesheet" href="css/mock_style.css" />
+		<link rel="stylesheet" href="css/keyboard.css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="css/number_style.css" />
+		<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+		<script type="text/javascript" src="js/top.js"></script>
+		<script type="text/javascript" src="js/bean.js"></script>
+		<script src="js/keyboard.js" type="text/javascript"></script> -->
+		<title></title>
+		<script>
+		/* var date = new Date(); */
+		var jsVersion = sessionStorage.jsVersion !=undefined ? sessionStorage.jsVersion : '17.05.14';
+		var cdnPath = sessionStorage.cdnPath+"OnlineAssessment";
+		if(typeof(sessionStorage.cdnPath)=="undefined")
+			sessionStorage.cdnPath = "";
+		if(sessionStorage.cdnPath == ""){
+			document.write('<link rel="stylesheet" type="text/css" href="css/mock_style.css?v='+jsVersion+'"\/\>');
+			document.write('<link rel="stylesheet" type="text/css" href="css/style.css?v='+jsVersion+'"\/\>');
+			document.write('<link rel="stylesheet" type="text/css" href="css/keyboard.css?v='+jsVersion+'"\/\>');
+			document.write('<link rel="stylesheet" type="text/css" href="css/number_style.css?v='+jsVersion+'"\/\>');
+		   /*document.write('<script type="text/javascript" src="js/jquery-1.8.0.min.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="js/jquery-migrate-1.4.1.min.js?v=' + jsVersion + '"\><\/script>');  
+			document.write('<script type="text/javascript" src="js/jquery-3.3.0.min.js?v=' + jsVersion + '"\><\/script>');
+			document.write('<script type="text/javascript" src="js/jquery-migrate-3.3.0.min.js?v=' + jsVersion + '"\><\/script>'); */
+			document.write('<script type="text/javascript" src="js/jquery-3.6.0.min.js?v=' + jsVersion + '"\><\/script>'); 
+
+			document.write('<script type="text/javascript" src="js/jquery.cookie.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="js/keyboard.js?v='+jsVersion+'"\><\/script>');
+
+			document.write('<script type="text/javascript" src="js/bean.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="js/variableinitialiserfortop.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="js/cacheFiles.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="js/top.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="js/Reliable.js?v='+jsVersion+'"\><\/script>');
+            document.write('<script type="text/javascript" src="js/candidateconsolechanges.js?v='+jsVersion+'"\><\/script>');
+		}else{
+			document.write('<link rel="stylesheet" type="text/css" href="'+cdnPath+'/css/mock_style.css?v='+jsVersion+'"\/\>');
+			document.write('<link rel="stylesheet" type="text/css" href="'+cdnPath+'/css/style.css?v='+jsVersion+'"\/\>');
+			document.write('<link rel="stylesheet" type="text/css" href="'+cdnPath+'/css/keyboard.css?v='+jsVersion+'"\/\>');
+			document.write('<link rel="stylesheet" type="text/css" href="'+cdnPath+'/css/number_style.css?v='+jsVersion+'"\/\>');
+		/*	 document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-1.8.0.min.js?v='+jsVersion+'"\><\/script>');
+    		 document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-migrate-1.4.1.min.js?v=' + jsVersion + '"\><\/script>');  
+			 document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-3.3.0.min.js?v=' + jsVersion + '"\><\/script>');
+			document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-migrate-3.3.0.min.js?v=' + jsVersion + '"\><\/script>'); */
+			document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-3.6.0.min.js?v=' + jsVersion + '"\><\/script>'); 
+			document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery.cookie.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="'+cdnPath+'/js/keyboard.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="'+cdnPath+'/js/bean.js?v='+jsVersion+'"\><\/script>');
+		    document.write('<script type="text/javascript" src="'+cdnPath+'/js/variableinitialiserfortop.js?v='+jsVersion+'"\><\/script>');
+		    document.write('<script type="text/javascript" src="'+cdnPath+'/js/cacheFiles.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="'+cdnPath+'/js/top.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="'+cdnPath+'/js/Reliable.js?v='+jsVersion+'"\><\/script>');
+            document.write('<script type="text/javascript" src="'+cdnPath+'/js/candidateconsolechanges.js?v='+jsVersion+'"\><\/script>');
+		}
+	</script>
+	
+		<script>
+			window.onresize= function(){alignHeight();};
+			var isLX=false;
+			var dispayExitMsg=new Array();
+			var useDefaultExitMessageConfiguration="";
+			var exitMessageConfigurationPath="";
+			function validateClosePageURL(){
+				if(document.URL.indexOf("autoMock")>=0){
+					validateClosePageURLAfterDataFetch();
+					alignHeight();
+					setTimeout(function(){
+						$('#container').removeAttr("aria-hidden");
+				       	$('#container').focus();
+						},1000);
+				}
+				else{
+				loadDataFromCache().then(function(e){
+					console.log(e)
+				}).finally(function(){
+					validateClosePageURLAfterDataFetch();
+					alignHeight();
+					setTimeout(function(){
+						$('#container').removeAttr("aria-hidden");
+				       	$('#container').focus();
+						},1000);
+				});
+				}
+			}
+			function validateClosePageURLAfterDataFetch(){
+				var url = document.URL;
+				var urlStatus = false;
+				
+				if(url.indexOf("roomURL") > 0){
+					$("#pWait").hide();
+					$('#closeMsg')
+							.html(
+									'Dear Candidate, <br/>You have successfully submitted the assessment and the process of Room Capturing has also been completed, Kindly close this Page to Exit.');
+					$('.btnsection').hide();
+					$('.noteToCloseWindow').hide();
+					
+				} else if(url.indexOf("autoMock")<0){
+				var params = url.split("close.html?");
+				var orgId = params[1].trim().split("@@")[0];
+				var mockId = params[1].trim().split("@@")[1];
+				var subscribedFor = params[1].trim().split("@@")[2];
+				var hasCustomMessage=false;
+				if(params.length>1 ){
+					if(mockId.indexOf("#")>-1){
+							mockId = mockId.substring(0,mockId.indexOf("#"));
+					}
+					if(params[1].trim().length>0){
+						var xml =validateExpiry(orgId,mockId);
+						//var xml = readAndReturnXML(xmlFilePath+'/confDetails.xml');
+						basicDetails(xml,false,"Close");
+						loadClosePageLabel();
+					    useDefaultExitMessageConfiguration = typeof($(xml).find("useDefaultExitMessageConfiguration").text()) != "undefined" ? $(xml).find("useDefaultExitMessageConfiguration").text() : "YES";
+						exitMessageConfigurationPath =  typeof($(xml).find("ExitMessageConfigurationPath").text()) != "undefined" ? $(xml).find("ExitMessageConfigurationPath").text() : "YES";
+						//loadClosePageLabel();
+						$("#pWait").hide();
+					}
+					if(subscribedFor.toUpperCase().indexOf('LX')!= -1 && mockVar.storeCandResponse==1){
+						isLX=true;
+						$('#closeMsg').html($(globalXmlvar).find('closePageLXMessage').text());
+					}
+					
+					try {
+							if (sessionStorage.subscribed_for == "iEvolve") {
+								$('#closeMsg').empty();
+								$('#closeMsg').append("Dear Candidate, You have now successfully submitted the Exam. <br><b>Number of attempts submitted : "+ sessionStorage.attemptId +"/"+ sessionStorage.TotalAttempts+".</b>");
+							}
+						} catch (e) {
+
+						}
+					} else {
+						window.location.href = "error.html";
+					}
+				    if(typeof(sessionStorage.xmlFilePath) != "undefined")
+					xmlFilePath = sessionStorage.xmlFilePath;
+				    if(useDefaultExitMessageConfiguration=="NO" && (exitMessageConfigurationPath != "" && exitMessageConfigurationPath.indexOf("html") > 0)){
+					   $("#container").hide();
+					   $("#footer").hide();
+					   $("#iframe").show();
+					   $("#customeFile").attr('src',(xmlFilePath+"/"+exitMessageConfigurationPath));
+				    } 
+				    else {
+				    	if ($.cookie("defaultexitPageOA") == 'NO') {
+				    		var subjectInstructionsDetails = sessionStorage.SubjectLevelInstructions == "YES"? sessionStorage.subjectId+"_": "";
+						var cdnPath = (typeof(sessionStorage.cdnPath)!="undefined" && sessionStorage.cdnPath != "") ? sessionStorage.cdnPath+"/" : "";
+						if (typeof (sessionStorage.xmlFilePath) != "undefined")
+							xmlFilePath = sessionStorage.xmlFilePath;
+						var xml = readAndReturnXML(xmlFilePath
+								+ '/'+subjectInstructionsDetails+'custInstructions.xml'+'?v='+sessionStorage.assessmentUpdatedDate,true);
+						var optTxt = '';
+						var i = 1;
+						var countToDisplay = 0;
+						$(xml).find("INSTRUCTION").each(
+								function() {
+									var langId = $(this).find("LANGID").text();
+									countToDisplay++;
+									var langName = $(this).find("LANGNAME")
+											.text();
+									var msgtext = $(this)
+											.find('EXITPAGETEXTOA').text();
+									dispayExitMsg[langId] = msgtext;
+									optTxt += "<option value="+langId+">"
+											+ langName + "</option>";
+									$('#closeMsg').html(dispayExitMsg[i]);
+								});
+
+						hasCustomMessage = true;
+
+					}
+
+					if ($.cookie("defaultexitPage") == 'NO') {
+						var subjectInstructionsDetails = sessionStorage.SubjectLevelInstructions == "YES"? sessionStorage.subjectId+"_": "";
+						var cdnPath = (typeof(sessionStorage.cdnPath)!="undefined" && sessionStorage.cdnPath != "") ? sessionStorage.cdnPath+"/" : "";
+						if (typeof (sessionStorage.xmlFilePath) != "undefined")
+							xmlFilePath = sessionStorage.xmlFilePath;
+						var xml = readAndReturnXML(xmlFilePath
+								+ '/'+subjectInstructionsDetails+'custInstructions.xml'+'?v='+sessionStorage.assessmentUpdatedDate,true);
+						var optTxt = '';
+						var i = 1;
+						var countToDisplay = 0;
+						$(xml).find("INSTRUCTION").each(
+								function() {
+									var langId = $(this).find("LANGID").text();
+									countToDisplay++;
+									var langName = $(this).find("LANGNAME")
+											.text();
+									var msgtext = $(this).find('EXITPAGETEXT')
+											.text();
+									dispayExitMsg[langId] = msgtext;
+									optTxt += "<option value="+langId+">"
+											+ langName + "</option>";
+									$('#closeMsg').html(dispayExitMsg[i]);
+								});
+						hasCustomMessage = true;
+					}
+
+					if (countToDisplay > 1) {
+						$("#defaultLangOptions").show();
+					}
+
+					$("#defaultLanguage1").append(optTxt);
+					$.removeCookie("defaultexitPage");
+					$.removeCookie("defaultexitPageOA");
+					if (!hasCustomMessage) {
+						if (((document.URL.indexOf('isApp') >= 0) ? true
+								: false)) {
+							$('.noteToCloseWindow').hide();
+							$('#closeBtn').hide();
+							if (isLX)
+								$('#closeMsg').html(
+										$(globalXmlvar).find(
+												'closePageLXIsAppMessage')
+												.text());
+							else
+								$('#closeMsg').html(
+										$(globalXmlvar).find(
+												'closePageWindowMessage')
+												.text());
+						} else if (((document.URL.indexOf('isLauncher') >= 0) ? true
+								: false)) {
+							$('#closeBtn').hide();
+							$('.noteToCloseWindow').show();
+							$('#closeMsg').html(
+									$(globalXmlvar).find(
+											'closePageWindowMessageLauncher')
+											.text());
+							$('.noteToCloseWindowMessage')
+									.html(
+											$(globalXmlvar)
+													.find('noteshiftEsc')
+													.text());
+						} else {
+							$('.noteToCloseWindow').hide();
+						}
+					} else {
+						displayExitMsg();
+						if (((document.URL.indexOf('isApp') >= 0) ? true
+								: false)) {
+							$('.noteToCloseWindow').hide();
+							$('#closeBtn').hide();
+						} else if (((document.URL.indexOf('isLauncher') >= 0) ? true
+								: false)) {
+							$('#closeBtn').hide();
+							$('.noteToCloseWindow').show();
+							$('.noteToCloseWindowMessage')
+									.html(
+											$(globalXmlvar)
+													.find('noteshiftEsc')
+													.text());
+						} else {
+							$('.noteToCloseWindow').hide();
+						}
+					}
+				}
+				} else {
+					$("#pWait").hide();
+					$('#closeMsg')
+							.html(
+									'Dear Participant,<br/>You have now completed the assessment.  Close the window to close the assessment.');
+					$('.noteToCloseWindow').hide();
+				}
+			  
+			}
+			function displayExitMsg() {
+				$('#closeMsg').html(dispayExitMsg[defaultLanguage1.value]);
+			}
+			function proctoringCheck() {
+				try {
+					IBA.exit();
+					
+				} catch (e) {
+					if ($.cookie("isPaperDevice") != undefined
+							&& $.cookie("isPaperDevice") == "true")
+						IBA.exit();
+					else {
+
+						window.parent.close();
+						$("#pWait").hide();
+						setTimeout(function(){var pathPrefix = "",xml;
+						if(sessionStorage.isCustmLangxml=="true") {
+							if(typeof(sessionStorage.cdnPath)!="undefined" && sessionStorage.cdnPath != ""){
+								//pathPrefix+=sessionStorage.cdnPath;
+							}
+							pathPrefix+=sessionStorage.custLangXMLPath;
+							var custLangVersion =  (typeof(sessionStorage.custLangVersion)!="undefined" && sessionStorage.custLangVersion != "") ? sessionStorage.custLangVersion : "123";
+								xml = readAndReturnXML(pathPrefix+'LangXML/'+mockVar.langName+'.xml'+'?v='+custLangVersion,false);
+							    if(sessionStorage.isExaminer == 'false')
+							$('#closeMsg').html($(xml).find('ClosePageMessageOA').text());
+							    else
+				    	$('#closeMsg').html($(xml).find('ExaminerClosePageMessageOA').text());
+						}
+						else {$('#closeMsg')
+							.html(
+							'Dear Participant,<br/>You have now completed the assessment. Close the window to close the assessment.');}
+					},500);
+						/* $('#closeMsg')
+								.html(
+										'Dear Participant,<br/>You have now completed the assessment. Close the window to close the assessment.'); */
+						$('.btnsection').hide();
+						$('.noteToCloseWindow').hide();
+						if(sessionStorage.isSecured=="true" && sessionStorage.operatingSystem !=undefined && (sessionStorage.operatingSystem.toUpperCase() == "MAC OS" || sessionStorage.operatingSystem.toUpperCase() == "MAC OS X" || sessionStorage.operatingSystem.toUpperCase() == "iOS") && sessionStorage.isPaperDevice == "false")
+						{
+						 	window.webkit.messageHandlers.exit.postMessage("exit") ;
+						 	setTimeout(function(){
+						 		window.webkit.messageHandlers.exit.postMessage("exit") ;
+						},1000);
+						}
+					}
+
+				}
+			}
+
+			$(document).ready(function(){
+				if(typeof(sessionStorage.assessmentLogoPath)!='undefined'){
+					document.head.insertAdjacentHTML(
+						  "beforeend",
+						  '<link rel="icon" class="favicon" type="image/png" href="'+sessionStorage.assessmentLogoPath+'?v=' + Date.now() +'">'
+						);
+				}
+			/* if(((document.URL.indexOf('isApp') >= 0) ? true : false)){
+				$('.noteToCloseWindow').hide();
+				$('#closeBtn').hide();
+				if(isLX)
+				$('#closeMsg').html("Dear Participant,<br/>You have now completed the assessment.  Close the window to close the assessment and return to the course page to see your result.");
+				else
+				$('#closeMsg').html("Dear Participant,<br/>You have now completed the assessment.  Close the window to close the assessment.");
+			} */
+			}); 
+		</script>
+	</head>
+	<body onload="validateClosePageURL();alignHeight();" onselectstart="return false;" ondrag="return false;">
+	   <div id="iframe" style="display:none"><iframe id="customeFile" src="" style="height:100%;width:100%;border:none;top:0px;position:absolute;"></iframe></div>
+	   <div id="sr_announcement_loading" aria-live="assertive" class="visually-hidden" style="overflow: hidden;position: absolute;left: -99999px;height: 1px;width: 1px;"></div>
+	  <script>
+		function announcePageLoading(status){
+			const liveRegion = document.getElementById("sr_announcement_loading");
+			liveRegion.textContent = "";
+			liveRegion.textContent =  `${status} Close Quiz page, Please wait.`; 
+			setTimeout(function() {
+        		liveRegion.textContent = "";
+        	},5000)
+		}
+		announcePageLoading('loading');
+		</script>
+	   <div id="container" aria-hidden="true" tabindex="-1" style="outline:none">
+			<div id="pWait" style="background:grey;height:100%;width:100%;z-index:1999;position:absolute;opacity:0.99;filter:alpha(opacity=40);">
+			<div style="top:45%;position:relative;color:white">
+			 <div class="load normalLoader"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span
+                class="dot"></span><span class="dot"></span></div>
+			<center class="BCLoader" style="display: none;padding-top: 125px;">
+					<img src="images/BCLoader.gif"/>
+			</center>
+			</div>
+		</div>
+		<div role="banner" id="header">
+			 <table width="100%" cellspacing="0" cellpadding="0" border="0">
+				<tbody>
+				  <tr>
+					<td align="left" id="bannerImage">
+						<div id="bannerImg" style="float:left"></div>
+						<div id="bannerText" align="center" style="margin-top:10px; font-weight:bold;"><font size="4" color="#ffffff"></font></div>
+					</td>
+				  </tr>
+				</tbody>
+			  </table>
+		</div>
+		
+		<style>
+		pre{
+       white-space : break-spaces;
+           }
+           #bannerImg img{
+	margin:0px;
+	}
+	:root {
+            --min-size: 2px;
+            --max-size: 20px;
+        }
+#pWait .load {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            margin: 0px auto;
+            left: 0px;
+            right: 0px;
+            top: 50%;
+        }
+
+        .load .dot {
+            background: white;
+            margin: 5px;
+            -webkit-animation-name: loader;
+            animation-name: loader;
+            -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+            -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+            -webkit-animation-direction: alternate;
+            animation-direction: alternate;
+        }
+
+        .load .dot:nth-child(1) {
+            -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s;
+            background: #F03782;
+        }
+
+        .load .dot:nth-child(2) {
+            -webkit-animation-delay: 0.4s;
+            animation-delay: 0.4s;
+            background: #9482C5;
+        }
+
+        .load .dot:nth-child(3) {
+            -webkit-animation-delay: 0.6s;
+            animation-delay: 0.6s;
+            background: #EF7333;
+        }
+
+        .load .dot:nth-child(4) {
+            -webkit-animation-delay: 0.8s;
+            animation-delay: 0.8s;
+            background: #64E6E1;
+        }
+
+        .load .dot:nth-child(5) {
+            -webkit-animation-delay: 1s;
+            animation-delay: 1s;
+            background: #FFE600;
+        }
+
+
+        @-webkit-keyframes loader {
+            from {
+                width: 2px;
+                width: var(--min-size);
+                height: 2px;
+                height: var(--min-size);
+                border-radius: calc(2px / 2);
+                border-radius: calc(var(--min-size) / 2);
+            }
+
+            to {
+                width: 20px;
+                width: var(--max-size);
+                height: 20px;
+                height: var(--max-size);
+                border-radius: calc(20px / 2);
+                border-radius: calc(var(--max-size) / 2);
+            }
+        }
+
+
+
+        @keyframes loader {
+            from {
+                width: 2px;
+                width: var(--min-size);
+                height: 2px;
+                height: var(--min-size);
+                border-radius: calc(2px / 2);
+                border-radius: calc(var(--min-size) / 2);
+            }
+
+            to {
+                width: 20px;
+                width: var(--max-size);
+                height: 20px;
+                height: var(--max-size);
+                border-radius: calc(20px / 2);
+                border-radius: calc(var(--max-size) / 2);
+            }
+        }
+		</style>
+		
+		
+		<div role="main" id="mainleft" style="display:flex;align-items: center;margin-left:3px;width:100%;text-align: center; overflow: scroll">
+			<div class="finalExit">
+			<p id="closeMsg" style="font-size:large"></p>
+			<br><br><span class="noteToCloseWindow noteToCloseWindowMessage" style="display:none"><b>Note</b> : <span class="noteToCloseWindow">Please press<b> Right Shift + Esc</b> to close the assessment player. Please press <b>Alt+F4</b>, only if it does not work.</span></span>
+			<br/><br/><br/><br/>
+			<div id="defaultLangOptions"  style=" display:none;margin-top:10px">
+						<span id="defLang">Choose your default language</span>
+						<select id="defaultLanguage1" onclick="displayExitMsg()" >
+						</select>
+						<br/><span class='highlightText' id="multiLangInstru" >Msg will be shown in selected language</span>
+					</div>
+			
+			<div class="btnsection" align="center" style="height:60px">
+			<input class="btn btn-primary btn-primary-blue" id="closeBtn"  value="Close" title="" type="button" onClick="proctoringCheck();"/></div>
+			</div>
+			
+		</div>
+		
+	</div>
+	<div role="contentinfo" id="footer">
+        </div>
+        <script>
+        var xeroxThemeStyles = `@font-face {
+		    font-family: Roboto-Light;
+	    font-display: block;
+	    src: url('/OnlineAssessment/fonts/newThemes/Roboto-Light.ttf') format('opentype'), url('../fonts/Roboto-Light.eot') format('embedded-opentype');
+	}
+	@font-face {
+	    font-family: Roboto-Bold;
+	    font-display: block;
+	    src: url('/OnlineAssessment/fonts/Roboto-Bold.ttf');
+	}
+	@font-face {
+	    font-family: Roboto-Italic;
+	    font-display: block;
+	    src: url('/OnlineAssessment/fonts/Roboto-Italic.ttf');
+	}
+	@font-face {
+	    font-family: Roboto-Regular;
+	    src: url('/OnlineAssessment/fonts/Roboto-Regular.ttf') format('opentype'), url('../fonts/Roboto-Regular.eot?#iefix') format('embedded-opentype');
+	}
+	@font-face {
+	    font-family: Roboto-Medium;
+	    src: url('/OnlineAssessment/fonts/Roboto-Medium.ttf') format('opentype'), url('../fonts/Roboto-Medium.eot?#iefix') format('embedded-opentype');
+	}
+	@font-face {
+	    font-family: RobotoCondensed-Regular;
+	    font-display: block;
+	    src: url('/OnlineAssessment/fonts/RobotoCondensed-Regular.ttf');
+	}
+	@font-face {
+	    font-family: RobotoCondensed-Semibold;
+	    font-display: block;
+	    src: url('/OnlineAssessment/fonts/RobotoCondensed-Medium.ttf');
+	}
+	
+	/* Instruction Screen css */
+	
+	body{
+		font-family: 'Roboto-Regular';
+	    font-size: 16px;
+	    margin: 0;
+	    overflow: hidden;
+	}.btn-primary-blue {
+		background: #D92231 !important;
+    	border-color: transparent !important;
+    	font-family: Roboto-Regular;
+    	text-transform: uppercase;
+    	font-size: 14px;
+	}`
+	if(sessionStorage.userDefinedNum == "xeroxUI"){
+		var styleElement = document.createElement('style');
+		styleElement.className = "themeStyle";
+		styleElement.innerHTML = xeroxThemeStyles;
+		document.head.appendChild(styleElement);
+	}
+        </script>
+        <script src="js/exam/ui-config.js"></script>
+        <script src="js/exam/inspector-unlock.js"></script>
+	</body>
+</html>

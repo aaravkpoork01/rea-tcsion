@@ -1,0 +1,1 @@
+!function(){var t=/{([^}]+)}/g;CKEDITOR.template=function(t){this.source=String(t)},CKEDITOR.template.prototype.output=function(e,n){var r=this.source.replace(t,function(t,n){return void 0!==e[n]?e[n]:t});return n?n.push(r):r}}();

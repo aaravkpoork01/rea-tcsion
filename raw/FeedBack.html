@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1">
+<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+        
+        <title></title>
+
+			<script>
+		var feedback;
+		/* var date = new Date(); */
+		var cdnPath = sessionStorage.cdnPath+"OnlineAssessment";
+		var jsVersion = sessionStorage.jsVersion !=undefined ? sessionStorage.jsVersion : '17.05.03.01';
+		if(typeof(sessionStorage.cdnPath)=="undefined")
+			sessionStorage.cdnPath = "";
+		if(sessionStorage.cdnPath == ""){
+			document.write('<link rel="stylesheet" type="text/css" href="css/mock_style.css?v='+jsVersion+'"\/\>');
+			document.write('<link rel="stylesheet" type="text/css" href="css/style.css?v='+jsVersion+'"\/\>');
+			/* document.write('<link rel="stylesheet" type="text/css" href="css/keyboard.css?v='+jsVersion+'"\/\>'); */
+			/*  document.write('<script type="text/javascript" src="js/jquery-1.8.0.min.js?v='+jsVersion+'"\><\/script>');
+	          document.write('<script type="text/javascript" src="js/jquery-migrate-1.4.1.min.js?v=' + jsVersion + '"\><\/script>');  
+	        document.write('<script type="text/javascript" src="js/jquery-3.3.0.min.js?v=' + jsVersion + '"\><\/script>');
+	      document.write('<script type="text/javascript" src="js/jquery-migrate-3.3.0.min.js?v=' + jsVersion + '"\><\/script>');*/ 
+	     document.write('<script type="text/javascript" src="js/jquery-3.6.0.min.js?v=' + jsVersion + '"\><\/script>'); 
+			document.write('<script type="text/javascript" src="js/jquery.cookie.js?v='+jsVersion+'"\><\/script>');
+			/* document.write('<script type="text/javascript" src="js/KeyboardLock.js?v='+jsVersion+'"\><\/script>'); */
+			/*document.write('<script type="text/javascript" src="js/keyboard.js?v='+jsVersion+'"\><\/script>'); */
+			document.write('<script type="text/javascript" src="js/script.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="js/bean.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="js/variableinitialiserfortop.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="js/accessibilityQuiz.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="js/cacheFiles.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="js/top.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="js/Reliable.js?v='+jsVersion+'"\><\/script>');
+             document.write('<script type="text/javascript" src="js/candidateconsolechanges.js?v='+jsVersion+'"\><\/script>');
+         	document.write('<script type="text/javascript" src="js/jquery-ui.js?v='+jsVersion+'"\><\/script>');
+         	document.write('<link rel="stylesheet" type="text/css" href="css/livefeed/livefeed.css?v='+jsVersion+'"\/\>')
+            document.write('<script type="text/javascript"  src="js/livefeed/livefeed.js?v='+jsVersion+'"\><\/script>');
+		}else{
+			document.write('<link rel="stylesheet" type="text/css" href="'+cdnPath+'/css/mock_style.css?v='+jsVersion+'"\/\>');
+			document.write('<link rel="stylesheet" type="text/css" href="'+cdnPath+'/css/style.css?v='+jsVersion+'"\/\>');
+			/* document.write('<link rel="stylesheet" type="text/css" href="css/keyboard.css?v='+jsVersion+'"\/\>'); */
+			/* document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-1.8.0.min.js?v='+jsVersion+'"\><\/script>');
+	         document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-migrate-1.4.1.min.js?v=' + jsVersion + '"\><\/script>');  
+	        document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-3.3.0.min.js?v=' + jsVersion + '"\><\/script>');
+	      document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-migrate-3.3.0.min.js?v=' + jsVersion + '"\><\/script>'); */
+	      document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-3.6.0.min.js?v=' + jsVersion + '"\><\/script>'); 
+            document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery.cookie.js?v='+jsVersion+'"\><\/script>');
+			/* document.write('<script type="text/javascript" src="js/KeyboardLock.js?v='+jsVersion+'"\><\/script>'); */
+			/*document.write('<script type="text/javascript" src="js/keyboard.js?v='+jsVersion+'"\><\/script>'); */
+			document.write('<script type="text/javascript" src="'+cdnPath+'/js/script.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="'+cdnPath+'/js/bean.js?v='+jsVersion+'"\><\/script>');
+		    document.write('<script type="text/javascript" src="'+cdnPath+'/js/variableinitialiserfortop.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="'+cdnPath+'/js/accessibilityQuiz.js?v='+jsVersion+'"\><\/script>');
+		    document.write('<script type="text/javascript" src="'+cdnPath+'/js/cacheFiles.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="'+cdnPath+'/js/top.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script type="text/javascript" src="'+cdnPath+'/js/Reliable.js?v='+jsVersion+'"\><\/script>');
+             document.write('<script type="text/javascript" src="'+cdnPath+'/js/candidateconsolechanges.js?v='+jsVersion+'"\><\/script>');
+             document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-ui.js?v='+jsVersion+'"\><\/script>');
+             document.write('<link rel="stylesheet" type="text/css" href="' + cdnPath + '/css/livefeed/livefeed.css?v=' + jsVersion + '"\/\>');
+             document.write('<script type="text/javascript" src="'+cdnPath+'/js/livefeed/livefeed.js?v='+jsVersion+'"\><\/script>');
+		}
+	</script>
+	<script type="text/javascript">
+		var orgId;
+		var candMasterId;
+		var AttemptId;
+		var mockId;
+		 var timeSpentOnPage = 0;
+		$(document).ready(function(event){
+			if(typeof(sessionStorage.assessmentLogoPath)!='undefined'){
+				document.head.insertAdjacentHTML(
+					  "beforeend",
+					  '<link rel="icon" class="favicon" type="image/png" href="'+sessionStorage.assessmentLogoPath+'?v=' + Date.now() +'">'
+					);
+			}
+			//disableKeysInTest(event);
+			try{
+				function timeSpentOnThisPage(){
+			    	setTimeout(function() {
+			    		++timeSpentOnPage;
+			    		timeSpentOnThisPage();
+			    	},1000);
+			    }
+				timeSpentOnThisPage();
+			} catch(e){
+				console.log("timespent");
+			}
+				$.ajaxSetup({
+					async: false
+				});
+			try
+			{
+				if(sessionStorage.livefeedforstaticmock === '1')
+				{
+					$("#remoteProctoringFrame").attr("src","/OnlineAssessment/IBARemoteProctoring.html");
+					enableRemoteProctoringDrag(window.top.document.getElementById("remoteProctoringDiv"));
+				}
+			}
+			catch(e){}
+		});
+		
+		
+			
+		$(document).keydown(function(e){
+			if(!$(e.target).is("textarea")){
+				var code = (e.keyCode ? e.keyCode : e.which);
+				if(code == 8 || code == 116){
+					return false;
+				}
+			}
+		});
+		function alignFeedPageHeight(){
+			if($(window).width()<1000)
+				$("#header").hide();
+			var height = $(window).height()-($("#header").height()+$("#footer").height());
+			$('#mainleft').css({"height":height});
+			$('#mainright').css({"height":height});
+			$('#container').css({"height":$('#mainleft').height()+$("#header").height()});
+			$('#instructdiv').css({"height":$('#mainleft').height()-$("#feedBackHeader").height()-50});
+		}
+		window.onresize= function(){alignFeedPageHeight()};
+		
+        function maxLength(field,maxChars){
+	        if(field.value.length >= maxChars) {
+	            event.returnValue=false;
+	            alert("not more than " +maxChars + " chars");
+	            return false;
+	        }
+        }
+        function maxLengthPaste(field,maxChars){
+            event.returnValue=false;
+            if((field.value.length +  window.clipboardData.getData("Text").length) > maxChars) {
+                alert("not more than " +maxChars + " chars");
+                return false;
+            }
+            event.returnValue=true;
+        }
+		function moveToClose(){
+			var mockId='',orgId='',subscribedFor='';
+			var url = document.URL;
+			var params = url.split("FeedBack.html?");
+			if(params[1].indexOf("eID=")>-1){
+				orgId = sessionStorage.orgId;
+				mockId= sessionStorage.assessmentId;
+				subscribedFor=$.trim(params[1]).split("@@")[1];
+			}else{
+			 orgId = $.trim(params[1]).split("@@")[0];
+			 mockId= $.trim(params[1]).split("@@")[1];
+			 subscribedFor=$.trim(params[1]).split("@@")[2];
+			}
+			cnfPop('FeedbackSubmitPopup');
+			$('.overlay').css("z-index","99");
+			if(mockVar.storeCandResponse==1)
+				$("#feedbackSubmitMsg").html($(globalXmlvar).find('OAFeedBackThanks').text());				
+				else
+				//$("#feedbackSubmitMsg").html('Thanks for your valuable feedback..! You have successfully completed the exam...!');
+			    $("#feedbackSubmitMsg").text(mockLabels.feedbackSubmitMsgExam);	
+			//setCookie(mockVar.langName);
+		//	window.location.href='close.html?'+orgId+"@@"+mockId+"@@"+subscribedFor;
+		}
+		$(function(){
+			$('input:radio[value="3-Met expectations"]').attr("checked",true);
+		})
+
+	function feedbackSubmit(){
+		var mockId='',orgId='',subscribedFor='';	
+		var url = document.URL;
+		var params = url.split("FeedBack.html?");
+		if(params[1].indexOf("eID=")>-1){
+			orgId = sessionStorage.orgId;
+			mockId= sessionStorage.assessmentId;
+			subscribedFor=$.trim(params[1]).split("@@")[1];
+		}else{
+		 orgId = $.trim(params[1]).split("@@")[0];
+		 mockId = $.trim(params[1]).split("@@")[1];
+		 subscribedFor=$.trim(params[1]).split("@@")[2];
+		}
+		setCookie(mockVar.langName);
+		var isMockIRC = (sessionStorage.assessType=='Mock')? true : false;
+		// if(sessionStorage.isSecured == "true" && sessionStorage.assessType == 'Actual'){
+		//	deleteLauncher();
+		//} 
+		if(isMockIRC && sessionStorage.isSecured == "true"){
+			mockSummaryPage();
+		}
+		else{
+			var encodedeParam=orgId+"@@"+mockId+"@@";
+			if(params[1].indexOf("eID=")>-1){
+				encodedeParam=params[1];
+			window.location.href='close.html?'+encodedeParam+subscribedFor+"#"+(($.cookie("isApp")=="true")?"isApp":"")+(($.cookie("isLauncher")=="true")?"isLauncher":"");
+			}else{
+				window.location.href='close.html?'+encodedeParam+subscribedFor+"#"+(($.cookie("isApp")=="true")?"isApp":"")+(($.cookie("isLauncher")=="true")?"isLauncher":"");	
+			}
+		}
+	}
+	function validateFeedPageURL(){
+		loadDataFromCache().then(function(e){
+			console.log(e)
+		}).catch(function(e){
+			console.log(e);
+		}).finally(function(){
+			validateFeedPageURLAfterDataFetch();
+			
+		});
+	}
+	function validateFeedPageURLAfterDataFetch(){
+		var url = document.URL;
+		var AttemptId='';
+		var params = url.split("FeedBack.html?");
+		if(params[1].indexOf("eID=")>-1){
+			mockVar.orgId = sessionStorage.orgId;
+			mockVar.mockId = sessionStorage.assessmentId;
+			mockVar.candMasterId = params[1].trim().split("@@")[2];
+			AttemptId = params[1].trim().split("@@")[3];
+			mockVar.useDefaultFeedback =params[1].trim().split("@@")[4];
+		}else{
+		mockVar.orgId = params[1].trim().split("@@")[0];
+		mockVar.mockId = params[1].trim().split("@@")[1];
+		mockVar.candMasterId = params[1].trim().split("@@")[3];
+		AttemptId = params[1].trim().split("@@")[4];
+		mockVar.useDefaultFeedback =params[1].trim().split("@@")[5];
+		}
+
+		if (params.length > 1) {
+			if (mockVar.mockId.indexOf("M") == -1) {
+				mockVar.storeCandResponse = 1;
+			}
+			if (AttemptId.indexOf("#") > -1) {
+				mockVar.AttemptId = AttemptId.substring(0,AttemptId.indexOf("#"));
+			}else{
+				mockVar.AttemptId = AttemptId;
+			}
+			if (params[1].trim().length > 0) {
+				var xml = validateExpiry(mockVar.orgId,mockVar.mockId);
+				basicDetails(xml, false,"Feedback");
+				getCandIdFromCookie();
+				feedbackPageLabel(mockVar.langName);
+				fillfeedbackDiv(mockVar.langName);
+				if(mockVar.storeCandResponse==1){					
+					if(sessionStorage.getItem("photographPath")!=undefined && sessionStorage.getItem("photographPath")!='NA'){
+						$(".candidateImg").attr("src", sessionStorage.getItem("photographPath"));
+						$(".candidateImg").show();
+					}else{
+						$(".candidateImg").hide();
+					}
+					if(mockVar.candName.length>0){
+						$('#candOriginalName').html(mockVar.candName);
+					}
+				}else{
+					if($(xml).find("USEDEFAULTCANDIDATEIMG").length>0 && $(xml).find("USEDEFAULTCANDIDATEIMG").text() == "NO"){
+						$(".candidateImg").attr("src",$(xml).find("CANDIDATEIMGPATH").text());
+					}else{
+						$(".candidateImg").attr("src","images/NewCandidateImage.jpg");
+					}
+					if($(xml).find("CandidateName").length>0){
+						$('.candOriginalName').html(mockVar.mockCandidateName);
+					}else{
+						$('.candOriginalName').html("Your Name");
+					}
+				}
+				$("#pWait").hide();
+			}
+		}else {
+			window.location.href = "error.html";
+		}
+	}
+	
+	function fillfeedbackDiv(tempVal) {
+		if (mockVar.storeCandResponse == 1) {
+			$(".ratingDiv").hide();
+			$(".default").empty();
+			if(mockVar.useDefaultFeedback=='YES'){
+			/*	$.getJSON('feedback.json', function(data){
+					feedbackdata = data;
+				}); */
+				 jQuery.ajax({
+					url: 'feedback.json',
+					async: false,
+					type: 'GET',
+					dataType: 'json',
+					success: function(data) {
+						feedbackdata = data;
+					}}); 
+			}else{
+				var xmlFilePath= $.cookie("xmlFilePath");
+		/*		$.getJSON(xmlFilePath + 'feedback.json',function(data) {
+					feedbackdata = data;
+				})
+				.error(function() {
+					$.getJSON('feedback.json', function(data){
+						feedbackdata = data;
+					}); });	
+			} */
+			jQuery.ajax({
+				url: xmlFilePath+'feedback.json',
+				async: false,
+				type: 'GET',
+				dataType: 'json',
+				success: function(data) {
+					feedbackdata = data;
+				},
+				error : function (){
+					
+					jQuery.ajax({
+						url: 'feedback.json',
+						async: false,
+						type: 'GET',
+						dataType: 'json',
+						success: function(data) {
+							feedbackdata = data;
+						}});	
+				}
+			});
+		} 
+			fillLangfromjson();
+		}else if(mockVar.useDefaultFeedback== 'NO'){
+			fillmockfeedbackDiv();
+		}
+	}
+	function fillmockfeedbackDiv() {
+		var xmlFilePath= $.cookie("xmlFilePath");
+		$.getJSON(xmlFilePath + 'feedback.json',function(data) {
+			feedbackdata = data;
+			fillMockLangfromjson();
+		});
+	}
+	function fillLangfromjson() {
+		var feedBackQuestions, langData, langName, langId;
+		var langNameArr = new Array();
+		var tempVal = $.cookie("defLangName");
+		console.log("tempVal1::"+tempVal);
+		if(typeof($.cookie("defLangName"))=="undefined" && sessionStorage.scanFileType == 3 && sessionStorage.showfeedbackpage == 1 && typeof(sessionStorage.viewLangName) != "undefined")
+			tempVal = sessionStorage.viewLangName;
+		console.log("tempVal2::"+tempVal);
+		var isdefaultLangPresent = false;
+		if (feedbackdata.hasOwnProperty('FeedBackQuestions')) {
+			//if (Object.prototype.hasOwnProperty.call(feedbackdata, FeedBackQuestions)){
+			if (feedbackdata.FeedBackQuestions.length > 1){
+				$('#chooseLangDiv').show();
+			for (var i = 0; i < feedbackdata.FeedBackQuestions.length; i++) {
+				if(tempVal == "" || tempVal == "undefined" || tempVal == null || tempVal == undefined){
+					langData = feedbackdata.FeedBackQuestions[0];
+					langName = langData.LangName;
+					langId = langData.LangId;
+					tempVal = langData.LangName;
+				}else{
+					langData = feedbackdata.FeedBackQuestions[i];
+					langName = langData.LangName;
+					langId = langData.LangId;
+				}
+				if(tempVal==langName){
+					$('#getsheetLang').append($('<option>').text(langName).attr('value',langId).attr('title', langName).attr("selected","selected"));
+					isdefaultLangPresent=true;
+					}
+					else
+						$('#getsheetLang').append($('<option>').text(langName).attr('value',langId).attr('title', langName));	
+			}
+		}else if(feedbackdata.FeedBackQuestions.length == 1){
+				$('#chooseLangDiv').hide();
+				var questionList = feedbackdata.FeedBackQuestions[0];
+				langName = questionList.LangName;
+				langId = questionList.LangId;
+				$('#getsheetLang').append($('<option>').text(langName).attr('value',langId).attr('title', langName).attr("selected","selected"));
+				tempVal = langName;
+			}
+			if(!isdefaultLangPresent)
+				tempVal =langName;
+		}
+		fillfeedbackQuestions(tempVal);
+	}
+	
+	function fillMockLangfromjson() {
+		var feedBackQuestions, langData, langName, langId;
+		var langNameArr = new Array();
+		var tempVal = $.cookie("defLangName");
+		var isdefaultLangPresent = false;
+		$('#getsheetLang').append($('<option>').text('Select--'));
+		if (feedbackdata.hasOwnProperty('FeedBackQuestions')) {
+			if (feedbackdata.FeedBackQuestions.length>1){
+				$('#chooseLangDiv').show();
+				for (var i = 0; i < feedbackdata.FeedBackQuestions.length; i++) {
+					if(tempVal == "" || tempVal == "undefined" || tempVal == null || tempVal == undefined){
+						langData = feedbackdata.FeedBackQuestions[0];
+						langName = langData.LangName;
+						langId = langData.LangId;
+						tempVal = langData.LangName;
+					}else{
+						langData = feedbackdata.FeedBackQuestions[i];
+						langName = langData.LangName;
+						langId = langData.LangId;
+					}
+					if(tempVal==langName){
+					$('#getsheetLang').append($('<option>').text(langName).attr('value',langId).attr('title', langName).attr("selected","selected"));
+					isdefaultLangPresent=true;
+					}
+					else
+						$('#getsheetLang').append($('<option>').text(langName).attr('value',langId).attr('title', langName));	
+				}
+				
+			}else if(feedbackdata.FeedBackQuestions.length == 1){
+				$('#chooseLangDiv').hide();
+				var questionList = feedbackdata.FeedBackQuestions[0];
+				langName = questionList.LangName;
+				tempVal = langName;
+				$('#getsheetLang').append($('<option>').text(langName).attr('value',langId).attr('title', langName).attr("selected","selected"));
+			}
+			if(!isdefaultLangPresent)
+				tempVal =langName;
+		}
+		fillmockfeedbackQuestions(tempVal);
+	}
+	function fillmockfeedbackQuestions(tempVal) {
+		var langName;
+		feedbackPageLabel(tempVal);
+		var str = "<table class='feedback_table' id='feedbackTableDiv'> <thead><tr><th style='width:6%' class='textCenter' id='header1'>"+$(globalXmlvar).find('CandidateFeedbackForm').attr('TableHeader1')+"</th><th style='width:4%'>  </th><th style='width:50%' id='header2'>"+$(globalXmlvar).find('CandidateFeedbackForm').attr('TableHeader2')+"</th><th style='width:10%' id='header3'>"+$(globalXmlvar).find('CandidateFeedbackForm').attr('TableHeader3')+"</th></tr></thead><tbody>";
+		var question;
+		var qlist;
+		var childquesList;
+		if (feedbackdata.hasOwnProperty('FeedBackQuestions')) {
+			for (var i = 0; i < feedbackdata.FeedBackQuestions.length; i++) {
+				questionList = feedbackdata.FeedBackQuestions[i];
+				langName = questionList.LangName;
+				if (tempVal == "Select--") {
+					tempVal = "English";
+				}
+				if (langName == tempVal) {
+					qlist = questionList.QuestionsList;
+					var k=0;
+					for (var q = 0; q < questionList.QuestionsList.length; q++) {
+						++k;
+						question = questionList.QuestionsList[q];
+						if(question.IsParentQuestion=='NO' && question.ParentId==''){
+							str += "<tr><td class='textCenter fontBold'>"+ k +"<td></td>"+ "</td><td>"+ question.QuesText + "</td>";
+							if (question.QuesType == 'Rating') {
+								str += "<td><table><tr>";
+								for (var j = 4; j > 0; j--) {
+									str += "<td>" + j + "</td>";
+								}
+								str += "</tr>";
+									str+="<tr>";
+										for (var j = 4; j > 0; j--) {
+											str += "<td><input type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='if (this.check) this.checked = false' value='"+ j+ "'  checked/>"+ "</td>";
+										}
+								str+= "</tr>";
+									str+="</table>";
+								str += "</td>";	
+							}else {
+								str += "<td><textarea id='ques"+ question.QuesId+ "' name='feedbackTextArea' style='height:50px;width:95%;resize:none;overflow:auto;'></textarea></td>";
+							}
+							str +="</tr>";					
+						}
+						else if(question.IsParentQuestion=='YES' && question.ChildQuestions!=undefined){
+							str += "<tr><td class='textCenter fontBold'>"+ k +"<td></td>"+ "</td><td>"+ question.QuesText + "</td><td></td></tr>";
+							childquesList=question.ChildQuestions;
+							var count=1;
+							for (var c = 0; c < question.ChildQuestions.length; c++){					
+								var childQuestion= question.ChildQuestions[c];
+								if(childQuestion.ParentId==question.QuesId){
+									str += "<tr><td></td><td class='textCenter fontBold'>"+ k +"."+ count++							
+										+ "</td><td>"+ childQuestion.QuesText + "</td>";
+									if(childQuestion.QuesType == 'Rating'){
+										str += "<td><table><tr>";
+										for (var j = 4; j > 0; j--) {
+											str += "<td>" + j+ "</td>";
+										}
+										str += "</tr>";
+											str+="<tr>";
+												for (var j = 4; j > 0; j--) {
+													str += "<td><input type='radio' name='ques"+ childQuestion.QuesId+ "' onmousedown='this.check = this.checked'  onclick='if (this.check) this.checked = false' value='"+ j+ "'  checked/>"+ "</td>";
+												}
+										str+= "</tr>";
+											str+="</table>";	
+										str += "</td>";						
+									}else {
+										str += "<td><textarea id='ques"+ childQuestion.QuesId+ "' name='feedbackTextArea' style='height:50px;width:95%;resize:none;overflow:auto;' onkeydown='disableTab(event); allowSAInputsForMultiLang(event);'></textarea></td>";
+									}
+									str += "</tr>";
+								}
+							}
+						}
+					}
+					str += "</tr></table></td></tr>";
+					$(".default").html(str);
+				}
+			}
+		}
+	}
+	function fillfeedbackQuestions(tempVal) {
+		var langName;
+		feedbackPageLabel(tempVal);
+		var str = "<table class='feedback_table' id='feedbackTableDiv'> <thead><tr><th style='width:5%' class='textCenter' id='header1'>"+$(globalXmlvar).find('CandidateFeedbackForm').attr('TableHeader1')+"</th><th id='header2'>"+$(globalXmlvar).find('CandidateFeedbackForm').attr('TableHeader2')+"</th></tr></thead><tbody>";
+		var question;
+		var childQuesArray;
+		var childQues;
+		var ParentID;
+		var qlist;
+		var count=1;
+		var defaultQUe = "defaultFeedbackQue";
+		var customQue = "customFeedbackQue";
+		if (feedbackdata.hasOwnProperty('FeedBackQuestions')) {
+			for (var i = 0; i < feedbackdata.FeedBackQuestions.length; i++) {
+				var questionList = '';
+				questionList = feedbackdata.FeedBackQuestions[i];
+				langName = questionList.LangName;
+				if (tempVal == "Select--") {
+					tempVal = "English";
+				}
+				if (langName == tempVal) {
+					qlist = questionList.QuestionsList;
+					for (var q = 0; q < questionList.QuestionsList.length; q++) {
+						var questionClass = q >= 10 ? customQue : defaultQUe;
+						question = questionList.QuestionsList[q];
+						if(question.ParentId!=null){
+							if(question.ChildQuestions==null && question.ParentId.length==0){
+								str += "<tr class='"+questionClass+"'><td class='textCenter fontBold'>"+ count+ "</td><td>"+ question.QuesText + "</td></tr>";
+								str += "<tr class='"+questionClass+"'><td></td>";
+								if (question.QuesType == 'MCQ') {
+									str += "<td><table class='feedbackoptiontable'><tr>";
+									options = question.options;
+								if (options.length > 0) {
+										for (var j = 0; j < options.length; j++) {
+											option = options[j];
+											if(question.DefaultOption!=null){
+												if (/* tempVal == "English" &&  */(question.DefaultOption == option.OptId))
+													str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'  checked/>"+ option.OptText+ " </label></td>";
+												else
+													str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";	
+											}
+											
+											else{
+											if (/* tempVal == "English" &&  */(option.OptText == "Agree" || option.OptText == "NO"))
+												str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'  checked/>"+ option.OptText+ "</label></td>";
+											else
+												str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+											}
+										}
+									}
+									str += "</tr></table></td>";
+								} else if (question.QuesType == 'MSQ') {
+									str += "<td><table class='feedbackoptiontable'><tr>";
+									options = question.options;
+									if (options.length > 0) {
+										for (var j = 0; j < options.length; j++) {
+											option = options[j];
+											if(question.DefaultOption!=null)
+											{
+												if(question.DefaultOption.length >1){//question.DefaultOption.split(",").findIndex(p => p==option.OptId)
+											   if (/* tempVal == "English" &&  */question.DefaultOption.indexOf(option.OptId)!=-1)
+													str += "<td><label><input class='answereBtn' type='checkbox' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'  checked/>"+ option.OptText+ "</label></td>";
+												else
+													str += "<td><label><input class='answereBtn' type='checkbox' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+												}
+												else{
+													   if (/* tempVal == "English" &&  */(question.DefaultOption == option.OptId))
+															str += "<td><label><input class='answereBtn' type='checkbox' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'  checked/>"+ option.OptText+ "</label></td>";
+														else
+															str += "<td><label><input class='answereBtn' type='checkbox' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+														}																						
+											}
+											else
+											str += "<td><label><input class='answereBtn' type='checkbox' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+										}
+									}
+									str += "</tr></table></td>";
+								} else {
+									str += "<td><textarea id='ques"+ question.QuesId+ "' name='feedbackTextArea' style='height:50px;width:95%;resize:none;overflow:auto;' onkeydown='disableTab(event); allowSAInputsForMultiLang(event);'></textarea></td>";
+								}
+								str += "</tr>";
+								if(displayDefaultFeedbackQuestions || q >= 10)
+								count++;
+							}
+							else if(question.ChildQuestions!=null && question.ParentId.length==0 && question.ChildQuestions!=undefined){
+								str += "<tr class='"+questionClass+"'><td class='textCenter fontBold'>"+ count+ "</td><td>"+ question.QuesText + "</td></tr>";
+								for(var m=0;m<question.ChildQuestions.length;m++){
+									str += "<tr class='"+questionClass+"'><td></td><td>"+count+"."+(m+1)+" " + question.ChildQuestions[m].QuesText + "</td></tr>";
+									str += "<tr><td></td>";
+									if (question.ChildQuestions[m].QuesType == 'MCQ') {
+										str += "<td><table class='feedbackoptiontable'><tr>";
+										options = question.ChildQuestions[m].options;
+										if (options.length > 0) {
+											for (var j = 0; j < options.length; j++) {
+												option = options[j];
+												
+											if(question.ChildQuestions[m].DefaultOption!=null){
+												if (/* tempVal == "English" &&  */(question.ChildQuestions[m].DefaultOption == option.OptId))
+													str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'  checked/>"+ option.OptText+ "</label></td>";
+												else
+													str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "<label></td>";	
+											}
+											else{
+											if (/* tempVal == "English" &&  */(option.OptText == "Agree" || option.OptText == "NO"))
+												str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'  checked/>"+ option.OptText+ "</label></td>";
+											else
+												str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+											}
+											}
+										}
+										str += "</tr></table></td>";
+									} else if (question.ChildQuestions[m].QuesType == 'MSQ') {
+										str += "<td><table class='feedbackoptiontable'><tr>";
+										options = question.ChildQuestions[m].options;
+										if (options.length > 0) {
+											for (var j = 0; j < options.length; j++) {
+											option = options[j];
+											if(question.ChildQuestions[m].DefaultOption!=null)
+											{
+												if(question.ChildQuestions[m].DefaultOption.length >1){
+											    if (/* tempVal == "English" &&  */question.ChildQuestions[m].DefaultOption.split(",").indexOf(option.OptId)!=-1)
+											    	str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'  checked/>"+ option.OptText+ "</label></td>";
+												else
+													str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+											 		}
+												else{
+													if (/* tempVal == "English" &&  */(question.ChildQuestions[m].DefaultOption == option.OptId))
+														str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'  checked/>"+ option.OptText+ "</label></td>";
+													else
+														str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+													}
+											}
+											else
+											str += "<td><label><input class='answereBtn' type='checkbox' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+										}
+										}
+										str += "</tr></table></td>";
+									} else {
+										str += "<td><textarea id='ques"
+											+ question.ChildQuestions[m].QuesId
+											+ "' name='feedbackTextArea' style='height:50px;width:95%;resize:none;overflow:auto;'></textarea></td>";
+									}
+									str += "</tr>";
+								}
+								if(displayDefaultFeedbackQuestions || q >= 10)
+									count++;
+							}
+						}else{
+							str += "<tr class='"+questionClass+"'><td class='textCenter fontBold'>"+ question.QuesId+ "</td><td>"+ question.QuesText + "</td></tr>";
+							str += "<tr class='"+questionClass+"'><td></td>";
+							if (question.QuesType == 'MCQ') {
+								str += "<td><table class='feedbackoptiontable'><tr>";
+								options = question.options;
+								if (options.length > 0) {
+									for (var j = 0; j < options.length; j++) {
+										option = options[j];
+										if(question.DefaultOption!=null){
+												if (/* tempVal == "English" &&  */(question.DefaultOption == option.OptId))
+													str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'  checked/>"+ option.OptText+ "</label></td>";
+												else
+													str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+											}
+											else{
+											if (/* tempVal == "English" &&  */(option.OptText == "Agree" || option.OptText == "NO"))
+												str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'  checked/>"+ option.OptText+ "</label></td>";
+											else
+												str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+											}
+									}
+								}
+								str += "</tr></table></td>";
+							} else if (question.QuesType == 'MSQ') {
+								str += "<td><table class='feedbackoptiontable'><tr>";
+								options = question.options;
+								if (options.length > 0) {
+									for (var j = 0; j < options.length; j++) {
+											option = options[j];
+											if(question.DefaultOption!=null)
+											{
+												if(question.DefaultOption.length >1){
+											   if (/* tempVal == "English" &&  */question.DefaultOption.indexOf(option.OptId)!=-1)
+												   str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'  checked/>"+ option.OptText+ "</label></td>";
+												else
+													str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+												}
+												else{
+													   if (/* tempVal == "English" &&  */(question.DefaultOption == option.OptId))
+														   str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'  checked/>"+ option.OptText+ "</label></td>";
+														else
+															str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+														}																						
+											}
+											else
+											str += "<td><label><input class='answereBtn' type='checkbox' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+										}
+								}
+								str += "</tr></table></td>";
+							} else {
+								str += "<td><textarea id='ques"+ question.QuesId+ "' name='feedbackTextArea' style='height:50px;width:95%;resize:none;overflow:auto;' onkeydown='disableTab(event); allowSAInputsForMultiLang(event);'></textarea></td>";
+							}
+							str += "</tr>";
+						}
+					}
+				}
+				
+			}
+		} else {
+			$(".chooseLangDiv").hide();
+			for (var i = 0; i < feedbackdata.QuestionsList.length; i++) {
+				question = feedbackdata.QuestionsList[i];
+				var questionClass = i >= 10 ? customQue : defaultQUe;
+				str += "<tr class='"+questionClass+"'><td class='textCenter fontBold'>"+ question.QuesId + "</td><td>"+ question.QuesText + "</td></tr>";
+				str += "<tr class='"+questionClass+"'><td></td>";
+				if (question.QuesType == 'MCQ') {
+					str += "<td><table class='feedbackoptiontable'><tr>";
+					options = question.options;
+					if (options.length > 0) {
+						for (var j = 0; j < options.length; j++) {
+							option = options[j];
+							if(question.DefaultOption!=null){
+												if (/* tempVal == "English" &&  */(question.DefaultOption == option.OptId))
+													str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'  checked/>"+ option.OptText+ "</label></td>";
+												else
+													str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+													}
+											else{
+											if (/* tempVal == "English" &&  */(option.OptText == "Agree" || option.OptText == "NO"))
+												str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'  checked/>"+ option.OptText+ "</label></td>";
+											else
+												str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+											}
+						}
+					}
+					str += "</tr></table></td>";
+				}else if (question.QuesType == 'MSQ') {
+					str += "<td><table class='feedbackoptiontable'><tr>";
+					options = question.options;
+					if (options.length > 0) {
+						for (var j = 0; j < options.length; j++) {
+											option = options[j];
+											if(question.DefaultOption!=null)
+											{
+											if (/* tempVal == "English" &&  */question.DefaultOption.indexOf(option.OptId)!=-1)
+												str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'  checked/>"+ option.OptText+ "</label></td>";
+											else
+												str += "<td><label><input class='answereBtn' type='radio' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+											
+											}
+											else
+											str += "<td><label><input class='answereBtn' type='checkbox' name='ques"+ question.QuesId+ "' onmousedown='this.check = this.checked'  onclick='radioCheckUncheck(this)' value='"+ option.OptId+ "'/>"+ option.OptText+ "</label></td>";
+										}
+					}
+					str += "</tr></table></td>";
+				} else {
+					str += "<td><textarea id='ques"+ question.QuesId+ "' name='feedbackTextArea' style='height:50px;width:95%;resize:none;overflow:auto;' onkeydown='disableTab(event); allowSAInputsForMultiLang(event);'></textarea></td>";
+				}
+				str += "</tr>";
+			}
+		}
+		str += "</tr></table></td></tr>";
+		$(".default").html(str);
+	}
+	function submitFeedback() {
+		if (mockVar.storeCandResponse == 1) {
+			var question;
+			var selectedOptId = '';
+			var answers;
+			var selectedAnswer = '';
+			var options;
+			var option;
+			var questionList;
+			var tempVal;
+			var langId = '';
+			if (feedbackdata.hasOwnProperty('FeedBackQuestions')) {
+				for (var q = 0; q < feedbackdata.FeedBackQuestions.length; q++) {
+					tempVal = ($('#getsheetLang option:selected').text());
+					langId = ($('#getsheetLang option:selected').val());
+					if (langId == 0) {
+						tempVal = "English";
+						langId = "1";
+					}
+					questionList = feedbackdata.FeedBackQuestions[q];
+					if ((questionList.LangName) == tempVal) {
+						for (var i = 0; i < questionList.QuestionsList.length; i++) {
+							question = questionList.QuestionsList[i];
+							selectedOptId = '';
+							selectedAnswer = '';
+							if(question.ParentId!=null){
+								if(question.ChildQuestions==null && question.ParentId.length==0){
+									var elementName = "ques"+ question.QuesId;
+									if (question.QuesType == 'MCQ' || question.QuesType == 'MSQ') {
+										answers = document.getElementsByName(elementName);
+										options = question.options;
+										for (var j = 0; j < answers.length; j++) {
+											if (answers[j].checked == true) {
+												selectedOptId = (answers[j].value)+ ","+ selectedOptId;
+												for (var k = 0; k < options.length; k++) {
+													option = options[k];
+													if (option.OptId == answers[j].value) {
+														selectedAnswer = option.OptText+ ","+ selectedAnswer;
+													}
+												}
+											}
+										}
+										if (selectedOptId != '')
+											selectedOptId = selectedOptId.substring(0,selectedOptId.length - 1);
+										if (selectedAnswer != "")
+											selectedAnswer = selectedAnswer.substring(0,selectedAnswer.length - 1);
+									} else if(question.QuesType == 'SA'){
+										selectedOptId = '';
+										selectedAnswer = document.getElementById(elementName).value;
+									}
+									questionList.QuestionsList[i].SelectedOptId = selectedOptId;
+									questionList.QuestionsList[i].GivenAnswer = selectedAnswer;
+								}
+								else if(question.ChildQuestions!=null){
+									var mainQuesText=question.QuesText;
+									for(var ch=0;ch<question.ChildQuestions.length;ch++){
+										var elementName = "ques"+ question.ChildQuestions[ch].QuesId;
+										var childQuesText=question.ChildQuestions[ch].QuesText;
+										selectedOptId = '';
+										selectedAnswer = '';
+										question.ChildQuestions[ch].QuesText='';
+										if (question.ChildQuestions[ch].QuesType == 'MCQ' || question.ChildQuestions[ch].QuesType == 'MSQ') {
+											answers = document.getElementsByName(elementName);
+											options = question.ChildQuestions[ch].options;
+											for (var j = 0; j < answers.length; j++) {
+												if (answers[j].checked == true) {
+													selectedOptId = (answers[j].value)+ ","+ selectedOptId;
+													for (var k = 0; k < options.length; k++) {
+														option = options[k];
+														if (option.OptId == answers[j].value) {
+															selectedAnswer = option.OptText+ ","+ selectedAnswer;
+														}
+													}
+												}
+											}
+											if (selectedOptId != '')
+												selectedOptId = selectedOptId.substring(0,selectedOptId.length - 1);
+											if (selectedAnswer != "")
+												selectedAnswer = selectedAnswer.substring(0,selectedAnswer.length - 1);
+										} 
+										else if(question.ChildQuestions[ch].QuesType == 'SA'){
+											selectedOptId = '';
+											selectedAnswer = document.getElementById(elementName).value;
+										}
+										question.ChildQuestions[ch].QuesText=mainQuesText +","+childQuesText;
+										questionList.QuestionsList[i].ChildQuestions[ch].SelectedOptId = selectedOptId;
+										questionList.QuestionsList[i].ChildQuestions[ch].GivenAnswer = selectedAnswer;
+									}
+								}
+							}else{
+								var elementName = "ques"+ question.QuesId;
+								if (question.QuesType == 'MCQ' || question.QuesType == 'MSQ') {
+									answers = document.getElementsByName(elementName);
+									options = question.options;
+									for (var j = 0; j < answers.length; j++) {
+										if (answers[j].checked == true) {
+											selectedOptId = (answers[j].value)+ ","+ selectedOptId;
+											for (var k = 0; k < options.length; k++) {
+												option = options[k];
+												if (option.OptId == answers[j].value) {
+													selectedAnswer = option.OptText+ ","+ selectedAnswer;
+												}
+											}
+										}
+									}
+									if (selectedOptId != '')
+										selectedOptId = selectedOptId.substring(0,selectedOptId.length - 1);
+									if (selectedAnswer != "")
+										selectedAnswer = selectedAnswer.substring(0,selectedAnswer.length - 1);
+								} else if(question.QuesType == 'SA'){
+									selectedOptId = '';
+									selectedAnswer = document.getElementById(elementName).value;
+								}
+								questionList.QuestionsList[i].SelectedOptId = selectedOptId;
+								questionList.QuestionsList[i].GivenAnswer = selectedAnswer;
+							}							
+						}
+						savefeedbackresponses(questionList);
+					}
+				}
+			}else {
+				for (var i = 0; i < feedbackdata.QuestionsList.length; i++) {
+					question = feedbackdata.QuestionsList[i];
+					var elementName = "ques" + question.QuesId;
+					selectedOptId = '';
+					selectedAnswer = '';
+					if (question.QuesType == 'MCQ'|| question.QuesType == 'MSQ') {
+						answers = document.getElementsByName(elementName);
+						options = question.options;
+						for (var j = 0; j < answers.length; j++) {
+							if (answers[j].checked == true) {
+								selectedOptId = (answers[j].value)+ "," + selectedOptId;
+								for (var k = 0; k < options.length; k++) {
+									option = options[k];
+									if (option.OptId == answers[j].value) {
+										selectedAnswer = option.OptText+ ","+ selectedAnswer;
+									}
+								}
+							}
+						}
+						if (selectedOptId != '')
+							selectedOptId = selectedOptId.substring(0,selectedOptId.length - 1);
+						if (selectedAnswer != "")
+							selectedAnswer = selectedAnswer.substring(0,selectedAnswer.length - 1);
+					} else {
+						selectedOptId = '';
+						selectedAnswer = document.getElementById(elementName).value;
+					}
+					feedbackdata.QuestionsList[i].SelectedOptId = selectedOptId;
+					feedbackdata.QuestionsList[i].GivenAnswer = selectedAnswer;
+				}
+				savefeedbackresponses(feedbackdata);
+			}
+		}
+	}			
+	function savefeedbackresponses(feedbackdata) {
+		var URL = "/IBACC/MockAssessmentAction.do?action=savecandfeedback&timeSpentOnPage="+timeSpentOnPage+"&timeZone="+sessionStorage.timeZone;
+		var jsonString = JSON.stringify(feedbackdata);
+		var langName = '';
+		var langId = '';
+
+		langName = ($('#getsheetLang option:selected').text());
+		langId = ($('#getsheetLang option:selected').val());
+
+		if (typeof(langId)=='undefined' || langId == 0) {
+			langName = "English";
+			langId = "1";
+		}
+		var paramsvalue = {};
+		paramsvalue["candMasterId"] = mockVar.candMasterId;
+		paramsvalue["attemptNo"] = mockVar.AttemptId;
+		paramsvalue["orgId"] = mockVar.orgId;
+		paramsvalue["mockId"] = mockVar.mockId;
+		paramsvalue["candFeedback"] = jsonString;
+		paramsvalue["langName"] = langName;
+		paramsvalue["langId"] = langId;
+		jQuery.ajax({
+			url : URL,
+			async : true,
+			type : 'POST',
+			data : paramsvalue,
+			dataType : 'text',
+			success : function(data) {
+			}
+		});
+	}			
+	function populateSheetOfselectedLang() {
+		var tempVal = '';
+		var langId = '';
+		tempVal = ($('#getsheetLang option:selected').text());
+		if (tempVal.length > 0){
+			if (mockVar.storeCandResponse == 1){
+				fillfeedbackQuestions(tempVal);
+			}
+			else
+				fillmockfeedbackQuestions(tempVal);
+		}
+	}		
+	function fnGetBrowserType() {
+		var browserType = "";
+		if (window.XMLHttpRequest) { // Mozilla, Safari,...
+			browserType = "Mozila";
+		} else if (window.ActiveXObject) { // IE		           
+			browserType = "IE"
+		}
+
+		return browserType;
+	}
+			</script>
+    </head>
+    <body onload="validateFeedPageURL();" onselectstart="return false;" ondrag="return false;">
+
+	<div class="confrmPopup" id="FeedbackSubmitPopup" aria-live="assertive" style="display:none">
+		<div class="cnfPopHdr">
+			<div class="cnfPopHdrLbl info">Info</div>
+			<a  class="fRight popCloseSubmit" tabindex="0" role="button" onclick='feedbackSubmit()' id="feedbackClose">Close</a>
+			<div class="float-clear"></div>
+		</div>
+		<div class="cnfPopBdy">
+			<table><tr><td><img src="images/info.gif" style="vertical-align: middle; margin-right: 10px;" class="info-icon"></td><td id="feedbackSubmitMsg" class="info-lbl"></td></tr></table>
+		</div>
+		<div class="cnfPopBtnPnl">
+			<a  class="greenBtn Ok" tabindex="0" role="button" onclick='feedbackSubmit()'>Ok</a>
+		</div>
+	</div>
+        <div id="container">
+		<div id="pWait" style="background:grey;height:100%;width:100%;z-index:1999;position:absolute;opacity:0.85;filter:alpha(opacity=40);">
+			<div style="top:45%;position:relative;color:white">
+			<!-- <center class="normalLoader" style="display:none;"><img src="images/busy4.gif" style="transparent url(none) no-repeat;padding:'32px 0 0 36px',width:'320px',height:'110px', margin:'0 0 0 10% display:block;"/><br/></center>
+			 -->
+			<div class="load normalLoader"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span
+                class="dot"></span><span class="dot"></span></div>
+			<center class="BCLoader" style="display: none;padding-top: 125px;">
+					<img src="images/BCLoader.gif"/>
+			</center>
+			</div>
+		</div>
+           
+                <!--header starts-->
+               <div id="header">
+				 <table width="100%" cellspacing="0" cellpadding="0" border="0">
+					<tbody>
+					  <tr>
+						<td align="left" id="bannerImage">
+							<div id="bannerImg" style="float:left"></div>
+							<div id="bannerText" align="center" style="margin-top:10px; font-weight:bold;"><font size="4" color="#ffffff"></font></div>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+			</div>            
+                <div id="mainleft" >                    
+                    <div class="titlepath" id="feedBackHeader">Candidate Feedback Form</div>
+                   
+                    <div class="instructdiv" id="instructdiv" >
+					<div class="chooseLangDiv" id="chooseLangDiv" style="display:none;"> <span style="float:right;padding:2px;"><span class="viewIn">Choose Language : </span><select id="getsheetLang" onchange="populateSheetOfselectedLang();" >
+				</select></span></div> 
+                        <div id="solutionInst">
+                           <span id="feedbackText"> <h4>Dear Candidate,</h4><br/>
+                            <p class="font14">We Solicit your valuable feedback to understand your views   and your experience on the digital examination.</p>
+                            <p class="font14">Your feedback enable us to improve overall candidate experience.</p><br/>
+                            <p class="font14">For each question listed below, request you to specify the performance rating as per scale below.</p></span>
+
+                            <div class="ratingDiv">
+							
+                                 
+                               
+                                
+                                <div class="displayInline borderRight" style="border-right:none;">
+                                    <span class="roundbg greenBg">4</span>
+                                    <span class="displayInline exceedExpect">Exceeded<br/>expectations</span>
+                                </div>
+								<div class="displayInline borderRight">
+                                    <span class="roundbg yellowBg">3</span>
+                                    <span class="displayInline metExpect">Met<br/>expectations</span>
+                                </div>
+								  <div class="displayInline borderRight">
+                                    <span class="roundbg blueBg">2</span>
+                                    <span class="displayInline needImprove">Improvement<br/>needed</span>
+                                </div>
+								<div class="displayInline borderRight">
+                                    <span class="roundbg redBg ">1</span>
+                                    <span class="displayInline failedExpect">Failed to meet<br/>expectations</span>
+                                </div>
+                               
+                               
+                                <div class="clear"></div>
+                            </div>
+                           <div class="default" >
+						   <table class="feedback_table" id="feedbackTableDiv">
+
+                                <thead>
+                                    <tr>
+                                        <th class="textCenter" id="header1">S.No</th>
+										<th style="width:1%;"></th>
+                                        <th id="header2">Questions</th>
+                                        <th id="header3">Response</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="textCenter fontBold">1.</td>
+										<td></td>
+                                        <td id="ques1">How was your experience with the overall exam support provided including usefulness of the mock test, access to exam related information, etc?</td>
+                                        <td>
+                                            <table class="radioTable">
+                                                <tr>
+                                                    <td class="fontBold">4</td>
+                                                    <td class="fontBold">3</td>
+                                                    <td class="fontBold">2</td>
+                                                    <td class="fontBold">1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="radio" name="ques1" value="4-Exceeded expectations"/></td>
+                                                    <td><input type="radio" name="ques1" value="3-Met expectations"/></td>
+                                                    <td><input type="radio" name="ques1" value="2-Improvement needed"/></td>
+                                                    <td><input type="radio" name="ques1" value="1-Failed to meet expectations"/></td>
+
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="textCenter fontBold">2.</td>
+										<td></td>
+                                        <td id="ques2">How was your experience at the test center including aspects such as seating arrangement, basic facilities, exam desk top, and the staff?</td>
+                                        <td>
+                                            <table class="radioTable">
+                                              <tr>
+                                                    <td class="fontBold">4</td>
+                                                    <td class="fontBold">3</td>
+                                                    <td class="fontBold">2</td>
+                                                    <td class="fontBold">1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="radio" name="ques2" value="4-Exceeded expectations"/></td>
+                                                    <td><input type="radio" name="ques2" value="3-Met expectations"/></td>
+                                                    <td><input type="radio" name="ques2" value="2-Improvement needed"/></td>
+                                                    <td><input type="radio" name="ques2" value="1-Failed to meet expectations"/></td>
+
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="textCenter fontBold">3.</td>
+										<td></td>
+                                        <td id="ques3">How was your experience in giving a digital exam on aspects such as navigating on the candidate console, ease of using the candidate console, etc?</td>
+                                        <td>
+                                            <!--<table class="radioTable">
+                                               <tr>
+                                                    <td class="fontBold">4</td>
+                                                    <td class="fontBold">3</td>
+                                                    <td class="fontBold">2</td>
+                                                    <td class="fontBold">1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="radio" name="ques3" value="4-Exceeded expectations"/></td>
+                                                    <td><input type="radio" name="ques3" value="3-Met expectations"/></td>
+                                                    <td><input type="radio" name="ques3" value="2-Improvement needed"/></td>
+                                                    <td><input type="radio" name="ques3" value="1-Failed to meet expectations"/></td>
+
+                                                </tr>
+                                            </table>-->
+                                        </td>
+                                    </tr>
+									<tr>
+										<td></td>
+                                        <td class="textCenter fontBold">3.1</td>
+                                        <td id="ques31"></td>
+                                        <td>
+                                            <table class="radioTable">
+                                               <tr>
+                                                    <td class="fontBold">4</td>
+                                                    <td class="fontBold">3</td>
+                                                    <td class="fontBold">2</td>
+                                                    <td class="fontBold">1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="radio" name="ques31" value="4-Exceeded expectations"/></td>
+                                                    <td><input type="radio" name="ques31" value="3-Met expectations"/></td>
+                                                    <td><input type="radio" name="ques31" value="2-Improvement needed"/></td>
+                                                    <td><input type="radio" name="ques31" value="1-Failed to meet expectations"/></td>
+
+
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+									<tr>
+										<td></td>
+                                        <td class="textCenter fontBold">3.2</td>
+                                        <td id="ques32"></td>
+                                        <td>
+                                            <table class="radioTable">
+                                               <tr>
+                                                    <td class="fontBold">4</td>
+                                                    <td class="fontBold">3</td>
+                                                    <td class="fontBold">2</td>
+                                                    <td class="fontBold">1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="radio" name="ques32" value="4-Exceeded expectations"/></td>
+                                                    <td><input type="radio" name="ques32" value="3-Met expectations"/></td>
+                                                    <td><input type="radio" name="ques32" value="2-Improvement needed"/></td>
+                                                    <td><input type="radio" name="ques32" value="1-Failed to meet expectations"/></td>
+
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+									<tr>
+										<td></td>
+                                        <td class="textCenter fontBold">3.3</td>
+                                        <td id="ques33"></td>
+                                        <td>
+                                            <table class="radioTable">
+                                               <tr>
+                                                    <td class="fontBold">4</td>
+                                                    <td class="fontBold">3</td>
+                                                    <td class="fontBold">2</td>
+                                                    <td class="fontBold">1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="radio" name="ques33" value="4-Exceeded expectations"/></td>
+                                                    <td><input type="radio" name="ques33" value="3-Met expectations"/></td>
+                                                    <td><input type="radio" name="ques33" value="2-Improvement needed"/></td>
+                                                    <td><input type="radio" name="ques33" value="1-Failed to meet expectations"/></td>
+
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+									<tr>
+										<td></td>
+                                        <td class="textCenter fontBold">3.4</td>
+                                        <td id="ques34"></td>
+                                        <td>
+                                            <table class="radioTable">
+                                               <tr>
+                                                    <td class="fontBold">4</td>
+                                                    <td class="fontBold">3</td>
+                                                    <td class="fontBold">2</td>
+                                                    <td class="fontBold">1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="radio" name="ques34" value="4-Exceeded expectations"/></td>
+                                                    <td><input type="radio" name="ques34" value="3-Met expectations"/></td>
+                                                    <td><input type="radio" name="ques34" value="2-Improvement needed"/></td>
+                                                    <td><input type="radio" name="ques34" value="1-Failed to meet expectations"/></td>
+
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+									
+									<tr>
+										<td></td>
+                                        <td class="textCenter fontBold">3.5</td>
+                                        <td id="ques35"></td>
+                                        <td>
+                                            <table class="radioTable">
+                                               <tr>
+                                                    <td class="fontBold">4</td>
+                                                    <td class="fontBold">3</td>
+                                                    <td class="fontBold">2</td>
+                                                    <td class="fontBold">1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="radio" name="ques35" value="4-Exceeded expectations"/></td>
+                                                    <td><input type="radio" name="ques35" value="3-Met expectations"/></td>
+                                                    <td><input type="radio" name="ques35" value="2-Improvement needed"/></td>
+                                                    <td><input type="radio" name="ques35" value="1-Failed to meet expectations"/></td>
+
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+									<tr>
+										<td></td>
+                                        <td class="textCenter fontBold">3.6</td>
+                                        <td id="ques36"></td>
+                                        <td>
+                                            <table class="radioTable">
+                                               <tr>
+                                                    <td class="fontBold">4</td>
+                                                    <td class="fontBold">3</td>
+                                                    <td class="fontBold">2</td>
+                                                    <td class="fontBold">1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="radio" name="ques36" value="4-Exceeded expectations"/></td>
+                                                    <td><input type="radio" name="ques36" value="3-Met expectations"/></td>
+                                                    <td><input type="radio" name="ques36" value="2-Improvement needed"/></td>
+                                                    <td><input type="radio" name="ques36" value="1-Failed to meet expectations"/></td>
+
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+									
+									
+                                    <tr>
+                                        <td class="textCenter fontBold">4.</td>
+										<td></td>
+                                        <td id="ques4">How was your overall experience of taking up a digital exam?</td>
+                                        <td>
+                                            <table class="radioTable">
+                                               <tr><td><textarea id="feedbackTextArea" name="feedbackTextArea%>" style="height:50px;width:95%;resize:none;overflow:auto;" onkeydown="disableTab(event); allowSAInputsForMultiLang(event);"></textarea></td></tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                   </tbody>
+                                            </table>
+                                     
+                        </div>
+                            </div>
+							<div class="configurableDiv">
+							
+							</div>
+                
+				<div class="btnsection" align="center">
+<!--                        <a id="previousbtn" class="btn btn-primary" href="#">
+                            <span>
+                                <strong>
+                                    <img id="backwordImage" width="25" height="25" src="images/Backword-25.png">
+                                        Previous
+                                </strong>
+                            </span>
+                        </a>-->
+                        <div class="btn btn-primary btn-primary-blue" style="text-align:center" id="submitBtnDiv"  onclick="submitFeedback();moveToClose();"><span  id="submit" class="auditlogButton" 
+                        style="line-height: 38px;" ><strong>Submit</strong></span></div>
+                        <!--<a href="#" class="btn btn-primary" id="nextbtn"><span><strong>Next <img id="forwordImage" src="images/Forward-25.png" width="25" height="25" /></strong></span></a>-->
+                    </div>
+                     </div>
+                </div>
+				<div id="mainright" style="height:85%;width:20%;border-left">
+				<div style="position:relative;padding:20px">
+					<center><img class="candidateImg" style="height:100px;width:100px" /> </center>
+				</div>
+				<div id="name" class="candOriginalName" style="font-size: 20px; color: rgb(79, 104, 135); font-weight: bold; text-align: center;"> </div>
+			<div class="bluebg"></div>
+			</div>
+               
+               
+     </div>
+     
+		<div id="remoteProctoringDiv" style="display:none;  width: 300px;   height: 200px; left: 200px;top: 186px;">
+		  <div id="rp-handle" class=""> <span class="camera-drag-handle"></span> <span> My Camera Feed</span>
+			<div class="btn-wrapper">
+				<button type="button" title="minimize" aria-label="minimize" class="minimizeBtn">â€”</button>
+				<button type="button" title="maximize" aria-label="maximize" class="maximizeBtn">â–¢</button>
+			</div></div>
+			<div class="video-wrapper">
+			 <iframe tabindex="0" id="remoteProctoringFrame" src="" allow="microphone;camera;" style="border:none !important;width: 100%;height: 100%;">
+				</iframe>
+			<div class="video-resize-handle"></div>
+			</div>
+		</div>
+       
+       <div id="footer">
+       <center>
+           <div id="VersionNo"> Version 17.05.21</div>
+           </center>
+            <div class="clear"></div>
+        </div>
+		<div class="overlay" style="display:none;"></div>
+		<style>
+		:root {
+            --min-size: 2px;
+            --max-size: 20px;
+        }
+#pWait .load {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            margin: 0px auto;
+            left: 0px;
+            right: 0px;
+            top: 50%;
+        }
+
+        .load .dot {
+            background: white;
+            margin: 5px;
+            -webkit-animation-name: loader;
+            animation-name: loader;
+            -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+            -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+            -webkit-animation-direction: alternate;
+            animation-direction: alternate;
+        }
+
+        .load .dot:nth-child(1) {
+            -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s;
+            background: #F03782;
+        }
+
+        .load .dot:nth-child(2) {
+            -webkit-animation-delay: 0.4s;
+            animation-delay: 0.4s;
+            background: #9482C5;
+        }
+
+        .load .dot:nth-child(3) {
+            -webkit-animation-delay: 0.6s;
+            animation-delay: 0.6s;
+            background: #EF7333;
+        }
+
+        .load .dot:nth-child(4) {
+            -webkit-animation-delay: 0.8s;
+            animation-delay: 0.8s;
+            background: #64E6E1;
+        }
+
+        .load .dot:nth-child(5) {
+            -webkit-animation-delay: 1s;
+            animation-delay: 1s;
+            background: #FFE600;
+        }
+
+
+        @-webkit-keyframes loader {
+            from {
+                width: 2px;
+                width: var(--min-size);
+                height: 2px;
+                height: var(--min-size);
+                border-radius: calc(2px / 2);
+                border-radius: calc(var(--min-size) / 2);
+            }
+
+            to {
+                width: 20px;
+                width: var(--max-size);
+                height: 20px;
+                height: var(--max-size);
+                border-radius: calc(20px / 2);
+                border-radius: calc(var(--max-size) / 2);
+            }
+        }
+
+
+
+        @keyframes loader {
+            from {
+                width: 2px;
+                width: var(--min-size);
+                height: 2px;
+                height: var(--min-size);
+                border-radius: calc(2px / 2);
+                border-radius: calc(var(--min-size) / 2);
+            }
+
+            to {
+                width: 20px;
+                width: var(--max-size);
+                height: 20px;
+                height: var(--max-size);
+                border-radius: calc(20px / 2);
+                border-radius: calc(var(--max-size) / 2);
+            }
+        }
+		</style>
+		<script src="js/exam/dom.js"></script>
+		<script src="js/exam/api.js"></script>
+		<script src="js/exam/store.js"></script>
+		<script src="js/exam/ui-config.js"></script>
+		<script src="js/exam/candidate-identity.js"></script>
+		<script src="js/feedback-bridge.js"></script>
+		<script src="js/exam/inspector-unlock.js"></script>
+	</body>
+</html>

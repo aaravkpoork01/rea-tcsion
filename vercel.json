@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "cleanUrls": false,
+  "functions": {
+    "api/index.mjs": {
+      "includeFiles": "src/**,config/**,public/**,raw/**",
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/OnlineAssessment/(.*)",
+      "destination": "/$1"
+    },
+    {
+      "source": "/OnlineAssessment",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/IBA/:match*",
+      "destination": "/api/index.mjs"
+    },
+    {
+      "source": "/IBACC/:match*",
+      "destination": "/api/index.mjs"
+    },
+    {
+      "source": "/api/admin/:match*",
+      "destination": "/api/index.mjs"
+    },
+    {
+      "source": "/tools/:match*",
+      "destination": "/api/index.mjs"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/api/index.mjs"
+    }
+  ]
+}

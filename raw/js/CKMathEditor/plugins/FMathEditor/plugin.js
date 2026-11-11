@@ -1,0 +1,1 @@
+CKEDITOR.plugins.add("FMathEditor",{icons:"FMathEditor",init:function(a){a.addCommand("viewMathEditor",new CKEDITOR.dialogCommand("FMathEditorDialog")),a.ui.addButton("FMathEditor",{label:"Math Editor",command:"viewMathEditor",toolbar:"insert"}),CKEDITOR.dialog.add("FMathEditorDialog",this.path+"dialogs/dialog.js")}});

@@ -1,0 +1,1 @@
+CKEDITOR.dom.comment=function(t,e){"string"==typeof t&&(t=(e?e.$:document).createComment(t)),CKEDITOR.dom.domObject.call(this,t)},CKEDITOR.dom.comment.prototype=new CKEDITOR.dom.node,CKEDITOR.tools.extend(CKEDITOR.dom.comment.prototype,{type:CKEDITOR.NODE_COMMENT,getOuterHtml:function(){return"\x3c!--"+this.$.nodeValue+"--\x3e"}});

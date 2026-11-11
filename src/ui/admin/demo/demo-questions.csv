@@ -1,0 +1,13 @@
+Question ID,Group,Group ID,Group Instruction,Group Instruction Time,Group Max Duration,Section,Section ID,Section Instruction,Section Type,Section Max Questions,Question,Body HTML,Marks,Negative marks,Mandatory,Options,Correct options,Assessment Duration,Max Attempts,Show Feedback,Store Response,Show View QP Button
+Q1,General Aptitude,G1,Answer every question in this group. Use the question palette to move between questions.,1,30,Sample Questions,S1-1,Each question carries one mark. Choose the single best answer.,ONLINE,0,What is 2 + 2?,What is 2 + 2?,1,0,Yes,"4
+3
+5
+6",1,60,1,YES,YES,YES
+Q2,General Aptitude,G1,Answer every question in this group. Use the question palette to move between questions.,1,30,Sample Questions,S1-1,Each question carries one mark. Choose the single best answer.,ONLINE,0,Which planet is known as the Red Planet?,Which planet is known as the Red Planet?,1,0,Yes,"Venus
+Mars
+Jupiter
+Saturn",2,60,1,YES,YES,YES
+Q3,General Aptitude,G1,Answer every question in this group. Use the question palette to move between questions.,1,30,Sample Questions,S1-1,Each question carries one mark. Choose the single best answer.,ONLINE,0,"Choose the synonym of ""begin"".","Choose the synonym of ""begin"".",1,0,Yes,"Start
+Stop
+Close
+Finish",1,60,1,YES,YES,YES

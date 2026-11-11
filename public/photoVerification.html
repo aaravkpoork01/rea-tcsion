@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Candidate Console | Photograph Verification</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <meta name="language" content="en">
+    <meta name="title" content="">
+    <meta name="charset" content="utf-8">
+    <meta name="robots" content="index, follow">
+    <!-- Place holder with sample URL -->
+    <link rel="canonical" href="" />
+    
+    <!-- Styles Starts -->
+    <link href="mockPhotoVerification/css/bootstrap.min.css"  rel="preload" as="style">
+    <link href="mockPhotoVerification/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="mockPhotoVerification/css/system-prerequisite-check.css"  rel="preload" as="style">
+    <link href="mockPhotoVerification/css/system-prerequisite-check.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="mockPhotoVerification/css/theme.css">
+    <link href="mockPhotoVerification/css/jquery.jscrollpane.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="mockPhotoVerification/css/header.css">
+
+    <link rel="stylesheet" href="mockPhotoVerification/css/photograph-verification-lba.css" >
+    
+    <!-- Styles Ends -->
+     <script>
+	    /* var date = new Date(); */
+	   var jsVersion = sessionStorage.jsVersion !=undefined ? sessionStorage.jsVersion : '17.05.03.22';
+	    var cdnPath = sessionStorage.cdnPath+"OnlineAssessment";
+	    sessionStorage.jsVersion=jsVersion;
+	    var isPaperMock = "0";
+	    sessionStorage.hasRichTextEditor=1;
+	    sessionStorage.softLangRtlList = ["Urdu","Arabic","Persian"];
+      	sessionStorage.quesLangRtlList = ["13","30","31"];
+      	if(typeof(sessionStorage.cdnPath)=="undefined")
+      		sessionStorage.cdnPath = "";
+      	if(sessionStorage.cdnPath == ""){
+	    //	document.write('<script type="text/javascript" src="js/jquery-1.8.0.min.js?v=' + jsVersion + '"\><\/script>');
+	      document.write('<script type="text/javascript" src="js/jquery-3.6.0.min.js?v=' + jsVersion + '"\><\/script>');
+
+	    	document.write('<script type="text/javascript" src="js/keyboard.js?v=' + jsVersion + '"\><\/script>');
+	    	document.write('<script type="text/javascript" src="js/bean.js?v=' + jsVersion + '"\><\/script>');
+	    	document.write('<script type="text/javascript" src="js/variableinitialiserfortop.js?v='+jsVersion+'"\><\/script>');
+	    	document.write('<script type="text/javascript" src="js/cacheFiles.js?v=' + jsVersion + '"\><\/script>');
+	    	document.write('<script type="text/javascript" src="js/top.js?v=' + jsVersion + '"\><\/script>');
+	    	document.write('<script type="text/javascript" src="js/jquery.cookie.js?v='+jsVersion+'"\><\/script>');
+	    	document.write('<script type="text/javascript" src="js/candidateconsolechanges.js?v=' + jsVersion + '"\><\/script>');
+	    	document.write('<script src="js/commonThemes.js?v='+jsVersion+'"\><\/script>');
+	    
+      	}else{
+		  document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery-3.6.0.min.js?v=' + jsVersion + '"\><\/script>');
+      		document.write('<script type="text/javascript" src="'+cdnPath+'/js/keyboard.js?v=' + jsVersion + '"\><\/script>');
+
+      		
+      		document.write('<script type="text/javascript" src="'+cdnPath+'/js/bean.js?v=' + jsVersion + '"\><\/script>');
+      	    document.write('<script type="text/javascript" src="'+cdnPath+'/js/variableinitialiserfortop.js?v='+jsVersion+'"\><\/script>');
+      	 	document.write('<script type="text/javascript" src="'+cdnPath+'/js/cacheFiles.js?v=' + jsVersion + '"\><\/script>');
+      		document.write('<script type="text/javascript" src="'+cdnPath+'/js/top.js?v=' + jsVersion + '"\><\/script>');
+    	    document.write('<script type="text/javascript" src="'+cdnPath+'/js/jquery.cookie.js?v='+jsVersion+'"\><\/script>');
+    	   	document.write('<script type="text/javascript" src="'+cdnPath+'/js/candidateconsolechanges.js?v=' + jsVersion + '"\><\/script>');
+    	   	document.write('<script src="js/commonThemes.js?v='+jsVersion+'"\><\/script>');
+    		
+      	}
+      	
+	    </script>
+</head>
+<body class="photograph-verification photograph-verification-lba " onload="validatePhotoUrl();"  style="user-select: none;" >
+ <!-- prerequisite header markup start -->
+    <div id="header-mashup" class="prerequisite-header" data-page-title="Photograph Verification"></div>
+    <!-- prerequisite header markup end -->
+    <main>
+        <div class="cc-main-content cc-main-verification win-height">
+            <div class="prerequisite-main-content-wrapper cc-container">
+                <!-- <h2 class="secondary-title" role="heading" aria-level="2">Photograph Verification</h2> -->
+                <div class="cc-row">
+                    <div class="cc-col-5 no-pad-space">
+                        <div class="cc-col-content varification-lh-col win-height">
+                            <div class="headtxt">
+                            <!-- <h3 class="title3">
+                                Click pictures using
+                                <span class="camera-icons">
+                                <span class="camera-icon"></span>
+                                </span> 
+                                to continue the Self registration</h3> 
+                                <p class="mob-countowntimer countowntimer-wrap" style="display:none;">Your exam time will start in 
+                                  <span class="countowntimer" id="mobCountowntimer">15:51</span>
+                                </p> -->
+                                <h3 class="title3">
+                                  Click the <b>Capture Photographs button</b> to automatically capture your face and continue with the self-registration process.</h3>
+                                
+                                
+                            </div>
+                            <div class="toggeldiv">
+                                <p class="note-bedge">
+                                    <span>Note:</span> 3 photographs will be automatically captured, each with a timer set to 3 seconds. After capturing, select the clearest and best photograph for submission.
+                                </p>
+                                <h4 class="title4">Photo Specifications</h4>
+                                <ul class="cc-specification-list">
+                                    <li class="cc-specification-item">
+                                        <p class="cc-specification-txt">
+                                           Avoid capturing photos in low light or against the light; your face should be well-lit.
+                                        </p>
+                                    </li>
+                                    <li class="cc-specification-item">
+                                        <p class="cc-specification-txt1">
+                                           Ensure your face occupies more than 50% of the image and is not covered by any objects (e.g., sunglasses).
+                                        </p>
+                                    </li>
+                                    <li class="cc-specification-item">
+                                        <p class="cc-specification-txt2">
+                                          Look straight into the camera so your entire face is clearly visible.
+                                        </p>
+                                    </li>
+                                   
+                                </ul>
+                                
+                               <!-- <a href="javascript:void(0);" class="link-btn" style="display:none">Connect with invigilator to bypass photo capture</a>-->
+                          </div>
+                          <div class="droparrowicon">Show More</div>
+                        </div>
+                        <div class="cc-bottom-bar">
+                          
+                         <!-- <a href="javascript:void(0);" class="link-btn">Connect with invigilator to bypass photo capture</a> -->
+                        </div>
+                    </div>
+                    <div class="cc-col-7 win-height">
+                        <div class="cc-col-content varification-rh-col">
+                            <div class="select-camera">
+                                <div class="radio-option " style="display:none">
+                                    <div class="radio-option-btn-group">
+                                        <div class="radio-option-btn audio-select" role="radiogroup" aria-labelledby="group_label_1">
+                                            <p class="radio-option-title" id="group_label_1" role="presentation" >Select a camera</p>
+                                            <div class="radio-button-wrap">
+                                                <label class="radio-button-container">
+                                                    <input type="radio" checked="checked" tabindex="0" name="selectCamera">
+                                                    <span>FaceTime HD Camera</span>
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <label class="radio-button-container" >
+                                                    <input type="radio" name="selectCamera" tabindex="0">
+                                                    <span>External Camera</span>
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="camera-wrapper win-height">
+                                <div class="camera-container">
+                                    <div class="camera-frame">
+                                        <div class="camera-wrap">
+                                          <video id="camera" autoplay></video>
+                                          <div class="cmash_focus focus_top"></div>
+                                          <div class="cmash_focus focus_bottom"></div>
+                                          <div class="cmash_focus focus_right">
+                                            <div class="focus_border border-topRight"></div>
+                                            <div class="focus_border border-bottomRight"></div>
+                                          </div>
+                                          <div class="cmash_focus focus_left">
+                                            <div class="focus_border border-topLeft"></div>
+                                            <div class="focus_border border-bottomLeft"></div>
+                                          </div>
+                                          <!-- <video id="camera" autoplay></video> -->
+                                          <!-- <button data-bs-toggle="tooltip" data-bs-placement="top" title="Capture" class="camera-icons disabled-btn" id="capture-photo" aria-label="Capture"><span class="camera-icon"  disabled="true"></button> -->
+                                          <!-- <div class="cc sp-left"></div>
+                                                                                    <div class="cc sp-right"></div>
+                                                                                    <div class="cc sp-top"></div>
+                                                                                    <div class="cc sp-bottom"></div> -->
+                                        </div>
+                                        <!-- <img src="./images/photo-varification-large.png" class="cc-img" alt="" /> -->
+                                        <div class="cc-video-overlay"></div>
+                                        <div class="camera-frame-box add-flash">
+                                            <!-- <img src="./images/new-camera-frame-lba.svg" class="cc-img" alt="" /> -->
+                                        </div>
+
+                                        <div class="parent timer-wrapper" data-pie="true">
+                                          <div class="countdown">
+                                            <div class="pie-bg"></div>
+                                            <div class="number">3</div>
+                                          </div>
+                                        </div>
+                                        <div class="cc-alert-box">
+                                            <span class="exclaimatory-icon"></span>
+                                            <p class="cc-alert-txt"><span>Photograph Verification not successful:</span> We could not verify one or more photographs. Please click on Delete and Retake to complete the validation process.</p>
+                                        </div>
+                                        <!-- <button data-bs-toggle="tooltip" data-bs-placement="top" title="Camera" class="camera-icons disabled-btn" id="capture-photo" aria-label="Camera"><span class="camera-icon"  disabled="true"></button> -->
+                                        <!-- <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Camera" class="camera-icons" aria-label="Camera"><span class="camera-icon"></span></button> -->
+                                    </div>
+                                    <div class="large-captured-pic-preview">
+                                          <img src="" alt="" />
+                                      </div> 
+                                    <div class="pic-lists" aria-live="polite">
+                                        <!-- <div class="pic-list-item">
+                                            <div class="user-pic">
+                                                <img tabindex="0" role="figure" aria-label="id card" src="./images/photo-varification-small.png" class="user-img" alt="" />
+                                                <span class="exclaimatory-icon"></span>
+                                                <span class="img-overlay"></span>
+                                                <button class="delete-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"  aria-label="Delete Image">
+                                                    <span class="delete-icon"></span>
+                                                </button>
+                                            </div>
+                                        </div> -->
+                                        
+                                        <div class="pic-list-item" data-thumb="0">
+                                          <div class="pic-placeholder">
+                                            <canvas id="canvas0" class="add-flash"></canvas>
+                                            <!-- <span class="plus-icon">
+                                                                                            <span class="h-line"></span>
+                                                                                            <span class="v-line"></span>
+                                                                                        </span> -->
+                                            <div class="pic-placeholder-count">
+                                                  <div class="number">3</div>
+                                                </div>
+                                          </div>
+                                        </div>
+                                        <div class="pic-list-item"  data-thumb="1">
+                                            <div class="pic-placeholder">
+                                                <canvas id="canvas1" class="add-flash"></canvas>
+                                                <!-- <span class="plus-icon">
+                                                    <span class="h-line"></span>
+                                                    <span class="v-line"></span>
+                                                </span> -->
+                                                <div class="pic-placeholder-count">
+                                                  <div class="number">3</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pic-list-item"  data-thumb="2">
+                                            <div class="pic-placeholder">
+                                                <canvas id="canvas2" class="add-flash"></canvas>
+                                                <!-- <span class="plus-icon">
+                                                    <span class="h-line"></span>
+                                                    <span class="v-line"></span>
+                                                </span> -->
+                                                <div class="pic-placeholder-count">
+                                                  <div class="number">3</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        
+                                    </div>
+                                    
+                                    <div class="captured-photograph-list">
+                                      <div class="captured-photograph-list-wrap">
+                                        
+                                      </div>
+                                    </div>
+                                    <div class="validate-text">
+                                      <!-- <div class="form-check checkbox-input">
+                                        <input class="form-check-input" type="checkbox" name="checkbox1" id="checkbox1" role="checkbox">
+                                        <label class="form-check-label" for="checkbox1">I agree to terms and conditions,Lorem Ipsum is simply dummy text of the <strong>printing and typesetting industry</strong>. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took</label>
+                                      </div> -->
+                                      <div class="form-check checkbox-input">
+                                        <input class="form-check-input" type="checkbox" name="checkbox1"  role="checkbox">
+                                        <label class="form-check-label" >
+                                          Please select one clear and best photograph from the options above to proceed. If none are appropriate, you may recapture.<br /> <strong>Note:</strong> Only <span class='recapture1'>0</span> <strong> recapture</strong> attempts are allowed.
+ 
+                                        </label>
+                                      </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                           
+<!--                             
+                            <div class="cc-btn-wrap">
+                                <button type="button" class="cc-primary-button  validate-btn disabled-btn"  >Validate</button>
+                                <button type="button"  class="cc-primary-button delete-retake-btn">Delete and Retake</button>
+                            </div> -->
+
+                        </div>
+                        <div class="cc-bottom-bar">
+                         <div class="cc-capture-btn-grp">
+                            <button type="button" class="cc-success-button disabled-btn" disabled="true" id="capture-photo">Capture Photographs</button>
+                             
+                             <div class="popove-conteniner">
+                              <button type="button"  class="popoverWrap cc-white-btn recapture" id="recapture"><span class="btn-txt">Recapture</span> 
+                                <span class="info_popOut">
+                                  <span class="attempts-wrap">
+                                    <span class="attemptsCount">0</span> out of <span class="attemptsCount1">0</span> attempts remaining.
+                                  </span>
+                                  <span class="recapture-note">Select a Photograph to recapture</span>
+                                </span>
+                              </button>
+                             </div>
+                             <!-- <button type="button" class="cc-primary-button proceed-btn" data-bs-toggle="modal" data-bs-target="#Final_submitPopup">Proceed</button> -->
+
+                             <div class="popove-conteniner">
+                              <button type="button" class="cc-primary-button popoverWrap proceed-btn open-modal-btn" >
+                                <span class="btn-txt">Proceed</span> 
+                                  <span class="info_popOut">Select a photograph to proceed</span>
+                              </button>
+                             </div>
+
+                              
+                              
+                              <!--<p class="countowntimer-wrap" style="display:none">Your exam time will start in 
+                                <span class="countowntimer" id="countowntimer"></span>
+                              </p> -->
+                         </div>
+                        </div>
+                    </div>
+                </div>
+<!-- bottom bar  -->
+ <!-- <div class="cc-row">
+<div class="cc-col-5"></div>
+ </div> -->
+ <!-- bottom bar  end-->
+            </div>
+            
+        </div>
+    </main>
+  <!-- scripts Starts -->
+   <!--<script src="mockPhotoVerification/js/jquery-3.7.0.min.js"></script>-->
+  <script src="mockPhotoVerification/js/bootstrap.bundle.min.js"></script>
+  <script src="mockPhotoVerification/js/iON_Mouse_Trial.js"> </script>
+  <script src="mockPhotoVerification/js/jquery.jscrollpane.min.js"></script>
+  <script src="mockPhotoVerification/js/header.js"></script>
+ <!--  <script src="mockPhotoVerification/js/photograph-verification-lba.js"></script> -->
+<script>
+document.write('<script type="text/javascript" src="mockPhotoVerification/js/photograph-verification-lba.js?v=' + jsVersion + '"\><\/script>');
+  const header = document.getElementById("header-mashup");
+
+  function adjustModal(modalId) {
+    // hide other modal js start
+    document.querySelectorAll(".modal.show").forEach((openModal) => {
+      if (openModal.id !== modalId) {
+        const instance = bootstrap.Modal.getInstance(openModal);
+        if (instance) instance.hide();
+      }
+    });
+
+    const modalEL = document.getElementById(modalId);
+    if (!modalEL) return;
+
+    const headerHeight = header ? header.offsetHeight : 64;
+    const dialog = modalEL.querySelector(".modal-dialog");
+    const mcontent = modalEL.querySelector(".modal-content");
+    const mheader = modalEL.querySelector(".modal-header");
+    const mbody = modalEL.querySelector(".modal-body");
+    const mfooter = modalEL.querySelector(".modal-footer");
+
+    dialog.style.top = `${headerHeight}px`;
+    dialog.style.height = `${window.innerHeight - headerHeight - 22}px`;
+
+    if (!mbody || !mcontent) return;
+
+    if (!modalEL.classList.contains("small-modal")) {
+      mcontent.style.height = `${window.innerHeight - headerHeight - 22}px`;
+    }
+
+    const mheaderHeight = mheader ? mheader.offsetHeight : 0;
+    const mfooterHeight = mfooter ? mfooter.offsetHeight : 0;
+
+    const availableHeight =
+      window.innerHeight - (headerHeight + mheaderHeight + mfooterHeight);
+
+    mbody.style.maxHeight = `${availableHeight}px`;
+    mbody.style.overflowY = 'auto';
+
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEL);
+    modal.show();
+
+    // adjust backdrop as per header height
+    modalEL.addEventListener("shown.bs.modal", () => {
+      const backdrop = document.querySelector(".modal-backdrop:last-child");
+      if (backdrop) {
+        backdrop.style.top = `${headerHeight}px`;
+        backdrop.style.height = `${window.innerHeight - headerHeight}px`;
+      }
+    });
+  }
+
+  document.querySelectorAll(".open-modal-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const modalId = btn.getAttribute("data-modal-id");
+      adjustModal(modalId);
+    });
+  });
+
+  window.addEventListener("resize", () => {
+    const openModal = document.querySelector(".modal.show");
+    if (openModal) {
+      const modalId = openModal.id;
+      adjustModal(modalId);
+    }
+  });
+
+  $(document).ready(function () {
+    //  $('.camera-container').on('click', '.user-pic img', function(){
+    //          $('#system-prerequisitePopup').fadeIn();
+    // }); 
+    // Close user gallery popup
+    // $('.headaction').on('click', function(){
+    //   $('#system-prerequisitePopup').hide();
+    // });
+    // Open user gallery popup
+
+    // Function to set the div height
+    function setDivHeight() {
+      var headHt = $('#header-mashup').height();
+      var windowHeight = $(window).height() - 121;
+      // You can optionally subtract a fixed value for other elements like a header/footer
+      // For example, if you have a header of 50px:
+      // var divHeight = windowHeight - 50;
+      // $('#myDiv').css('height', divHeight + 'px');
+      $('.win-height').css('height', windowHeight + 'px');
+      $('.win-height.varification-lh-col').css('height', (windowHeight - 6) + 'px');
+
+      // left side panel height
+      // var ht = $(document).height() - headHt
+      // $('.photograph-verification-lba .cc-main-verification .cc-col-content.varification-lh-col').css('height', ht)
+    }
+
+
+
+    // Call the function initially to set the height on page load
+    setDivHeight();
+
+    // Call the function again whenever the window is resized
+    $(window).on('resize', function () {
+      setDivHeight();
+    });
+
+
+    // slider start here
+    var owl = $("#sync2");
+    owl.owlCarousel({
+      margin: 0,
+      center: true,
+      loop: true,
+      item: 8,
+      nav: true,
+      lazyLoad: true,
+      navigation: false,
+      autoplayTimeout: 0,
+      smartSpeed: 0,
+      autoplay: false,
+      autoplaySpeed: 2000,
+      navSpeed: 2000,
+      responsiveClass: true,
+      navText: ['<button type="button" data-bs-placement="top" data-bs-toggle="tooltip"  class="btn p-0" data-bs-original-title="Previous" > <svg width="100%" height="100%" viewBox="0 0 11 20"  ><path style="fill:none;stroke-width: 1px;stroke: #000;" d="M9.554,1.001l-8.607,8.607l8.607,8.606"/></svg> </button>', ' <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-original-title="Next" class="btn p-0" >  <svg width="100%" height="100%" viewBox="0 0 11 20" version="1.1"><path style="fill:none;stroke-width: 1px;stroke: #000;" d="M1.054,18.214l8.606,-8.606l-8.606,-8.607"/></svg> </button>'],
+      responsive: {
+        0: {
+          items: 3,
+        },
+        620: {
+          items: 2,
+        },
+        700: {
+          items: 3,
+        },
+        900: {
+          items: 4,
+        },
+        1024: {
+          items: 3,
+        },
+        1366: {
+          items: 5,
+        }
+      },
+    })
+    $('[data-bs-toggle="tooltip"]').tooltip();
+    //  image replace code start here
+    $('#sync2.owl-theme .owl-next,#sync2.owl-theme .owl-prev').click(function () {
+      var imgchange = $('.active.center').find('.Checkimg').attr('src');
+      $('#imgdiv').attr('src', imgchange);
+    });
+
+    // counter start here
+    $("#sync2").on("initialized.owl.carousel changed.owl.carousel", function (e) {
+      if (!e.namespace) {
+        return;
+      }
+      $("#counter").text(
+        e.relatedTarget.relative(e.item.index) + 1 + "/" + e.item.count
+      );
+    })
+    //stop cursor move out the popup 
+    $(document).on('keydown', '.modal ', function (e) {
+      var elemId = $(this).attr('id');
+      var elem = ('#' + elemId);
+      var query = `${elem} a[href]:visible:not([disabled]), ${elem} button:visible:not([disabled]), ${elem} button[type='button']:visible:not([disabled]), ${elem} textarea:visible:not([disabled]), ${elem} input[type='email']:visible:not([disabled]), ${elem} input[type='text']:visible:not([disabled]), ${elem} input[type='radio']:visible:not([disabled]), ${elem} input[type='checkbox']:visible:not([disabled]),  ${elem} select:visible:not([disabled]), ${elem} [tabindex='0']:visible`;
+      var focusableEls = $(query);
+      var firstFocusableEl = focusableEls[0];
+      var lastFocusableEl = focusableEls[focusableEls.length - 1];
+      var isTabPressedFocus = (e.key === "Tab" || e.keyCode === 9);
+      if (isTabPressedFocus) {
+        if (e.shiftKey) {
+          if (document.activeElement === firstFocusableEl) {
+            lastFocusableEl.focus();
+            e.preventDefault();
+          }
+        }
+        else {
+          if (document.activeElement === lastFocusableEl) {
+            firstFocusableEl.focus();
+            e.preventDefault();
+          }
+        }
+      }
+    });
+    // open final result popup
+    // $('#Final_submitPopup .yes-btn').click(function() {
+    //     $('#resultPopup').modal('show')
+    // }) 
+    //redirect to feedback page
+    $('#resultPopup .btn-close').click(function () {
+      window.location.href = "./feedback.html";
+    });
+    // $('#resultPopup').on('shown.bs.modal', function() {
+    //   $('.modal-backdrop').css('opacity', '1')
+    // });
+  });
+	$(".attemptsCount,.attemptsCount1").text(sessionStorage.photoRecaptureCount);
+	$(".recapture1").text(sessionStorage.photoRecaptureCount);
+</script>
+  <!-- scripts Ends -->
+
+<script src="js/exam/ui-config.js"></script>
+<script src="js/exam/inspector-unlock.js"></script>
+</body>
+</html>
+

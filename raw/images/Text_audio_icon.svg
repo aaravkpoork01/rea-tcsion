@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <g id="Group_33061" data-name="Group 33061" transform="translate(-195 -259)">
+    <rect id="Rectangle_4976" data-name="Rectangle 4976" width="32" height="32" rx="16" transform="translate(195 259)" fill="#00c781"/>
+    <g id="Group_33058" data-name="Group 33058" transform="translate(199 263)">
+      <path id="Path_10888" data-name="Path 10888" d="M0,0H24V24H0Z" fill="none"/>
+      <path id="Path_10889" data-name="Path 10889" d="M14,3V7a1,1,0,0,0,1,1h4" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_10890" data-name="Path 10890" d="M10,21H7a2,2,0,0,1-2-2V5A2,2,0,0,1,7,3h7l5,5v3.5" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_10891" data-name="Path 10891" d="M9,9h1" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_10892" data-name="Path 10892" d="M9,13h2.5" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_10893" data-name="Path 10893" d="M9,17h1" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <g id="Group_33059" data-name="Group 33059" transform="translate(-281.93 -241)">
+        <path id="Path_10894" data-name="Path 10894" d="M15,8a2.974,2.974,0,0,1,0,4.758" transform="translate(286.335 248.339)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Path_10895" data-name="Path 10895" d="M17.7,5a5.352,5.352,0,0,1,0,8.326" transform="translate(285.241 249.555)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Path_10896" data-name="Path 10896" d="M4.784,10.569H3.595A.6.6,0,0,1,3,9.974V7.6A.6.6,0,0,1,3.595,7H4.784L6.866,4.324a.476.476,0,0,1,.892.3v8.326a.476.476,0,0,1-.892.3L4.784,10.569" transform="translate(291.199 249.934)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+    </g>
+  </g>
+</svg>
