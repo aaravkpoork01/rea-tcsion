@@ -190,15 +190,17 @@ async function serveMirror(res, pathname) {
 // Default export satisfies Vercel's module-validation pass on bundled .mjs files.
 export default async function handler(req, res) {
   // On Vercel rewrites:
-  // - req.url may be rewritten to destination (e.g. /api?path=admin%2Flogin)
-  // - Wildcard path parameter is injected as query param (e.g. ?path=...)
+  // - Wildcard path parameter is injected as query param (e.g. ?_prefix=IBA&path=api/login/verify)
   // - Also check x-forwarded-uri, x-matched-path, or x-original-url
   const incomingUrl = new URL(req.url || "/", `http://${req.headers.host || config.host}`);
   let pathname = incomingUrl.pathname;
 
+  const prefix = incomingUrl.searchParams.get("_prefix");
   const pathParam = incomingUrl.searchParams.get("path") || incomingUrl.searchParams.get("match");
-  if (pathParam && pathname === "/api") {
-    // If rewritten from /api/admin/...
+  
+  if (prefix && pathname === "/api") {
+    pathname = `/${prefix}/${pathParam || ""}`.replace(/\/+/g, "/");
+  } else if (pathParam && pathname === "/api") {
     pathname = `/api/admin/${pathParam}`.replace(/\/+/g, "/");
   } else if (pathname === "/api" || pathname === "/api/index.mjs" || pathname === "/api/index") {
     const original = req.headers["x-forwarded-uri"] || req.headers["x-original-url"];

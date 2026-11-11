@@ -19,23 +19,23 @@
     },
     {
       "source": "/IBA/:path*",
-      "destination": "/api"
+      "destination": "/api?_prefix=IBA&path=:path*"
     },
     {
       "source": "/IBACC/:path*",
-      "destination": "/api"
+      "destination": "/api?_prefix=IBACC&path=:path*"
     },
     {
       "source": "/api/admin/:path*",
-      "destination": "/api"
+      "destination": "/api?_prefix=api/admin&path=:path*"
     },
     {
       "source": "/api/config",
-      "destination": "/api"
+      "destination": "/api?_prefix=api&path=config"
     },
     {
       "source": "/tools/:path*",
-      "destination": "/api"
+      "destination": "/api?_prefix=tools&path=:path*"
     }
   ]
 }
