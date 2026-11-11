@@ -40,8 +40,18 @@ let sqlite = null;
 let sqliteFile = null;
 
 if (usePostgres) {
-  const { Pool } = await import("@neondatabase/serverless");
-  pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  const connectionString = process.env.DATABASE_URL;
+  const isNeon = connectionString.includes("neon.tech");
+  if (isNeon) {
+    const { Pool } = await import("@neondatabase/serverless");
+    pool = new Pool({ connectionString });
+  } else {
+    const { default: pg } = await import("pg");
+    pool = new pg.Pool({
+      connectionString,
+      ssl: { rejectUnauthorized: false }
+    });
+  }
 } else {
   // On Vercel without DATABASE_URL the filesystem is read-only — use /tmp.
   const { DatabaseSync } = await import("node:sqlite");
