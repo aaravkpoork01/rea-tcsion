@@ -57,6 +57,51 @@ const normalizeLanguages = (languages) => {
   return list;
 };
 
+const MAX_TEMPLATE_TEXT = 500 * 1024;
+const templateText = (value) => String(value ?? "").slice(0, MAX_TEMPLATE_TEXT);
+
+/**
+ * Normalise the globally stored instruction template. The settings table keeps
+ * it as JSON, so accept the parsed value as well as a JSON string and the
+ * `{ languages: [...] }` wrapper used by the admin API.
+ */
+export function normalizeInstructionTemplate(value) {
+  let source = value;
+  if (typeof source === "string") {
+    try { source = JSON.parse(source); } catch { source = null; }
+  }
+  const rows = Array.isArray(source)
+    ? source
+    : Array.isArray(source?.languages) ? source.languages : [];
+  const seen = new Set();
+  const list = [];
+  for (const row of rows) {
+    const id = Number.parseInt(row?.id, 10);
+    const name = String(row?.name ?? "").trim().slice(0, 32);
+    if (!Number.isInteger(id) || id < 1 || id > 99 || !name || seen.has(id)) continue;
+    seen.add(id);
+    list.push({
+      id,
+      name,
+      systemInstruction: templateText(row.systemInstruction),
+      customInstruction: templateText(row.customInstruction),
+      disclaimer: templateText(row.disclaimer),
+    });
+  }
+  return list.sort((a, b) => a.id - b.id);
+}
+
+/** Find the global template row for one paper language (id first, then name). */
+export function instructionTemplateRow(template, language) {
+  const list = Array.isArray(template) ? template : [];
+  if (!list.length) return null;
+  const id = Number(language?.id);
+  const name = String(language?.name ?? "").trim().toLowerCase();
+  return list.find((row) => Number(row.id) === id && row.name.toLowerCase() === name)
+    || list.find((row) => row.name.toLowerCase() === name)
+    || null;
+}
+
 function renderBlock(language, fields) {
   const body = fields.map(([tag, text]) => `<${tag}>${cdata(text)}</${tag}>`).join("\n");
   return `<INSTRUCTION>
@@ -90,26 +135,31 @@ function normaliseDisclaimerBlock(block) {
  * Blocks for languages no longer on the paper are dropped so the instructions
  * language picker matches the paper language picker.
  */
-function ensureFile(file, rootTag, languages, fields) {
+function ensureFile(file, rootTag, languages, fields, template = []) {
   const existing = existsSync(file) ? readFileSync(file, "utf8") : "";
-  const template = fields.map(([tag, text]) => [tag, text]);
   const byLanguage = new Map();
 
   for (const match of existing.matchAll(INSTRUCTION_RE)) {
     const block = match[0];
     const id = Number.parseInt(tagText(block, "LANGID"), 10);
     const name = tagText(block, "LANGNAME").toLowerCase();
-    const hasText = fields.some(([tag]) => tagText(block, tag) !== "");
+    const hasText = fields.some(({ tag }) => tagText(block, tag) !== "");
     if (!Number.isFinite(id) || !name || !hasText) continue;
     byLanguage.set(`${id}:${name}`, block);
   }
 
   const blocks = languages.map((language) => {
     const kept = byLanguage.get(`${language.id}:${language.name.toLowerCase()}`);
-    if (!kept) return renderBlock(language, template);
-    return fields.some(([tag]) => tag === "DISCLAIMERTEXTOA")
-      ? normaliseDisclaimerBlock(kept)
-      : kept;
+    if (kept) {
+      return fields.some(({ tag }) => tag === "DISCLAIMERTEXTOA")
+        ? normaliseDisclaimerBlock(kept)
+        : kept;
+    }
+    const row = instructionTemplateRow(template, language);
+    return renderBlock(language, fields.map(({ tag, key, fallback }) => [
+      tag,
+      row ? row[key] ?? "" : fallback,
+    ]));
   });
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<${rootTag}>\n${blocks.join("\n")}\n</${rootTag}>\n`;
@@ -120,16 +170,18 @@ function ensureFile(file, rootTag, languages, fields) {
  * Ensure both instruction files exist and cover every paper language.
  * @param {string} folder paper folder that holds quiz.xml
  * @param {Array<{id:number,name:string}>} languages merged language list
+ * @param {Array<object>} template globally stored instruction rows
  */
-export function ensureInstructionFiles(folder, languages) {
+export function ensureInstructionFiles(folder, languages, template = []) {
   const list = normalizeLanguages(languages);
   if (!folder || !list.length) return;
 
   ensureFile(join(folder, "sysInstructions.xml"), "SYSTEMINSTRUCTIONS", list, [
-    ["INSTRUCTIONTEXT", SYSTEM_TEXT],
-  ]);
+    { tag: "INSTRUCTIONTEXT", key: "systemInstruction", fallback: SYSTEM_TEXT },
+  ], template);
   ensureFile(join(folder, "custInstructions.xml"), "CUSTOMINSTRUCTIONS", list, [
-    ["DISCLAIMERTEXT", DISCLAIMER_TEXT],
-    ["DISCLAIMERTEXTOA", DISCLAIMER_TEXT],
-  ]);
+    { tag: "INSTRUCTIONTEXT", key: "customInstruction", fallback: "" },
+    { tag: "DISCLAIMERTEXT", key: "disclaimer", fallback: DISCLAIMER_TEXT },
+    { tag: "DISCLAIMERTEXTOA", key: "disclaimer", fallback: DISCLAIMER_TEXT },
+  ], template);
 }

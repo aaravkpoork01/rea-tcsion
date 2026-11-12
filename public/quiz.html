@@ -2,7 +2,7 @@
 <html translate="no" lang="en">
 <head translate="no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=5">
+<meta name="viewport" content="width=1200, initial-scale=0.35, minimum-scale=0.25, maximum-scale=5, user-scalable=yes">
 <meta content="IE=edge" http-equiv="X-UA-Compatible" />
 <meta name="google" content="notranslate" />
 <title>Remote Assessment</title>
@@ -1310,6 +1310,12 @@ function onLoadEssentialsQuiz(delay){
 							<span class="questionpaper_icon"></span>
 							<button data-for-model-dialog="Question Paper" aria-haspopup="dialog"  aria-expanded="false" aria-controls="TB_window"  class="test-instruct thickbox viewQPButtonDiv" id="viewQPButton" onclick="showQP();activeLink(this.id);onKeyPressButton(event,this.id,this)" role="button" tabindex="0">
 								<span id="viewQPButton" class="auditlogButton QuestionPaper" title="View Entire Question Paper">Question Paper</span>
+							</button>
+						</div>
+						<div class="viewfullscreen_div" id="viewFullScreenTD">
+							<span class="fullscreen_header_icon"></span>
+							<button type="button" class="test-instruct viewFullScreenButtonDiv" id="btnHeaderFullscreen" role="button" tabindex="0" title="Full Screen" onclick="if(window.ExamFullscreen&&window.ExamFullscreen.toggle){window.ExamFullscreen.toggle();}else{openScreenFullWindow();}">
+								<span id="btnHeaderFullscreenSpan" class="auditlogButton FullscreenText">Full Screen</span>
 							</button>
 						</div>
 					</div>

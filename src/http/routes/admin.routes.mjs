@@ -119,6 +119,9 @@ export function registerAdminRoutes(router) {
   guarded[2]("/api/admin/assessments/:id/instructions", auth(async (req, res, { params }) =>
     sendOk(res, await assessmentsService.updateInstructions(params.id, await readJson(req)))));
 
+  guarded[2]("/api/admin/assessments/:id/languages", auth(async (req, res, { params }) =>
+    sendOk(res, await assessmentsService.updateLanguages(params.id, await readJson(req)))));
+
   guarded[0]("/api/admin/assessments/:id/useful-data", auth(async (_req, res, { params }) =>
     sendOk(res, await assessmentsService.getUsefulData(params.id))));
   guarded[2]("/api/admin/assessments/:id/useful-data", auth(async (req, res, { params }) =>
@@ -232,6 +235,9 @@ export function registerAdminRoutes(router) {
 
   guarded[0]("/api/admin/settings", auth(async (_req, res) => sendOk(res, { settings: await settingsService.all() })));
   guarded[2]("/api/admin/settings", auth(async (req, res) => sendOk(res, { settings: await settingsService.update(await readJson(req)) })));
+
+  guarded[0]("/api/admin/settings/instructions", auth(async (_req, res) => sendOk(res, await assessmentsService.getGlobalInstructions())));
+  guarded[2]("/api/admin/settings/instructions", auth(async (req, res) => sendOk(res, await assessmentsService.updateGlobalInstructions(await readJson(req)))));
 
   guarded[0]("/api/admin/export/results.csv", auth(async (_req, res) => sendCsv(res, "results.csv", await reportService.resultsCsv())));
   guarded[0]("/api/admin/export/attempts.csv", auth(async (_req, res) => sendCsv(res, "attempts.csv", await reportService.resultsCsv())));

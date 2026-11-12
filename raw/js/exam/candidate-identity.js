@@ -20,8 +20,11 @@
 	var DEFAULT_AVATAR = "images/NewCandidateImage.jpg";
 	var RETRY_MS = [300, 1000, 2500, 5000];
 	var PROFILE_POPUP_CSS =
-		"#candidateDetailstbl.exam-single-login-welcome .LoginIdSpan" +
-		"{display:none !important}";
+		"#candidateDetailstbl.exam-single-login-welcome .LoginIdSpan{display:none !important;}\n" +
+		".user_dtls .mockLoginIdSpan ~ .LoginIdSpan{display:none !important;}\n" +
+		".mockLoginIdSpan + .LoginIdSpan{display:none !important;}\n" +
+		".user_dtls .hideCandNameFOrOffline{display:block !important;}\n" +
+		".candOriginalName:empty:before{content:'Candidate';}";
 	var snapshot = null;
 	var watermarkLogin = "";
 	var nativeWaterMark = null;
@@ -161,10 +164,15 @@
 	 * Default blue silhouette when the paper has no photograph
 	 * (USEDEFAULTCANDIDATEIMG=YES). Never replaces a real photo.
 	 */
-	function applyAvatar() {
+	function applyAvatar(photoUrl) {
 		var images;
 		try { images = global.document.querySelectorAll(".candidateImg"); } catch (e) { return; }
 		Array.prototype.forEach.call(images, function (image) {
+			if (photoUrl) {
+				image.setAttribute("src", photoUrl);
+				if (image.style && image.style.display === "none") image.style.display = "";
+				return;
+			}
 			var src = image.getAttribute("src") || "";
 			var isDefault = !src || src === "null" || src === "undefined" || /NewCandidateImage\.jpg$/i.test(src);
 			if (!isDefault) return;
@@ -195,11 +203,20 @@
 		if (name) {
 			text(".candOriginalName", name, true);
 			text(".candOrigName", name);
+			text(".candName", "Candidate Name: ");
 			text(".userName", name);
 			text(".userName1", name);
 			text("#Username", name, true);
 			text("#profileNameId", name);
+		} else {
+			text(".candOriginalName", "Candidate", true);
+			text("#Username", "Candidate", true);
 		}
+
+		var candNameBlocks = global.document.querySelectorAll(".hideCandNameFOrOffline");
+		Array.prototype.forEach.call(candNameBlocks, function (el) {
+			el.style.display = "block";
+		});
 
 		if (identity.login) applyLoginWatermark(identity.login);
 
@@ -209,7 +226,7 @@
 		text("#mockSubName", identity.assessmentName || mv.mockName);
 		text("#mockSysNum", identity.assessmentId || mv.mockId);
 
-		applyAvatar();
+		applyAvatar(identity.photo);
 		syncProfileWelcome();
 	}
 
@@ -223,7 +240,10 @@
 						snapshot = merge(fallback, {
 							candidateId: data.mockCandId,
 							attemptId: data.attemptId,
-							assessmentId: data.assessmentId
+							assessmentId: data.assessmentId,
+							name: data.name || fallback.name,
+							login: data.login || fallback.login,
+							photo: data.photo || fallback.photo
 						});
 					} else {
 						snapshot = fallback;

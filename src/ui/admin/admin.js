@@ -555,23 +555,16 @@ function assessmentForm(assessment, assessments = [], options = {}) {
       </div>
       <div style="border: 1px solid var(--border, #374151); border-radius: 8px; padding: 12px; margin: 12px 0; background: rgba(255,255,255,0.02);">
         <label class="row" style="font-weight: 600; margin: 0; cursor: pointer;">
-          <input type="checkbox" name="enableFullscreen" ${draftValue("enableFullscreen", (a.enable_fullscreen != null ? a.enable_fullscreen : (a.require_fullscreen || a.track_fullscreen))) ? "checked" : ""} style="width:auto" />
+          <input type="checkbox" name="enableFullscreen" ${draftValue("enableFullscreen", a.require_fullscreen) ? "checked" : ""} style="width:auto" />
           Enable fullscreen mode
         </label>
-        <div id="fullscreenSubOptions" style="margin-top: 10px; margin-left: 22px; display: flex; flex-direction: column; gap: 8px; border-left: 2px solid var(--border, #4b5563); padding-left: 12px;">
-          <label class="row" style="cursor: pointer;">
-            <input type="checkbox" name="requireFullscreen" ${draftValue("requireFullscreen", a.require_fullscreen) ? "checked" : ""} style="width:auto" />
-            Require fullscreen to answer
-          </label>
-          <label class="row" style="cursor: pointer;">
-            <input type="checkbox" name="trackFullscreen" ${draftValue("trackFullscreen", (a.track_fullscreen != null ? a.track_fullscreen : 1)) ? "checked" : ""} style="width:auto" />
-            Count how much time fullscreen button (track time &amp; toggles in result)
-          </label>
+        <p class="field-note" id="fullscreenNote" style="margin:6px 0 0 22px">Candidates must enter fullscreen before answering. Fullscreen time and on/off toggles are counted for results.</p>
+        <div class="grid2" id="feedbackOptions" style="margin-top:10px">
+          <label class="row" data-feedback-option><input type="checkbox" name="showFeedback" ${draftValue("showFeedback", a.show_feedback) ? "checked" : ""} style="width:auto" /> Show feedback page</label>
+          <label class="row" data-feedback-option><input type="checkbox" name="useDefaultFeedback" ${draftValue("useDefaultFeedback", a.use_default_feedback) ? "checked" : ""} style="width:auto" /> Use default feedback form</label>
         </div>
       </div>
       <div class="grid2">
-        <label class="row"><input type="checkbox" name="showFeedback" ${draftValue("showFeedback", a.show_feedback) ? "checked" : ""} style="width:auto" /> Show feedback page</label>
-        <label class="row"><input type="checkbox" name="useDefaultFeedback" ${draftValue("useDefaultFeedback", a.use_default_feedback) ? "checked" : ""} style="width:auto" /> Use default feedback form</label>
         <label class="row"><input type="checkbox" name="storeResponse" ${draftValue("storeResponse", a.store_response) ? "checked" : ""} style="width:auto" /> Server-side response store</label>
       </div>
       ${lockedDraft ? `<p class="field-note">This assessment is saved as <strong>draft</strong>. After saving, use <em>Upload CSV</em> to add its question paper; the assessment becomes active automatically. The paper folder is managed for you.</p>` : ""}
@@ -584,19 +577,16 @@ function assessmentForm(assessment, assessments = [], options = {}) {
   const nameInput = m.root.querySelector("[name=name]");
 
   const masterFullscreen = m.root.querySelector("[name=enableFullscreen]");
-  const subOptionsContainer = m.root.querySelector("#fullscreenSubOptions");
-  const requireFullscreenInput = m.root.querySelector("[name=requireFullscreen]");
-  const trackFullscreenInput = m.root.querySelector("[name=trackFullscreen]");
+  const feedbackRows = [...m.root.querySelectorAll("[data-feedback-option]")];
+  const fullscreenNote = m.root.querySelector("#fullscreenNote");
 
-  const syncFullscreenSubOptions = () => {
+  const syncFullscreenOptions = () => {
     const isEnabled = masterFullscreen.checked;
-    subOptionsContainer.style.display = isEnabled ? "flex" : "none";
-    if (!isEnabled) {
-      requireFullscreenInput.checked = false;
-    }
+    for (const row of feedbackRows) row.style.display = isEnabled ? "none" : "flex";
+    if (fullscreenNote) fullscreenNote.style.display = isEnabled ? "" : "none";
   };
-  masterFullscreen.addEventListener("change", syncFullscreenSubOptions);
-  syncFullscreenSubOptions();
+  masterFullscreen.addEventListener("change", syncFullscreenOptions);
+  syncFullscreenOptions();
 
   const captureDraft = () => ({
     orgId: orgInput.value.trim(),
@@ -609,8 +599,8 @@ function assessmentForm(assessment, assessments = [], options = {}) {
     useDefaultFeedback: m.root.querySelector("[name=useDefaultFeedback]").checked,
     storeResponse: m.root.querySelector("[name=storeResponse]").checked,
     enableFullscreen: masterFullscreen.checked,
-    requireFullscreen: masterFullscreen.checked && requireFullscreenInput.checked,
-    trackFullscreen: masterFullscreen.checked && trackFullscreenInput.checked,
+    requireFullscreen: masterFullscreen.checked,
+    trackFullscreen: masterFullscreen.checked,
   });
   const reopenWithDraft = (callback) => {
     const draft = captureDraft();
@@ -671,8 +661,8 @@ function assessmentForm(assessment, assessments = [], options = {}) {
       useDefaultFeedback: m.root.querySelector("[name=useDefaultFeedback]").checked,
       storeResponse: m.root.querySelector("[name=storeResponse]").checked,
       enableFullscreen: masterFullscreen.checked,
-      requireFullscreen: masterFullscreen.checked && requireFullscreenInput.checked,
-      trackFullscreen: masterFullscreen.checked && trackFullscreenInput.checked,
+      requireFullscreen: masterFullscreen.checked,
+      trackFullscreen: masterFullscreen.checked,
     };
     if (isNew) body.basePath = autoBasePath(bodyOrg, id);
 
@@ -1037,6 +1027,108 @@ async function presentationForm(assessment, options = {}) {
   });
 }
 
+function settingJson(value, fallback) {
+  if (!value) return fallback;
+  if (typeof value === "object") return value;
+  try {
+    const parsed = JSON.parse(String(value));
+    return parsed && typeof parsed === "object" ? parsed : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+/**
+ * Settings → Candidate UI. Saves the global top bar and exam tools; the server
+ * removes every per-assessment presentation override so all assessments switch
+ * to the new values in one go.
+ */
+async function globalPresentationForm() {
+  const { settings } = await api("/settings");
+  const storedTopbar = settingJson(settings.exam_topbar, {});
+  const items = storedTopbar.items || {};
+  const custom = Array.isArray(storedTopbar.custom) ? storedTopbar.custom : [];
+  const tools = settingJson(settings.exam_tools, {});
+
+  const topbarRows = TOPBAR_META.map(([key, fallback]) => {
+    const entry = items[key] || {};
+    return `<tr>
+      <td><input data-topbar-label="${key}" value="${esc(entry.label || fallback)}" maxlength="60" aria-label="${esc(fallback)} button name" /></td>
+      <td style="width:190px">${modeSelect("topbar-mode", key, entry.mode || "auto")}</td>
+    </tr>`;
+  }).join("");
+
+  const toolRows = TOOL_META.map(([key, toolLabel]) => `<tr>
+    <td>${esc(toolLabel)}</td>
+    <td style="width:190px">${modeSelect("tool-mode", key, tools[key] || "auto")}</td>
+  </tr>`).join("");
+
+  const m = modal({
+    title: "Candidate UI — all assessments",
+    wide: true,
+    body: `
+      <p class="field-note" style="margin-top:0">These top bar buttons and exam tools apply to <strong>every assessment</strong>. Saving here removes per-assessment candidate UI overrides, so all assessments switch to the values below. To change one assessment only, use <strong>Assessments → Edit → Candidate UI</strong>.</p>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-head"><h3>Candidate top bar</h3><span class="sub">Button names and visibility for all assessments</span></div>
+        <div class="card-body tight">
+          <div class="table-wrap"><table>
+            <thead><tr><th>Button name</th><th>Visibility</th></tr></thead>
+            <tbody>${topbarRows}</tbody>
+          </table></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Exam tools</h3><span class="sub">Calculator, ruler, protractor, zoom, notepad, scratchpad, highlighter</span></div>
+        <div class="card-body tight">
+          <div class="table-wrap"><table>
+            <thead><tr><th>Tool</th><th>Visibility</th></tr></thead>
+            <tbody>${toolRows}</tbody>
+          </table></div>
+        </div>
+      </div>
+    `,
+    footer: `<button class="btn" data-close>Cancel</button>
+      <button class="btn" data-defaults>Use built-in defaults</button>
+      <button class="btn primary" data-save>Save for all assessments</button>`,
+  });
+
+  m.root.querySelector("[data-defaults]").addEventListener("click", () => {
+    TOPBAR_META.forEach(([key, fallback]) => {
+      m.root.querySelector(`[data-topbar-label="${key}"]`).value = fallback;
+      m.root.querySelector(`[data-topbar-mode="${key}"]`).value = "auto";
+    });
+    TOOL_META.forEach(([key]) => {
+      m.root.querySelector(`[data-tool-mode="${key}"]`).value = "auto";
+    });
+  });
+
+  m.root.querySelector("[data-save]").addEventListener("click", async () => {
+    const nextItems = {};
+    TOPBAR_META.forEach(([key]) => {
+      nextItems[key] = {
+        label: m.root.querySelector(`[data-topbar-label="${key}"]`).value.trim(),
+        mode: m.root.querySelector(`[data-topbar-mode="${key}"]`).value,
+      };
+    });
+    const nextTools = Object.fromEntries(
+      TOOL_META.map(([key]) => [key, m.root.querySelector(`[data-tool-mode="${key}"]`).value]),
+    );
+    if (!(await confirmDialog(
+      "Save this candidate UI for every assessment? Per-assessment top bar and exam tool overrides will be removed.",
+      "Save for all assessments",
+    ))) return;
+
+    try {
+      await api("/settings", {
+        method: "PUT",
+        body: { exam_topbar: { items: nextItems, custom }, exam_tools: nextTools },
+      });
+      toast("Candidate UI saved for all assessments.", "success");
+      m.close();
+    } catch (e) { toast(e.message, "error"); }
+  });
+}
+
 /** Who may take this assessment. All candidates or at least one group must be selected. */
 async function examAccessForm(assessment, options = {}) {
   const data = await api(`/assessments/${encodeURIComponent(assessment.id)}/candidate-groups`);
@@ -1140,6 +1232,140 @@ function joinLocalisedInstruction(values, languages) {
     .join("<langSep>");
 }
 
+const PAPER_LANGUAGE_MAX = 3;
+
+/**
+ * Shared language add/remove card. The primary language is display-only; every
+ * editor that shows per-language content uses this so the same rules apply in
+ * instructions, group/section instructions and question editors.
+ */
+function languageManagerHtml() {
+  return `<div class="card" data-lang-manager style="margin-bottom:12px;box-shadow:none">
+    <div class="card-body">
+      <div class="row" style="justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px">
+        <div>
+          <strong>Paper languages</strong>
+          <div class="muted small">The primary language cannot be removed. Add or remove the other languages used by this assessment.</div>
+        </div>
+        <div class="row" style="align-items:flex-end;gap:6px">
+          <label style="margin:0">Name<input data-lang-new-name maxlength="32" placeholder="Hindi" style="width:128px" /></label>
+          <label style="margin:0">ID<input data-lang-new-id type="number" min="1" max="99" style="width:72px" /></label>
+          <button type="button" class="btn small" data-lang-add>Add language</button>
+        </div>
+      </div>
+      <div class="row" data-lang-chips style="margin-top:10px;flex-wrap:wrap"></div>
+      <div class="muted small" data-lang-error style="color:#ff9ba0;margin-top:6px"></div>
+    </div>
+  </div>`;
+}
+
+/** Bind the language card above and return the current language list. */
+function bindLanguageManager(root, initialLanguages, onChange) {
+  const manager = root.querySelector("[data-lang-manager]");
+  if (!manager) return { languages: () => [] };
+
+  let languages = (initialLanguages || []).map((language) => ({
+    id: Number(language.id),
+    name: String(language.name || "").trim() || `Language ${language.id}`,
+    primary: Boolean(language.primary),
+  })).filter((language) => Number.isInteger(language.id));
+  if (!languages.length) languages = [{ id: 1, name: "English", primary: true }];
+  if (!languages.some((language) => language.primary)) languages[0].primary = true;
+
+  const chips = manager.querySelector("[data-lang-chips]");
+  const nameInput = manager.querySelector("[data-lang-new-name]");
+  const idInput = manager.querySelector("[data-lang-new-id]");
+  const addButton = manager.querySelector("[data-lang-add]");
+  const error = manager.querySelector("[data-lang-error]");
+  const snapshot = () => languages.map((language) => ({ ...language }));
+
+  const nextId = () => {
+    for (let id = 1; id <= 99; id += 1) {
+      if (!languages.some((language) => language.id === id)) return id;
+    }
+    return "";
+  };
+
+  const render = () => {
+    chips.innerHTML = languages.map((language) => (language.primary
+      ? `<span class="pill" title="Primary language — cannot be removed">${esc(language.name)} · primary <span class="muted">(#${language.id})</span></span>`
+      : `<span class="pill">${esc(language.name)} <span class="muted">(#${language.id})</span> <button type="button" class="btn small danger" data-lang-remove="${language.id}" title="Remove ${esc(language.name)}" style="padding:0 6px;margin-left:4px">&times;</button></span>`)).join("");
+    chips.querySelectorAll("[data-lang-remove]").forEach((button) => {
+      button.addEventListener("click", () => {
+        languages = languages.filter((language) => language.id !== Number(button.dataset.langRemove));
+        error.textContent = "";
+        render();
+        if (onChange) onChange(snapshot());
+      });
+    });
+    const full = languages.length >= PAPER_LANGUAGE_MAX;
+    addButton.disabled = full;
+    addButton.textContent = full ? `${PAPER_LANGUAGE_MAX} languages max` : "Add language";
+    nameInput.disabled = full;
+    idInput.disabled = full;
+  };
+
+  addButton.addEventListener("click", () => {
+    error.textContent = "";
+    const name = nameInput.value.trim().replace(/\s+/g, " ");
+    const id = Number.parseInt(idInput.value, 10);
+    if (!name) { error.textContent = "Enter the language name."; nameInput.focus(); return; }
+    if (!Number.isInteger(id) || id < 1 || id > 99) { error.textContent = "Language ID must be between 1 and 99."; idInput.focus(); return; }
+    if (languages.length >= PAPER_LANGUAGE_MAX) { error.textContent = `A maximum of ${PAPER_LANGUAGE_MAX} languages is supported.`; return; }
+    if (languages.some((language) => language.id === id)) { error.textContent = `Language ID ${id} is already used.`; return; }
+    if (languages.some((language) => language.name.toLowerCase() === name.toLowerCase())) { error.textContent = `Language "${name}" is already added.`; return; }
+    languages.push({ id, name, primary: false });
+    nameInput.value = "";
+    idInput.value = String(nextId());
+    render();
+    if (onChange) onChange(snapshot());
+  });
+
+  idInput.value = String(nextId());
+  render();
+
+  return { languages: snapshot };
+}
+
+/** Persist the language list (quiz.xml + confDetails.xml + DB rows). */
+async function saveLanguages(assessmentId, languages) {
+  await api(`/assessments/${encodeURIComponent(assessmentId)}/languages`, {
+    method: "PUT",
+    body: { languages: languages.map((language) => ({ id: language.id, name: language.name })) },
+  });
+}
+
+const sameLanguageList = (a, b) => a.length === b.length && a.every((language, index) =>
+  Number(language.id) === Number(b[index].id) && String(language.name) === String(b[index].name));
+
+/** Standalone language manager used from the question editor. */
+async function languageManagerForm(assessmentId, options = {}) {
+  const data = await api(`/assessments/${encodeURIComponent(assessmentId)}`);
+  let saved = null;
+  const m = modal({
+    title: `Manage languages — ${assessmentId}`,
+    wide: true,
+    onClose: () => options.onClose?.(saved),
+    body: `<p class="field-note" style="margin-top:0">Add or remove the languages used by this assessment. The primary language is permanent; other languages can be removed and added again later.</p>${languageManagerHtml()}`,
+    footer: `<button class="btn" data-close>Cancel</button><button class="btn primary" data-save>Save languages</button>`,
+  });
+  const manager = bindLanguageManager(m.root, data.languages || []);
+  m.root.querySelector("[data-save]").addEventListener("click", async () => {
+    const button = m.root.querySelector("[data-save]");
+    button.disabled = true;
+    try {
+      const languages = manager.languages();
+      await saveLanguages(assessmentId, languages);
+      saved = languages;
+      toast("Languages saved.", "success");
+      m.close();
+    } catch (e) {
+      button.disabled = false;
+      toast(e.message, "error");
+    }
+  });
+}
+
 /** Edit the files the Useful Data button opens (confDetails.xml). */
 async function usefulDataForm(assessment, options = {}) {
   const data = await api(`/assessments/${encodeURIComponent(assessment.id)}/useful-data`);
@@ -1226,7 +1452,8 @@ async function usefulDataForm(assessment, options = {}) {
 /** Edit group or section instruction text per language (quiz.xml). */
 async function structureInstructionsForm(assessment, kind, options = {}) {
   const { groups, languages } = await api(`/assessments/${encodeURIComponent(assessment.id)}`);
-  const langs = languages?.length ? languages : [{ id: 1, name: "English", primary: true }];
+  const initialLanguages = languages?.length ? languages : [{ id: 1, name: "English", primary: true }];
+  const initialList = initialLanguages.map((language) => ({ id: Number(language.id), name: String(language.name) }));
   const isGroup = kind === "group";
 
   const rows = [];
@@ -1245,46 +1472,63 @@ async function structureInstructionsForm(assessment, kind, options = {}) {
       }
     }
   }
-
-  const blocks = rows.map((row) => {
-    const values = parseLocalisedInstruction(row.instruction, langs);
-    return `<details class="card" style="margin-bottom:10px">
-      <summary style="cursor:pointer;padding:10px 14px;font-weight:600">
-        ${esc(row.name)} <span class="muted small">${esc(row.extId || "")}${row.parent ? ` · ${esc(row.parent)}` : ""}</span>
-      </summary>
-      <div class="card-body">
-        ${langs.map((language) => `<label style="margin-bottom:10px">${esc(language.name)}${language.primary ? " (primary)" : ""}
-          <textarea data-inst-kind="${kind}" data-inst-id="${row.id}" data-inst-lang="${language.id}" style="min-height:110px">${esc(values[language.id] || "")}</textarea>
-        </label>`).join("")}
-      </div>
-    </details>`;
-  }).join("");
+  for (const row of rows) row.values = parseLocalisedInstruction(row.instruction, initialLanguages);
 
   const m = modal({
     title: `${isGroup ? "Group" : "Section"} instructions — ${assessment.id}`,
     wide: true,
     onClose: options.onClose,
-    body: rows.length
-      ? `<p class="field-note" style="margin-top:0">HTML is allowed. Text is stored in <code>quiz.xml</code>; the candidate sees the same content when this button is opened.</p>${blocks}`
-      : `<div class="empty">This assessment has no ${isGroup ? "groups" : "sections"} yet.</div>`,
+    body: `${languageManagerHtml()}
+      <p class="field-note" style="margin-top:0">HTML is allowed. Text is stored in <code>quiz.xml</code>; the candidate sees the same content when this button is opened.</p>
+      <div data-inst-blocks></div>`,
     footer: `<button class="btn" data-close>Cancel</button><button class="btn primary" data-save ${rows.length ? "" : "disabled"}>Save instructions</button>`,
   });
+
+  const blocksRoot = m.root.querySelector("[data-inst-blocks]");
+  const collect = () => {
+    m.root.querySelectorAll("[data-inst-id]").forEach((input) => {
+      const row = rows.find((entry) => Number(entry.id) === Number(input.dataset.instId));
+      if (row) row.values[input.dataset.instLang] = input.value;
+    });
+  };
+  const render = (langs) => {
+    if (!rows.length) {
+      blocksRoot.innerHTML = `<div class="empty">This assessment has no ${isGroup ? "groups" : "sections"} yet.</div>`;
+      return;
+    }
+    blocksRoot.innerHTML = rows.map((row) => `<details class="card" style="margin-bottom:10px">
+      <summary style="cursor:pointer;padding:10px 14px;font-weight:600">
+        ${esc(row.name)} <span class="muted small">${esc(row.extId || "")}${row.parent ? ` · ${esc(row.parent)}` : ""}</span>
+      </summary>
+      <div class="card-body">
+        ${langs.map((language) => `<label style="margin-bottom:10px">${esc(language.name)}${language.primary ? " (primary)" : ""}
+          <textarea data-inst-kind="${kind}" data-inst-id="${row.id}" data-inst-lang="${language.id}" style="min-height:110px">${esc(row.values[language.id] || "")}</textarea>
+        </label>`).join("")}
+      </div>
+    </details>`).join("");
+  };
+  const manager = bindLanguageManager(m.root, initialLanguages, (langs) => {
+    collect();
+    render(langs);
+  });
+  render(manager.languages());
 
   m.root.querySelector("[data-save]").addEventListener("click", async () => {
     const button = m.root.querySelector("[data-save]");
     button.disabled = true;
     try {
-      await Promise.all(rows.map((row) => {
+      collect();
+      const langs = manager.languages();
+      if (!sameLanguageList(initialList, langs)) await saveLanguages(assessment.id, langs);
+      const endpoint = isGroup ? "groups" : "sections";
+      for (const row of rows) {
         const values = {};
-        m.root.querySelectorAll(`[data-inst-kind="${kind}"][data-inst-id="${row.id}"]`).forEach((input) => {
-          values[input.dataset.instLang] = input.value;
-        });
-        const endpoint = isGroup ? "groups" : "sections";
-        return api(`/${endpoint}/${row.id}`, {
+        for (const language of langs) values[language.id] = row.values[language.id] || "";
+        await api(`/${endpoint}/${row.id}`, {
           method: "PUT",
           body: { instruction: joinLocalisedInstruction(values, langs) },
         });
-      }));
+      }
       toast(`${isGroup ? "Group" : "Section"} instructions saved.`, "success");
       m.close();
     } catch (e) {
@@ -1298,45 +1542,88 @@ async function structureInstructionsForm(assessment, kind, options = {}) {
 async function questionInstructionsForm(assessment, options = {}) {
   const data = await api(`/assessments/${encodeURIComponent(assessment.id)}/question-instructions`);
   const groups = data.groups || [];
+  const initialLanguages = data.languages?.length ? data.languages : [{ id: 1, name: "English", primary: true }];
+  const initialList = initialLanguages.map((language) => ({ id: Number(language.id), name: String(language.name) }));
   const hasQuestions = groups.some((group) =>
     (group.sections || []).some((section) => (section.questions || []).length));
-
-  const blocks = groups.map((group) => {
-    const sections = (group.sections || []).map((section) => {
-      const questions = section.questions || [];
-      return `<div style="margin:0 0 12px">
-        <h4 style="margin:0 0 6px;font-size:13px">${esc(section.name)} <span class="muted small">${esc(section.extId || "")}</span></h4>
-        ${questions.length ? questions.map((question) => `<label style="margin-bottom:8px">
-          <span class="muted small">${esc(question.extId)} · ${esc(question.type)} — ${esc(String(question.body || "").replace(/<[^>]*>/g, " ").slice(0, 110))}</span>
-          <textarea data-qi="${question.id}" style="min-height:64px" placeholder="Instruction shown before this question (optional)">${esc(question.instruction || "")}</textarea>
-        </label>`).join("") : `<p class="muted small">No questions in this section.</p>`}
-      </div>`;
-    }).join("");
-    return `<details class="card" style="margin-bottom:10px">
-      <summary style="cursor:pointer;padding:10px 14px;font-weight:600">${esc(group.name)} <span class="muted small">${esc(group.extId || "")}</span></summary>
-      <div class="card-body">${sections || `<p class="muted small">No sections.</p>`}</div>
-    </details>`;
-  }).join("");
+  const values = new Map();
+  for (const group of groups) {
+    for (const section of group.sections || []) {
+      for (const question of section.questions || []) {
+        values.set(Number(question.id), parseLocalisedInstruction(question.instruction, initialLanguages));
+      }
+    }
+  }
 
   const m = modal({
     title: `Question instructions — ${assessment.id}`,
     wide: true,
     onClose: options.onClose,
-    body: hasQuestions
-      ? `<p class="field-note" style="margin-top:0">HTML is allowed. Leave a box empty to show no question instruction. Text is stored in <code>quiz.xml</code> for the candidate.</p>${blocks}`
-      : `<div class="empty">This assessment has no questions yet. Upload its paper first.</div>`,
+    body: `${languageManagerHtml()}
+      ${hasQuestions
+        ? `<p class="field-note" style="margin-top:0">HTML is allowed. Leave every language box empty to show no question instruction. Text is stored in <code>quiz.xml</code> for the candidate.</p><div data-qi-blocks></div>`
+        : `<div class="empty">This assessment has no questions yet. Upload its paper first.</div>`}`,
     footer: `<button class="btn" data-close>Cancel</button><button class="btn primary" data-save ${hasQuestions ? "" : "disabled"}>Save instructions</button>`,
   });
 
+  const blocksRoot = m.root.querySelector("[data-qi-blocks]");
+  const collect = () => {
+    m.root.querySelectorAll("[data-qi]").forEach((input) => {
+      const id = Number(input.dataset.qi);
+      const entry = values.get(id) || {};
+      entry[input.dataset.qiLang] = input.value;
+      values.set(id, entry);
+    });
+  };
+  const render = (langs) => {
+    if (!blocksRoot) return;
+    blocksRoot.innerHTML = groups.map((group) => {
+      const sections = (group.sections || []).map((section) => {
+        const questions = section.questions || [];
+        return `<div style="margin:0 0 12px">
+          <h4 style="margin:0 0 6px;font-size:13px">${esc(section.name)} <span class="muted small">${esc(section.extId || "")}</span></h4>
+          ${questions.length ? questions.map((question) => {
+            const entry = values.get(Number(question.id)) || {};
+            return `<div style="margin-bottom:10px">
+              <span class="muted small">${esc(question.extId)} · ${esc(question.type)} — ${esc(String(question.body || "").replace(/<[^>]*>/g, " ").slice(0, 110))}</span>
+              ${langs.map((language) => `<label style="margin:4px 0 6px;display:block">${esc(language.name)}${language.primary ? " (primary)" : ""}
+                <textarea data-qi="${question.id}" data-qi-lang="${language.id}" style="min-height:64px" placeholder="Instruction shown before this question (optional)">${esc(entry[language.id] || "")}</textarea>
+              </label>`).join("")}
+            </div>`;
+          }).join("") : `<p class="muted small">No questions in this section.</p>`}
+        </div>`;
+      }).join("");
+      return `<details class="card" style="margin-bottom:10px">
+        <summary style="cursor:pointer;padding:10px 14px;font-weight:600">${esc(group.name)} <span class="muted small">${esc(group.extId || "")}</span></summary>
+        <div class="card-body">${sections || `<p class="muted small">No sections.</p>`}</div>
+      </details>`;
+    }).join("");
+  };
+  const manager = bindLanguageManager(m.root, initialLanguages, (langs) => {
+    collect();
+    render(langs);
+  });
+  render(manager.languages());
+
   m.root.querySelector("[data-save]").addEventListener("click", async () => {
     const button = m.root.querySelector("[data-save]");
-    const items = [];
-    m.root.querySelectorAll("[data-qi]").forEach((input) => {
-      items.push({ id: Number(input.dataset.qi), instruction: input.value });
-    });
-    if (!items.length) return;
     button.disabled = true;
     try {
+      collect();
+      const langs = manager.languages();
+      const items = [];
+      for (const group of groups) {
+        for (const section of group.sections || []) {
+          for (const question of section.questions || []) {
+            items.push({
+              id: Number(question.id),
+              instruction: joinLocalisedInstruction(values.get(Number(question.id)) || {}, langs),
+            });
+          }
+        }
+      }
+      if (!items.length) return;
+      if (!sameLanguageList(initialList, langs)) await saveLanguages(assessment.id, langs);
       await api(`/assessments/${encodeURIComponent(assessment.id)}/question-instructions`, {
         method: "PUT",
         body: { items },
@@ -1387,8 +1674,23 @@ async function paperPreviewForm(assessment, options = {}) {
     title: `Question paper — ${assessment.id}`,
     wide: true,
     onClose: options.onClose,
-    body: `<p class="field-note" style="margin-top:0">${totalQuestions} question(s) in ${groups.length} group(s). This is the paper content the candidate sees. Use <strong>Edit</strong> on a question to change its text, answer key or marks.</p>${body}`,
-    footer: `<button class="btn" data-close>Back to Candidate UI</button>`,
+    body: `${languageManagerHtml()}
+      <p class="field-note" style="margin-top:0">${totalQuestions} question(s) in ${groups.length} group(s). This is the paper content the candidate sees. Use <strong>Edit</strong> on a question to change its text, answer key or marks in any language.</p>${body}`,
+    footer: `<button class="btn" data-close>Back to Candidate UI</button><button class="btn primary" data-save>Save languages</button>`,
+  });
+
+  const manager = bindLanguageManager(m.root, data.languages || []);
+  m.root.querySelector("[data-save]").addEventListener("click", async () => {
+    const button = m.root.querySelector("[data-save]");
+    button.disabled = true;
+    try {
+      await saveLanguages(assessment.id, manager.languages());
+      toast("Languages saved.", "success");
+    } catch (e) {
+      toast(e.message, "error");
+    } finally {
+      button.disabled = false;
+    }
   });
 
   m.root.querySelectorAll("[data-paper-question]").forEach((button) => {
@@ -1403,46 +1705,77 @@ async function paperPreviewForm(assessment, options = {}) {
 /** Edit system instructions, custom instructions and disclaimer per language. */
 async function instructionsForm(assessment, options = {}) {
   const data = await api(`/assessments/${encodeURIComponent(assessment.id)}/instructions`);
-  const languages = data.languages || [];
-
-  const blocks = languages.map((language, index) => `<details class="card" ${index === 0 ? "open" : ""} style="margin-bottom:12px">
-    <summary style="cursor:pointer;padding:10px 14px;font-weight:600">
-      ${esc(language.name)}${language.primary ? " (primary)" : ""}
-    </summary>
-    <div class="card-body">
-      <label>System instructions (shown on the instructions page)
-        <textarea data-lang="${language.id}" data-field="systemInstruction" style="min-height:180px">${esc(language.systemInstruction || "")}</textarea>
-      </label>
-      <label style="margin-top:12px">Custom instructions (paper-specific additions)
-        <textarea data-lang="${language.id}" data-field="customInstruction" style="min-height:120px">${esc(language.customInstruction || "")}</textarea>
-      </label>
-      <label style="margin-top:12px">Disclaimer
-        <textarea data-lang="${language.id}" data-field="disclaimer" style="min-height:90px">${esc(language.disclaimer || "")}</textarea>
-      </label>
-    </div>
-  </details>`).join("");
+  const initialLanguages = data.languages || [];
+  const initialList = initialLanguages.map((language) => ({ id: Number(language.id), name: String(language.name) }));
+  const values = new Map(initialLanguages.map((language) => [Number(language.id), {
+    systemInstruction: language.systemInstruction || "",
+    customInstruction: language.customInstruction || "",
+    disclaimer: language.disclaimer || "",
+  }]));
 
   const m = modal({
     title: `Candidate instructions — ${assessment.id}`,
     wide: true,
     onClose: options.onClose,
-    body: languages.length
-      ? `<p class="field-note" style="margin-top:0">HTML is allowed. Text is stored in the same <code>sysInstructions.xml</code> and <code>custInstructions.xml</code> files the candidate console reads.</p>${blocks}`
-      : `<div class="empty">This assessment has no paper languages yet. Upload its paper first.</div>`,
-    footer: `<button class="btn" data-close>Cancel</button><button class="btn primary" data-save ${languages.length ? "" : "disabled"}>Save instructions</button>`,
+    body: `${languageManagerHtml()}
+      <p class="field-note" style="margin-top:0">HTML is allowed. Text is stored in the same <code>sysInstructions.xml</code> and <code>custInstructions.xml</code> files the candidate console reads.</p>
+      <div data-lang-blocks></div>`,
+    footer: `<button class="btn" data-close>Cancel</button><button class="btn primary" data-save>Save instructions</button>`,
   });
+
+  const blocksRoot = m.root.querySelector("[data-lang-blocks]");
+  const collect = () => {
+    m.root.querySelectorAll("[data-lang]").forEach((input) => {
+      const id = Number(input.dataset.lang);
+      const entry = values.get(id) || { systemInstruction: "", customInstruction: "", disclaimer: "" };
+      entry[input.dataset.field] = input.value;
+      values.set(id, entry);
+    });
+  };
+  const render = (languages) => {
+    blocksRoot.innerHTML = languages.map((language, index) => `<details class="card" ${index === 0 ? "open" : ""} style="margin-bottom:12px">
+      <summary style="cursor:pointer;padding:10px 14px;font-weight:600">
+        ${esc(language.name)}${language.primary ? " (primary)" : ""}
+      </summary>
+      <div class="card-body">
+        <label>System instructions (shown on the instructions page)
+          <textarea data-lang="${language.id}" data-field="systemInstruction" style="min-height:180px"></textarea>
+        </label>
+        <label style="margin-top:12px">Custom instructions (paper-specific additions)
+          <textarea data-lang="${language.id}" data-field="customInstruction" style="min-height:120px"></textarea>
+        </label>
+        <label style="margin-top:12px">Disclaimer
+          <textarea data-lang="${language.id}" data-field="disclaimer" style="min-height:90px"></textarea>
+        </label>
+      </div>
+    </details>`).join("");
+    for (const language of languages) {
+      const entry = values.get(Number(language.id)) || {};
+      for (const field of ["systemInstruction", "customInstruction", "disclaimer"]) {
+        const input = blocksRoot.querySelector(`[data-lang="${language.id}"][data-field="${field}"]`);
+        if (input) input.value = entry[field] || "";
+      }
+    }
+  };
+  const manager = bindLanguageManager(m.root, initialLanguages, (languages) => {
+    collect();
+    render(languages);
+  });
+  render(manager.languages());
 
   m.root.querySelector("[data-save]").addEventListener("click", async () => {
     const button = m.root.querySelector("[data-save]");
-    const rows = languages.map((language) => ({
-      id: language.id,
-      systemInstruction: m.root.querySelector(`[data-lang="${language.id}"][data-field="systemInstruction"]`).value,
-      customInstruction: m.root.querySelector(`[data-lang="${language.id}"][data-field="customInstruction"]`).value,
-      disclaimer: m.root.querySelector(`[data-lang="${language.id}"][data-field="disclaimer"]`).value,
-    }));
-
     button.disabled = true;
     try {
+      collect();
+      const languages = manager.languages();
+      if (!sameLanguageList(initialList, languages)) await saveLanguages(assessment.id, languages);
+      const rows = languages.map((language) => ({
+        id: language.id,
+        systemInstruction: values.get(Number(language.id))?.systemInstruction || "",
+        customInstruction: values.get(Number(language.id))?.customInstruction || "",
+        disclaimer: values.get(Number(language.id))?.disclaimer || "",
+      }));
       await api(`/assessments/${encodeURIComponent(assessment.id)}/instructions`, {
         method: "PUT",
         body: { languages: rows },
@@ -1451,6 +1784,101 @@ async function instructionsForm(assessment, options = {}) {
       m.close();
     } catch (e) {
       button.disabled = false;
+      toast(e.message, "error");
+    }
+  });
+}
+
+/**
+ * Settings → Instructions. One editor for every assessment; saving writes the
+ * same values into each assessment that uses the language. Per-assessment
+ * instruction edits continue to touch only that paper.
+ */
+async function globalInstructionsForm() {
+  const data = await api("/settings/instructions");
+  const languages = (data.languages || [])
+    .map((language) => ({
+      id: Number(language.id),
+      name: String(language.name || ""),
+      primary: Boolean(language.primary),
+    }))
+    .filter((language) => Number.isInteger(language.id));
+  if (!languages.length) {
+    toast("No assessment languages found yet.", "error");
+    return;
+  }
+  const values = new Map((data.languages || []).map((language) => [Number(language.id), {
+    systemInstruction: language.systemInstruction || "",
+    customInstruction: language.customInstruction || "",
+    disclaimer: language.disclaimer || "",
+  }]));
+
+  const m = modal({
+    title: "Candidate instructions — all assessments",
+    wide: true,
+    body: `
+      <p class="field-note" style="margin-top:0">These instructions are written to <strong>every assessment</strong> that uses the language. Saving here updates all of them at once. To change one assessment only, use <strong>Assessments → Edit → Instructions</strong>.</p>
+      <p class="field-note" style="margin-top:0">${data.stored
+        ? "The fields below show the current global template."
+        : "No global template is stored yet; the fields below show the values from the existing assessments. Saving creates the global template."}</p>
+      <div data-lang-blocks>${languages.map((language, index) => `<details class="card" ${index === 0 ? "open" : ""} style="margin-bottom:12px">
+        <summary style="cursor:pointer;padding:10px 14px;font-weight:600">
+          ${esc(language.name)}${language.primary ? " (primary)" : ""}
+        </summary>
+        <div class="card-body">
+          <label>System instructions (shown on the instructions page)
+            <textarea data-lang="${language.id}" data-field="systemInstruction" style="min-height:180px"></textarea>
+          </label>
+          <label style="margin-top:12px">Custom instructions (paper-specific additions)
+            <textarea data-lang="${language.id}" data-field="customInstruction" style="min-height:120px"></textarea>
+          </label>
+          <label style="margin-top:12px">Disclaimer
+            <textarea data-lang="${language.id}" data-field="disclaimer" style="min-height:90px"></textarea>
+          </label>
+        </div>
+      </details>`).join("")}</div>`,
+    footer: `<button class="btn" data-close>Cancel</button><button class="btn primary" data-save>Save for all assessments</button>`,
+  });
+
+  const blocksRoot = m.root.querySelector("[data-lang-blocks]");
+  const collect = () => {
+    blocksRoot.querySelectorAll("[data-lang]").forEach((input) => {
+      const id = Number(input.dataset.lang);
+      const entry = values.get(id) || { systemInstruction: "", customInstruction: "", disclaimer: "" };
+      entry[input.dataset.field] = input.value;
+      values.set(id, entry);
+    });
+  };
+  for (const language of languages) {
+    const entry = values.get(language.id) || {};
+    for (const field of ["systemInstruction", "customInstruction", "disclaimer"]) {
+      const input = blocksRoot.querySelector(`[data-lang="${language.id}"][data-field="${field}"]`);
+      if (input) input.value = entry[field] || "";
+    }
+  }
+
+  m.root.querySelector("[data-save]").addEventListener("click", async () => {
+    collect();
+    const rows = languages.map((language) => ({
+      id: language.id,
+      name: language.name,
+      systemInstruction: values.get(language.id)?.systemInstruction || "",
+      customInstruction: values.get(language.id)?.customInstruction || "",
+      disclaimer: values.get(language.id)?.disclaimer || "",
+    }));
+    if (!(await confirmDialog(
+      `Save these instructions for every assessment? ${data.assessmentCount || 0} assessment(s) that use these languages will be updated.`,
+      "Save for all assessments",
+    ))) return;
+
+    const button = m.root.querySelector("[data-save]");
+    if (button) button.disabled = true;
+    try {
+      const saved = await api("/settings/instructions", { method: "PUT", body: { languages: rows } });
+      toast(`Instructions saved for ${saved.updated ?? 0} assessment(s).`, "success");
+      m.close();
+    } catch (e) {
+      if (button) button.disabled = false;
       toast(e.message, "error");
     }
   });
@@ -1775,33 +2203,103 @@ async function deleteQuestion(id) {
 async function openQuestion(id, langId = 0, options = {}) {
   const query = langId ? `?lang=${encodeURIComponent(langId)}` : "";
   const { question, options: optionRows, languages, langId: currentLangId } = await api("/questions/" + id + query);
-  const language = (languages || []).find((entry) => Number(entry.id) === Number(currentLangId));
+  const languageEntries = languages || [];
+  const language = languageEntries.find((entry) => Number(entry.id) === Number(currentLangId));
+  const draft = options.draft && Number(options.draft.langId) === Number(currentLangId) ? options.draft : null;
+  const initialBody = draft ? draft.body : question.body;
+  const initialMarks = draft ? draft.marks : question.marks;
+  const initialNegative = draft ? draft.negativeMarks : question.negative_marks;
+  const optionValue = (option) => draft?.options?.[option.id] || option;
+
   const m = modal({
     title: `Question ${question.seq} · ${question.type}${language ? ` · ${language.name}` : ""}`,
     wide: true,
     onClose: options.onClose,
     body: `
+      ${languageEntries.length ? `<div class="row" style="justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+        <label style="max-width:280px;margin:0">Language<select id="qEditLanguage">
+          ${languageEntries.map((entry) => `<option value="${entry.id}" ${Number(entry.id) === Number(currentLangId) ? "selected" : ""}>${esc(entry.name)}${entry.primary ? " · primary" : ""}</option>`).join("")}
+        </select></label>
+        <button type="button" class="btn small" data-manage-languages>Manage languages</button>
+      </div>` : ""}
       <label>Question body (HTML / media tags preserved)
-        <textarea name="body" style="min-height:160px">${esc(question.body)}</textarea>
+        <textarea name="body" style="min-height:160px">${esc(initialBody)}</textarea>
       </label>
       <div class="grid2">
-        <label>Marks<input name="marks" type="number" step="0.25" value="${esc(question.marks)}" /></label>
-        <label>Negative marks<input name="negativeMarks" type="number" step="0.25" value="${esc(question.negative_marks)}" /></label>
+        <label>Marks<input name="marks" type="number" step="0.25" value="${esc(initialMarks)}" /></label>
+        <label>Negative marks<input name="negativeMarks" type="number" step="0.25" value="${esc(initialNegative)}" /></label>
       </div>
       ${optionRows.length ? `<div>
         <div class="card-head" style="padding:0 0 8px"><h3>Options — tick the correct answer key</h3></div>
         <div class="table-wrap"><table>
           <thead><tr><th style="width:60px">Correct</th><th style="width:60px">#</th><th>Option text</th></tr></thead>
-          <tbody>${optionRows.map((o) => `<tr>
-            <td><input type="checkbox" data-opt="${o.id}" ${o.correct ? "checked" : ""} style="width:auto" /></td>
-            <td class="num">${esc(o.ext_id)}</td>
-            <td><input data-opt-body="${o.id}" value="${esc(o.body)}" /></td>
-          </tr>`).join("")}</tbody></table></div>
+          <tbody>${optionRows.map((o) => {
+            const value = optionValue(o);
+            return `<tr>
+              <td><input type="checkbox" data-opt="${o.id}" ${value.correct ? "checked" : ""} style="width:auto" /></td>
+              <td class="num">${esc(o.ext_id)}</td>
+              <td><input data-opt-body="${o.id}" value="${esc(value.body)}" /></td>
+            </tr>`;
+          }).join("")}</tbody></table></div>
       </div>` : `<p class="muted small">This question type has no options (subjective / typing / file response).</p>`}
       <p class="muted small">Question ID ${esc(question.ext_id || "—")} · ${esc(language?.name || "language")} · database row ${question.id} · section ${question.section_id}</p>
     `,
     footer: `<button class="btn" data-close>Cancel</button><button class="btn primary" data-save>Save question</button>`,
   });
+
+  const captureDraft = () => {
+    const optionValues = {};
+    optionRows.forEach((option) => {
+      optionValues[option.id] = {
+        correct: m.root.querySelector(`[data-opt="${option.id}"]`).checked,
+        body: m.root.querySelector(`[data-opt-body="${option.id}"]`).value,
+      };
+    });
+    return {
+      langId: currentLangId,
+      body: m.root.querySelector("[name=body]").value,
+      marks: m.root.querySelector("[name=marks]").value,
+      negativeMarks: m.root.querySelector("[name=negativeMarks]").value,
+      options: optionValues,
+    };
+  };
+
+  const languageSelect = m.root.querySelector("#qEditLanguage");
+  if (languageSelect) languageSelect.addEventListener("change", async () => {
+    const dirty = (() => {
+      const current = captureDraft();
+      if (current.body !== String(initialBody ?? "")) return true;
+      if (Number(current.marks) !== Number(initialMarks)) return true;
+      if (Number(current.negativeMarks) !== Number(initialNegative)) return true;
+      return optionRows.some((option) => {
+        const before = optionValue(option);
+        const after = current.options[option.id];
+        return Boolean(before.correct) !== Boolean(after.correct)
+          || String(before.body ?? "") !== String(after.body ?? "");
+      });
+    })();
+    if (dirty && !(await confirmDialog("Switch language and discard the unsaved changes to this question?", "Switch"))) {
+      languageSelect.value = String(currentLangId);
+      return;
+    }
+    openQuestion(id, Number(languageSelect.value), { ...options, draft: null });
+  });
+
+  m.root.querySelector("[data-manage-languages]")?.addEventListener("click", () => {
+    const questionDraft = captureDraft();
+    languageManagerForm(question.assessment_id, {
+      onClose: (saved) => {
+        const nextId = !saved || saved.some((entry) => Number(entry.id) === Number(currentLangId))
+          ? currentLangId
+          : (saved.find((entry) => entry.primary)?.id || 1);
+        openQuestion(id, nextId, {
+          ...options,
+          draft: Number(nextId) === Number(currentLangId) ? questionDraft : null,
+        });
+      },
+    });
+  });
+
   m.root.querySelector("[data-save]").addEventListener("click", async () => {
     const body = {
       langId: currentLangId,
@@ -2760,14 +3258,27 @@ async function renderSettings() {
           <label>Sidebar label<input name="brand_admin_sidebar" value="${esc(brand.adminSidebar)}" maxlength="40" /></label>
           <label>Console version (exam footer)<input name="brand_version" value="${esc(brand.version)}" maxlength="40" placeholder="e.g. 17.07.00" /></label>
         </div>
+        <div class="row" style="margin-top:16px">
+          <button class="btn primary" id="saveSettings">Save branding</button>
+          <button class="btn" id="reloadConfig">Reset branding</button>
+        </div>
       </div>
     </div>
 
-    <p class="field-note" style="margin-bottom:14px">The candidate top bar and exam tools are configured per assessment: open <strong>Assessments → Edit → Candidate UI</strong>.</p>
+    <div class="card" style="margin-bottom:14px">
+      <div class="card-head"><h3>Candidate UI</h3><span class="sub">All assessments</span></div>
+      <div class="card-body">
+        <p class="field-note" style="margin:0 0 12px">Top bar buttons and exam tools used by every assessment. Saving here applies the same UI to all assessments and removes per-assessment candidate UI overrides. For one assessment only, open <strong>Assessments → Edit → Candidate UI</strong>.</p>
+        <button class="btn" id="editGlobalUi">Edit candidate UI</button>
+      </div>
+    </div>
 
-    <div class="row" style="margin-bottom:26px">
-      <button class="btn primary" id="saveSettings">Save branding</button>
-      <button class="btn" id="reloadConfig">Reset branding</button>
+    <div class="card">
+      <div class="card-head"><h3>Candidate instructions</h3><span class="sub">All assessments</span></div>
+      <div class="card-body">
+        <p class="field-note" style="margin:0 0 12px">Instructions saved here are written to every assessment that uses the language. Editing instructions from an assessment changes only that assessment.</p>
+        <button class="btn" id="editGlobalInstructions">Edit instructions</button>
+      </div>
     </div>`;
 
   const mark = $("#settingsMark");
@@ -2832,6 +3343,13 @@ async function renderSettings() {
       await loadBranding();
       renderSettings();
     } catch (e) { toast(e.message, "error"); }
+  });
+
+  $("#editGlobalUi").addEventListener("click", () => {
+    globalPresentationForm().catch((e) => toast(e.message, "error"));
+  });
+  $("#editGlobalInstructions").addEventListener("click", () => {
+    globalInstructionsForm().catch((e) => toast(e.message, "error"));
   });
 
 }
