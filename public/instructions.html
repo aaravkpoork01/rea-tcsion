@@ -34,6 +34,7 @@
 			document.write('<script type="text/javascript" src="js/jquery-migrate-3.3.0.min.js?v=' + jsVersion + '"\><\/script>');*/
 			document.write('<script type="text/javascript" src="js/jquery-3.6.0.min.js?v=' + jsVersion + '"\><\/script>'); 
 			document.write('<script type="text/javascript" src="js/jquery.cookie.js?v='+jsVersion+'"\><\/script>');
+			document.write('<script>if(window.jQuery){var _ow=jQuery.fn.width;jQuery.fn.width=function(){if(this[0]===window||this[0]===document)return Math.max(1200,_ow.apply(this,arguments));return _ow.apply(this,arguments);};}<\/script>');
 			//document.write('<script type="text/javascript" src="js/jquery.js?v='+jsVersion+'"\><\/script>');
 			document.write('<script type="text/javascript" src="js/keyboard.js?v='+jsVersion+'"\><\/script>');
 			document.write('<script type="text/javascript" src="js/jquery.actual.min.js?v='+jsVersion+'"\><\/script>');

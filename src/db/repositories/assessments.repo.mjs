@@ -15,21 +15,67 @@ export const listWithCounts = async () =>
 export const listBrief = async () =>
   all("SELECT id, org_id, name, base_path, total_marks, duration_min, status FROM assessments ORDER BY created_at");
 
-export const create = async (row) =>
-  run(`INSERT INTO assessments
-      (id, org_id, name, description, type, base_path, duration_min, total_marks, status,
-       show_feedback, use_default_feedback, store_response, enable_fullscreen, require_fullscreen, track_fullscreen, max_attempts, created_at)
-      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-  row.id, row.orgId, row.name, row.description, row.type, row.basePath, row.durationMin, row.totalMarks,
-  row.status, row.showFeedback, row.useDefaultFeedback, row.storeResponse,
-  row.enableFullscreen ? 1 : 0, row.requireFullscreen ? 1 : 0, row.trackFullscreen ? 1 : 0, row.maxAttempts, row.createdAt);
+export const create = async (row) => {
+  try {
+    return await run(`INSERT INTO assessments
+        (id, org_id, name, description, type, base_path, duration_min, total_marks, status,
+         show_feedback, use_default_feedback, store_response, enable_fullscreen, require_fullscreen, track_fullscreen, max_attempts, created_at)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+    row.id, row.orgId, row.name, row.description, row.type, row.basePath, row.durationMin, row.totalMarks,
+    row.status, row.showFeedback, row.useDefaultFeedback, row.storeResponse,
+    row.enableFullscreen ? 1 : 0, row.requireFullscreen ? 1 : 0, row.trackFullscreen ? 1 : 0, row.maxAttempts, row.createdAt);
+  } catch (err) {
+    const msg = String(err?.message || "");
+    if (msg.includes("enable_fullscreen") || msg.includes("track_fullscreen") || msg.includes("column")) {
+      try {
+        await run("ALTER TABLE assessments ADD COLUMN IF NOT EXISTS enable_fullscreen INTEGER NOT NULL DEFAULT 0");
+        await run("ALTER TABLE assessments ADD COLUMN IF NOT EXISTS track_fullscreen INTEGER NOT NULL DEFAULT 1");
+        await run("ALTER TABLE assessments ADD COLUMN IF NOT EXISTS require_fullscreen INTEGER NOT NULL DEFAULT 0");
+      } catch {
+        try { await run("ALTER TABLE assessments ADD COLUMN enable_fullscreen INTEGER NOT NULL DEFAULT 0"); } catch (_) {}
+        try { await run("ALTER TABLE assessments ADD COLUMN track_fullscreen INTEGER NOT NULL DEFAULT 1"); } catch (_) {}
+        try { await run("ALTER TABLE assessments ADD COLUMN require_fullscreen INTEGER NOT NULL DEFAULT 0"); } catch (_) {}
+      }
+      return await run(`INSERT INTO assessments
+          (id, org_id, name, description, type, base_path, duration_min, total_marks, status,
+           show_feedback, use_default_feedback, store_response, enable_fullscreen, require_fullscreen, track_fullscreen, max_attempts, created_at)
+          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      row.id, row.orgId, row.name, row.description, row.type, row.basePath, row.durationMin, row.totalMarks,
+      row.status, row.showFeedback, row.useDefaultFeedback, row.storeResponse,
+      row.enableFullscreen ? 1 : 0, row.requireFullscreen ? 1 : 0, row.trackFullscreen ? 1 : 0, row.maxAttempts, row.createdAt);
+    }
+    throw err;
+  }
+};
 
-export const update = async (id, fields) =>
-  run(`UPDATE assessments SET name=?, description=?, duration_min=?, status=?, show_feedback=?,
-        use_default_feedback=?, store_response=?, enable_fullscreen=?, require_fullscreen=?, track_fullscreen=?, max_attempts=?, start_at=?, end_at=? WHERE id=?`,
-  fields.name, fields.description, fields.durationMin, fields.status, fields.showFeedback,
-  fields.useDefaultFeedback, fields.storeResponse, fields.enableFullscreen ? 1 : 0, fields.requireFullscreen ? 1 : 0, fields.trackFullscreen ? 1 : 0, fields.maxAttempts,
-  fields.startAt, fields.endAt, id);
+export const update = async (id, fields) => {
+  try {
+    return await run(`UPDATE assessments SET name=?, description=?, duration_min=?, status=?, show_feedback=?,
+          use_default_feedback=?, store_response=?, enable_fullscreen=?, require_fullscreen=?, track_fullscreen=?, max_attempts=?, start_at=?, end_at=? WHERE id=?`,
+    fields.name, fields.description, fields.durationMin, fields.status, fields.showFeedback,
+    fields.useDefaultFeedback, fields.storeResponse, fields.enableFullscreen ? 1 : 0, fields.requireFullscreen ? 1 : 0, fields.trackFullscreen ? 1 : 0, fields.maxAttempts,
+    fields.startAt, fields.endAt, id);
+  } catch (err) {
+    const msg = String(err?.message || "");
+    if (msg.includes("enable_fullscreen") || msg.includes("track_fullscreen") || msg.includes("column")) {
+      try {
+        await run("ALTER TABLE assessments ADD COLUMN IF NOT EXISTS enable_fullscreen INTEGER NOT NULL DEFAULT 0");
+        await run("ALTER TABLE assessments ADD COLUMN IF NOT EXISTS track_fullscreen INTEGER NOT NULL DEFAULT 1");
+        await run("ALTER TABLE assessments ADD COLUMN IF NOT EXISTS require_fullscreen INTEGER NOT NULL DEFAULT 0");
+      } catch {
+        try { await run("ALTER TABLE assessments ADD COLUMN enable_fullscreen INTEGER NOT NULL DEFAULT 0"); } catch (_) {}
+        try { await run("ALTER TABLE assessments ADD COLUMN track_fullscreen INTEGER NOT NULL DEFAULT 1"); } catch (_) {}
+        try { await run("ALTER TABLE assessments ADD COLUMN require_fullscreen INTEGER NOT NULL DEFAULT 0"); } catch (_) {}
+      }
+      return await run(`UPDATE assessments SET name=?, description=?, duration_min=?, status=?, show_feedback=?,
+            use_default_feedback=?, store_response=?, enable_fullscreen=?, require_fullscreen=?, track_fullscreen=?, max_attempts=?, start_at=?, end_at=? WHERE id=?`,
+      fields.name, fields.description, fields.durationMin, fields.status, fields.showFeedback,
+      fields.useDefaultFeedback, fields.storeResponse, fields.enableFullscreen ? 1 : 0, fields.requireFullscreen ? 1 : 0, fields.trackFullscreen ? 1 : 0, fields.maxAttempts,
+      fields.startAt, fields.endAt, id);
+    }
+    throw err;
+  }
+};
 
 export const updateMeta = async (id, fields) =>
   run(`UPDATE assessments SET name=?, description=?, duration_min=?, total_marks=?,

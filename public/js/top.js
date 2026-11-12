@@ -36667,7 +36667,9 @@ function getSummaryBody(i,tempIOAP,j){
 
 // Responsive js ------------------------------------------------------------
 // Responsive js
-$(document).on('click', '#hamiconid', function() {
+$(document).on('click', '#hamiconid', function(e) {
+	if (e) { e.preventDefault(); e.stopImmediatePropagation(); }
+	return false;
 	var x = $(window).height();
 	$("#hamburgerBarBtnid").addClass("hambg");
 	$("#hamburgerBarBtnid").hide();
@@ -36972,7 +36974,7 @@ var windowResiged = false;
 		// window.resizeTo(screen.width,screen.height);
 		var url = document.URL;
 		if(url.indexOf("quiz.html") >=0){
-			if (jQuery(window).width() > 1000) {
+			if (true || jQuery(window).width() > 1000) {
 				$("#minwidth").removeClass("animatewidth");
 				$(".hamburgerBar").removeClass("hambg");
 				$(".hamburgerBar").hide();
@@ -37117,9 +37119,9 @@ function setDIVHeight_resp(orientation){
 																																																																										// by
 																																																																										// sreejith
 		}
-		if($(window).width()<1000)
-		    $("#header").hide();
-		if($(window).width()<1000 && (typeof(iOAP.secDetails[iOAP.curSection].groupAllQuestions) == "undefined" || iOAP.secDetails[iOAP.curSection].groupAllQuestions == "" || iOAP.secDetails[iOAP.curSection].groupAllQuestions == "false"  ) &&
+		// Mobile hiding suppressed - always keep PC desktop header
+		// if($(window).width()<1000) $("#header").hide();
+		if(false && $(window).width()<1000 && (typeof(iOAP.secDetails[iOAP.curSection].groupAllQuestions) == "undefined" || iOAP.secDetails[iOAP.curSection].groupAllQuestions == "" || iOAP.secDetails[iOAP.curSection].groupAllQuestions == "false"  ) &&
 				($('#compreText').is(':visible')|| $('#laq_text').is(':visible'))){
 			jQuery(".leftDiv").css("height",'auto');
 			jQuery("#programingAnsContent").css("height",'100%');
