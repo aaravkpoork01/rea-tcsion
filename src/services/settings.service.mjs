@@ -2,16 +2,29 @@
 import * as settingsRepo from "../db/repositories/settings.repo.mjs";
 import * as assessmentsRepo from "../db/repositories/assessments.repo.mjs";
 import { applyPresentationOverrides, buildConfig, presentationFromAdmin, settingsFromAdmin } from "../domain/ui-config.mjs";
-import { normalizeInstructionTemplate } from "../domain/paper-instructions.mjs";
-import { badRequest, notFound } from "../core/errors.mjs";
+import { notFound } from "../core/errors.mjs";
 
 const ASSESSMENT_TOPBAR_KEY = (id) => `assessment_topbar:${id}`;
 const ASSESSMENT_TOOLS_KEY = (id) => `assessment_tools:${id}`;
-const INSTRUCTION_KEY = "exam_instructions";
+
+let cachedSettings = null;
+let cacheTime = 0;
+const CACHE_TTL_MS = 60000;
+
+export const clearSettingsCache = () => {
+  cachedSettings = null;
+  cacheTime = 0;
+};
 
 const raw = async () => {
+  const now = Date.now();
+  if (cachedSettings && (now - cacheTime) < CACHE_TTL_MS) {
+    return cachedSettings;
+  }
   const rows = await settingsRepo.listSettings();
-  return Object.fromEntries(rows.map((row) => [row.key, row.value]));
+  cachedSettings = Object.fromEntries(rows.map((row) => [row.key, row.value]));
+  cacheTime = now;
+  return cachedSettings;
 };
 
 /** Every stored setting merged with presentation defaults. */
@@ -63,25 +76,8 @@ export async function update(entries) {
     }
   }
   await settingsRepo.setMany(settingsFromAdmin(patch));
-  // Saving the global candidate UI is authoritative: every assessment should
-  // follow the new values, so drop all per-assessment presentation overrides.
-  if ("exam_topbar" in patch || "exam_tools" in patch) {
-    await settingsRepo.deleteSettingsByPrefix(ASSESSMENT_TOPBAR_KEY(""));
-    await settingsRepo.deleteSettingsByPrefix(ASSESSMENT_TOOLS_KEY(""));
-  }
+  clearSettingsCache();
   return all();
-}
-
-/** Global candidate instruction template used by imports and every assessment. */
-export const instructionTemplate = async () =>
-  normalizeInstructionTemplate(await settingsRepo.getSetting(INSTRUCTION_KEY, ""));
-
-/** Persist the global instruction template (array of per-language rows). */
-export async function saveInstructionTemplate(entries) {
-  const rows = normalizeInstructionTemplate({ languages: entries });
-  if (!rows.length) throw badRequest("At least one instruction language is required.");
-  await settingsRepo.setSetting(INSTRUCTION_KEY, JSON.stringify(rows));
-  return rows;
 }
 
 const overrideFor = (stored, key) => {
@@ -117,6 +113,7 @@ export async function updateAssessmentPresentation(assessmentId, body = {}) {
   const rows = presentationFromAdmin(body);
   if (rows.topbar !== undefined) await settingsRepo.setSetting(ASSESSMENT_TOPBAR_KEY(assessmentId), rows.topbar);
   if (rows.tools !== undefined) await settingsRepo.setSetting(ASSESSMENT_TOOLS_KEY(assessmentId), rows.tools);
+  clearSettingsCache();
   return assessmentPresentation(assessmentId);
 }
 
@@ -126,6 +123,7 @@ export async function resetAssessmentPresentation(assessmentId, body = {}) {
   if (!assessment) throw notFound("Assessment not found.");
   if (body.topbar !== false) await settingsRepo.deleteSetting(ASSESSMENT_TOPBAR_KEY(assessmentId));
   if (body.tools !== false) await settingsRepo.deleteSetting(ASSESSMENT_TOOLS_KEY(assessmentId));
+  clearSettingsCache();
   return assessmentPresentation(assessmentId);
 }
 
@@ -133,6 +131,7 @@ export async function resetAssessmentPresentation(assessmentId, body = {}) {
 export async function clearAssessmentOverrides(assessmentId) {
   await settingsRepo.deleteSetting(ASSESSMENT_TOPBAR_KEY(assessmentId));
   await settingsRepo.deleteSetting(ASSESSMENT_TOOLS_KEY(assessmentId));
+  clearSettingsCache();
 }
 
 /** Public candidate config: no secrets, only what the console renders. */

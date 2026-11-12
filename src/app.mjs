@@ -11,11 +11,10 @@ import { registerAdminRoutes } from "./http/routes/admin.routes.mjs";
 import { logger } from "./core/logger.mjs";
 import { seed, ensureSchema } from "./db/seed.mjs";
 import { extractLanguages } from "./domain/paper-languages.mjs";
-import { ensureInstructionFiles, normalizeInstructionTemplate } from "./domain/paper-instructions.mjs";
+import { ensureInstructionFiles } from "./domain/paper-instructions.mjs";
 import { discoverPapers } from "./domain/paper-discovery.mjs";
 import { paperPath } from "./services/assessments.service.mjs";
 import * as assessmentsRepo from "./db/repositories/assessments.repo.mjs";
-import * as settingsRepo from "./db/repositories/settings.repo.mjs";
 
 const router = createRouter();
 registerCandidateRoutes(router);
@@ -29,14 +28,13 @@ const ADMIN_PREFIX = "/admin";
  * the paper's declared languages, but never overwrite existing ones.
  */
 async function backfillInstructions() {
-  const template = normalizeInstructionTemplate(await settingsRepo.getSetting("exam_instructions", ""));
   for (const assessment of await assessmentsRepo.listBrief()) {
     try {
       const quizPath = paperPath(assessment, "quiz.xml");
       if (!existsSync(quizPath)) continue;
       const folder = dirname(quizPath);
       if (existsSync(join(folder, "sysInstructions.xml")) && existsSync(join(folder, "custInstructions.xml"))) continue;
-      ensureInstructionFiles(folder, extractLanguages(readFileSync(quizPath, "utf8")), template);
+      ensureInstructionFiles(folder, extractLanguages(readFileSync(quizPath, "utf8")));
       logger.info(`created default instructions for ${assessment.id}`);
     } catch (error) {
       logger.error(`instruction backfill failed for ${assessment.id}`, error);
@@ -47,13 +45,19 @@ async function backfillInstructions() {
 let initPromise = null;
 async function ensureInit() {
   if (!initPromise) {
-    const start = config.seed.enabled ? seed() : ensureSchema();
-    initPromise = start
-      .then(discoverPapers)
-      .then(backfillInstructions)
-      .catch((err) => {
+    initPromise = (async () => {
+      try {
+        const hasAdmin = await adminsRepo.any().catch(() => false);
+        if (!hasAdmin) {
+          if (config.seed.enabled) await seed();
+          else await ensureSchema();
+          await discoverPapers().catch(() => {});
+          await backfillInstructions().catch(() => {});
+        }
+      } catch (err) {
         logger.error("Initialization / seed error", err);
-      });
+      }
+    })();
   }
   return initPromise;
 }
