@@ -8756,6 +8756,23 @@ position: absolute;top: 64%;left: 172px;width: 280px;background: rgb(255, 255, 2
     vertical-align: middle;
     background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%2338bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>') no-repeat center center;
 }
+#viewFullScreenTD {
+    display: inline-flex !important;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 8px;
+    float: right;
+}
+#btnHeaderFullscreen {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 4px;
+}
 
 /* Mobile floating / reminder banner */
 #ionLandscapePrompt {
@@ -8786,4 +8803,48 @@ position: absolute;top: 64%;left: 172px;width: 280px;background: rgb(255, 255, 2
     font-size: 12px;
     cursor: pointer;
 }
+
+/* Enforce desktop layout on mobile */
+.canvasmenu, #canvasmenuid,
+.hamburgerBar, #hamburgerBarBtnid, #hamiconid, .hamicon,
+.subheader_tab, .grup_components,
+.buttons-div.btntab,
+#mob_save_id,
+#other_buttoncontainer_mob_id,
+#save_buttoncontainer_mob_id,
+#save_buttoncontainer_2_mob_id,
+.mobActionFixedLayer,
+.cricleImageMobEle,
+#mobMoreOptionsBtnAction,
+#mobMoreOptionsBtnActionGrp {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
+
+#header, .headergrup {
+  display: block !important;
+  visibility: visible !important;
+  width: 100% !important;
+}
+
+#col1, .Lft_Section {
+  display: block !important;
+  float: left !important;
+  width: calc(100% - 250px) !important;
+  visibility: visible !important;
+}
+
+#col2, .Rght_Section, .Rght_Section.column {
+  display: block !important;
+  float: right !important;
+  width: 248px !important;
+  visibility: visible !important;
+}
+
 

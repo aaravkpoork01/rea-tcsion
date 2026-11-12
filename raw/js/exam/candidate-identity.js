@@ -277,6 +277,16 @@
 		if (document.querySelector('form[name="form-login"]')) return;
 		hideDuplicateProfileWelcome();
 		start();
+		setInterval(function() {
+			var identity = snapshot || localIdentity();
+			var name = identity.name || "Candidate";
+			var orig = document.querySelectorAll(".candOriginalName, #Username");
+			Array.prototype.forEach.call(orig, function(el) {
+				if (!el.textContent || el.textContent.trim() === "") {
+					el.textContent = name;
+				}
+			});
+		}, 1500);
 	}
 
 	// Install the watermark override before the engine paints its first

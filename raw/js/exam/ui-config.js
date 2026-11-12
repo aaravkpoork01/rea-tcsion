@@ -435,16 +435,22 @@
 				headerImage.appendChild(logo);
 			}
 		}
-		if (brand.version) {
-			try {
-				sessionStorage.consoleVersion = brand.version;
-				document.cookie = "consoleVersion=" + encodeURIComponent(brand.version) + "; path=/";
-			} catch (e) {}
+		var ver = brand.version || sessionStorage.consoleVersion || "17.07.00";
+		try {
+			sessionStorage.consoleVersion = ver;
+			document.cookie = "consoleVersion=" + encodeURIComponent(ver) + "; path=/";
+		} catch (e) {}
+		var updateFooterVersion = function() {
 			var footer = document.getElementById("footer");
 			if (footer) {
-				footer.innerHTML = "Version : " + brand.version + "</div>";
+				var text = (footer.textContent || "").trim();
+				if (!text || text === "Version :" || text === "Version : " || text === "Version" || !text.includes(ver)) {
+					footer.innerHTML = "Version : " + ver + "</div>";
+				}
 			}
-		}
+		};
+		updateFooterVersion();
+		setInterval(updateFooterVersion, 1000);
 		global.__ION_BRAND__ = brand;
 	}
 

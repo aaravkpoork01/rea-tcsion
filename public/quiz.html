@@ -89,6 +89,7 @@ if(sessionStorage.cdnPath == ""){
 	document.write('<script type="text/javascript" src="js/jquery-migrate-3.3.0.min.js?v=' + jsVersion + '"\><\/script>'); */
 	document.write('<script type="text/javascript" src="js/jquery-3.6.0.min.js?v=' + jsVersion + '"\><\/script>'); 
 	document.write('<script type="text/javascript" src="js/jquery.cookie.js?v='+jsVersion+'"\><\/script>');
+	document.write('<script>if(window.jQuery){var _ow=jQuery.fn.width;jQuery.fn.width=function(){if(this[0]===window||this[0]===document)return Math.max(1200,_ow.apply(this,arguments));return _ow.apply(this,arguments);};}<\/script>');
 	document.write('<script type="text/javascript" src="js/bean.js?v='+jsVersion+'"\><\/script>');
 	document.write('<script type="text/javascript" src="js/dummyjs.js?v='+jsVersion+'"/><\/script>');
 			//document.write('<script type="text/javascript" src="js/streamsaver/StreamSaver.js?v='+jsVersion+'"\><\/script>');
@@ -529,22 +530,26 @@ html, body {
   display: block !important;
   visibility: visible !important;
 }
-.canvasmenu, #canvasmenuid {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  visibility: hidden !important;
-}
+.canvasmenu, #canvasmenuid,
+.hamburgerBar, #hamburgerBarBtnid, #hamiconid, .hamicon,
+.subheader_tab, .grup_components,
 .buttons-div.btntab,
 #mob_save_id,
 #other_buttoncontainer_mob_id,
 #save_buttoncontainer_mob_id,
 #save_buttoncontainer_2_mob_id,
-.hamburgerBar,
-#hamiconid,
-.hamicon,
-.mobActionFixedLayer {
+.mobActionFixedLayer,
+.cricleImageMobEle,
+#mobMoreOptionsBtnAction,
+#mobMoreOptionsBtnActionGrp {
   display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
 }
 .buttons-div {
   display: block !important;
