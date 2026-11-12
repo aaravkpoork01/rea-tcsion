@@ -352,12 +352,83 @@
 		if (isTypingInAnswerPanel(event.target)) block(event);
 	}
 
+	function lockLandscape() {
+		try {
+			if (global.screen && global.screen.orientation && typeof global.screen.orientation.lock === "function") {
+				global.screen.orientation.lock("landscape").catch(function () {});
+			} else if (global.screen && typeof global.screen.lockOrientation === "function") {
+				global.screen.lockOrientation("landscape");
+			} else if (global.screen && typeof global.screen.mozLockOrientation === "function") {
+				global.screen.mozLockOrientation("landscape");
+			} else if (global.screen && typeof global.screen.msLockOrientation === "function") {
+				global.screen.msLockOrientation("landscape");
+			}
+		} catch (e) {}
+	}
+
+	function exitFullscreen() {
+		var exit = doc.exitFullscreen || doc.webkitExitFullscreen || doc.msExitFullscreen || doc.mozCancelFullScreen;
+		if (!exit) return Promise.resolve();
+		try {
+			var pending = exit.call(doc);
+			return pending && typeof pending.then === "function" ? pending : Promise.resolve();
+		} catch (e) {
+			return Promise.resolve();
+		}
+	}
+
+	function toggleFullscreen() {
+		if (inFullscreen()) {
+			return exitFullscreen();
+		} else {
+			return requestFullscreen().then(function () {
+				lockLandscape();
+			}).catch(function (err) {
+				console.warn("Fullscreen request error:", err);
+			});
+		}
+	}
+
+	function updateHeaderFullscreenBtn() {
+		var btnSpan = doc.getElementById("btnHeaderFullscreenSpan");
+		if (btnSpan) {
+			btnSpan.textContent = inFullscreen() ? "Exit Full Screen" : "Full Screen";
+		}
+		var prompt = doc.getElementById("ionLandscapePrompt");
+		if (prompt) {
+			var isTouch = ("ontouchstart" in global) || (global.navigator && global.navigator.maxTouchPoints > 0);
+			var isPortrait = global.innerHeight > global.innerWidth;
+			if (isTouch && isPortrait && !inFullscreen()) {
+				prompt.style.display = "flex";
+			} else {
+				prompt.style.display = "none";
+			}
+		}
+	}
+
+	function ensureLandscapePrompt() {
+		if (doc.getElementById("ionLandscapePrompt")) return;
+		var prompt = doc.createElement("div");
+		prompt.id = "ionLandscapePrompt";
+		prompt.innerHTML = '<span>📱 Rotate to Landscape mode for PC view</span><button type="button">Fullscreen &amp; Rotate</button>';
+		var btn = prompt.querySelector("button");
+		if (btn) {
+			btn.addEventListener("click", function () {
+				toggleFullscreen();
+			});
+		}
+		doc.body.appendChild(prompt);
+		updateHeaderFullscreenBtn();
+	}
+
 	function onFullscreenChange() {
 		syncFromSnapshot();
 		runtime.toggleCount += 1;
 		if (inFullscreen()) {
 			hideOverlay();
+			lockLandscape();
 		}
+		updateHeaderFullscreenBtn();
 		persist();
 	}
 
@@ -372,6 +443,9 @@
 		doc.addEventListener("mozfullscreenchange", onFullscreenChange, true);
 		doc.addEventListener("MSFullscreenChange", onFullscreenChange, true);
 
+		global.addEventListener("resize", updateHeaderFullscreenBtn);
+		global.addEventListener("orientationchange", updateHeaderFullscreenBtn);
+
 		global.addEventListener("pagehide", persist);
 		global.addEventListener("beforeunload", persist);
 
@@ -385,6 +459,8 @@
 		syncFromSnapshot();
 		loadPolicy();
 		attach();
+		ensureLandscapePrompt();
+		updateHeaderFullscreenBtn();
 		// A resumed attempt may already be counting; seed the field once mockVar exists.
 		persist();
 	}
@@ -401,9 +477,13 @@
 		seconds: function () { return runtime.totalSeconds; },
 		toggleCount: function () { return runtime.toggleCount; },
 		request: requestFullscreen,
+		exit: exitFullscreen,
+		toggle: toggleFullscreen,
+		lockLandscape: lockLandscape,
 		refresh: function () {
 			syncFromSnapshot();
 			runtime.required = storedFlag();
+			updateHeaderFullscreenBtn();
 		}
 	};
 })(window);

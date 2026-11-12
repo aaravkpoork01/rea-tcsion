@@ -7,6 +7,7 @@ import { requireAdmin } from "../../services/auth.service.mjs";
 import * as authService from "../../services/auth.service.mjs";
 import * as examService from "../../services/exam.service.mjs";
 import * as settingsService from "../../services/settings.service.mjs";
+import * as candidatesRepo from "../../db/repositories/candidates.repo.mjs";
 
 const CANDIDATE_COOKIE = authService.COOKIE_NAMES.candidate;
 
@@ -52,7 +53,15 @@ export function registerCandidateRoutes(router) {
   router.get("/IBA/api/session", async (req, res) => {
     const active = await session(req);
     if (!active) return sendJson(res, 200, { authenticated: false });
-    return sendJson(res, 200, { authenticated: true, mockCandId: active.candidateId, ...active });
+    const cand = active.candidateId ? await candidatesRepo.findById(active.candidateId).catch(() => null) : null;
+    return sendJson(res, 200, {
+      authenticated: true,
+      mockCandId: active.candidateId,
+      name: cand?.name || "",
+      login: cand?.login || "",
+      photo: cand?.photo || "",
+      ...active
+    });
   });
 
   router.get("/IBA/api/ping", (_req, res) => sendJson(res, 200, { ok: true, now: Date.now() }));
