@@ -52,7 +52,10 @@ if (usePostgres) {
     const cleanConnectionString = connectionString.replace(/[\?&]sslmode=[^&]+/g, "");
     pool = new pg.Pool({
       connectionString: cleanConnectionString,
-      ssl: { rejectUnauthorized: false }
+      ssl: { rejectUnauthorized: false },
+      max: 10,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 5000,
     });
   }
 } else {

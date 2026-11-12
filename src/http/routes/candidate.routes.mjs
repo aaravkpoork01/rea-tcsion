@@ -11,6 +11,19 @@ import * as candidatesRepo from "../../db/repositories/candidates.repo.mjs";
 
 const CANDIDATE_COOKIE = authService.COOKIE_NAMES.candidate;
 
+const candidateCache = new Map();
+const CAND_TTL_MS = 60000;
+
+const getCachedCandidate = async (candidateId) => {
+  if (!candidateId) return null;
+  const now = Date.now();
+  const hit = candidateCache.get(candidateId);
+  if (hit && (now - hit.time) < CAND_TTL_MS) return hit.data;
+  const cand = await candidatesRepo.findById(candidateId).catch(() => null);
+  candidateCache.set(candidateId, { time: now, data: cand });
+  return cand;
+};
+
 const context = (req) => ({
   ip: req.socket?.remoteAddress || req.headers["x-forwarded-for"] || "",
   userAgent: req.headers["user-agent"] || "",
@@ -53,7 +66,7 @@ export function registerCandidateRoutes(router) {
   router.get("/IBA/api/session", async (req, res) => {
     const active = await session(req);
     if (!active) return sendJson(res, 200, { authenticated: false });
-    const cand = active.candidateId ? await candidatesRepo.findById(active.candidateId).catch(() => null) : null;
+    const cand = await getCachedCandidate(active.candidateId);
     return sendJson(res, 200, {
       authenticated: true,
       mockCandId: active.candidateId,

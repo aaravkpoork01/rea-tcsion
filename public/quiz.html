@@ -40,7 +40,7 @@ try{
 /* var date = new Date(); */
 var isTextHighlighterEnabled = false;
 var cdnPath = sessionStorage.cdnPath+"OnlineAssessment";
-var jsVersion = sessionStorage.jsVersion !=undefined ? sessionStorage.jsVersion : '17.05.04.67';
+var jsVersion = '17.07.01';
 
 if(typeof(sessionStorage.cdnPath)=="undefined")
 		sessionStorage.cdnPath = "";
@@ -503,6 +503,82 @@ function onLoadEssentialsQuiz(delay){
 <style>
 /* mirror patch: an empty proof-reading config shell must not occupy the viewport */
 #proofReadingConfigs:empty{display:none}
+/* Enforce True PC Desktop Layout across mobile, tablet and desktop */
+html, body {
+  min-width: 1100px !important;
+  overflow-x: auto !important;
+}
+#col1, .Lft_Section {
+  display: block !important;
+  float: left !important;
+  width: calc(100% - 250px) !important;
+  height: auto !important;
+  visibility: visible !important;
+}
+#col2, .Rght_Section, .Rght_Section.column {
+  display: block !important;
+  float: right !important;
+  width: 248px !important;
+  visibility: visible !important;
+}
+#sub-header {
+  display: block !important;
+  visibility: visible !important;
+}
+.questionTypeCont {
+  display: block !important;
+  visibility: visible !important;
+}
+.canvasmenu, #canvasmenuid {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  visibility: hidden !important;
+}
+.buttons-div.btntab,
+#mob_save_id,
+#other_buttoncontainer_mob_id,
+#save_buttoncontainer_mob_id,
+#save_buttoncontainer_2_mob_id,
+.hamburgerBar,
+#hamiconid,
+.hamicon,
+.mobActionFixedLayer {
+  display: none !important;
+}
+.buttons-div {
+  display: block !important;
+  position: relative !important;
+}
+.save_buttoncontainer {
+  display: block !important;
+  float: right !important;
+}
+.other_buttoncontainer {
+  display: block !important;
+  float: left !important;
+}
+#currentQues {
+  width: 100% !important;
+  margin-top: 0 !important;
+}
+#minwidth {
+  min-width: 1100px !important;
+}
+.user_dtls .mockLoginIdSpan ~ .LoginIdSpan,
+.mockLoginIdSpan + .LoginIdSpan,
+#candidateDetailstbl.exam-single-login-welcome .LoginIdSpan {
+  display: none !important;
+}
+.candOriginalName:empty:before {
+  content: 'Candidate';
+}
+.verifiedImg:not([src]),
+.verifiedImg[src=""],
+.verifiedImg[src="null"],
+.verifiedImg[src="undefined"] {
+  display: none !important;
+}
 :root {
             --min-size: 2px;
             --max-size: 20px;
@@ -782,16 +858,16 @@ function onLoadEssentialsQuiz(delay){
 .mobile_btn{display:none}
 
 </style>
-<script src="js/exam/dom.js"></script>
-<script src="js/exam/api.js"></script>
-<script src="js/exam/store.js"></script>
-<script src="js/exam/sync.js"></script>
-<script src="js/exam/fullscreen-guard.js"></script>
-<script src="js/exam/ui-config.js"></script>
-<script src="js/exam/candidate-identity.js"></script>
-<script src="js/exam/session-guard.js"></script>
-<script src="js/exam/scorecard.js"></script>
-<script src="js/ion-bridge.js"></script>
+<script src="js/exam/dom.js?v=17.07.01"></script>
+<script src="js/exam/api.js?v=17.07.01"></script>
+<script src="js/exam/store.js?v=17.07.01"></script>
+<script src="js/exam/sync.js?v=17.07.01"></script>
+<script src="js/exam/fullscreen-guard.js?v=17.07.01"></script>
+<script src="js/exam/ui-config.js?v=17.07.01"></script>
+<script src="js/exam/candidate-identity.js?v=17.07.01"></script>
+<script src="js/exam/session-guard.js?v=17.07.01"></script>
+<script src="js/exam/scorecard.js?v=17.07.01"></script>
+<script src="js/ion-bridge.js?v=17.07.01"></script>
 </head>
 <!-- onselectstart -->
 <body onselectstart="isOnSelectStart();">

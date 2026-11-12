@@ -45,13 +45,19 @@ async function backfillInstructions() {
 let initPromise = null;
 async function ensureInit() {
   if (!initPromise) {
-    const start = config.seed.enabled ? seed() : ensureSchema();
-    initPromise = start
-      .then(discoverPapers)
-      .then(backfillInstructions)
-      .catch((err) => {
+    initPromise = (async () => {
+      try {
+        const hasAdmin = await adminsRepo.any().catch(() => false);
+        if (!hasAdmin) {
+          if (config.seed.enabled) await seed();
+          else await ensureSchema();
+          await discoverPapers().catch(() => {});
+          await backfillInstructions().catch(() => {});
+        }
+      } catch (err) {
         logger.error("Initialization / seed error", err);
-      });
+      }
+    })();
   }
   return initPromise;
 }

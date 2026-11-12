@@ -7,9 +7,24 @@ import { notFound } from "../core/errors.mjs";
 const ASSESSMENT_TOPBAR_KEY = (id) => `assessment_topbar:${id}`;
 const ASSESSMENT_TOOLS_KEY = (id) => `assessment_tools:${id}`;
 
+let cachedSettings = null;
+let cacheTime = 0;
+const CACHE_TTL_MS = 60000;
+
+export const clearSettingsCache = () => {
+  cachedSettings = null;
+  cacheTime = 0;
+};
+
 const raw = async () => {
+  const now = Date.now();
+  if (cachedSettings && (now - cacheTime) < CACHE_TTL_MS) {
+    return cachedSettings;
+  }
   const rows = await settingsRepo.listSettings();
-  return Object.fromEntries(rows.map((row) => [row.key, row.value]));
+  cachedSettings = Object.fromEntries(rows.map((row) => [row.key, row.value]));
+  cacheTime = now;
+  return cachedSettings;
 };
 
 /** Every stored setting merged with presentation defaults. */
@@ -61,6 +76,7 @@ export async function update(entries) {
     }
   }
   await settingsRepo.setMany(settingsFromAdmin(patch));
+  clearSettingsCache();
   return all();
 }
 
@@ -97,6 +113,7 @@ export async function updateAssessmentPresentation(assessmentId, body = {}) {
   const rows = presentationFromAdmin(body);
   if (rows.topbar !== undefined) await settingsRepo.setSetting(ASSESSMENT_TOPBAR_KEY(assessmentId), rows.topbar);
   if (rows.tools !== undefined) await settingsRepo.setSetting(ASSESSMENT_TOOLS_KEY(assessmentId), rows.tools);
+  clearSettingsCache();
   return assessmentPresentation(assessmentId);
 }
 
@@ -106,6 +123,7 @@ export async function resetAssessmentPresentation(assessmentId, body = {}) {
   if (!assessment) throw notFound("Assessment not found.");
   if (body.topbar !== false) await settingsRepo.deleteSetting(ASSESSMENT_TOPBAR_KEY(assessmentId));
   if (body.tools !== false) await settingsRepo.deleteSetting(ASSESSMENT_TOOLS_KEY(assessmentId));
+  clearSettingsCache();
   return assessmentPresentation(assessmentId);
 }
 
@@ -113,6 +131,7 @@ export async function resetAssessmentPresentation(assessmentId, body = {}) {
 export async function clearAssessmentOverrides(assessmentId) {
   await settingsRepo.deleteSetting(ASSESSMENT_TOPBAR_KEY(assessmentId));
   await settingsRepo.deleteSetting(ASSESSMENT_TOOLS_KEY(assessmentId));
+  clearSettingsCache();
 }
 
 /** Public candidate config: no secrets, only what the console renders. */
