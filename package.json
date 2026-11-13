@@ -12,7 +12,8 @@
     "dev": "node --watch src/server.mjs",
     "seed": "node tools/seed.mjs",
     "check": "node tools/check.mjs",
-    "db:reset": "node tools/reset-db.mjs"
+    "db:reset": "node tools/reset-db.mjs",
+    "sync:pg": "node tools/sync-to-postgres.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.2.0",

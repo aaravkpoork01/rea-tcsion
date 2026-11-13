@@ -97,16 +97,24 @@ function modal({ title, body, footer, wide = false, onClose = null }) {
 
 function confirmDialog(message, confirmLabel = "Confirm") {
   return new Promise((resolve) => {
-    const m = modal({
-      title: "Please confirm",
-      body: `<p>${esc(message)}</p>`,
-      footer: `<button class="btn" data-close>Cancel</button><button class="btn danger" data-yes>${esc(confirmLabel)}</button>`,
+    // Append instead of replacing #modalRoot so a confirm opened from inside
+    // another modal (for example the paper-upload dialog) does not destroy it.
+    const root = $("#modalRoot");
+    const overlay = document.createElement("div");
+    overlay.className = "modal-backdrop";
+    overlay.innerHTML = `
+      <div class="modal">
+        <div class="modal-head"><h3>Please confirm</h3><button class="x" data-no>&times;</button></div>
+        <div class="modal-body"><p>${esc(message)}</p></div>
+        <div class="modal-foot"><button class="btn" data-no>Cancel</button><button class="btn danger" data-yes>${esc(confirmLabel)}</button></div>
+      </div>`;
+    root.appendChild(overlay);
+    const done = (value) => { overlay.remove(); resolve(value); };
+    overlay.querySelector("[data-yes]").addEventListener("click", () => done(true));
+    overlay.querySelectorAll("[data-no]").forEach((button) => button.addEventListener("click", () => done(false)));
+    overlay.addEventListener("mousedown", (event) => {
+      if (event.target === overlay) done(false);
     });
-    m.root.querySelector("[data-yes]").addEventListener("click", () => { m.close(); resolve(true); });
-    m.root.querySelector(".modal-backdrop").addEventListener("click", (e) => {
-      if (e.target.classList.contains("modal-backdrop")) resolve(false);
-    });
-    m.root.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", () => resolve(false)));
   });
 }
 
@@ -343,10 +351,13 @@ async function renderDashboard() {
 const DEMO_PAPER = {
   label: "Demo paper",
   csv: "/admin/demo/demo-questions.csv",
+  xml: "/admin/demo/demo-quiz.xml",
 };
 
 const demoLinks = () => `<span class="demo-links"><strong>${DEMO_PAPER.label}:</strong>
-  <a href="${DEMO_PAPER.csv}" download="demo-questions.csv">Download CSV</a></span>`;
+  <a href="${DEMO_PAPER.csv}" download="demo-questions.csv">Download CSV</a>
+  <span aria-hidden="true">·</span>
+  <a href="${DEMO_PAPER.xml}" download="demo-quiz.xml">Download quiz.xml</a></span>`;
 
 function fileText(input, label) {
   return new Promise((resolve, reject) => {
@@ -463,7 +474,7 @@ async function confXmlFor(assessment) {
 async function renderAssessments() {
   const { assessments } = await api("/assessments");
   $("#topbarActions").innerHTML = `
-    <button class="btn" id="importAssessments">Import CSV</button>
+    <button class="btn" id="importAssessments" title="Import an assessment list CSV">Import assessments</button>
     <a class="btn" href="/api/admin/export/assessments.csv">Export CSV</a>
     <button class="btn primary" id="newAssessment">New assessment</button>`;
   $("#newAssessment").addEventListener("click", () => assessmentForm(null, assessments));
@@ -489,14 +500,14 @@ async function renderAssessments() {
             <td class="num">${a.attempts}</td>
             <td>${a.show_feedback ? "on" : "off"}</td>
             <td>${badge(a.questions > 0 ? a.status : "draft")}</td>
-            <td class="row">
+            <td class="row actions">
+              <button class="btn small${a.questions > 0 ? "" : " primary"}" data-papers="${esc(a.id)}" title="Upload the question paper CSV or quiz.xml for ${esc(a.id)}">Upload paper</button>
               <button class="btn small" data-edit="${esc(a.id)}">Edit</button>
               <button class="btn small" data-questions="${esc(a.id)}">Questions</button>
-              <button class="btn small${a.questions > 0 ? "" : " primary"}" data-papers="${esc(a.id)}">Upload CSV</button>
               <a class="btn small" href="/index.html?${encodeURIComponent(a.org_id || "")}@@${encodeURIComponent(a.id)}" target="_blank" rel="noopener" title="Open candidate console for ${esc(a.id)}">Entry Point</a>
               <button class="btn small danger" data-del="${esc(a.id)}">Delete</button>
             </td>
-          </tr>`).join("")}</tbody></table></div>` : `<div class="empty">No assessments yet. Create one and upload a CSV question paper.
+          </tr>`).join("")}</tbody></table></div>` : `<div class="empty">No assessments yet. Create one and upload a CSV question paper. In the upload dialog, click <strong>Use demo CSV</strong> to try a ready-made paper.
             <div style="margin-top:10px">${demoLinks()}</div></div>`}
       </div>
     </div>`;
@@ -576,7 +587,7 @@ function assessmentForm(assessment, assessments = [], options = {}) {
         <label class="row"><input type="checkbox" name="useDefaultFeedback" ${draftValue("useDefaultFeedback", a.use_default_feedback) ? "checked" : ""} style="width:auto" /> Use default feedback form</label>
         <label class="row"><input type="checkbox" name="storeResponse" ${draftValue("storeResponse", a.store_response) ? "checked" : ""} style="width:auto" /> Server-side response store</label>
       </div>
-      ${lockedDraft ? `<p class="field-note">This assessment is saved as <strong>draft</strong>. After saving, use <em>Upload CSV</em> to add its question paper; the assessment becomes active automatically. The paper folder is managed for you.</p>` : ""}
+      ${lockedDraft ? `<p class="field-note">This assessment is saved as <strong>draft</strong>. After saving, use <em>Upload paper</em> to add its question paper; the assessment becomes active automatically. The paper folder is managed for you.</p>` : ""}
     `,
     footer: `<button class="btn" data-close>Cancel</button><button class="btn primary" data-save>${isNew ? "Create" : "Save"}</button>`,
   });
@@ -2071,28 +2082,37 @@ async function globalInstructionsForm() {
  */
 function paperUploadForm(assessment, softwareLanguages = []) {
   const basePath = assessment.base_path || autoBasePath(assessment.org_id, assessment.id);
-  const primaryLanguage = softwareLanguages[0] || "English";
+  const existingLanguages = (softwareLanguages || []).filter(Boolean).slice(0, 3);
+  const initialLanguages = existingLanguages.length ? existingLanguages : ["English"];
 
-  function row(language, index) {
-    return `<tr class="paper-row">
+  let demoCsv = "";
+
+  function row(language, index, primary = false) {
+    return `<tr class="paper-row${primary ? " paper-primary" : ""}">
       <td><input class="paper-name" value="${esc(language)}" maxlength="32" placeholder="Language" /></td>
       <td style="width:74px"><input class="paper-code" type="number" min="1" max="99" value="${index + 1}" /></td>
-      <td><input class="paper-file" type="file" accept=".csv,text/csv" /></td>
+      <td><input class="paper-file" type="file" accept=".csv,.xml,text/csv,application/xml,text/xml" /></td>
       <td style="width:38px"><button type="button" class="btn small danger paper-remove" title="Remove language">&times;</button></td>
     </tr>`;
   }
 
   const m = modal({
-    title: `Upload question CSV - ${assessment.id}`,
+    title: `Upload question paper - ${assessment.id}`,
     wide: true,
     body: `
-      <div class="row" style="justify-content:flex-end;margin-bottom:10px">${demoLinks()}</div>
+      <p class="paper-path" style="margin:0">Paper folder: <code>${esc(basePath || "not set")}</code> <span class="muted">(managed automatically)</span></p>
+      <div class="row" style="justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+        ${demoLinks()}
+        <button type="button" class="btn small" id="paperDemo">Use demo CSV</button>
+      </div>
       <div class="table-wrap"><table>
-        <thead><tr><th>Language</th><th>ID</th><th>CSV</th><th></th></tr></thead>
-        <tbody id="paperRows">${row(primaryLanguage, 0)}</tbody>
+        <thead><tr><th>Language</th><th>ID</th><th>CSV / quiz.xml</th><th></th></tr></thead>
+        <tbody id="paperRows">${initialLanguages.map((language, index) => row(language, index, index === 0)).join("")}</tbody>
       </table></div>
+      ${existingLanguages.length > 1 ? `<p class="muted small" style="margin:10px 0 0">This paper already has ${existingLanguages.length} languages. They are pre-filled below; remove a secondary row if the new paper has fewer languages.</p>` : ""}
       <p class="muted small" style="margin:10px 0 0">Use the same Question ID (or Question No) in each language CSV so their translations stay on one question number.</p>
       <p class="muted small" style="margin:6px 0 0">One CSV can also carry <code>Group Instruction</code>, <code>Group Instruction Time</code>, <code>Group Max Duration</code>, <code>Section Instruction</code>, <code>Section Type</code>, <code>Section Max Questions</code> and paper settings such as <code>Assessment Duration</code>, <code>Max Attempts</code>, <code>Show Feedback</code>, <code>Store Response</code> and <code>Show View QP Button</code>. See the demo CSV for the full header.</p>
+      <p class="muted small" style="margin:6px 0 0">New here? Click <strong>Use demo CSV</strong> to try the complete demo paper without downloading a file. The first language row is the primary language and cannot be removed.</p>
       <div class="row" style="margin-top:12px">
         <button type="button" class="btn small" id="paperAdd">Add language</button>
         <span class="muted small" id="paperStatus">The assessment becomes active after import.</span>
@@ -2102,12 +2122,16 @@ function paperUploadForm(assessment, softwareLanguages = []) {
 
   const rowsBody = m.root.querySelector("#paperRows");
   const addButton = m.root.querySelector("#paperAdd");
+  const demoButton = m.root.querySelector("#paperDemo");
   const status = m.root.querySelector("#paperStatus");
 
   const syncRows = () => {
     const count = rowsBody.querySelectorAll(".paper-row").length;
+    const primaryRow = rowsBody.querySelector(".paper-row");
     rowsBody.querySelectorAll(".paper-remove").forEach((button) => {
-      button.style.visibility = count > 1 ? "visible" : "hidden";
+      const isPrimary = button.closest(".paper-row") === primaryRow;
+      button.style.visibility = count > 1 && !isPrimary ? "visible" : "hidden";
+      button.title = isPrimary ? "Primary language cannot be removed" : "Remove language";
     });
     addButton.disabled = count >= 3;
     addButton.textContent = count >= 3 ? "3 languages max" : "Add language";
@@ -2125,9 +2149,37 @@ function paperUploadForm(assessment, softwareLanguages = []) {
   rowsBody.addEventListener("click", (event) => {
     const button = event.target.closest(".paper-remove");
     if (!button) return;
+    if (button.closest(".paper-row").classList.contains("paper-primary")) return;
     if (rowsBody.querySelectorAll(".paper-row").length <= 1) return;
     button.closest(".paper-row").remove();
     syncRows();
+  });
+
+  demoButton.addEventListener("click", async () => {
+    demoButton.disabled = true;
+    status.textContent = "Loading demo CSV...";
+    try {
+      const res = await fetch(DEMO_PAPER.csv, { credentials: "same-origin", cache: "no-store" });
+      if (!res.ok) throw new Error("Could not load the demo CSV.");
+      demoCsv = await res.text();
+      rowsBody.querySelectorAll(".paper-row").forEach((rowElement, index) => {
+        if (index > 0) rowElement.remove();
+      });
+      const first = rowsBody.querySelector(".paper-row");
+      const nameInput = first.querySelector(".paper-name");
+      const codeInput = first.querySelector(".paper-code");
+      if (!nameInput.value.trim()) nameInput.value = "English";
+      if (!Number(codeInput.value)) codeInput.value = "1";
+      first.querySelector(".paper-file").value = "";
+      syncRows();
+      status.textContent = "Demo CSV loaded (single language). Click Upload & import to try it.";
+      demoButton.textContent = "Demo CSV loaded";
+    } catch (e) {
+      status.textContent = "";
+      toast(e.message, "error");
+    } finally {
+      demoButton.disabled = false;
+    }
   });
 
   m.root.querySelector("[data-upload]").addEventListener("click", async () => {
@@ -2140,15 +2192,39 @@ function paperUploadForm(assessment, softwareLanguages = []) {
     try {
       const confXml = await confXmlFor(assessment);
       const languages = [];
+      const usedNames = new Set();
+      const usedCodes = new Set();
       for (const [index, tableRow] of tableRows.entries()) {
         const name = tableRow.querySelector(".paper-name").value.trim();
         const code = Number(tableRow.querySelector(".paper-code").value);
         if (!name) throw new Error(`Language ${index + 1}: name is required.`);
-        const content = await fileText(tableRow.querySelector(".paper-file"), `${name} CSV`);
+        if (!Number.isInteger(code) || code < 1 || code > 99) {
+          throw new Error(`Language "${name}": ID must be between 1 and 99.`);
+        }
+        if (usedNames.has(name.toLowerCase())) throw new Error(`Language "${name}" is used twice.`);
+        if (usedCodes.has(code)) throw new Error(`Language ID ${code} is used twice.`);
+        usedNames.add(name.toLowerCase());
+        usedCodes.add(code);
+        const fileInput = tableRow.querySelector(".paper-file");
+        const content = fileInput.files && fileInput.files[0]
+          ? await fileText(fileInput, `${name} CSV`)
+          : (index === 0 && demoCsv ? demoCsv : "");
+        if (!content) throw new Error(`Choose ${name} CSV, or use the demo CSV.`);
         if (/<questionPaperXML\b/.test(content)) {
           languages.push({ name, code, quizXml: content, confXml });
         } else {
           languages.push({ name, code, csv: content, confXml });
+        }
+      }
+      if (Number(assessment.total_marks) > 0) {
+        const replace = await confirmDialog(
+          `Replace the existing paper for ${assessment.id}? Questions, groups and sections will be replaced; attempts and responses are preserved.`,
+          "Replace paper",
+        );
+        if (!replace) {
+          button.disabled = false;
+          status.textContent = "";
+          return;
         }
       }
       status.textContent = "Uploading and importing...";
@@ -2167,7 +2243,7 @@ function paperUploadForm(assessment, softwareLanguages = []) {
 
       m.close();
       const count = data.imported?.questions ?? 0;
-      const languageCount = data.languages.length;
+      const languageCount = (data.languages || []).length;
       toast(
         `Paper imported: ${count} questions${languageCount > 1 ? `, ${languageCount} languages` : ""}. ${active ? "Assessment is now active." : "Set the status to active from Edit."}`,
         active ? "success" : "error",
@@ -3224,7 +3300,7 @@ function csvImportForm({ title, hint, endpoint, placeholder = "", extraBody = {}
 function importAssessmentsForm() {
   csvImportForm({
     title: "Import assessments from CSV",
-    hint: `Columns: <code>ID, Name, Organisation ID, Description, Type, Base path, Duration (minutes), Max attempts, Show feedback</code>. Imported assessments are created as <strong>draft</strong>; use Upload CSV to attach the paper. Existing IDs are skipped.`,
+    hint: `Columns: <code>ID, Name, Organisation ID, Description, Type, Base path, Duration (minutes), Max attempts, Show feedback</code>. Imported assessments are created as <strong>draft</strong>; use Upload paper to attach the paper. Existing IDs are skipped.`,
     endpoint: "/assessments/import",
     placeholder: "ID,Name,Organisation ID,Duration (minutes),Max attempts\nM101,Practice Set 1,726,60,1",
     toastMessage: (result) => `Assessments imported: ${result.created}, skipped ${result.skipped}.`,

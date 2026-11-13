@@ -90,8 +90,11 @@
 		var request = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen || el.mozRequestFullScreen;
 		if (!request) return Promise.reject(new Error("Fullscreen is not available."));
 		try {
-			var pending = request.call(el, { navigationUI: "hide" });
-			return pending && typeof pending.then === "function" ? pending : Promise.resolve();
+			var p = request.call(el);
+			if (p && typeof p.then === "function") {
+				return p;
+			}
+			return Promise.resolve();
 		} catch (error) {
 			try {
 				var legacy = request.call(el);
@@ -405,12 +408,10 @@
 	function toggleFullscreen() {
 		if (inFullscreen()) {
 			return exitFullscreen();
-	function toggleFullscreen() {
-		if (inFullscreen()) {
-			return exitFullscreen();
 		}
 		return requestFullscreen().then(function () {
-			lockLandscape();
+			// Orientation is handled by exam/phone-orientation.js, which is
+			// phone-only; desktop fullscreen stays exactly as it was.
 		}).catch(function (err) {
 			console.warn("Fullscreen request error:", err);
 		});
@@ -457,22 +458,12 @@
 		doc.body.appendChild(prompt);
 		updateHeaderFullscreenBtn();
 	}
-		var btn = prompt.querySelector("button");
-		if (btn) {
-			btn.addEventListener("click", function () {
-				toggleFullscreen();
-			});
-		}
-		doc.body.appendChild(prompt);
-		updateHeaderFullscreenBtn();
-	}
 
 	function onFullscreenChange() {
 		syncFromSnapshot();
 		runtime.toggleCount += 1;
 		if (inFullscreen()) {
 			hideOverlay();
-			lockLandscape();
 		}
 		updateHeaderFullscreenBtn();
 		persist();
@@ -507,6 +498,13 @@
 		attach();
 		ensureLandscapePrompt();
 		updateHeaderFullscreenBtn();
+		var btn = doc.getElementById("btnHeaderFullscreen");
+		if (btn) {
+			btn.addEventListener("click", function (e) {
+				e.preventDefault();
+				toggleFullscreen();
+			});
+		}
 		// A resumed attempt may already be counting; seed the field once mockVar exists.
 		persist();
 	}

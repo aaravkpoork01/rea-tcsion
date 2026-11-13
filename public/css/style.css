@@ -8763,10 +8763,11 @@ position: absolute;top: 64%;left: 172px;width: 280px;background: rgb(255, 255, 2
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 5px;
     height: 30px;
-    width: 34px;
+    width: auto;
     margin-top: 0;
-    padding: 0;
+    padding: 0 6px;
     border-radius: 4px;
     transition: background-color .15s ease, box-shadow .15s ease;
 }
@@ -8777,7 +8778,9 @@ position: absolute;top: 64%;left: 172px;width: 280px;background: rgb(255, 255, 2
     outline: none;
 }
 .viewfullscreen_div .FullscreenText {
-    display: none !important;
+    display: inline-block !important;
+    font-size: 11px;
+    color: #fff;
 }
 .fullscreen_header_icon {
     width: 18px;

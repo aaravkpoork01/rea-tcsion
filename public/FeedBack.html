@@ -195,6 +195,23 @@
 			}
 		}
 	}
+	/** Imported papers may not ship feedback.json; finish the assessment instead of showing an empty form. */
+	function skipFeedbackToClose(){
+		var mockId='',orgId='',subscribedFor='';
+		var url = document.URL;
+		var params = url.split("FeedBack.html?");
+		if(params[1].indexOf("eID=")>-1){
+			orgId = sessionStorage.orgId;
+			mockId= sessionStorage.assessmentId;
+			subscribedFor=$.trim(params[1]).split("@@")[1];
+		}else{
+			orgId = $.trim(params[1]).split("@@")[0];
+			mockId = $.trim(params[1]).split("@@")[1];
+			subscribedFor=$.trim(params[1]).split("@@")[2];
+		}
+		var encodedeParam=orgId+"@@"+mockId+"@@";
+		window.location.href='close.html?'+encodedeParam+subscribedFor+"#"+(($.cookie("isApp")=="true")?"isApp":"")+(($.cookie("isLauncher")=="true")?"isLauncher":"");
+	}
 	function validateFeedPageURL(){
 		loadDataFromCache().then(function(e){
 			console.log(e)
@@ -314,6 +331,10 @@
 				}
 			});
 		} 
+			if(!feedbackdata || !feedbackdata.FeedBackQuestions || feedbackdata.FeedBackQuestions.length == 0){
+				skipFeedbackToClose();
+				return;
+			}
 			fillLangfromjson();
 		}else if(mockVar.useDefaultFeedback== 'NO'){
 			fillmockfeedbackDiv();
@@ -323,6 +344,10 @@
 		var xmlFilePath= $.cookie("xmlFilePath");
 		$.getJSON(xmlFilePath + 'feedback.json',function(data) {
 			feedbackdata = data;
+			if(!feedbackdata || !feedbackdata.FeedBackQuestions || feedbackdata.FeedBackQuestions.length == 0){
+				skipFeedbackToClose();
+				return;
+			}
 			fillMockLangfromjson();
 		});
 	}

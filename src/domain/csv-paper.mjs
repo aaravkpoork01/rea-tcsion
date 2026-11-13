@@ -287,7 +287,7 @@ ${optionsXml.join("\n")}
     const sectionsXml = group.sections.map((section, sectionIndex) => {
       const sectionId = section.extId || `S${groupIndex + 1}-${sectionIndex + 1}`;
       const maxQuestions = section.maxQuestions || section.questions.length;
-      return `<section id="${xmlAttr(sectionId)}" sectionType="${xmlAttr(section.sectionType || "ONLINE")}" totalMarks="${roundMarks(section.totalMarks)}" maxQuestionsToBeAttempted="${maxQuestions}" instructionTime="0" MinInstructionTime="0">
+      return `<section id="${xmlAttr(sectionId)}" sectionType="${xmlAttr(section.sectionType || "ONLINE")}" isOptional="false" totalMarks="${roundMarks(section.totalMarks)}" maxQuestionsToBeAttempted="${maxQuestions}" instructionTime="0" MinInstructionTime="0">
    <sectionDisplayText>${cdata(section.name)}</sectionDisplayText>
    <sectionInstruction>${cdata(section.instruction)}</sectionInstruction>
    <subsections>

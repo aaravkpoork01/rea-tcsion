@@ -4684,7 +4684,7 @@ function renderQuestions(xml,selectorElement){
 			var difficultyLevel = [];
 			var difficultyLabels = [];
 			var count =0;
-			var isOptional = $(this).attr("isOptional");
+			var isOptional = String($(this).attr("isOptional") || "false").toLowerCase();
 			var DefaultOptionalSections = $(this).attr("DefaultOptionalSections");
 			if(isOptional == 'true'){
 				iOAP.noOptSec++;
@@ -20819,9 +20819,7 @@ if(checkMandatory() && MandQuesDetails.length==0/*
 				groupSummaryScreenReaderText += mockLabels.keyStrokesCount+" : "+mockVar.typingGroup[mockVar.currentGrp].keyStrokesCount+" , ";
 				groupSummaryScreenReaderText += mockLabels.elapsedTime+" : "+ ((ellapsedTime/60).toFixed(2))+" , ";
 			}else{
-				if(iOAP.secDetails[i].isOptional=='false'){
-					timeOutStr += getSummaryBody(i,iOAP,mockVar.currentGrp);
-				}else if(iOAP.secDetails[i].isOptional=='true' && iOAP.secDetails[i].isSelected){
+				if(iOAP.secDetails[i].isOptional!='true' || iOAP.secDetails[i].isSelected){
 					timeOutStr += getSummaryBody(i,iOAP,mockVar.currentGrp);
 				}
 			}
@@ -20870,9 +20868,7 @@ if(checkMandatory() && MandQuesDetails.length==0/*
 				groupSummaryScreenReaderText += mockLabels.keyStrokesCount+" : "+mockVar.typingGroup[mockVar.currentGrp].keyStrokesCount+" , ";
 				groupSummaryScreenReaderText += mockLabels.elapsedTime+" : "+ ((ellapsedTime/60).toFixed(2))+" , ";
 			}else{
-				if(iOAP.secDetails[i].isOptional=='false'){
-					str += getSummaryBody(i,iOAP,mockVar.currentGrp);
-				}else if(iOAP.secDetails[i].isOptional=='true' && iOAP.secDetails[i].isSelected){
+				if(iOAP.secDetails[i].isOptional!='true' || iOAP.secDetails[i].isSelected){
 					str += getSummaryBody(i,iOAP,mockVar.currentGrp);
 				}
 			}
@@ -20963,13 +20959,10 @@ if(checkMandatory() && MandQuesDetails.length==0/*
 						groupSummaryScreenReaderText += mockLabels.keyStrokesCount+" : "+mockVar.typingGroup[j].keyStrokesCount+" , ";
 						groupSummaryScreenReaderText += mockLabels.elapsedTime+" : "+ ((mockVar.typingGroup[j].ellapsedTime/60).toFixed(2))+" , ";
 					}else{
-						if(temp_iOAP.secDetails[i].isOptional=='false'){
+						if(temp_iOAP.secDetails[i].isOptional!='true' || temp_iOAP.secDetails[i].isSelected){
 
 							timeOutStr += getSummaryBody(i,temp_iOAP,j);
 
-						}else if(temp_iOAP.secDetails[i].isOptional=='true' && temp_iOAP.secDetails[i].isSelected){
-
-							timeOutStr += getSummaryBody(i,temp_iOAP,j);
 						}
 					}
 				}
@@ -30960,7 +30953,7 @@ function submitOnlineAssessment(){
 			}else
 				window.close();
 		}
-		if(mockVar.displayScoreCard){
+		if(mockVar.displayScoreCard && DataError.scoreCardJson){
 			var curDate=new Date();
 			if(resultPublishDate!=0){
 				var ResultDate=new Date(resultPublishDate);

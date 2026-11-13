@@ -49,9 +49,16 @@ async function ensureInit() {
     initPromise = (async () => {
       try {
         const hasAdmin = await adminsRepo.any().catch(() => false);
+        if (!hasAdmin && config.seed.enabled) {
+          await seed();
+        } else {
+          // Always apply idempotent schema upgrades. Older databases (or a
+          // database restored without its WAL) can be missing tables that were
+          // added after first-run seeding, which breaks admin pages such as
+          // Assessments and paper upload.
+          await ensureSchema();
+        }
         if (!hasAdmin) {
-          if (config.seed.enabled) await seed();
-          else await ensureSchema();
           await discoverPapers().catch(() => {});
           await backfillInstructions().catch(() => {});
         }
