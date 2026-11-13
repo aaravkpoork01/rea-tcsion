@@ -1,5 +1,7 @@
 node_modules/
-data/
 .env
 *.log
 tools/*.out
+data/*.db-wal
+data/*.db-shm
+
