@@ -4,7 +4,7 @@ import { nowIso } from "../core/time.mjs";
 import { badRequest, conflict, notFound } from "../core/errors.mjs";
 import { parseCsv } from "../core/csv.mjs";
 import { importPaper } from "../domain/paper-import.mjs";
-import { mergePapers, extractLanguages } from "../domain/paper-languages.mjs";
+import { mergePapers, extractLanguages, rewriteDeclaredLanguages } from "../domain/paper-languages.mjs";
 import { applyCsvConfSettings, buildQuizXmlFromCsv, csvConfDuration, setConfTag } from "../domain/csv-paper.mjs";
 import * as assessmentsRepo from "../db/repositories/assessments.repo.mjs";
 import * as candidateGroupsRepo from "../db/repositories/candidate-groups.repo.mjs";
@@ -15,10 +15,11 @@ import * as translationsRepo from "../db/repositories/translations.repo.mjs";
 import { mirrorPath, normaliseBasePath, paperPath, quizXml } from "./assessments.service.mjs";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { mergeInstructionView, parseInstructionFile, writeInstructionFile } from "../domain/paper-instruction-editor.mjs";
+import { mergeInstructionView, parseInstructionFile, pruneInstructionLanguages, writeInstructionFile } from "../domain/paper-instruction-editor.mjs";
 import { removeGroupXml, removeSectionXml, updateGroupXml, updateSectionXml } from "../domain/paper-structure-editor.mjs";
 import { normaliseInstruction, questionInstructionMap, updateQuestionInstructionXml, updateQuestionXml } from "../domain/paper-question-editor.mjs";
-import { clearAssessmentOverrides } from "./settings.service.mjs";
+import { instructionTemplateRow } from "../domain/paper-instructions.mjs";
+import { clearAssessmentOverrides, instructionTemplate, saveInstructionTemplate } from "./settings.service.mjs";
 
 /** Assessments plus the candidate groups each one is restricted to. */
 export const list = async () => {
@@ -39,6 +40,7 @@ export const list = async () => {
 export const brief = async () => assessmentsRepo.listBrief();
 
 const USEFUL_DATA_MAX = 27;
+const PAPER_LANGUAGE_LIMIT = 3;
 
 /** Language rows for an assessment, falling back to its quiz.xml for old imports. */
 async function languagesFor(assessment) {
@@ -167,6 +169,278 @@ export async function updateInstructions(assessmentId, body = {}) {
   return getInstructions(assessmentId);
 }
 
+/**
+ * Settings → Instructions: one row per language used by any assessment,
+ * prefilled from the stored global template (or the current files on first
+ * open). The candidate console still reads the per-paper files; this is just
+ * the source used to bulk-write them.
+ */
+export async function getGlobalInstructions() {
+  const template = await instructionTemplate();
+  const templateById = new Map(template.map((row) => [Number(row.id), row]));
+  const union = new Map();
+  const assessments = await assessmentsRepo.listBrief();
+
+  for (const brief of assessments) {
+    const assessment = await assessmentsRepo.findById(brief.id);
+    if (!assessment) continue;
+    const languages = await languagesFor(assessment);
+    const folder = dirname(paperPath(assessment, "quiz.xml"));
+    const systemBlocks = parseInstructionFile(readInstructionFile(join(folder, "sysInstructions.xml")));
+    const customBlocks = parseInstructionFile(readInstructionFile(join(folder, "custInstructions.xml")));
+
+    for (const language of languages) {
+      const id = Number(language.id);
+      const existing = union.get(id);
+      if (existing) {
+        existing.primary = existing.primary || Boolean(language.primary);
+        continue;
+      }
+      const stored = templateById.get(id);
+      const view = mergeInstructionView([language], systemBlocks, customBlocks)[0] || {};
+      union.set(id, {
+        id,
+        name: stored?.name || language.name,
+        primary: Boolean(language.primary),
+        systemInstruction: stored ? stored.systemInstruction : view.systemInstruction || "",
+        customInstruction: stored ? stored.customInstruction : view.customInstruction || "",
+        disclaimer: stored ? stored.disclaimer : view.disclaimer || "",
+      });
+    }
+  }
+
+  // Keep template-only languages visible so an unused row is not silently lost.
+  for (const row of template) {
+    if (!union.has(Number(row.id))) union.set(Number(row.id), { ...row, primary: false });
+  }
+
+  return {
+    assessmentCount: assessments.length,
+    stored: template.length > 0,
+    languages: [...union.values()].sort((a, b) => a.id - b.id),
+  };
+}
+
+/**
+ * Save the global template and write it into every assessment that uses the
+ * same language. Per-assessment saves never touch this template.
+ */
+export async function updateGlobalInstructions(body = {}) {
+  const requested = Array.isArray(body.languages) ? body.languages : [];
+  if (!requested.length) throw badRequest("At least one language is required.");
+
+  const languageChanges = body.languageChanges && typeof body.languageChanges === "object"
+    ? body.languageChanges
+    : null;
+  const added = Array.isArray(languageChanges?.added) ? languageChanges.added : [];
+  const removed = new Set((Array.isArray(languageChanges?.removed) ? languageChanges.removed : [])
+    .map((id) => Number.parseInt(id, 10))
+    .filter((id) => Number.isInteger(id)));
+  if (added.length || removed.size) await applyGlobalLanguageChanges(added, removed);
+
+  const template = await saveInstructionTemplate(requested.map((row) => ({
+    id: row?.id,
+    name: row?.name,
+    systemInstruction: row?.systemInstruction ?? "",
+    customInstruction: row?.customInstruction ?? "",
+    disclaimer: row?.disclaimer ?? "",
+  })));
+
+  let updated = 0;
+  for (const brief of await assessmentsRepo.listBrief()) {
+    const assessment = await assessmentsRepo.findById(brief.id);
+    if (!assessment) continue;
+    const quizPath = paperPath(assessment, "quiz.xml");
+    if (!existsSync(quizPath)) continue; // never create files for an empty assessment
+
+    const languages = await languagesFor(assessment);
+    const systemRows = [];
+    const customRows = [];
+    for (const language of languages) {
+      const row = instructionTemplateRow(template, language);
+      if (!row) continue;
+      systemRows.push({
+        id: language.id,
+        name: language.name,
+        values: { instructionText: row.systemInstruction },
+      });
+      customRows.push({
+        id: language.id,
+        name: language.name,
+        values: { customInstruction: row.customInstruction, disclaimer: row.disclaimer },
+      });
+    }
+    if (!systemRows.length) continue;
+
+    const folder = dirname(quizPath);
+    mkdirSync(folder, { recursive: true });
+    writeInstructionFile(join(folder, "sysInstructions.xml"), "SYSTEMINSTRUCTIONS", systemRows, [
+      ["INSTRUCTIONTEXT", "instructionText"],
+    ]);
+    writeInstructionFile(join(folder, "custInstructions.xml"), "CUSTOMINSTRUCTIONS", customRows, [
+      ["INSTRUCTIONTEXT", "customInstruction"],
+      ["DISCLAIMERTEXT", "disclaimer"],
+      ["DISCLAIMERTEXTOA", "disclaimer"],
+    ]);
+    updated += 1;
+  }
+
+  return { ...(await getGlobalInstructions()), updated };
+}
+
+/**
+ * Apply only the languages explicitly added or removed in the global language
+ * manager to every assessment. Untouched languages in the union are never
+ * propagated, so saving instructions alone does not change a paper's language
+ * list. Every assessment is validated before the first file is written.
+ */
+async function applyGlobalLanguageChanges(added = [], removed = new Set()) {
+  const addRows = [];
+  const addIds = new Set();
+  for (const row of added) {
+    const id = Number.parseInt(row?.id, 10);
+    const name = String(row?.name || "").trim().replace(/\s+/g, " ").slice(0, 32);
+    if (!Number.isInteger(id) || id < 1 || id > 99 || !name) {
+      throw badRequest("Every added language needs an id between 1 and 99 and a name.");
+    }
+    if (addIds.has(id)) throw badRequest(`Language id ${id} is added twice.`);
+    addIds.add(id);
+    addRows.push({ id, name });
+  }
+
+  const plans = [];
+  for (const brief of await assessmentsRepo.listBrief()) {
+    const assessment = await assessmentsRepo.findById(brief.id);
+    if (!assessment) continue;
+
+    const current = await languagesFor(assessment);
+    if (!current.length) continue;
+    const primary = current.find((language) => language.primary) || current[0];
+    const primaryId = Number(primary.id);
+    const next = current
+      .map((language) => ({
+        id: Number(language.id),
+        name: String(language.name),
+        primary: Number(language.id) === primaryId,
+      }))
+      .filter((language) => !removed.has(language.id));
+    for (const row of addRows) {
+      if (!next.some((language) => language.id === row.id)) {
+        next.push({ id: row.id, name: row.name, primary: false });
+      }
+    }
+
+    if (!next.some((language) => language.id === primaryId)) {
+      throw badRequest(`The primary language (${primary.name}) cannot be removed from assessment ${assessment.id}.`);
+    }
+    if (next.length > PAPER_LANGUAGE_LIMIT) {
+      throw badRequest(`Assessment ${assessment.id} would have more than ${PAPER_LANGUAGE_LIMIT} languages.`);
+    }
+    const names = new Set();
+    for (const language of next) {
+      const key = language.name.trim().toLowerCase();
+      if (!key) throw badRequest(`Every language needs a name for assessment ${assessment.id}.`);
+      if (names.has(key)) {
+        throw badRequest(`Assessment ${assessment.id} would have two languages named "${language.name}".`);
+      }
+      names.add(key);
+    }
+
+    const unchanged = current.length === next.length && current.every((language) => {
+      const planned = next.find((entry) => entry.id === Number(language.id));
+      return planned && planned.name === String(language.name);
+    });
+    if (!unchanged) plans.push({ id: assessment.id, languages: next });
+  }
+
+  for (const plan of plans) {
+    await updateLanguages(plan.id, { languages: plan.languages });
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Paper languages
+// ---------------------------------------------------------------------------
+
+/**
+ * Add or remove paper languages. The primary language is permanent: it can
+ * never be removed, renamed or renumbered. Secondary languages are removed
+ * together with their quiz.xml <lang> blocks, instruction blocks and stored
+ * question/option translations.
+ */
+export async function updateLanguages(assessmentId, body = {}) {
+  const assessment = await assessmentsRepo.findById(String(assessmentId || "").trim());
+  if (!assessment) throw notFound("Assessment not found.");
+
+  const current = await languagesFor(assessment);
+  const primary = current.find((language) => language.primary)
+    || current[0]
+    || { id: 1, name: "English", primary: true };
+  const requested = Array.isArray(body.languages) ? body.languages : [];
+
+  if (!requested.length) throw badRequest("At least one language is required.");
+  if (requested.length > PAPER_LANGUAGE_LIMIT) {
+    throw badRequest(`A maximum of ${PAPER_LANGUAGE_LIMIT} languages is supported.`);
+  }
+  if (!requested.some((row) => Number(row?.id) === Number(primary.id))) {
+    throw badRequest(`The primary language (${primary.name}) cannot be removed.`);
+  }
+
+  const seenIds = new Set();
+  const seenNames = new Set();
+  const languages = [];
+  for (const row of requested) {
+    const id = Number.parseInt(row?.id, 10);
+    if (!Number.isInteger(id) || id < 1 || id > 99) {
+      throw badRequest("Language id must be between 1 and 99.");
+    }
+    const isPrimary = id === Number(primary.id);
+    const name = isPrimary
+      ? primary.name
+      : String(row?.name || "").trim().replace(/\s+/g, " ").slice(0, 32);
+    if (!name) throw badRequest("Every language needs a name.");
+    if (seenIds.has(id)) throw badRequest(`Language id ${id} is used twice.`);
+    const key = name.toLowerCase();
+    if (seenNames.has(key)) throw badRequest(`Language "${name}" is added twice.`);
+    seenIds.add(id);
+    seenNames.add(key);
+    languages.push({ id, name, primary: isPrimary });
+  }
+  // Primary stays first; the remaining languages keep the order they were sent.
+  languages.sort((a, b) => (b.primary ? 1 : 0) - (a.primary ? 1 : 0));
+
+  const keepIds = new Set(languages.map((language) => language.id));
+  const requestedNames = new Map(languages.map((language) => [language.id, language.name]));
+  const removedIds = current
+    .map((language) => ({ id: Number(language.id), name: String(language.name) }))
+    .filter((language) => !keepIds.has(language.id) || requestedNames.get(language.id) !== language.name)
+    .map((language) => language.id);
+
+  const folder = dirname(paperPath(assessment, "quiz.xml"));
+  const quizFile = join(folder, "quiz.xml");
+  const confFile = join(folder, "confDetails.xml");
+
+  // Rewrite the paper metadata before touching the DB so a bad file leaves
+  // the assessment's language rows unchanged.
+  if (existsSync(quizFile)) {
+    const quiz = readFileSync(quizFile, "utf8");
+    const conf = existsSync(confFile) ? readFileSync(confFile, "utf8") : "";
+    const next = rewriteDeclaredLanguages(quiz, conf, languages, removedIds);
+    writeFileSync(quizFile, next.quizXml, "utf8");
+    if (conf) writeFileSync(confFile, next.confXml, "utf8");
+  }
+  for (const name of ["sysInstructions.xml", "custInstructions.xml"]) {
+    pruneInstructionLanguages(join(folder, name), removedIds);
+  }
+
+  await translationsRepo.replaceAssessmentLanguages(assessment.id, languages);
+  if (removedIds.length) {
+    await translationsRepo.removeLanguagesForAssessment(assessment.id, removedIds);
+  }
+
+  return { languages };
+}
+
 // ---------------------------------------------------------------------------
 // Useful Data files (confDetails.xml)
 // ---------------------------------------------------------------------------
@@ -197,9 +471,77 @@ export async function getUsefulData(assessmentId) {
   const files = [];
   for (let index = 1; index <= USEFUL_DATA_MAX; index += 1) {
     const path = readFileValue(xml, usefulDataTag(index));
-    if (path) files.push({ index, path });
+    if (path) {
+      files.push({
+        index,
+        path,
+        name: usefulDataFileName(path),
+        url: usefulDataUrl(assessment, path),
+      });
+    }
   }
   return { assessmentId: assessment.id, files };
+}
+
+/** Display name of a stored useful-data path (without query string). */
+function usefulDataFileName(value) {
+  const clean = String(value || "").split("?")[0].split("#")[0];
+  const last = clean.split("/").filter(Boolean).pop() || "";
+  try {
+    return decodeURIComponent(last) || clean;
+  } catch {
+    return last || clean;
+  }
+}
+
+/** Absolute console URL for a useful-data path stored in confDetails.xml. */
+function usefulDataUrl(assessment, value) {
+  const path = String(value || "").trim();
+  if (!path) return "";
+  if (path.startsWith("/") || /^[a-z]+:\/\//i.test(path)) return path;
+  const prefix = String(assessment.base_path || "").match(/^(\/per\/[^/]+\/pub\/)/i)?.[1] || "";
+  if (prefix && path.startsWith(`${assessment.org_id}/`)) return prefix + path;
+  return `/${String(assessment.base_path || "").replace(/^\/|\/$/g, "")}/${path}`;
+}
+
+const USEFUL_DATA_UPLOAD_BYTES = 5 * 1024 * 1024;
+
+/** Store an uploaded PDF in the assessment paper folder for Useful Data. */
+export async function uploadUsefulDataFile(assessmentId, body = {}) {
+  const assessment = await assessmentsRepo.findById(String(assessmentId || "").trim());
+  if (!assessment) throw notFound("Assessment not found.");
+
+  const match = /^data:application\/pdf(?:;[^,]*)?;base64,([A-Za-z0-9+/=\s]+)$/i.exec(String(body.data || ""));
+  if (!match) throw badRequest("Choose a PDF file to upload.");
+  const bytes = Buffer.from(match[1].replace(/\s+/g, ""), "base64");
+  if (!bytes.length) throw badRequest("That PDF file is empty.");
+  if (bytes.length > USEFUL_DATA_UPLOAD_BYTES) throw badRequest("Keep each PDF under 5 MB.");
+  if (bytes.subarray(0, 5).toString("latin1") !== "%PDF-") throw badRequest("That file is not a valid PDF.");
+
+  const original = String(body.fileName || "useful-data.pdf").trim() || "useful-data.pdf";
+  const safe = original
+    .replace(/[^A-Za-z0-9._-]+/g, "_")
+    .replace(/^[._-]+|[._-]+$/g, "")
+    .slice(-80) || "useful-data.pdf";
+  const relative = `${String(assessment.base_path || "").replace(/^\/|\/$/g, "")}/usefulDataFiles/uploads/${Date.now()}_${safe}`;
+  const target = mirrorPath(...relative.split("/"));
+  try {
+    mkdirSync(dirname(target), { recursive: true });
+    writeFileSync(target, bytes);
+  } catch (error) {
+    throw badRequest(`Could not store the PDF: ${error.message}`);
+  }
+
+  const prefix = String(assessment.base_path || "").match(/^(\/per\/[^/]+\/pub\/)/i)?.[1] || "";
+  const stored = prefix ? relative.slice(prefix.replace(/^\/|\/$/g, "").length + 1) : `/${relative}`;
+  return {
+    file: {
+      name: original,
+      path: stored,
+      url: `/${relative}`,
+      bytes: bytes.length,
+    },
+  };
 }
 
 /** Replace the Useful Data file list in confDetails.xml. */
@@ -733,11 +1075,12 @@ export async function getPaperPreview(assessmentId) {
   const assessment = await assessmentsRepo.findById(String(assessmentId || "").trim());
   if (!assessment) throw notFound("Assessment not found.");
 
-  const [groups, sections, questions, options] = await Promise.all([
+  const [groups, sections, questions, options, languages] = await Promise.all([
     structureRepo.listGroups(assessment.id),
     structureRepo.listSections(assessment.id),
     questionsRepo.listForExport(assessment.id),
     questionsRepo.listOptionsForAssessment(assessment.id),
+    languagesFor(assessment),
   ]);
   const optionsByQuestion = new Map();
   for (const option of options) {
@@ -770,6 +1113,7 @@ export async function getPaperPreview(assessmentId) {
       durationMin: assessment.duration_min,
       totalMarks: assessment.total_marks,
     },
+    languages,
     groups: groups.map((group) => ({
       id: group.id,
       extId: group.ext_id,

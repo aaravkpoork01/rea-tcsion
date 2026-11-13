@@ -17,6 +17,19 @@ export const replaceAssessmentLanguages = async (assessmentId, languages) => {
   }
 };
 
+/** Drop stored translations for languages removed from one assessment. */
+export const removeLanguagesForAssessment = async (assessmentId, langIds) => {
+  const ids = [...new Set((langIds || []).map(Number).filter((id) => Number.isInteger(id) && id > 0))];
+  if (!ids.length) return;
+  const marks = ids.map(() => "?").join(",");
+  await run(`DELETE FROM option_languages WHERE lang_id IN (${marks}) AND option_id IN (
+    SELECT o.id FROM options o JOIN questions q ON q.id = o.question_id WHERE q.assessment_id = ?
+  )`, ...ids, assessmentId);
+  await run(`DELETE FROM question_languages WHERE lang_id IN (${marks}) AND question_id IN (
+    SELECT id FROM questions WHERE assessment_id = ?
+  )`, ...ids, assessmentId);
+};
+
 export const findQuestionLanguage = async (questionId, langId) =>
   one("SELECT * FROM question_languages WHERE question_id = ? AND lang_id = ?", questionId, langId);
 

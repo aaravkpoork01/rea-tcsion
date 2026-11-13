@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><Details>
 <CandidateResponseHandlerURL>/IBA/MockCandResponseHandler</CandidateResponseHandlerURL>
-<AssessmentName>TCS iON Mock Assessment</AssessmentName>
+<AssessmentName>EI Mock Assessment</AssessmentName>
 <USELOGINID>NO</USELOGINID>
 <LoginIDLabel>Welcome</LoginIDLabel>
 <UseDefaultSystemInstruction>YES</UseDefaultSystemInstruction>
@@ -29,7 +29,7 @@
 <ShowScoreCard>YES</ShowScoreCard>
 <ShowPercentageScore>YES</ShowPercentageScore>
 <StoreCandResponse>NO</StoreCandResponse>
-<MaxNoOfAttempt>0</MaxNoOfAttempt>
+<MaxNoOfAttempt>1</MaxNoOfAttempt>
 <SoftwareLanguages>English,Hindi,Tamil</SoftwareLanguages>
 <ReportPublishDate/>
 <DefaultReportFormat>YES</DefaultReportFormat>
@@ -39,4 +39,4 @@
 <UseDefaultDisclaimerInstruction>YES</UseDefaultDisclaimerInstruction>
 <EXTRAPARAM1> </EXTRAPARAM1>
 <EXTRAPARAM2> </EXTRAPARAM2>
-</Details>
+<AssessmentDescription></AssessmentDescription><RequireFullscreen>NO</RequireFullscreen></Details>

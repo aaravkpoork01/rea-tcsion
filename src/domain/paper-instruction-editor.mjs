@@ -119,6 +119,21 @@ export function writeInstructionFile(file, fallbackRoot, languages, fields) {
   return xml;
 }
 
+/** Remove instruction blocks for languages that are no longer part of the paper. */
+export function pruneInstructionLanguages(file, removedIds) {
+  if (!existsSync(file)) return false;
+  const drop = new Set([...(removedIds || [])].map(Number));
+  if (!drop.size) return false;
+  const xml = readFileSync(file, "utf8");
+  const next = xml.replace(INSTRUCTION_RE, (block) => {
+    const id = Number.parseInt(tagText(block, "LANGID"), 10);
+    return drop.has(id) ? "" : block;
+  });
+  if (next === xml) return false;
+  writeFileSync(file, next, "utf8");
+  return true;
+}
+
 /** Merge parsed blocks for every language the paper declares. */
 export function mergeInstructionView(languages, systemBlocks = [], customBlocks = []) {
   const systemById = new Map(systemBlocks.map((block) => [Number(block.id), block]));

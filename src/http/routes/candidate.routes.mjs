@@ -6,6 +6,7 @@ import { sendJson, sendOk, sendText } from "../respond.mjs";
 import { requireAdmin } from "../../services/auth.service.mjs";
 import * as authService from "../../services/auth.service.mjs";
 import * as examService from "../../services/exam.service.mjs";
+import * as resultService from "../../services/result-share.service.mjs";
 import * as settingsService from "../../services/settings.service.mjs";
 import * as candidatesRepo from "../../db/repositories/candidates.repo.mjs";
 
@@ -79,6 +80,12 @@ export function registerCandidateRoutes(router) {
 
   router.get("/IBA/api/ping", (_req, res) => sendJson(res, 200, { ok: true, now: Date.now() }));
 
+  // Public result view: open a read-only result with only a Login ID.
+  router.post("/IBA/api/result/open", async (req, res) => {
+    const body = await readJson(req);
+    return sendOk(res, await resultService.openResult(body));
+  });
+
   // Public presentation config: branding, top-bar/tool visibility, languages.
   // The console passes its assessment id so two papers can use different
   // top-bar buttons and exam tools.
@@ -104,8 +111,14 @@ export function registerCandidateRoutes(router) {
   });
 
   const backupHandler = async (req, res) => {
-    const body = await readJson(req);
     const active = await session(req);
+    // Only a signed-in candidate console may persist a snapshot. Without this
+    // guard a stale tab or another browser could keep overwriting a live
+    // attempt with an older copy of the paper.
+    if (!active) {
+      return sendJson(res, 200, { BackUpStatus: "success", attemptConfigFileDate: Date.now() });
+    }
+    const body = await readJson(req);
     const isFinal = String(body.BackUpParameters || "").includes("@@true@@");
     const payload = await examService.handleBackup({
       snapshot: body.BackUp || {},

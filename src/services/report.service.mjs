@@ -15,6 +15,17 @@ const fullscreenTime = (seconds) => {
 };
 const fullscreenToggles = (seconds) => Math.max(0, Math.round(Number(seconds) || 0));
 
+const timeTaken = (row) => {
+  const start = Date.parse(row.started_at);
+  if (!Number.isFinite(start)) return "";
+  const end = row.submitted_at ? Date.parse(row.submitted_at) : Date.now();
+  if (!Number.isFinite(end)) return "";
+  let seconds = Math.max(0, Math.round((end - start) / 1000));
+  const durationMinutes = Number(row.duration_min) || 0;
+  if (durationMinutes > 0) seconds = Math.min(seconds, durationMinutes * 60);
+  return fullscreenTime(seconds);
+};
+
 const escapeCell = (value) => {
   const text = value == null ? "" : String(value);
   return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
@@ -27,21 +38,25 @@ export function toCsv(rows, columns) {
   return [header, ...body].join("\r\n");
 }
 
-export const resultsCsv = async () => toCsv(await attemptsRepo.listForExport(), [
-  { key: "id", label: "Attempt ID" },
-  { key: "candidate", label: "Candidate" },
-  { key: "login", label: "Login" },
-  { key: "assessment", label: "Assessment" },
-  { key: "attempt_no", label: "Attempt" },
-  { key: "status", label: "Status" },
-  { key: "score", label: "Score" },
-  { key: "max_score", label: "Max score" },
-  { key: "percentage", label: "Percentage" },
-  { label: "Fullscreen time", value: (row) => fullscreenTime(row.fullscreen_seconds) },
-  { label: "Fullscreen toggles", value: (row) => fullscreenToggles(row.fullscreen_toggle_count) },
-  { key: "started_at", label: "Started" },
-  { key: "submitted_at", label: "Submitted" },
-]);
+export const resultsCsv = async ({ assessmentId = "", status = "" } = {}) =>
+  toCsv(await attemptsRepo.listForExport({ assessmentId, status }), [
+    { key: "id", label: "Attempt ID" },
+    { key: "candidate", label: "Candidate" },
+    { key: "login", label: "Login" },
+    { key: "assessment", label: "Assessment" },
+    { key: "attempt_no", label: "Attempt" },
+    { key: "status", label: "Status" },
+    { key: "answered", label: "Answered" },
+    { key: "total_questions", label: "Total questions" },
+    { key: "score", label: "Score" },
+    { key: "max_score", label: "Max score" },
+    { key: "percentage", label: "Percentage" },
+    { label: "Time taken", value: (row) => timeTaken(row) },
+    { label: "Fullscreen time", value: (row) => fullscreenTime(row.fullscreen_seconds) },
+    { label: "Fullscreen toggles", value: (row) => fullscreenToggles(row.fullscreen_toggle_count) },
+    { key: "started_at", label: "Started" },
+    { key: "submitted_at", label: "Submitted" },
+  ]);
 
 export const feedbackCsv = async () => toCsv(await feedbackRepo.listForExport(), [
   { key: "id", label: "ID" },

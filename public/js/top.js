@@ -7968,7 +7968,8 @@ function editCKEditor(CKEDITOR,id){
 	    	if(target.is('button') && target.getAttribute('id')==='pasteBtncke')
 	    	{
 	    		run1(editor);
-	    		insertTextAtCaret(editor.document.$.getElementById('pasteBtncke'));
+	    		if(editor.document && editor.document.$)
+	    			insertTextAtCaret(editor.document.$.getElementById('pasteBtncke'));
 	    		
 	    	}
 	    	else
@@ -8070,7 +8071,8 @@ function onMouseUpHandler(evt, editor) {
 	if(target && target.is('button') && target.getAttribute('id')==='pasteBtncke')
 	{
 		run1(editor);
-		insertTextAtCaret(editor.document.$.getElementById('pasteBtncke'));
+		if(editor.document && editor.document.$)
+			insertTextAtCaret(editor.document.$.getElementById('pasteBtncke'));
 		
 	}
 	else
@@ -16556,12 +16558,13 @@ function afterSubmitGroup(){
 }
 var grpInsLoadDate= null;
 function showGrpInstructions(){
-	$('.instruTimeCountDiv').show();
+	// Group instructions are pre-exam; no countdown is shown here.
+	$('.instruTimeCountDiv').hide();
 	currentGroupIndex = mockVar.currentGrp;
 	var curgrpname=mockVar.groups[currentGroupIndex].AdaptiveGroupName!=undefined?mockVar.groups[currentGroupIndex].AdaptiveGroupName:mockVar.groups[currentGroupIndex].groupName;
 	$('.preGrpInst span').text(grpInstruLabel);
 	if($(window).width()<1000){
-		$('#mobPreGrpInstru').show();
+		$('#mobPreGrpInstru').hide();
 		$('.preGrpInst span').text("Group Instructions");
 	}
 	else{
@@ -16683,15 +16686,22 @@ function showGrpInstructions(){
 }
 var secInsLoadDate= null;
 function showSecInstructions(){
+	var examTimerRunning = !!mockVar.examTimerStarted;
 	mockVar.groups[mockVar.currentGrp].secDetails[mockVar.groups[mockVar.currentGrp].curSection].isSecVisted=true;
 	$('.viewSecInstruDiv').show();
 	 $('#viewSecInstruDiv').show();
-	$('.instruTimeCountDiv').show();
+	if(examTimerRunning)
+		$('.instruTimeCountDiv').show();
+	else
+		$('.instruTimeCountDiv').hide();
 	
 	$('.preGrpInst span').text(secInstruLabel);
 	var cursecname=mockVar.groups[currentGroupIndex].secDetails[currentSectionIndex].secName;
 	if($(window).width()<1000){
-		$('#mobPreGrpInstru').show();
+		if(examTimerRunning)
+			$('#mobPreGrpInstru').show();
+		else
+			$('#mobPreGrpInstru').hide();
 		$('.preGrpInst span').text("Section Instructions");
 	}
 	else{
@@ -17372,7 +17382,40 @@ function changeGroupNew(id){
 	}
 }
 var incr=0;
+/*
+ * The answered / not-answered / not-visited counters beside the question
+ * palette are derived values. The stock engine increments them while an answer
+ * is saved, but a resumed attempt or a group-wise save can leave them out of
+ * step with the question statuses. Recompute them from the statuses before
+ * every render so the palette, the side counters and the section tooltips
+ * always agree.
+ */
+function reconcileSectionCounters(){
+	if(!mockVar || !mockVar.groups) return;
+	for(var grpIndex=0; grpIndex<mockVar.groups.length; grpIndex++){
+		var group = mockVar.groups[grpIndex];
+		if(!group || !group.secDetails) continue;
+		for(var secIndex=0; secIndex<group.secDetails.length; secIndex++){
+			var section = group.secDetails[secIndex];
+			if(!section || !section.questions) continue;
+			var answered=0, notanswered=0, marked=0, markedAndAnswered=0;
+			for(var quesIndex=0; quesIndex<section.questions.length; quesIndex++){
+				var question = section.questions[quesIndex];
+				var status = question && question.quesParam ? question.quesParam.status : "";
+				if(status == "answered") answered++;
+				else if(status == "notanswered") notanswered++;
+				else if(status == "marked") marked++;
+				else if(status == "markedAndAnswered") markedAndAnswered++;
+			}
+			section.answered = answered;
+			section.notanswered = notanswered;
+			section.marked = marked;
+			section.markedAndAnswered = markedAndAnswered;
+		}
+	}
+}
 function fillSections(){
+	reconcileSectionCounters();
 	if($('.collapsebel_panel').css('display') != 'none'){
 		jQuery(".expand_icon").css("display","none");
 	}
@@ -18464,6 +18507,7 @@ function changeSectionNew(sectionID){
 }
 
 function fillNumberPanel(action){
+	reconcileSectionCounters();
 	if(!isDeakin && sessionStorage.isOxford != 'true'){
 	if(iOAP.curQues == 0)
 		$("#previousBtn,#previousBtnGroup").hide();
@@ -21644,7 +21688,7 @@ function fnsubmitGroupQuestion(action,timeElaspedForTImerQues){
 					selectedAnswer = "";
 					selectedOptId ="";
 					if(section.questions[i].quesType.indexOf("MSQ")!=-1){
-						var answers = document.getElementsByName('answers'+section.questions[i].quesId);
+						var answers = getQuesAnswerInputs(section.questions[i].quesId);
 						// keyName =section.questions[i].quesId;
 						for(var j=0;j<answers.length;j++){
 							if(answers[j].checked==true){   
@@ -21658,7 +21702,7 @@ function fnsubmitGroupQuestion(action,timeElaspedForTImerQues){
 
 					}
 					else if((typeof(qpDetailsMockVar[section.questions[i].quesId]) != "undefined" ? qpDetailsMockVar[section.questions[i].quesId].quesLangBean[mockVar.langIndex].quesText : section.questions[i].quesLangBeans[mockVar.langIndex].quesText).indexOf('<ResponsePlaceHolder>')==-1){
-						var answers = document.getElementsByName('answers'+section.questions[i].quesId);
+						var answers = getQuesAnswerInputs(section.questions[i].quesId);
 						// keyName =section.questions[i].quesId;
 						for(var j=0;j<answers.length;j++){
 							if(answers[j].checked==true){   
@@ -21958,7 +22002,7 @@ function fnsubmitGroupQuestion(action,timeElaspedForTImerQues){
 						}
 						else if(additionalType === "MATRIX"){
 							//2021409 : Matrix Question CR
-							var answers = document.getElementsByName('answers'+section.questions[i].quesId);
+							var answers = getQuesAnswerInputs(section.questions[i].quesId);
 							for(var j=0;j<answers.length;j++){
 								if(answers[j].checked==true){   
 									var str = $(answers[j]).next('span')[0].innerHTML;
@@ -21978,7 +22022,7 @@ function fnsubmitGroupQuestion(action,timeElaspedForTImerQues){
 					}else{
 
 						if((section.questions[i].quesType =="MSQ") || ((typeof(qpDetailsMockVar[section.questions[i].quesId]) != "undefined" ? qpDetailsMockVar[section.questions[i].quesId].quesLangBean[mockVar.langIndex].quesText :section.questions[i].quesLangBeans[mockVar.langIndex].quesText).indexOf('<ResponsePlaceHolder>')==-1)){
-							var answers = document.getElementsByName('answers'+section.questions[i].quesId);
+							var answers = getQuesAnswerInputs(section.questions[i].quesId);
 							for(var j=0;j<answers.length;j++){
 								if(answers[j].checked==true){   
 									selectedAnswer = answerTxt(j,answers,selectedAnswer);
@@ -23065,7 +23109,7 @@ function fnSubmitNew(action,noQuesLeft,isTImeElapsed){
 						if(mockVar.curQuesBean.keyboardType=="Alphanumeric" && mockVar.curQuesBean.plainOrRichText!= null &&  mockVar.curQuesBean.plainOrRichText=="RichText" && CKEDITOR.instances['answer'] != undefined){
 							if(mockVar.saveSAAnswerAs == "text" && CKEDITOR.instances['answer'].getData().indexOf("<html><head><title></title></head><body></body></html>")!=0 && CKEDITOR.instances['answer'].getData().indexOf("<html><head><title></title></head><body><p>\uFFFD</p></body></html>")!=0)
 								{
-								if(CKEDITOR.instances['answer'].document.$.getElementById('pasteBtncke'))
+								if(CKEDITOR.instances['answer'].document && CKEDITOR.instances['answer'].document.$ && CKEDITOR.instances['answer'].document.$.getElementById('pasteBtncke'))
 								{
 									CKEDITOR.instances['answer'].document.$.getElementById('pasteBtncke').remove();
 									pasteBtnCke=null;
@@ -24965,7 +25009,12 @@ function saveGroup(ansID, action,quesType){
 			}
 
 			var count=0;
-			if(prevQuesId!=iOAP.curQues && (prevSecId==iOAP.curSection &&(iOAP.secDetails[iOAP.curSection].questions[iOAP.curQues].comprehensionId != iOAP.secDetails[iOAP.curSection].questions[prevQuesId].comprehensionId || mockVar.compreLaqQues[quesIdIndexes[iOAP.secDetails[iOAP.curSection].questions[iOAP.curQues].comprehensionId !=0 ? iOAP.secDetails[iOAP.curSection].questions[iOAP.curQues].comprehensionId : iOAP.secDetails[iOAP.curSection].questions[iOAP.curQues].laqId]].groupComprehensionLaqQuestions =="false"))){
+			var __curQ = iOAP.secDetails[iOAP.curSection].questions[iOAP.curQues];
+			var __prevQ = iOAP.secDetails[iOAP.curSection].questions[prevQuesId];
+			var __compreKey = (__curQ && __curQ.comprehensionId != 0) ? __curQ.comprehensionId : (__curQ ? __curQ.laqId : 0);
+			var __compreIndex = quesIdIndexes ? quesIdIndexes[__compreKey] : undefined;
+			var __compreGroup = (mockVar.compreLaqQues && typeof(__compreIndex) != 'undefined' && mockVar.compreLaqQues[__compreIndex]) ? mockVar.compreLaqQues[__compreIndex].groupComprehensionLaqQuestions : undefined;
+			if(prevQuesId!=iOAP.curQues && (prevSecId==iOAP.curSection &&((__curQ && __prevQ && __curQ.comprehensionId != __prevQ.comprehensionId) || __compreGroup =="false"))){
 				loadQuestion=true;fillsections = false;
 			}else if(prevSecId!=iOAP.curSection){
 				loadQuestion=true;fillsections=false;
@@ -25401,6 +25450,7 @@ function examTimerHalted(){
 }
 var announceLastFive=false;
 function startCounter(time,callingNo){
+	mockVar.examTimerStarted = true;
 	//console.log(" callingNo "+callingNo);
 	try{
 		//$("#recordingSaved").hide();
@@ -25859,7 +25909,9 @@ function startCounter(time,callingNo){
 		$("#timeResp").html( "<div class='timelabel'>"+mockLabels.timeLeft+"</div><div class='timebx' id='timeInMins' "+warningColorText+" "+bagcolor+">"+convertTime(time,-1)+"</div>");
 	}
 	if(mockVar.groups[mockVar.currentGrp].maxTime>0){
-		if(mockVar.groups[mockVar.currentGrp].maxTime - time >= mockVar.minSubmitTime && mockVar.currentGrp == mockVar.MaxGrpEnabled){
+		// Submit is available at any time once the candidate is on the final
+		// group; the configured minimum wait time is intentionally ignored.
+		if(mockVar.currentGrp == mockVar.MaxGrpEnabled){
 			$("#finalSubmit").removeAttr("disabled");
 			if(showSkipBtnForMinWaitTime){
 				        $('#skipBtnForProofReadingFSubmit').hide();		
@@ -25982,7 +26034,8 @@ function startCounter(time,callingNo){
 			}
 		}
 	}else{
-		if(mockVar.nonTimeBoundTime - time >= mockVar.minSubmitTime && mockVar.currentGrp == mockVar.MaxGrpEnabled){
+		// Submit is available at any time for non-time-bound groups too.
+		if(mockVar.currentGrp == mockVar.MaxGrpEnabled){
 			$("#finalSubmit").removeAttr("disabled");
 			if(showSkipBtnForMinWaitTime){
 				        $('#skipBtnForProofReadingFSubmit').hide();	
@@ -26603,6 +26656,24 @@ function breakTimeCounter(time){
 var alreadySubmitCalled = false;
 $("#proceedToNextGrp").click(function(){alreadySubmitCalled=true;});
 function instruTimeCounter(time){
+	// Pre-exam group instructions are shown before the exam timer starts. Keep
+	// that screen timer-free and let the candidate proceed as soon as they have
+	// read the instructions. Group instructions shown later, while the exam is
+	// running, keep their normal countdown.
+	if(!mockVar.examTimerStarted){
+		mockVar.isInstruPage=1;
+		breakTimeStarted = true;
+		mockVar.remainingInstruTime=time;
+		$('.instruTimeCountDiv').hide();
+		$('#mobPreGrpInstru').hide();
+		$('#proceedToGrp').show().attr('disabled',false);
+		$("#proceedToGrp").attr("role","button");
+		$("#proceedToGrp").attr("tabindex","0");
+		if(titleHover)
+			$("#proceedToGrp").attr("title",$(globalXmlvar).find('ProceedtoNext').text());
+		removeTitles();
+		return;
+	}
 	/*if(mockVar.ignoreElapsedTime){
 		time+=1;
 		$(".instruTimeCounter").hide();
@@ -26701,6 +26772,23 @@ function instruTimeCounter(time){
 }
 
 function instruTimeCounterForSec(time, str){
+	var examTimerRunning = !!mockVar.examTimerStarted;
+	if(!examTimerRunning){
+		// First section instructions are shown before the exam timer starts.
+		// No countdown here; enable Proceed immediately.
+		mockVar.isSecInstruPage=1;
+		mockVar.isInstruPage=0;
+		mockVar.isQuesInstruPage=0;
+		breakTimeStarted = true;
+		mockVar.remainingInstruTime=time;
+		$('.instruTimeCountDiv').hide();
+		$('#mobPreGrpInstru').hide();
+		$('#proceedToGrp').show().attr('disabled',false);
+		$("#proceedToGrp").attr("role","button");
+		$("#proceedToGrp").attr("tabindex","0");
+		removeTitles();
+		return;
+	}
 	/*if(mockVar.ignoreElapsedTime){
 		time+=1;
 		$(".instruTimeCounter").hide();
@@ -26833,8 +26921,13 @@ function timeOutSubmit(){
 		$('.overlay').hide();
 	}
 	$('.subheader_tab,.grup_components,.q_tab,.btntab,.hamburgerBar').hide();
-	if(mockVar.storeCandResponse == 1){
+	// Online assessments are persisted by the exam bridge even when the stock
+	// engine runs with StoreCandResponse=NO. Submit immediately at 00:00
+	// instead of showing the timeout summary and waiting for a click.
+	if(mockVar.storeCandResponse == 1 || !isOfflineIBA){
 		if(!isFinalSubmitStarted){
+			$("#InfoPopup").hide();
+			$('.overlay').hide();
 			submitMock($(globalXmlvar).find('TimeOut').text());
 		}
 	}else{
@@ -30621,7 +30714,7 @@ function sendResponseToServlet(action){
 				else if(mockVar.saveSAAnswerAs == "text" && mockVar.curQuesBean.quesType=="SA" && mockVar.curQuesBean.keyboardType=="Alphanumeric" && mockVar.curQuesBean.plainOrRichText =="RichText"){
 					if(CKEDITOR.instances['answer'].getData().indexOf("<html><head><title></title></head><body></body></html>")!=0 && CKEDITOR.instances['answer'].getData().indexOf("<html><head><title></title></head><body><p>\uFFFD</p></body></html>")!=0)
 					{
-						if(CKEDITOR.instances['answer'].document.$.getElementById('pasteBtncke'))
+						if(CKEDITOR.instances['answer'].document && CKEDITOR.instances['answer'].document.$ && CKEDITOR.instances['answer'].document.$.getElementById('pasteBtncke'))
 						{
 							CKEDITOR.instances['answer'].document.$.getElementById('pasteBtncke').remove();
 							pasteBtnCke=null;
@@ -30686,7 +30779,7 @@ function sendResponseToServlet(action){
 				}else if(mockVar.saveSAAnswerAs == "text" && iOAP.secDetails[iOAP.curSection].questions[iOAP.curQues].quesType=="SA" && iOAP.secDetails[iOAP.curSection].questions[iOAP.curQues].keyboardType=="Alphanumeric" && iOAP.secDetails[iOAP.curSection].questions[iOAP.curQues].plainOrRichText =="RichText"){
 					if(CKEDITOR.instances['answer'].getData().indexOf("<html><head><title></title></head><body></body></html>")!=0 && CKEDITOR.instances['answer'].getData().indexOf("<html><head><title></title></head><body><p>\uFFFD</p></body></html>")!=0)
 					{
-						if(CKEDITOR.instances['answer'].document.$.getElementById('pasteBtncke'))
+						if(CKEDITOR.instances['answer'].document && CKEDITOR.instances['answer'].document.$ && CKEDITOR.instances['answer'].document.$.getElementById('pasteBtncke'))
 						{
 							CKEDITOR.instances['answer'].document.$.getElementById('pasteBtncke').remove();
 							pasteBtnCke=null;
@@ -31015,7 +31108,7 @@ function saveBackUp(isRecursionRequired,updateMeetingDetailsBackup,asynchronous,
 						else if(mockVar.curQuesBean.quesType=="SA" && mockVar.curQuesBean.keyboardType=="Alphanumeric" && mockVar.curQuesBean.plainOrRichText =="RichText"){
 							if(mockVar.saveSAAnswerAs == "text" && CKEDITOR.instances['answer'].getData().indexOf("<html><head><title></title></head><body></body></html>")!=0 && CKEDITOR.instances['answer'].getData().indexOf("<html><head><title></title></head><body><p>\uFFFD</p></body></html>")!=0) 
 								{
-								if(CKEDITOR.instances['answer'].document.$.getElementById('pasteBtncke'))
+								if(CKEDITOR.instances['answer'].document && CKEDITOR.instances['answer'].document.$ && CKEDITOR.instances['answer'].document.$.getElementById('pasteBtncke'))
 								{
 									CKEDITOR.instances['answer'].document.$.getElementById('pasteBtncke').remove();
 									pasteBtnCke=null;
@@ -31085,7 +31178,7 @@ function saveBackUp(isRecursionRequired,updateMeetingDetailsBackup,asynchronous,
 							}else if(iOAP.secDetails[iOAP.curSection].questions[iOAP.curQues].quesType=="SA" && iOAP.secDetails[iOAP.curSection].questions[iOAP.curQues].keyboardType=="Alphanumeric" && iOAP.secDetails[iOAP.curSection].questions[iOAP.curQues].plainOrRichText =="RichText"){
 								if(mockVar.saveSAAnswerAs == "text" && CKEDITOR.instances['answer'].getData().indexOf("<html><head><title></title></head><body></body></html>")!=0 && CKEDITOR.instances['answer'].getData().indexOf("<html><head><title></title></head><body><p>\uFFFD</p></body></html>")!=0)
 									{
-									if(CKEDITOR.instances['answer'].document.$.getElementById('pasteBtncke'))
+									if(CKEDITOR.instances['answer'].document && CKEDITOR.instances['answer'].document.$ && CKEDITOR.instances['answer'].document.$.getElementById('pasteBtncke'))
 									{
 										CKEDITOR.instances['answer'].document.$.getElementById('pasteBtncke').remove();
 										pasteBtnCke=null;
@@ -32689,10 +32782,15 @@ function cnfPop(id,finalSubmit){
 	$('#loadCalc').hide();
 	$('.overlay').show();
 	$('#'+id).show();
-	var pLft = ( $(window).width() - $('#'+id).width() )/2;
-	var pTop = ( $(window).height() - $('#'+id).height() )/2;
-	$('#'+id).css({'left':pLft+'px'});
-	$('#'+id).css({'top':pTop+'px'});
+	var $popup = $('#'+id);
+	var popupW = $popup.outerWidth() || $popup.width() || 0;
+	var popupH = $popup.outerHeight() || $popup.height() || 0;
+	var viewportW = document.documentElement.clientWidth || window.innerWidth || $(window).width();
+	var viewportH = window.innerHeight || document.documentElement.clientHeight || $(window).height();
+	var popupMargin = 8;
+	var pLft = Math.max(popupMargin, Math.round((viewportW - popupW) / 2));
+	var pTop = Math.max(popupMargin, Math.round((viewportH - popupH) / 2));
+	$popup.css({'left':pLft+'px','top':pTop+'px','right':'auto','bottom':'auto','position':'fixed'});
 		adjustFocusCnfPop(id);
 	}
 	setTimeout(() => {
@@ -32741,10 +32839,15 @@ function displayPopup(id){
 		$("#proctorMessage").empty();
 	}
 	$('#'+id).show();
-	var pLft = ( $(window).width() - $('#'+id).width() )/2;
-	var pTop = ( $(window).height() - $('#'+id).height() - 200 )/2;
-	$('#'+id).css({'left':pLft+'px'});
-	$('#'+id).css({'top':pTop+'px'});
+	var $popup = $('#'+id);
+	var popupW = $popup.outerWidth() || $popup.width() || 0;
+	var popupH = $popup.outerHeight() || $popup.height() || 0;
+	var viewportW = document.documentElement.clientWidth || window.innerWidth || $(window).width();
+	var viewportH = window.innerHeight || document.documentElement.clientHeight || $(window).height();
+	var popupMargin = 8;
+	var pLft = Math.max(popupMargin, Math.round((viewportW - popupW) / 2));
+	var pTop = Math.max(popupMargin, Math.round((viewportH - popupH) / 2));
+	$popup.css({'left':pLft+'px','top':pTop+'px','right':'auto','bottom':'auto','position':'fixed'});
 }
 
 $(function(){
@@ -33263,8 +33366,17 @@ function launchQuizPage() {
 		}
 		// sessionStorage.isAdaptive ="YES";
 		// document.cookie.split("qp_id=")[1].split(";")[0];
-		if(!isProofReadingMock && !isOfflineIBA)
-		xmlFilePath = document.cookie.split("xmlFilePath=")[1].split(";")[0];
+		if(!isProofReadingMock && !isOfflineIBA){
+			var xmlFilePathCookie = document.cookie.match(/(?:^|;\s*)xmlFilePath=([^;]*)/);
+			if(xmlFilePathCookie && xmlFilePathCookie[1]){
+				try{ xmlFilePath = decodeURIComponent(xmlFilePathCookie[1]); }
+				catch(e){ xmlFilePath = xmlFilePathCookie[1]; }
+				/* A fresh tab can have the cookie but no sessionStorage. Seed it
+				 * from the decoded cookie so the XML paths stay relative. */
+				if(typeof(sessionStorage.xmlFilePath) == "undefined" || !sessionStorage.xmlFilePath)
+					sessionStorage.xmlFilePath = xmlFilePath;
+			}
+		}
 		if(typeof(sessionStorage.xmlFilePath) != "undefined")
 			xmlFilePath = sessionStorage.xmlFilePath;
 		if(isOfflineIBA)
@@ -36331,6 +36443,21 @@ function addStreamStopListener(stream, callback) {
 
 
 //var prevRadioValue,curRadQuesId = -1; 
+function getQuesAnswerInputs(quesId){
+	// Linked-answer / placeholder questions render their options with the
+	// generic name "answers" instead of "answers<quesId>". Fall back to the
+	// question's own container so Save & Next still collects the selection.
+	var inputs = document.getElementsByName('answers'+quesId);
+	if(inputs && inputs.length)
+		return inputs;
+	var container = document.getElementById('quesAnsContent') || document.getElementById('currentQues');
+	if(container){
+		var scoped = container.querySelectorAll("input[name='answers']");
+		if(scoped && scoped.length)
+			return scoped;
+	}
+	return document.getElementsByName('answers');
+}
 function radioCheckUncheck(_this,quesId){
 // new logic added by sreejith
 	if($(_this).hasClass("checked")){
@@ -36478,7 +36605,7 @@ function saveGrpAllAns(){
 			selectedOptId ="";
 
 			if((section.questions[i].quesType =="MSQ") || ((typeof(qpDetailsMockVar[section.questions[i].quesId]) != "undefined" ? qpDetailsMockVar[section.questions[i].quesId].quesLangBean[mockVar.langIndex].quesText : section.questions[i].quesLangBeans[mockVar.langIndex].quesText).indexOf('<ResponsePlaceHolder>')==-1)){
-				var answers = document.getElementsByName('answers'+section.questions[i].quesId);
+				var answers = getQuesAnswerInputs(section.questions[i].quesId);
 				// keyName =section.questions[i].quesId;
 				for(var j=0;j<answers.length;j++){
 					if(answers[j].checked==true){   
@@ -37925,14 +38052,93 @@ function navigateToGroup(grpNumber){
 	}		
 }
 
+function setFocusProfile(){
+		try{
+			var popup = document.querySelector('.courseInfoPop');
+			if(!popup) return;
+			var focusable = popup.querySelector('a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+			if(focusable && typeof(focusable.focus) === 'function')
+				focusable.focus();
+		}catch(e){}
+}
+function getCourseInfoAnchorRect(){
+	var viewportW = window.innerWidth || document.documentElement.clientWidth || 0;
+	var viewportH = window.innerHeight || document.documentElement.clientHeight || 0;
+	function visibleArea(rect){
+		var w = Math.min(rect.right, viewportW) - Math.max(rect.left, 0);
+		var h = Math.min(rect.bottom, viewportH) - Math.max(rect.top, 0);
+		return (w > 0 && h > 0) ? w * h : 0;
+	}
+	/* The quiz keeps more than one candidate photo in the DOM: the header card
+	 * and the group/question instruction panels. Pick the one the candidate can
+	 * actually see, otherwise the popup anchors to an off-screen copy. */
+	function bestVisibleRect(selectors){
+		var best = null, bestArea = 0;
+		for(var i=0;i<selectors.length;i++){
+			var nodes = document.querySelectorAll(selectors[i]);
+			for(var j=0;j<nodes.length;j++){
+				var el = nodes[j];
+				if(!el) continue;
+				var cs = window.getComputedStyle ? window.getComputedStyle(el) : null;
+				if(cs && (cs.display === 'none' || cs.visibility === 'hidden')) continue;
+				var rect = el.getBoundingClientRect();
+				if(rect.width <= 0 || rect.height <= 0) continue;
+				var area = visibleArea(rect);
+				if(area > bestArea){ bestArea = area; best = rect; }
+			}
+		}
+		return best;
+	}
+	var anchor = bestVisibleRect([
+		'#User_Hldr .profile_image img.candidateImg',
+		'#grpInstruDialogContainer .preGroupInstR img.candidateImg',
+		'#quesInstruDialogContainer .preGroupInstR img.candidateImg',
+		'.preGroupInstR img.candidateImg',
+		'#User_Hldr img.candidateImg'
+	]);
+	if(anchor) return anchor;
+	return bestVisibleRect(['#User_Hldr', '.preGroupInstR']);
+}
+function positionCourseInfoPop(){
+	var pop = document.getElementById('courseInfoPop_id');
+	if(!pop) return;
+	var viewportW = document.documentElement.clientWidth || window.innerWidth || $(window).width();
+	var viewportH = window.innerHeight || document.documentElement.clientHeight || $(window).height();
+	var popupW = pop.offsetWidth || 300;
+	var popupH = pop.offsetHeight || 0;
+	var popupMargin = 8;
+	var gap = 10;
+	var anchor = getCourseInfoAnchorRect();
+	var left, top, arrowTop = 40;
+	if(anchor){
+		if(isRightToLeftIsRequired){
+			left = anchor.right + gap;
+			if(left + popupW > viewportW - popupMargin) left = anchor.left - popupW - gap;
+		}else{
+			left = anchor.left - popupW - gap;
+			if(left < popupMargin) left = anchor.right + gap;
+		}
+		top = anchor.top + ((anchor.height - popupH) / 2);
+		left = Math.max(popupMargin, Math.min(left, viewportW - popupW - popupMargin));
+		top = Math.max(popupMargin, Math.min(top, viewportH - popupH - popupMargin));
+		arrowTop = Math.max(14, Math.min(popupH - 14, (anchor.top + (anchor.height / 2)) - top));
+	}else{
+		left = viewportW - popupW - 12;
+		top = 60;
+		left = Math.max(popupMargin, Math.min(left, viewportW - popupW - popupMargin));
+		top = Math.max(popupMargin, Math.min(top, viewportH - popupH - popupMargin));
+	}
+	pop.style.setProperty('left', Math.round(left) + 'px', 'important');
+	pop.style.setProperty('top', Math.round(top) + 'px', 'important');
+	pop.style.setProperty('right', 'auto', 'important');
+	pop.style.setProperty('bottom', 'auto', 'important');
+	pop.style.setProperty('--courseInfoPopArrowTop', Math.round(arrowTop) + 'px');
+}
 function showProfile(){
-		if(isRightToLeftIsRequired)
-			$(".courseInfoPop").css({'right':'auto','left':'264px'});
-		 else
-			$(".courseInfoPop").css({'left':'auto','right':'264px'});
 		$('.courseInfoPop').css({ opacity: 1, 'z-index': '100' });
 		$('.courseInfoPop').toggle();
 		if($('.courseInfoPop').css("display")!=='none'){
+			positionCourseInfoPop();
 			setFocusProfile();
 		}
 		$('.textarea-div').css({ display: 'none' }); 
@@ -40522,13 +40728,21 @@ function markStatusForPredefinedText(curQuestion,singleORgrptogether)
 		  {
 			  if(singleORgrptogether == "single")
 			  {
-				  replacenbspStr = CKEDITOR.instances['answer'].getData().split("\uFFFD").join("").split("&nbsp;").join("").split("<br />").join('');
+				  replacenbspStr = (CKEDITOR.instances['answer'] && typeof CKEDITOR.instances['answer'].getData === 'function')
+					  ? CKEDITOR.instances['answer'].getData().split("\uFFFD").join("").split("&nbsp;").join("").split("<br />").join('')
+					  : '';
 			  }
 			  else
 			  {
-				  replacenbspStr = CKEDITOR.instances['answer'+curQuestion.quesId].getData().split("\uFFFD").join("").split("&nbsp;").join("").split("<br />").join('');
+				  var richEditor = CKEDITOR.instances['answer'+curQuestion.quesId];
+				  replacenbspStr = (richEditor && typeof richEditor.getData === 'function')
+					  ? richEditor.getData().split("\uFFFD").join("").split("&nbsp;").join("").split("<br />").join('')
+					  : '';
 			  }
-			  if(clean(replacenbspStr)===clean(tempRichAnswer[curQuestion.quesId].split("\uFFFD").join("").split("&nbsp;").join("").split("<br />").join('')))
+			  var previousRichAnswer = tempRichAnswer[curQuestion.quesId];
+			  if(previousRichAnswer === null || typeof(previousRichAnswer) == 'undefined')
+				  previousRichAnswer = '';
+			  if(clean(replacenbspStr)===clean(previousRichAnswer.split("\uFFFD").join("").split("&nbsp;").join("").split("<br />").join('')))
 			  {
 				  statusToReturn="notanswered";
 			  }

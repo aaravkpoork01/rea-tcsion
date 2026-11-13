@@ -363,12 +363,16 @@ function addExtraPaperJs(){
 function cnfPop(id){
 	$('#loadCalc').hide();
 	$('.overlay').show();
-	$('#'+id).css('display','flex');
-	var pLft = ( $("#candidateConsoleId").width() - $('#'+id).width() )/2;
-	pLft += 50;
-	var pTop = ( $("#candidateConsoleId").height() - $('#'+id).height() )/2;
-	$('#'+id).css({'left':pLft+'px'});
-	$('#'+id).css({'top':pTop+'px'});
+	var $popup = $('#'+id);
+	$popup.css('display','flex');
+	var popupW = $popup.outerWidth() || $popup.width() || 0;
+	var popupH = $popup.outerHeight() || $popup.height() || 0;
+	var viewportW = document.documentElement.clientWidth || window.innerWidth || $(window).width();
+	var viewportH = window.innerHeight || document.documentElement.clientHeight || $(window).height();
+	var popupMargin = 8;
+	var pLft = Math.max(popupMargin, Math.round((viewportW - popupW) / 2));
+	var pTop = Math.max(popupMargin, Math.round((viewportH - popupH) / 2));
+	$popup.css({'left':pLft+'px','top':pTop+'px','right':'auto','bottom':'auto','position':'fixed'});
 }
 var myReqId;
 function audioSummaryVisulization(audioElement,uniqueId){

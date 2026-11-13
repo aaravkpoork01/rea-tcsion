@@ -12,6 +12,10 @@ export const setSetting = async (key, value) =>
 export const deleteSetting = async (key) =>
   run("DELETE FROM settings WHERE key = ?", key);
 
+/** Delete every key that starts with `prefix` (used for assessment overrides). */
+export const deleteSettingsByPrefix = async (prefix) =>
+  run("DELETE FROM settings WHERE substr(key, 1, ?) = ?", String(prefix).length, String(prefix));
+
 export const listSettings = async () => all("SELECT key, value FROM settings");
 
 export const setMany = async (entries) => {

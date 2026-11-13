@@ -93,4 +93,4 @@ export async function act(id, action, { actor, ip, minutes }) {
 }
 
 export const live = async () => attemptsRepo.listLive();
-export const results = async (assessmentId) => attemptsRepo.listResults(assessmentId);
+export const results = async (filters = {}) => attemptsRepo.listResults(filters);

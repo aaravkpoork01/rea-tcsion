@@ -10,9 +10,10 @@ import * as questionsRepo from "../db/repositories/questions.repo.mjs";
 import * as comprehensionsRepo from "../db/repositories/comprehensions.repo.mjs";
 import * as translationsRepo from "../db/repositories/translations.repo.mjs";
 import * as metaRepo from "../db/repositories/meta.repo.mjs";
+import * as settingsRepo from "../db/repositories/settings.repo.mjs";
 import { AppError } from "../core/errors.mjs";
 import { extractLanguages } from "./paper-languages.mjs";
-import { ensureInstructionFiles } from "./paper-instructions.mjs";
+import { ensureInstructionFiles, normalizeInstructionTemplate } from "./paper-instructions.mjs";
 
 const XML_ANSWERS_DIR = ["comprehensions", "laqs"];
 
@@ -89,7 +90,12 @@ export async function importPaper({ orgId, assessmentId, quizPath, confPath, met
   // Uploaded papers do not carry instruction files; the instructions page
   // needs both of them before it can start the exam. Legacy papers already
   // ship their own instructions, so discovery imports skip generation.
-  if (generateInstructions) ensureInstructionFiles(dirname(quizPath), languageList);
+  if (generateInstructions) {
+    const template = normalizeInstructionTemplate(
+      await settingsRepo.getSetting("exam_instructions", ""),
+    );
+    ensureInstructionFiles(dirname(quizPath), languageList, template);
+  }
 
   if (existing) {
     await structureRepo.removeForAssessment(assessmentId);

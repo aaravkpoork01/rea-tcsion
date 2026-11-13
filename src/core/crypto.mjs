@@ -26,3 +26,12 @@ export const newToken = (bytes = 24) => randomBytes(bytes).toString("hex");
 
 export const newId = (prefix = "C", bytes = 5) =>
   prefix + randomBytes(bytes).toString("hex").toUpperCase();
+
+/** Random code from an unambiguous alphanumeric alphabet (a-z, A-Z, 0-9). */
+export const newCode = (length = 10) => {
+  const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const bytes = randomBytes(length);
+  let out = "";
+  for (let i = 0; i < length; i += 1) out += alphabet[bytes[i] % alphabet.length];
+  return out;
+};

@@ -90,10 +90,15 @@
 		var request = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen || el.mozRequestFullScreen;
 		if (!request) return Promise.reject(new Error("Fullscreen is not available."));
 		try {
-			var pending = request.call(el);
+			var pending = request.call(el, { navigationUI: "hide" });
 			return pending && typeof pending.then === "function" ? pending : Promise.resolve();
 		} catch (error) {
-			return Promise.reject(error);
+			try {
+				var legacy = request.call(el);
+				return legacy && typeof legacy.then === "function" ? legacy : Promise.resolve();
+			} catch (legacyError) {
+				return Promise.reject(legacyError);
+			}
 		}
 	}
 
@@ -152,6 +157,8 @@
 				runtime.toggleCount = toggles;
 				persist();
 			}
+			ensureLandscapePrompt();
+			updateHeaderFullscreenBtn();
 		}).catch(function () {
 			runtime.stateLoaded = true;
 		});
@@ -169,23 +176,32 @@
 		style.id = STYLE_ID;
 		style.textContent = [
 			"#ionFullscreenGuard{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;padding:24px;",
-			"background:rgba(4,7,11,.78);backdrop-filter:blur(4px);font-family:Arial,Helvetica,sans-serif}",
-			"#ionFullscreenGuard .ion-fs-card{width:min(460px,100%);background:#fff;color:#1f2937;border-radius:14px;",
-			"box-shadow:0 30px 80px rgba(0,0,0,.45);padding:26px 26px 22px;text-align:center}",
-			"#ionFullscreenGuard .ion-fs-icon{width:54px;height:54px;margin:0 auto 14px;border-radius:50%;",
-			"background:#eef4ff;color:#1d4ed8;display:grid;place-items:center;font-size:27px;line-height:1}",
-			"#ionFullscreenGuard h2{margin:0 0 10px;font-size:19px;line-height:1.3;color:#111827}",
-			"#ionFullscreenGuard p{margin:0 0 8px;font-size:13.5px;line-height:1.5;color:#4b5563}",
-			"#ionFullscreenGuard .ion-fs-note{margin:0;font-size:12px;color:#9ca3af}",
-			"#ionFullscreenGuard .ion-fs-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px}",
-			"#ionFullscreenGuard button{font:600 13px/1 Arial,Helvetica,sans-serif;border-radius:8px;padding:11px 18px;",
+			"background:rgba(0,0,0,.55);font-family:Arial,Helvetica,sans-serif}",
+			"#ionFullscreenGuard .ion-fs-card{width:min(420px,100%);background:#fff;color:#333;border-radius:4px;",
+			"box-shadow:0 2px 10px #000;overflow:hidden;text-align:left}",
+			"#ionFullscreenGuard .ion-fs-head{background:#2d70b6;color:#fff;height:28px;line-height:28px;",
+			"padding:0 8px 0 10px;display:flex;align-items:center;justify-content:space-between;",
+			"font-size:13px;font-weight:bold;border-radius:4px 4px 0 0}",
+			"#ionFullscreenGuard .ion-fs-head-close{background:transparent;border:0;color:#fff;cursor:pointer;",
+			"font-size:18px;line-height:1;padding:0 2px}",
+			"#ionFullscreenGuard .ion-fs-head-close:hover{opacity:.8}",
+			"#ionFullscreenGuard .ion-fs-body{display:flex;align-items:flex-start;gap:12px;padding:14px 16px 10px}",
+			"#ionFullscreenGuard .ion-fs-icon{width:36px;height:36px;flex:0 0 36px;border-radius:50%;",
+			"background:#eef4ff;color:#2d70b6;display:grid;place-items:center;font-size:19px;line-height:1}",
+			"#ionFullscreenGuard .ion-fs-copy{min-width:0}",
+			"#ionFullscreenGuard h2{margin:0 0 6px;font-size:15px;line-height:1.3;color:#111}",
+			"#ionFullscreenGuard p{margin:0 0 5px;font-size:13px;line-height:1.45;color:#555}",
+			"#ionFullscreenGuard .ion-fs-note{margin:0;font-size:12px;color:#888}",
+			"#ionFullscreenGuard .ion-fs-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;",
+			"padding:12px;background:#F8F3F0;border-radius:0 0 4px 4px}",
+			"#ionFullscreenGuard button{font:bold 13px/1 Arial,Helvetica,sans-serif;border-radius:3px;padding:7px 15px;",
 			"cursor:pointer;border:1px solid transparent}",
-			"#ionFullscreenGuard .ion-fs-primary{background:#1d4ed8;color:#fff}",
-			"#ionFullscreenGuard .ion-fs-primary:hover{background:#1e40af}",
+			"#ionFullscreenGuard .ion-fs-primary{background:#00a951;border-color:#40a26f;color:#fff}",
+			"#ionFullscreenGuard .ion-fs-primary:hover{background:#248653}",
 			"#ionFullscreenGuard .ion-fs-primary:disabled{opacity:.6;cursor:wait}",
-			"#ionFullscreenGuard .ion-fs-secondary{background:#fff;color:#4b5563;border-color:#d1d5db}",
-			"#ionFullscreenGuard .ion-fs-secondary:hover{background:#f9fafb;color:#111827}",
-			"#ionFullscreenGuard .ion-fs-error{display:none;margin:10px 0 0;color:#b91c1c;font-size:12px}",
+			"#ionFullscreenGuard .ion-fs-secondary{background:#fff;color:#555;border-color:#b3b3b3}",
+			"#ionFullscreenGuard .ion-fs-secondary:hover{background:#f2f2f2;color:#111}",
+			"#ionFullscreenGuard .ion-fs-error{display:none;margin:8px 0 0;color:#b91c1c;font-size:12px}",
 			"#ionFullscreenGuard .ion-fs-error.visible{display:block}"
 		].join("");
 		(doc.head || doc.documentElement).appendChild(style);
@@ -204,13 +220,21 @@
 		overlay.style.display = "none";
 		overlay.innerHTML = ''
 			+ '<div class="ion-fs-card">'
-			+ '  <div class="ion-fs-icon" aria-hidden="true">&#9974;</div>'
-			+ '  <h2 id="ionFsTitle">Fullscreen is required</h2>'
-			+ '  <p id="ionFsBody">Answers are locked until fullscreen is enabled. Turn on fullscreen to answer this question.</p>'
-			+ '  <p class="ion-fs-note">Your fullscreen time is recorded for this attempt.</p>'
-			+ '  <p class="ion-fs-error" data-fs-error></p>'
+			+ '  <div class="ion-fs-head">'
+			+ '    <span class="ion-fs-head-label">Fullscreen Required</span>'
+			+ '    <button type="button" class="ion-fs-head-close" data-fs-close aria-label="Close">&times;</button>'
+			+ '  </div>'
+			+ '  <div class="ion-fs-body">'
+			+ '    <div class="ion-fs-icon" aria-hidden="true">&#9974;</div>'
+			+ '    <div class="ion-fs-copy">'
+			+ '      <h2 id="ionFsTitle">Fullscreen is required</h2>'
+			+ '      <p id="ionFsBody">Answers are locked until fullscreen is enabled. Turn on fullscreen to answer this question.</p>'
+			+ '      <p class="ion-fs-note">Your fullscreen time is recorded for this attempt.</p>'
+			+ '      <p class="ion-fs-error" data-fs-error></p>'
+			+ '    </div>'
+			+ '  </div>'
 			+ '  <div class="ion-fs-actions">'
-			+ '    <button type="button" class="ion-fs-primary" data-fs-enter>Enable fullscreen</button>'
+			+ '    <button type="button" class="ion-fs-primary" data-fs-enter>Enable Fullscreen</button>'
 			+ '    <button type="button" class="ion-fs-secondary" data-fs-close>Close</button>'
 			+ '  </div>'
 			+ '</div>';
@@ -229,20 +253,22 @@
 			requestFullscreen().then(function () {
 				runtime.requestPending = false;
 				button.disabled = false;
-				button.textContent = "Enable fullscreen";
+				button.textContent = "Enable Fullscreen";
 				// fullscreenchange closes the dialog; this fallback covers a missed event.
 				if (inFullscreen()) hideOverlay();
 			}).catch(function () {
 				runtime.requestPending = false;
 				button.disabled = false;
-				button.textContent = "Enable fullscreen";
+				button.textContent = "Enable Fullscreen";
 				error.textContent = supportsFullscreen()
 					? "Fullscreen was blocked. Allow fullscreen for this site, then try again."
 					: "This browser does not support fullscreen. Open the assessment in Chrome, Edge or Firefox.";
 				error.classList.add("visible");
 			});
 		});
-		overlay.querySelector("[data-fs-close]").addEventListener("click", hideOverlay);
+		Array.prototype.forEach.call(overlay.querySelectorAll("[data-fs-close]"), function (button) {
+			button.addEventListener("click", hideOverlay);
+		});
 		overlay.addEventListener("mousedown", function (event) {
 			if (event.target === overlay) hideOverlay();
 		});
@@ -365,7 +391,6 @@
 			}
 		} catch (e) {}
 	}
-
 	function exitFullscreen() {
 		var exit = doc.exitFullscreen || doc.webkitExitFullscreen || doc.msExitFullscreen || doc.mozCancelFullScreen;
 		if (!exit) return Promise.resolve();
@@ -380,19 +405,28 @@
 	function toggleFullscreen() {
 		if (inFullscreen()) {
 			return exitFullscreen();
-		} else {
-			return requestFullscreen().then(function () {
-				lockLandscape();
-			}).catch(function (err) {
-				console.warn("Fullscreen request error:", err);
-			});
+	function toggleFullscreen() {
+		if (inFullscreen()) {
+			return exitFullscreen();
 		}
+		return requestFullscreen().then(function () {
+			lockLandscape();
+		}).catch(function (err) {
+			console.warn("Fullscreen request error:", err);
+		});
 	}
 
 	function updateHeaderFullscreenBtn() {
+		var active = inFullscreen();
+		var btn = doc.getElementById("btnHeaderFullscreen");
+		if (btn) {
+			btn.setAttribute("aria-pressed", active ? "true" : "false");
+			btn.setAttribute("aria-label", active ? "Exit full screen" : "Enter full screen");
+			btn.setAttribute("title", active ? "Exit Full Screen" : "Full Screen");
+		}
 		var btnSpan = doc.getElementById("btnHeaderFullscreenSpan");
 		if (btnSpan) {
-			btnSpan.textContent = inFullscreen() ? "Exit Full Screen" : "Full Screen";
+			btnSpan.textContent = active ? "Exit Full Screen" : "Full Screen";
 		}
 		var prompt = doc.getElementById("ionLandscapePrompt");
 		if (prompt) {
@@ -407,10 +441,22 @@
 	}
 
 	function ensureLandscapePrompt() {
-		if (doc.getElementById("ionLandscapePrompt")) return;
+		var existing = doc.getElementById("ionLandscapePrompt");
+		if (existing) return;
 		var prompt = doc.createElement("div");
 		prompt.id = "ionLandscapePrompt";
-		prompt.innerHTML = '<span>📱 Rotate to Landscape mode for PC view</span><button type="button">Fullscreen &amp; Rotate</button>';
+		prompt.innerHTML = '<div class="ion-fs-prompt-head">Fullscreen Required</div>' +
+			'<div class="ion-fs-prompt-body">Enter fullscreen, then rotate to landscape for the PC view</div>' +
+			'<div class="ion-fs-prompt-foot"><button type="button">Enter Fullscreen</button></div>';
+		var btn = prompt.querySelector("button");
+		if (btn) {
+			btn.addEventListener("click", function () {
+				toggleFullscreen();
+			});
+		}
+		doc.body.appendChild(prompt);
+		updateHeaderFullscreenBtn();
+	}
 		var btn = prompt.querySelector("button");
 		if (btn) {
 			btn.addEventListener("click", function () {
@@ -483,6 +529,7 @@
 		refresh: function () {
 			syncFromSnapshot();
 			runtime.required = storedFlag();
+			ensureLandscapePrompt();
 			updateHeaderFullscreenBtn();
 		}
 	};

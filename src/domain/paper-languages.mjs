@@ -189,6 +189,39 @@ function replaceSoftwareLanguages(confXml, names) {
   return confXml.replace(/<\/Details>/, `<SoftwareLanguages>${joined}</SoftwareLanguages></Details>`);
 }
 
+/**
+ * Rewrite only the declared-language metadata in an existing paper pair.
+ *
+ * The admin language manager can add or remove languages after a paper was
+ * imported. <languages> and <SoftwareLanguages> must match the assessment
+ * language rows, and <lang> blocks for removed languages are dropped so a
+ * later language with the same id cannot inherit stale translations.
+ */
+export function rewriteDeclaredLanguages(quizXml, confXml, languages, removedIds = []) {
+  const map = new Map();
+  for (const language of languages || []) {
+    const id = Number.parseInt(language?.id, 10);
+    const name = String(language?.name || "").trim();
+    if (Number.isFinite(id) && name) map.set(id, name);
+  }
+  if (!map.size) throw badRequest("At least one language is required.");
+
+  const drop = new Set((removedIds || []).map(Number));
+  const dropRe = /<lang\b([^>]*)>([\s\S]*?)<\/lang>/g;
+  let nextQuiz = String(quizXml || "").replace(dropRe, (whole, attrs) => {
+    const id = Number.parseInt(attrOf(attrs, "id"), 10);
+    return drop.has(id) ? "" : whole;
+  });
+  nextQuiz = LANGS_RE.test(nextQuiz)
+    ? nextQuiz.replace(LANGS_RE, renderLanguages(map))
+    : nextQuiz.replace(/(<questionPaperXML[^>]*>)/, `$1\n   ${renderLanguages(map)}`);
+
+  const names = [...map.entries()].sort((a, b) => a[0] - b[0]).map(([, name]) => name);
+  const nextConf = String(confXml || "") ? replaceSoftwareLanguages(String(confXml || ""), names) : "";
+
+  return { quizXml: nextQuiz, confXml: nextConf };
+}
+
 const RESPONSE_HANDLER_RE = /<CandidateResponseHandlerURL\b/i;
 const RESPONSE_HANDLER = "<CandidateResponseHandlerURL>/IBA/MockCandResponseHandler</CandidateResponseHandlerURL>";
 

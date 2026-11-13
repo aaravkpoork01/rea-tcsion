@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assessment Admin — TCS iON</title>
+<link rel="stylesheet" href="/admin/admin.css?v=17.07.01" />
+</head>
+<body>
+
+<div id="loginScreen" class="login-screen">
+  <form id="loginForm" class="login-card" autocomplete="off">
+    <div class="login-brand">
+      <span class="brand-mark" id="loginMark">iON</span>
+      <div>
+        <h1 id="loginTitle">Assessment Admin</h1>
+        <p>Sign in to manage assessments, candidates and results.</p>
+      </div>
+    </div>
+    <label>Username<input name="username" value="admin" required /></label>
+    <label>Password<input name="password" type="password" value="" required /></label>
+    <button type="submit" class="btn primary">Sign in</button>
+    <p class="login-error" id="loginError"></p>
+  </form>
+</div>
+
+<div id="app" class="app hidden">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><span class="brand-mark" id="sidebarMark">iON</span><span id="sidebarLabel">Admin Console</span></div>
+    <nav>
+      <button data-view="dashboard" class="nav-item active"><span class="nav-dot"></span>Dashboard</button>
+      <button data-view="assessments" class="nav-item"><span class="nav-dot"></span>Assessments</button>
+      <button data-view="questions" class="nav-item"><span class="nav-dot"></span>Question bank</button>
+      <button data-view="candidates" class="nav-item"><span class="nav-dot"></span>Candidates</button>
+      <button data-view="attempts" class="nav-item"><span class="nav-dot"></span>Attempts</button>
+      <button data-view="live" class="nav-item"><span class="nav-dot"></span>Live monitor</button>
+      <button data-view="results" class="nav-item"><span class="nav-dot"></span>Results</button>
+      <button data-view="feedback" class="nav-item"><span class="nav-dot"></span>Feedback</button>
+      <button data-view="audit" class="nav-item"><span class="nav-dot"></span>Audit log</button>
+      <button data-view="settings" class="nav-item"><span class="nav-dot"></span>Settings</button>
+    </nav>
+    <div class="sidebar-foot">
+      <button type="button" class="who" id="whoami" title="Open admin profile"></button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h2 id="viewTitle">Dashboard</h2>
+        <p id="viewSub">Overview of the assessment platform</p>
+      </div>
+      <div class="topbar-actions" id="topbarActions"></div>
+    </header>
+    <section id="view" class="view"></section>
+  </main>
+</div>
+
+<div id="modalRoot"></div>
+<div id="toastRoot" class="toast-root"></div>
+
+<script src="/admin/admin.js?v=17.07.01"></script>
+<script src="/js/exam/phone-orientation.js?v=17.07.04"></script>
+<script src="/js/exam/phone-fullscreen.js?v=17.07.03"></script>
+</body>
+</html>

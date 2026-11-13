@@ -1,5 +1,5 @@
 // Candidate administration.
-import { hashPassword, newId } from "../core/crypto.mjs";
+import { hashPassword, newCode } from "../core/crypto.mjs";
 import { nowIso } from "../core/time.mjs";
 import { badRequest, conflict, notFound } from "../core/errors.mjs";
 import { parseCsv } from "../core/csv.mjs";
@@ -48,6 +48,10 @@ async function candidateGroupIds(value) {
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/;
 const PHONE_PATTERN = /^\d{10}$/;
 const CONTACT_ERROR = "Enter a 10-digit phone number or a valid email address.";
+const LOGIN_PATTERN = /^[0-9]{10}$/;
+const CANDIDATE_ID_PATTERN = /^[A-Za-z0-9]{10}$/;
+const LOGIN_ERROR = "Login ID must be exactly 10 digits (numbers only).";
+const CANDIDATE_ID_ERROR = "Candidate ID must be exactly 10 letters or numbers.";
 
 /**
  * Admin candidates have one contact field. A value containing "@" or ending
@@ -89,16 +93,45 @@ export async function get(id) {
   };
 }
 
+/** Check whether a 10-digit numeric Login ID is still available. */
+export async function loginAvailable(value, excludeId = "") {
+  const login = String(value || "").trim();
+  const valid = LOGIN_PATTERN.test(login);
+  const existing = valid ? await candidatesRepo.findByLogin(login) : null;
+  const ownedByExcluded = Boolean(existing && excludeId && existing.id === excludeId);
+  return {
+    login,
+    valid,
+    available: valid && (!existing || ownedByExcluded),
+  };
+}
+
+/** Check whether a generated Candidate ID is still available. */
+export async function candidateIdAvailable(value) {
+  const id = String(value || "").trim();
+  const valid = CANDIDATE_ID_PATTERN.test(id);
+  return {
+    id,
+    valid,
+    available: valid && !(await candidatesRepo.findById(id)),
+  };
+}
+
 export async function create(body) {
   const login = String(body.login || "").trim();
   if (!login) throw badRequest("Login ID is required.");
-  if (await candidatesRepo.findByLogin(login)) throw conflict("Login ID already exists.");
+  if (!LOGIN_PATTERN.test(login)) throw badRequest(LOGIN_ERROR);
+  if (await candidatesRepo.findByLogin(login)) throw conflict("This Login ID is already taken.");
 
   const password = String(body.password ?? "");
   if (!password.trim()) throw badRequest("Password is required.");
   if (password.length < 3) throw badRequest("Password must be at least 3 characters.");
 
-  const id = String(body.id || newId("C"));
+  const requestedId = String(body.id || "").trim();
+  if (requestedId && !CANDIDATE_ID_PATTERN.test(requestedId)) throw badRequest(CANDIDATE_ID_ERROR);
+  const id = requestedId || newCode(10);
+  if (await candidatesRepo.findById(id)) throw conflict("This Candidate ID is already taken.");
+
   const contact = contactFromBody(body);
   const groupIds = await candidateGroupIds(body.groupIds !== undefined ? body.groupIds : body.groupId);
   await candidatesRepo.create({
@@ -117,13 +150,19 @@ export async function create(body) {
   });
   await candidateGroupsService.setForCandidate(id, groupIds);
 
-  const created = await candidatesRepo.findByLogin(login);
+  const created = await candidatesRepo.findById(id);
   return { ...publicView(created), groups: await candidateGroupsService.groupsForCandidate(id), groupIds };
 }
 
 export async function update(id, body) {
   const candidate = await candidatesRepo.findById(id);
   if (!candidate) throw notFound("Candidate not found.");
+  const login = body.login === undefined ? candidate.login : String(body.login || "").trim();
+  if (login !== candidate.login) {
+    if (!LOGIN_PATTERN.test(login)) throw badRequest(LOGIN_ERROR);
+    const existing = await candidatesRepo.findByLogin(login);
+    if (existing && existing.id !== id) throw conflict("This Login ID is already taken.");
+  }
   const name = body.name === undefined
     ? candidate.name
     : String(body.name).trim() || "Your Name";
@@ -135,6 +174,7 @@ export async function update(id, body) {
     : null;
 
   await candidatesRepo.update(id, {
+    login,
     name,
     systemName: body.systemName === undefined && body.system_name === undefined
       ? candidate.system_name
@@ -206,7 +246,7 @@ export async function importCsv({ csv, orgId = "726" }) {
       if (group) groupIds.push(group.id);
     }
 
-    const id = newId("C");
+    const id = newCode(10);
     await candidatesRepo.create({
       id,
       orgId,
