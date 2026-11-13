@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questionPaperXML totalMarks="5">
+   <languages>
+      <language id="1" name="English"/>
+      <language id="2" name="Gujarati"/>
+   </languages>
+   <groups>
+      <group id="G1" totalMarks="5" instructionTime="1" maxDuration="0">
+         <groupDisplayText>English Section - Demo Assessment</groupDisplayText>
+         <groupInstructions>Answer all questions. Each question carries one mark.</groupInstructions>
+         <sections>
+            <section id="S1" sectionType="ONLINE" totalMarks="5" maxQuestionsToBeAttempted="5">
+               <sectionDisplayText>English Questions</sectionDisplayText>
+               <sectionInstruction>Choose the correct option for each question.</sectionInstruction>
+               <subsections>
+                  <subsection id="SS1">
+                     <questions>
+                        <question id="Q71" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+                           <languageSpecificData>
+                              <lang id="1">
+                                 <questionString><![CDATA[I was made very uneasy in my mind by Mrs. Pocket's into a discussion with Drummle.]]></questionString>
+                                 <hint><![CDATA[]]></hint>
+                                 <allOptions>
+                                    <option optionID="Q71O1" sequenceID="1" correct="true"><optionText><![CDATA[falling]]></optionText></option>
+                                    <option optionID="Q71O2" sequenceID="2" correct="false"><optionText><![CDATA[collapsing]]></optionText></option>
+                                    <option optionID="Q71O3" sequenceID="3" correct="false"><optionText><![CDATA[dropping]]></optionText></option>
+                                    <option optionID="Q71O4" sequenceID="4" correct="false"><optionText><![CDATA[trapping]]></optionText></option>
+                                 </allOptions>
+                              </lang>
+                           </languageSpecificData>
+                        </question>
+                        <question id="Q72" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+                           <languageSpecificData>
+                              <lang id="1">
+                                 <questionString><![CDATA[Select the most appropriate synonym of the given word: Expedite]]></questionString>
+                                 <hint><![CDATA[]]></hint>
+                                 <allOptions>
+                                    <option optionID="Q72O1" sequenceID="1" correct="true"><optionText><![CDATA[Hasten]]></optionText></option>
+                                    <option optionID="Q72O2" sequenceID="2" correct="false"><optionText><![CDATA[Cease]]></optionText></option>
+                                    <option optionID="Q72O3" sequenceID="3" correct="false"><optionText><![CDATA[Hinder]]></optionText></option>
+                                    <option optionID="Q72O4" sequenceID="4" correct="false"><optionText><![CDATA[Siege]]></optionText></option>
+                                 </allOptions>
+                              </lang>
+                           </languageSpecificData>
+                        </question>
+                        <question id="Q73" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+                           <languageSpecificData>
+                              <lang id="1">
+                                 <questionString><![CDATA[To this effect the sergeant and the nearest men were under their breath, when Joe and I came up.]]></questionString>
+                                 <hint><![CDATA[]]></hint>
+                                 <allOptions>
+                                    <option optionID="Q73O1" sequenceID="1" correct="false"><optionText><![CDATA[pipping]]></optionText></option>
+                                    <option optionID="Q73O2" sequenceID="2" correct="false"><optionText><![CDATA[transmitting]]></optionText></option>
+                                    <option optionID="Q73O3" sequenceID="3" correct="true"><optionText><![CDATA[speaking]]></optionText></option>
+                                    <option optionID="Q73O4" sequenceID="4" correct="false"><optionText><![CDATA[conveying]]></optionText></option>
+                                 </allOptions>
+                              </lang>
+                           </languageSpecificData>
+                        </question>
+                        <question id="Q74" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+                           <languageSpecificData>
+                              <lang id="1">
+                                 <questionString><![CDATA[Some half an hour, since I had put my new suit on, I had gone an immensity of posturing with Mr. Pumblechook's very limited dressing-glass, in the futile endeavour to see my legs.]]></questionString>
+                                 <hint><![CDATA[]]></hint>
+                                 <allOptions>
+                                    <option optionID="Q74O1" sequenceID="1" correct="true"><optionText><![CDATA[through]]></optionText></option>
+                                    <option optionID="Q74O2" sequenceID="2" correct="false"><optionText><![CDATA[toward]]></optionText></option>
+                                    <option optionID="Q74O3" sequenceID="3" correct="false"><optionText><![CDATA[until]]></optionText></option>
+                                    <option optionID="Q74O4" sequenceID="4" correct="false"><optionText><![CDATA[beneath]]></optionText></option>
+                                 </allOptions>
+                              </lang>
+                           </languageSpecificData>
+                        </question>
+                        <question id="Q75" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+                           <languageSpecificData>
+                              <lang id="1">
+                                 <questionString><![CDATA[Select the most appropriate word for the given phrase: A herd or flock of animals being driven in a body.]]></questionString>
+                                 <hint><![CDATA[]]></hint>
+                                 <allOptions>
+                                    <option optionID="Q75O1" sequenceID="1" correct="true"><optionText><![CDATA[Drove]]></optionText></option>
+                                    <option optionID="Q75O2" sequenceID="2" correct="false"><optionText><![CDATA[Posse]]></optionText></option>
+                                    <option optionID="Q75O3" sequenceID="3" correct="false"><optionText><![CDATA[Torrent]]></optionText></option>
+                                    <option optionID="Q75O4" sequenceID="4" correct="false"><optionText><![CDATA[Horde]]></optionText></option>
+                                 </allOptions>
+                              </lang>
+                           </languageSpecificData>
+                        </question>
+                     </questions>
+                  </subsection>
+               </subsections>
+            </section>
+         </sections>
+      </group>
+   </groups>
+</questionPaperXML>

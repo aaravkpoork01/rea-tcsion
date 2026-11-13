@@ -2,7 +2,8 @@
 import * as settingsRepo from "../db/repositories/settings.repo.mjs";
 import * as assessmentsRepo from "../db/repositories/assessments.repo.mjs";
 import { applyPresentationOverrides, buildConfig, presentationFromAdmin, settingsFromAdmin } from "../domain/ui-config.mjs";
-import { notFound } from "../core/errors.mjs";
+import { badRequest, notFound } from "../core/errors.mjs";
+import { normalizeInstructionTemplate } from "../domain/paper-instructions.mjs";
 
 const ASSESSMENT_TOPBAR_KEY = (id) => `assessment_topbar:${id}`;
 const ASSESSMENT_TOOLS_KEY = (id) => `assessment_tools:${id}`;
@@ -76,6 +77,12 @@ export async function update(entries) {
     }
   }
   await settingsRepo.setMany(settingsFromAdmin(patch));
+  // Saving the global candidate UI is authoritative: every assessment should
+  // follow the new values, so drop all per-assessment presentation overrides.
+  if ("exam_topbar" in patch || "exam_tools" in patch) {
+    await settingsRepo.deleteSettingsByPrefix(ASSESSMENT_TOPBAR_KEY(""));
+    await settingsRepo.deleteSettingsByPrefix(ASSESSMENT_TOOLS_KEY(""));
+  }
   clearSettingsCache();
   return all();
 }
@@ -144,3 +151,19 @@ export const candidateConfig = async (assessmentId = "") => {
     tools: overrideFor(stored, ASSESSMENT_TOOLS_KEY(assessmentId)),
   });
 };
+
+/** Candidate instruction template: one row per language, stored as JSON. */
+export const INSTRUCTION_SETTINGS_KEY = "exam_instructions";
+
+export async function instructionTemplate() {
+  const stored = parseObject((await raw())[INSTRUCTION_SETTINGS_KEY]);
+  return normalizeInstructionTemplate(stored);
+}
+
+export async function saveInstructionTemplate(rows = []) {
+  const template = normalizeInstructionTemplate(rows);
+  if (!template.length) throw badRequest("At least one language is required.");
+  await settingsRepo.setSetting(INSTRUCTION_SETTINGS_KEY, JSON.stringify(template));
+  clearSettingsCache();
+  return template;
+}

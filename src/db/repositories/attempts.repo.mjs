@@ -19,6 +19,12 @@ export const findLatestForCandidate = async (candidateId) =>
        ORDER BY (CASE WHEN status = 'in_progress' THEN 1 ELSE 0 END) DESC, id DESC LIMIT 1`,
     candidateId);
 
+export const listByCandidate = async (candidateId) =>
+  all(`SELECT a.id, a.candidate_id, a.assessment_id, a.attempt_no, a.status,
+      a.submitted_at, s.name AS assessment_name
+    FROM attempts a JOIN assessments s ON s.id = a.assessment_id
+    WHERE a.candidate_id = ? ORDER BY a.id DESC`, candidateId);
+
 export const countFor = async (candidateId, assessmentId) => {
   const row = await one("SELECT COUNT(*) AS n FROM attempts WHERE candidate_id = ? AND assessment_id = ?",
     candidateId, assessmentId);
@@ -86,25 +92,52 @@ export const listLive = async () =>
     FROM attempts a JOIN candidates c ON c.id = a.candidate_id JOIN assessments s ON s.id = a.assessment_id
     WHERE a.status = 'in_progress' ORDER BY a.last_seen_at DESC`);
 
-export const listResults = async (assessmentId) => {
-  const where = ["a.status = 'submitted'"];
+export const listResults = async ({ assessmentId = "", status = "submitted" } = {}) => {
+  const where = [];
   const args = [];
   if (assessmentId) { where.push("a.assessment_id = ?"); args.push(assessmentId); }
+  if (status === "submitted" || status === "in_progress") {
+    where.push("a.status = ?");
+    args.push(status);
+  }
+  const order = status === "in_progress"
+    ? "a.last_seen_at DESC, a.id DESC"
+    : status === "submitted"
+      ? "a.percentage DESC, a.submitted_at DESC"
+      : "a.id DESC";
   return all(
-    `SELECT a.id, a.attempt_no, a.score, a.max_score, a.percentage, a.client_score,
+    `SELECT a.id, a.attempt_no, a.status, a.score, a.max_score, a.percentage, a.client_score,
+      (SELECT COUNT(*) FROM responses r WHERE r.attempt_id = a.id
+        AND (TRIM(COALESCE(r.selected, '')) <> '' OR TRIM(COALESCE(r.answer, '')) <> '')) AS answered,
+      a.total_questions, a.last_seen_at,
       a.fullscreen_seconds, a.fullscreen_toggle_count, a.started_at, a.submitted_at, c.name AS candidate, c.login,
       s.name AS assessment
     FROM attempts a JOIN candidates c ON c.id = a.candidate_id JOIN assessments s ON s.id = a.assessment_id
-    WHERE ${where.join(" AND ")} ORDER BY a.percentage DESC, a.submitted_at DESC`,
+    ${where.length ? `WHERE ${where.join(" AND ")}` : ""}
+    ORDER BY ${order}`,
     ...args);
 };
 
-export const listForExport = async () =>
-  all(`SELECT a.id, c.name AS candidate, c.login, s.name AS assessment,
-      a.attempt_no, a.status, a.score, a.max_score, a.percentage, a.fullscreen_seconds,
-      a.fullscreen_toggle_count, a.started_at, a.submitted_at
+export const listForExport = async ({ assessmentId = "", status = "" } = {}) => {
+  const where = [];
+  const args = [];
+  if (assessmentId) { where.push("a.assessment_id = ?"); args.push(assessmentId); }
+  if (status === "submitted" || status === "in_progress") {
+    where.push("a.status = ?");
+    args.push(status);
+  }
+  return all(
+    `SELECT a.id, c.name AS candidate, c.login, s.name AS assessment,
+      a.attempt_no, a.status,
+      (SELECT COUNT(*) FROM responses r WHERE r.attempt_id = a.id
+        AND (TRIM(COALESCE(r.selected, '')) <> '' OR TRIM(COALESCE(r.answer, '')) <> '')) AS answered,
+      a.total_questions, s.duration_min, a.score, a.max_score, a.percentage,
+      a.fullscreen_seconds, a.fullscreen_toggle_count, a.started_at, a.submitted_at
     FROM attempts a JOIN candidates c ON c.id = a.candidate_id JOIN assessments s ON s.id = a.assessment_id
-    ORDER BY a.id`);
+    ${where.length ? `WHERE ${where.join(" AND ")}` : ""}
+    ORDER BY a.id`,
+    ...args);
+};
 
 export const overviewCounts = async () => {
   const [att, inProg, sub, avg] = await Promise.all([

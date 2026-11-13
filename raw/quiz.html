@@ -2,7 +2,79 @@
 <html translate="no" lang="en">
 <head translate="no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=1200, initial-scale=0.35, minimum-scale=0.25, maximum-scale=5, user-scalable=yes">
+<meta name="viewport" content="width=1200, minimum-scale=0.25, maximum-scale=5, user-scalable=yes">
+<script>
+/* Phone landscape auto-fit flag. The exam console is a desktop composition;
+   the fixed 1100px canvas is what forces horizontal panning on a phone once
+   the assessment enters fullscreen. Mark that case before first paint so the
+   scoped stylesheet rules can fit the console to the device. Desktop and
+   tablet layout are left exactly as they are. */
+(function () {
+  var root = document.documentElement;
+  var PHONE_CLASS = "ion-phone";
+  var PHONE_LANDSCAPE_CLASS = "ion-phone-landscape";
+  function isTouchPhone() {
+    var touch = navigator.maxTouchPoints > 0;
+    try {
+      touch = touch || window.matchMedia("(pointer: coarse)").matches ||
+        window.matchMedia("(hover: none)").matches;
+    } catch (e) {}
+    return Boolean(touch);
+  }
+  function isLandscape() {
+    try {
+      return window.matchMedia("(orientation: landscape)").matches ||
+        window.innerWidth > window.innerHeight;
+    } catch (e) {
+      return window.innerWidth > window.innerHeight;
+    }
+  }
+  function apply() {
+    var shortSide = Math.min(window.screen.width || 0, window.screen.height || 0);
+    var phone = shortSide > 0 && shortSide <= 600 && (isTouchPhone() || window.innerWidth <= 600);
+    if (phone) root.classList.add(PHONE_CLASS);
+    else root.classList.remove(PHONE_CLASS);
+    if (phone && isLandscape()) root.classList.add(PHONE_LANDSCAPE_CLASS);
+    else root.classList.remove(PHONE_LANDSCAPE_CLASS);
+  }
+  apply();
+  window.addEventListener("orientationchange", function () {
+    setTimeout(apply, 120);
+  });
+  window.addEventListener("resize", apply);
+})();
+/* Track the group/question instruction dialogs so the phone-landscape layout
+   can drop the quiz profile strip that would otherwise sit under them. */
+document.addEventListener("DOMContentLoaded", function () {
+  var ids = ["grpInstruDialogContainer", "quesInstruDialogContainer"];
+  function syncInstructionState() {
+    var open = false;
+    for (var i = 0; i < ids.length; i += 1) {
+      var el = document.getElementById(ids[i]);
+      if (!el) continue;
+      var style = window.getComputedStyle(el);
+      if (style.display !== "none" && style.visibility !== "hidden" && el.getClientRects().length) {
+        open = true;
+        break;
+      }
+    }
+    document.documentElement.classList.toggle("ion-instructions-open", open);
+  }
+  var observer = new MutationObserver(syncInstructionState);
+  for (var i = 0; i < ids.length; i += 1) {
+    var el = document.getElementById(ids[i]);
+    if (el) observer.observe(el, { attributes: true, attributeFilter: ["style", "class"], subtree: true });
+  }
+  // The dialog's own show/hide toggle lives on the inner instruction panel,
+  // so also watch those panels directly.
+  ["instruTimeDiv", "quesInstruTimeDiv"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) observer.observe(el, { attributes: true, attributeFilter: ["style", "class"] });
+  });
+  syncInstructionState();
+  window.addEventListener("resize", syncInstructionState);
+});
+</script>
 <meta content="IE=edge" http-equiv="X-UA-Compatible" />
 <meta name="google" content="notranslate" />
 <title>Remote Assessment</title>
@@ -89,6 +161,7 @@ if(sessionStorage.cdnPath == ""){
 	document.write('<script type="text/javascript" src="js/jquery-migrate-3.3.0.min.js?v=' + jsVersion + '"\><\/script>'); */
 	document.write('<script type="text/javascript" src="js/jquery-3.6.0.min.js?v=' + jsVersion + '"\><\/script>'); 
 	document.write('<script type="text/javascript" src="js/jquery.cookie.js?v='+jsVersion+'"\><\/script>');
+	document.write('<script>if(window.jQuery){var _ow=jQuery.fn.width;jQuery.fn.width=function(){if(this[0]===window||this[0]===document)return Math.max(1200,_ow.apply(this,arguments));return _ow.apply(this,arguments);};}<\/script>');
 	document.write('<script type="text/javascript" src="js/bean.js?v='+jsVersion+'"\><\/script>');
 	document.write('<script type="text/javascript" src="js/dummyjs.js?v='+jsVersion+'"/><\/script>');
 			//document.write('<script type="text/javascript" src="js/streamsaver/StreamSaver.js?v='+jsVersion+'"\><\/script>');
@@ -529,22 +602,26 @@ html, body {
   display: block !important;
   visibility: visible !important;
 }
-.canvasmenu, #canvasmenuid {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  visibility: hidden !important;
-}
+.canvasmenu, #canvasmenuid,
+.hamburgerBar, #hamburgerBarBtnid, #hamiconid, .hamicon,
+.subheader_tab, .grup_components,
 .buttons-div.btntab,
 #mob_save_id,
 #other_buttoncontainer_mob_id,
 #save_buttoncontainer_mob_id,
 #save_buttoncontainer_2_mob_id,
-.hamburgerBar,
-#hamiconid,
-.hamicon,
-.mobActionFixedLayer {
+.mobActionFixedLayer,
+.cricleImageMobEle,
+#mobMoreOptionsBtnAction,
+#mobMoreOptionsBtnActionGrp {
   display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
 }
 .buttons-div {
   display: block !important;
@@ -559,8 +636,21 @@ html, body {
   float: left !important;
 }
 #currentQues {
-  width: 100% !important;
+  width: calc(100% - 248px) !important;
   margin-top: 0 !important;
+}
+/* Keep long question-status labels readable inside the 248px right panel. */
+#rightDivision .notation_typeDiv .type_title.longtext-hide {
+  max-width: none;
+}
+/* Narrow windows are still laid out at the 1100px minimum. Keep the
+   absolutely positioned palette aligned with that layout instead of the
+   visible viewport so it never lands on top of the question pane. */
+@media screen and (max-width: 1099px) {
+  #rightDivision > #col2 {
+    right: auto !important;
+    left: 852px !important;
+  }
 }
 #minwidth {
   min-width: 1100px !important;
@@ -862,7 +952,9 @@ html, body {
 <script src="js/exam/api.js?v=17.07.01"></script>
 <script src="js/exam/store.js?v=17.07.01"></script>
 <script src="js/exam/sync.js?v=17.07.01"></script>
-<script src="js/exam/fullscreen-guard.js?v=17.07.01"></script>
+<script src="js/exam/phone-orientation.js?v=17.07.04"></script>
+<script src="js/exam/fullscreen-guard.js?v=17.07.03"></script>
+<script src="js/exam/phone-landscape.js?v=17.07.03"></script>
 <script src="js/exam/ui-config.js?v=17.07.01"></script>
 <script src="js/exam/candidate-identity.js?v=17.07.01"></script>
 <script src="js/exam/session-guard.js?v=17.07.01"></script>
@@ -1389,9 +1481,8 @@ html, body {
 							</button>
 						</div>
 						<div class="viewfullscreen_div" id="viewFullScreenTD">
-							<span class="fullscreen_header_icon"></span>
-							<button type="button" class="test-instruct viewFullScreenButtonDiv" id="btnHeaderFullscreen" role="button" tabindex="0" title="Full Screen" onclick="if(window.ExamFullscreen&&window.ExamFullscreen.toggle){window.ExamFullscreen.toggle();}else{openScreenFullWindow();}">
-								<span id="btnHeaderFullscreenSpan" class="auditlogButton FullscreenText">Full Screen</span>
+							<button type="button" class="test-instruct viewFullScreenButtonDiv" id="btnHeaderFullscreen" role="button" tabindex="0" aria-label="Enter full screen" title="Full Screen" onclick="if(window.ExamFullscreen&&window.ExamFullscreen.toggle){window.ExamFullscreen.toggle();}else{openScreenFullWindow();}">
+								<span class="fullscreen_header_icon" aria-hidden="true"></span>
 							</button>
 						</div>
 					</div>

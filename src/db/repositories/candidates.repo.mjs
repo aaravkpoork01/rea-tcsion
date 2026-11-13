@@ -53,8 +53,8 @@ export const create = async (row) =>
   row.groupId || "", row.email, row.phone, row.photo || "", row.status, row.createdAt);
 
 export const update = async (id, fields) =>
-  run("UPDATE candidates SET name=?, system_name=?, group_id=?, email=?, phone=?, photo=?, status=? WHERE id=?",
-    fields.name, fields.systemName || "", fields.groupId || "", fields.email, fields.phone, fields.photo || "", fields.status, id);
+  run("UPDATE candidates SET login=?, name=?, system_name=?, group_id=?, email=?, phone=?, photo=?, status=? WHERE id=?",
+    fields.login, fields.name, fields.systemName || "", fields.groupId || "", fields.email, fields.phone, fields.photo || "", fields.status, id);
 
 export const setPasswordHash = async (id, hash) =>
   run("UPDATE candidates SET password_hash = ? WHERE id = ?", hash, id);

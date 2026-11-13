@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assessment Result</title>
+<style>
+  :root {
+    --bg: #f4f7fb;
+    --panel: #ffffff;
+    --line: #dbe3ee;
+    --text: #16202c;
+    --muted: #64748b;
+    --accent: #2563eb;
+    --green: #0f9d6e;
+    --green-soft: #e8f8f1;
+    --red: #d63a44;
+    --red-soft: #fdecee;
+    --amber: #b7791f;
+    --amber-soft: #fff6e5;
+    --radius: 16px;
+  }
+  * { box-sizing: border-box; }
+  html, body { min-height: 100%; }
+  body {
+    margin: 0;
+    background: radial-gradient(900px 500px at 10% -10%, #e3edff 0%, var(--bg) 50%) fixed;
+    color: var(--text);
+    font: 15px/1.55 "Segoe UI", system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { width: min(1120px, 100%); margin: 0 auto; padding: 28px 18px 60px; }
+  .brandbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 22px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.2px; }
+  .brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 5px rgba(37, 99, 235, .12); }
+  .brand small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; letter-spacing: 0; }
+  .brandbar .private { color: var(--muted); font-size: 12px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 18px 50px rgba(22, 32, 44, .07); }
+  .unlock { width: min(460px, 100%); margin: 8vh auto 0; padding: 30px; }
+  .unlock h1 { margin: 0 0 6px; font-size: 24px; letter-spacing: -0.4px; }
+  .unlock p { margin: 0 0 22px; color: var(--muted); font-size: 14px; }
+  .unlock form { display: grid; gap: 14px; }
+  label { display: grid; gap: 6px; color: var(--muted); font-size: 12.5px; font-weight: 600; }
+  input {
+    width: 100%; border: 1px solid var(--line); background: #fbfdff; color: var(--text);
+    border-radius: 10px; padding: 11px 12px; font: inherit; outline: none;
+  }
+  input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37, 99, 235, .13); }
+  .btn {
+    border: 0; border-radius: 10px; padding: 11px 16px; font: inherit; font-weight: 650;
+    color: #fff; background: linear-gradient(135deg, #2563eb, #4f46e5); cursor: pointer;
+  }
+  .btn:disabled { opacity: .6; cursor: default; }
+  .error { display: none; padding: 10px 12px; border-radius: 10px; background: var(--red-soft); color: var(--red); font-size: 13px; font-weight: 600; }
+  .error.show { display: block; }
+  .hint { color: var(--muted); font-size: 12px; text-align: center; }
+
+  .head-card { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 24px; }
+  .eyebrow { color: var(--accent); font-size: 11.5px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
+  .head-card h1 { margin: 6px 0 2px; font-size: 28px; letter-spacing: -0.6px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 12px; }
+  .status { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: #f8fafc; color: var(--muted); font-size: 12px; font-weight: 700; text-transform: capitalize; white-space: nowrap; }
+  .status.submitted { background: var(--green-soft); border-color: #bfe9d8; color: var(--green); }
+  .status.in_progress { background: #eaf2ff; border-color: #c8dcff; color: var(--accent); }
+  .banner { margin-top: 14px; padding: 12px 14px; border-radius: 12px; background: var(--amber-soft); border: 1px solid #f3d9a6; color: var(--amber); font-size: 13px; font-weight: 600; }
+
+  .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 16px; }
+  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+  .stat .k { color: var(--muted); font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
+  .stat .v { margin-top: 5px; font-size: 23px; font-weight: 750; letter-spacing: -0.5px; }
+  .stat .v small { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .stat.green .v { color: var(--green); }
+  .stat.red .v { color: var(--red); }
+  .stat.amber .v { color: var(--amber); }
+  .stat.blue .v { color: var(--accent); }
+
+  .score-strip { margin-top: 16px; padding: 18px 20px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+  .score-copy { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+  .score-copy strong { font-size: 22px; letter-spacing: -0.5px; }
+  .score-copy span { color: var(--muted); font-size: 13px; }
+  .bar { height: 10px; border-radius: 999px; background: #e9eef6; overflow: hidden; }
+  .bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #2563eb, #22b573); }
+
+  h2 { margin: 30px 0 12px; font-size: 19px; letter-spacing: -0.3px; }
+  .questions { display: grid; gap: 12px; }
+  .q { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+  .q.correct { border-left-color: var(--green); }
+  .q.wrong { border-left-color: var(--red); }
+  .q.pending { border-left-color: var(--amber); }
+  .q.not_attempted { border-left-color: #c4ccd8; }
+  .q-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .q-no { font-weight: 800; font-size: 13px; color: var(--accent); }
+  .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; border: 1px solid var(--line); background: #f8fafc; color: var(--muted); }
+  .pill.correct { background: var(--green-soft); border-color: #bfe9d8; color: var(--green); }
+  .pill.wrong { background: var(--red-soft); border-color: #f5c7cb; color: var(--red); }
+  .pill.pending { background: var(--amber-soft); border-color: #f3d9a6; color: var(--amber); }
+  .q-meta { margin-left: auto; color: var(--muted); font-size: 12px; white-space: nowrap; }
+  .q-body { font-size: 14.5px; white-space: pre-wrap; word-break: break-word; }
+  .options { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 7px; }
+  .options li { display: flex; align-items: flex-start; gap: 10px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 10px; background: #fbfdff; font-size: 14px; }
+  .options li.correct { background: var(--green-soft); border-color: #bfe9d8; }
+  .options li.wrong { background: var(--red-soft); border-color: #f5c7cb; }
+  .marker { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: #eef3fb; color: var(--muted); font-size: 11px; font-weight: 800; }
+  .options li.correct .marker { background: var(--green); color: #fff; }
+  .options li.wrong .marker { background: var(--red); color: #fff; }
+  .opt-text { flex: 1; word-break: break-word; }
+  .tags { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+  .tags em { font-style: normal; font-size: 10px; font-weight: 800; letter-spacing: .3px; text-transform: uppercase; padding: 2px 7px; border-radius: 999px; background: #eef3fb; color: var(--muted); white-space: nowrap; }
+  .tags em.key { background: var(--green); color: #fff; }
+  .tags em.given { background: #e5edff; color: var(--accent); }
+  .answer-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+  .answer-row > div { padding: 9px 11px; border-radius: 10px; background: #f7f9fc; border: 1px solid var(--line); font-size: 13px; word-break: break-word; }
+  .answer-row .label { display: block; color: var(--muted); font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 2px; }
+  .foot { margin-top: 26px; color: var(--muted); font-size: 12px; text-align: center; }
+
+  @media (max-width: 720px) {
+    .wrap { padding: 18px 12px 44px; }
+    .unlock { margin-top: 4vh; padding: 22px; }
+    .head-card { flex-direction: column; padding: 18px; }
+    .head-card h1 { font-size: 23px; }
+    .summary { grid-template-columns: repeat(2, 1fr); }
+    .stat .v { font-size: 20px; }
+    .q { padding: 14px; }
+    .q-meta { margin-left: 0; width: 100%; }
+    .answer-row { grid-template-columns: 1fr; }
+    .brandbar .private { display: none; }
+  }
+  @media print {
+    body { background: #fff; }
+    .brandbar, .foot { display: none; }
+    .card, .q, .stat, .score-strip { box-shadow: none; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brandbar">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <span>Assessment Result<small>Online paper result with answers</small></span>
+    </div>
+    <span class="private">Private result · open with your Login ID</span>
+  </div>
+
+  <section id="accessCard" class="card unlock">
+    <h1>View your result</h1>
+    <p>Enter your Login ID to open your result.</p>
+    <form id="openForm">
+      <label>Login ID
+        <input id="candidateId" name="candidateId" autocomplete="off" spellcheck="false" inputmode="numeric" maxlength="10" placeholder="10-digit Login ID" required />
+      </label>
+      <button class="btn" id="openButton" type="submit">View result</button>
+      <div class="error" id="error" role="alert"></div>
+    </form>
+    <div class="hint">Use the Login ID provided by your administrator. No password is needed.</div>
+  </section>
+
+  <main id="result" hidden></main>
+</div>
+
+<script>
+"use strict";
+
+const $ = (selector, root = document) => root.querySelector(selector);
+const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({
+  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+}[char]));
+
+const formatDuration = (value) => {
+  const total = Math.max(0, Math.round(Number(value) || 0));
+  const hours = Math.floor(total / 3600);
+  const minutes = Math.floor((total % 3600) / 60);
+  const seconds = total % 60;
+  if (hours) return `${hours}h ${String(minutes).padStart(2, "0")}m ${String(seconds).padStart(2, "0")}s`;
+  return `${minutes}m ${String(seconds).padStart(2, "0")}s`;
+};
+
+const formatDate = (value) => {
+  if (!value) return "—";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "—";
+  return date.toLocaleString(undefined, {
+    year: "numeric", month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit",
+  });
+};
+
+const STATUS_LABEL = {
+  correct: "Correct",
+  wrong: "Wrong",
+  pending: "Pending review",
+  not_attempted: "Not attempted",
+};
+
+const showError = (message) => {
+  const box = $("#error");
+  box.textContent = message;
+  box.classList.add("show");
+};
+
+const hideError = () => $("#error").classList.remove("show");
+
+async function openResult(candidateId, assessmentId = "") {
+  const response = await fetch("/IBA/api/result/open", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ candidateId, assessmentId }),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || data.ok === false) {
+    throw new Error(data.error || "Could not open this result.");
+  }
+  return data;
+}
+
+function questionHtml(question) {
+  const status = STATUS_LABEL[question.status] || question.status;
+  const options = question.options || [];
+  const optionsHtml = options.length ? `<ol class="options">${options.map((option, index) => {
+    const classes = [option.correct ? "correct" : "", option.selected && !option.correct ? "wrong" : ""].filter(Boolean).join(" ");
+    const tags = [
+      option.selected ? `<em class="given">Your answer</em>` : "",
+      option.correct ? `<em class="key">Correct answer</em>` : "",
+    ].filter(Boolean).join("");
+    return `<li class="${classes}">
+      <span class="marker">${String.fromCharCode(65 + index)}</span>
+      <span class="opt-text">${esc(option.text)}</span>
+      <span class="tags">${tags}</span>
+    </li>`;
+  }).join("")}</ol>` : "";
+
+  const correctFallback = question.status === "pending" ? "Manual review" : "—";
+  return `<article class="q ${esc(question.status)}">
+    <div class="q-head">
+      <span class="q-no">Q${question.number}</span>
+      <span class="pill ${esc(question.status)}">${esc(status)}</span>
+      <span class="muted small">${esc(question.extId)}</span>
+      <span class="q-meta">${esc(question.section || question.group || "")}${question.section || question.group ? " · " : ""}${Number(question.marks) || 0} mark(s) · ${formatDuration(question.timeSpent)}</span>
+    </div>
+    <div class="q-body">${esc(question.question || "Question text unavailable.")}</div>
+    ${optionsHtml}
+    <div class="answer-row">
+      <div><span class="label">Your answer</span>${esc(question.givenAnswer || "—")}</div>
+      <div><span class="label">Correct answer</span>${esc(question.correctAnswer || correctFallback)}</div>
+    </div>
+  </article>`;
+}
+
+function renderChooser(data) {
+  $("#accessCard").hidden = true;
+  const result = $("#result");
+  result.hidden = false;
+  result.innerHTML = `
+    <div class="card head-card">
+      <div>
+        <div class="eyebrow">Candidate result</div>
+        <h1>${esc(data.candidate.name)}</h1>
+        <div class="muted">${esc(data.candidate.login)} · choose an assessment</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px;padding:22px">
+      <h2 style="margin-top:0">Available results</h2>
+      <div class="questions">
+        ${data.attempts.map((attempt) => `<button class="btn" style="text-align:left" data-open-assessment="${esc(attempt.assessmentId)}">
+          <span>${esc(attempt.assessmentName)}</span>
+          <span style="display:block;font-weight:400;opacity:.8;font-size:12px;margin-top:2px">Attempt #${attempt.attemptNo} · ${esc(String(attempt.status || "").replace(/_/g, " "))}</span>
+        </button>`).join("")}
+      </div>
+    </div>`;
+  result.querySelectorAll("[data-open-assessment]").forEach((button) => button.addEventListener("click", async () => {
+    button.disabled = true;
+    try {
+      renderResult(await openResult(data.candidate.login || data.candidate.id, button.dataset.openAssessment));
+    } catch (error) {
+      result.hidden = true;
+      $("#accessCard").hidden = false;
+      showError(error.message || "Could not open this result.");
+    }
+  }));
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderResult(data) {
+  const { candidate, assessment, attempt, summary, questions } = data;
+  const submitted = attempt.status === "submitted";
+  const percentage = Math.max(0, Math.min(100, Number(summary.percentage) || 0));
+  $("#accessCard").hidden = true;
+  const result = $("#result");
+  result.hidden = false;
+  result.innerHTML = `
+    <div class="card head-card">
+      <div>
+        <div class="eyebrow">${esc(assessment.id)} · Attempt #${attempt.number}</div>
+        <h1>${esc(candidate.name)}</h1>
+        <div class="muted">${esc(candidate.login)} · ${esc(assessment.name)}</div>
+      </div>
+      <span class="status ${esc(attempt.status)}">${esc(String(attempt.status || "").replace(/_/g, " "))}</span>
+    </div>
+    ${submitted ? "" : `<div class="banner">This attempt is still in progress. The result below is a live snapshot.</div>`}
+    <div class="summary">
+      <div class="stat green"><div class="k">Right</div><div class="v">${summary.right}</div></div>
+      <div class="stat red"><div class="k">Wrong</div><div class="v">${summary.wrong}</div></div>
+      <div class="stat blue"><div class="k">Attempted</div><div class="v">${summary.answered} <small>/ ${summary.total}</small></div></div>
+      <div class="stat"><div class="k">Not attempted</div><div class="v">${summary.notAttempted}</div></div>
+      ${summary.pending ? `<div class="stat amber"><div class="k">Pending review</div><div class="v">${summary.pending}</div></div>` : ""}
+      <div class="stat blue"><div class="k">Percentage</div><div class="v">${Number(summary.percentage).toFixed(1)}%</div></div>
+      <div class="stat"><div class="k">Score</div><div class="v">${Number(attempt.score).toFixed(2)} <small>/ ${Number(attempt.maxScore).toFixed(2)}</small></div></div>
+      <div class="stat"><div class="k">Time taken</div><div class="v" style="font-size:17px">${formatDuration(attempt.timeTakenSeconds)}</div></div>
+      <div class="stat"><div class="k">Fullscreen time</div><div class="v" style="font-size:17px">${formatDuration(attempt.fullscreenSeconds)}</div></div>
+      <div class="stat"><div class="k">Fullscreen toggles</div><div class="v">${attempt.fullscreenToggles}</div></div>
+      <div class="stat"><div class="k">Started</div><div class="v" style="font-size:13px;font-weight:600">${formatDate(attempt.startedAt)}</div></div>
+      <div class="stat"><div class="k">${submitted ? "Submitted" : "Last saved"}</div><div class="v" style="font-size:13px;font-weight:600">${formatDate(submitted ? attempt.submittedAt : (attempt.lastSeenAt || attempt.submittedAt))}</div></div>
+    </div>
+    <div class="score-strip">
+      <div class="score-copy">
+        <strong>${Number(summary.percentage).toFixed(1)}%</strong>
+        <span>${summary.right} right · ${summary.wrong} wrong · ${summary.notAttempted} not attempted</span>
+      </div>
+      <div class="bar"><i style="width:${percentage}%"></i></div>
+    </div>
+    <h2>Question-wise result</h2>
+    <div class="questions">${questions.map(questionHtml).join("") || `<div class="card muted" style="padding:18px">No responses were recorded for this attempt.</div>`}</div>
+    <div class="foot">Generated ${formatDate(data.generatedAt)} · This result is private. Share it only with the candidate.</div>
+  `;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+const params = new URLSearchParams(location.search);
+const initialCandidate = params.get("candidate") || "";
+const initialAssessment = params.get("assessment") || "";
+
+async function submitCandidate(candidateId, assessmentId = initialAssessment) {
+  hideError();
+  const button = $("#openButton");
+  button.disabled = true;
+  button.textContent = "Opening…";
+  try {
+    const data = await openResult(candidateId, assessmentId);
+    if (data.requiresSelection) renderChooser(data);
+    else renderResult(data);
+  } catch (error) {
+    $("#result").hidden = true;
+    $("#accessCard").hidden = false;
+    showError(error.message || "Could not open this result.");
+    button.disabled = false;
+    button.textContent = "View result";
+  }
+}
+
+$("#candidateId").addEventListener("input", (event) => {
+  const digits = event.target.value.replace(/\D+/g, "").slice(0, 10);
+  if (digits !== event.target.value) event.target.value = digits;
+});
+
+$("#openForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const candidateId = $("#candidateId").value.trim();
+  if (!candidateId) {
+    showError("Enter your Login ID.");
+    return;
+  }
+  submitCandidate(candidateId);
+});
+
+if (initialCandidate) {
+  $("#candidateId").value = initialCandidate;
+  submitCandidate(initialCandidate);
+} else {
+  $("#candidateId").focus();
+}
+</script>
+</body>
+</html>

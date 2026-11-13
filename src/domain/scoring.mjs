@@ -3,7 +3,11 @@ import * as responsesRepo from "../db/repositories/responses.repo.mjs";
 import * as questionsRepo from "../db/repositories/questions.repo.mjs";
 import { splitSelected } from "./answers.mjs";
 
-const NON_OBJECTIVE = new Set(["SA", "FIB", "TYPING"]);
+// Only MCQ/MSQ can be graded from option keys. Everything else (SA, FIB,
+// subjective, typing, programming, …) is reviewed manually and must not be
+// counted as a wrong answer.
+const OBJECTIVE_TYPES = new Set(["MCQ", "MSQ"]);
+export const isObjectiveType = (type) => OBJECTIVE_TYPES.has(String(type || "").trim().toUpperCase());
 
 /**
  * Score an attempt.
@@ -26,7 +30,7 @@ export async function scoreAttempt(attemptId) {
     if (selected.length === 0 && !hasText) continue;
     answered += 1;
 
-    if (NON_OBJECTIVE.has(row.type)) {
+    if (!isObjectiveType(row.type)) {
       pending += 1;
       continue;
     }

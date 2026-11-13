@@ -15,6 +15,7 @@ import { ensureInstructionFiles } from "./domain/paper-instructions.mjs";
 import { discoverPapers } from "./domain/paper-discovery.mjs";
 import { paperPath } from "./services/assessments.service.mjs";
 import * as assessmentsRepo from "./db/repositories/assessments.repo.mjs";
+import * as adminsRepo from "./db/repositories/admins.repo.mjs";
 
 const router = createRouter();
 registerCandidateRoutes(router);

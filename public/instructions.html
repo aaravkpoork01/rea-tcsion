@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta content="IE=edge" http-equiv="X-UA-Compatible">
-	<meta name="viewport" content="width=1200, initial-scale=0.35, minimum-scale=0.25, maximum-scale=5, user-scalable=yes">
+	<meta name="viewport" content="width=1200, minimum-scale=0.25, maximum-scale=5, user-scalable=yes">
 	<title>Instructions - Assessment Center</title>
 	<script>
 	var isAuthenticationRequired = true;
@@ -971,39 +971,18 @@ var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
 }
 		
 function instructionTimer(){
-	mockVar.minInstruTime = sessionStorage.mininstrutime!=undefined && sessionStorage.mininstrutime!=-1 ? parseInt(sessionStorage.mininstrutime)*60:-1;
-	mockVar.maxInstruTime = sessionStorage.maxinstrutime!=undefined && sessionStorage.maxinstrutime!=-1 ? parseInt(sessionStorage.maxinstrutime)*60:-1;
-	mockVar.considerTime = sessionStorage.consider_instru_time!=undefined ?sessionStorage.consider_instru_time:"NA";
-	mockVar.attemptTime = typeof(sessionStorage.startTime) != "undefined" ? sessionStorage.startTime : "NA";
-	mockVar.assessmentTime = typeof(sessionStorage.assessmentStartDate) != "undefined" ? sessionStorage.assessmentStartDate : "NA"
-	var waitingTime = typeof(sessionStorage.waitingTime)!="NA" && sessionStorage.waitingTime!=-1? sessionStorage.waitingTime:"NA";
-	if(mockVar.maxInstruTime!=-1){
-		if(mockVar.minInstruTime==-1)
-			mockVar.minInstruTime=0;
-		if(mockVar.considerTime == "YES"){
-			var date = new Date(mockVar.attemptTime);//15:06
-			var date1 = new Date(mockVar.assessmentTime);// 15:00
-			//startInstruCounter(mockVar.maxInstruTime - (date.getTime()-date1.getTime())/1000)
-			var dt = new Date();
-			if(sessionStorage.selectedGroupIds!="NA" && sessionStorage.mandateGroupUniformLaunch==1 && waitingTime!="NA"){
-				var date2 = new Date(waitingTime);//15:05
-		   dt.setSeconds( dt.getSeconds() + (mockVar.maxInstruTime - (date.getTime()-date2.getTime())/1000));
-			}
-			else{
-         	dt.setSeconds( dt.getSeconds() + (mockVar.maxInstruTime - (date.getTime()-date1.getTime())/1000));
-			}
-			initializeClock(dt);
-		}
-		else if(mockVar.considerTime =="NO"){
-			//startInstruCounter(mockVar.maxInstruTime);
-			var dt = new Date();
-         	dt.setSeconds( dt.getSeconds() + (mockVar.maxInstruTime));
-			initializeClock(dt);
-		}
-	}else{
-		$('.instruTimeCountDiv').hide();
-		$("#mobileTimer").hide();
-	}
+	// The assessment countdown belongs to the running quiz only. Keep the
+	// instructions page timer-free so the candidate can read at their own
+	// pace, and enable the disclaimer/Ready control immediately.
+	clearTimeout(mockVar.instTimeCounter);
+	$('.instruTimeCountDiv').hide();
+	$("#mobileTimer").hide();
+	$('#disclaimer').removeAttr("disabled").removeAttr("title");
+	$('#readylink').removeAttr("title");
+	$('#agreementMessageDef').removeAttr("title");
+	$('#agreementMessageCustom').removeAttr("title");
+	$('#checkBoxEnableMessage').hide();
+	linkDisp();
 }
 function startInstruCounter(time){
 	$(".instruTimeCounter").html("<b>"+mockLabels.timeLeft+"<span>"+convertTime(time)+" "+timerFormatLabel+"</span></b>");

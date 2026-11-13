@@ -11,6 +11,8 @@ const state = {
   questionsTerm: "",
   candidatesPage: 1,
   attemptsPage: 1,
+  resultsStatus: "submitted",
+  resultsSelection: new Set(),
   liveTimer: null,
 };
 
@@ -555,16 +557,23 @@ function assessmentForm(assessment, assessments = [], options = {}) {
       </div>
       <div style="border: 1px solid var(--border, #374151); border-radius: 8px; padding: 12px; margin: 12px 0; background: rgba(255,255,255,0.02);">
         <label class="row" style="font-weight: 600; margin: 0; cursor: pointer;">
-          <input type="checkbox" name="enableFullscreen" ${draftValue("enableFullscreen", a.require_fullscreen) ? "checked" : ""} style="width:auto" />
+          <input type="checkbox" name="enableFullscreen" ${draftValue("enableFullscreen", a.enable_fullscreen != null ? a.enable_fullscreen : a.require_fullscreen) ? "checked" : ""} style="width:auto" />
           Enable fullscreen mode
         </label>
-        <p class="field-note" id="fullscreenNote" style="margin:6px 0 0 22px">Candidates must enter fullscreen before answering. Fullscreen time and on/off toggles are counted for results.</p>
-        <div class="grid2" id="feedbackOptions" style="margin-top:10px">
-          <label class="row" data-feedback-option><input type="checkbox" name="showFeedback" ${draftValue("showFeedback", a.show_feedback) ? "checked" : ""} style="width:auto" /> Show feedback page</label>
-          <label class="row" data-feedback-option><input type="checkbox" name="useDefaultFeedback" ${draftValue("useDefaultFeedback", a.use_default_feedback) ? "checked" : ""} style="width:auto" /> Use default feedback form</label>
+        <div id="fullscreenSubOptions" style="margin-top: 10px; margin-left: 22px; display: flex; flex-direction: column; gap: 8px; border-left: 2px solid var(--border, #4b5563); padding-left: 12px;">
+          <label class="row" style="cursor: pointer;">
+            <input type="checkbox" name="requireFullscreen" ${draftValue("requireFullscreen", a.require_fullscreen) ? "checked" : ""} style="width:auto" />
+            Require fullscreen to answer (cannot start until fullscreen is on)
+          </label>
+          <label class="row" style="cursor: pointer;">
+            <input type="checkbox" name="trackFullscreen" ${draftValue("trackFullscreen", (a.track_fullscreen != null ? a.track_fullscreen : 1)) ? "checked" : ""} style="width:auto" />
+            Count fullscreen time and on/off toggles in results
+          </label>
         </div>
       </div>
       <div class="grid2">
+        <label class="row"><input type="checkbox" name="showFeedback" ${draftValue("showFeedback", a.show_feedback) ? "checked" : ""} style="width:auto" /> Show feedback page</label>
+        <label class="row"><input type="checkbox" name="useDefaultFeedback" ${draftValue("useDefaultFeedback", a.use_default_feedback) ? "checked" : ""} style="width:auto" /> Use default feedback form</label>
         <label class="row"><input type="checkbox" name="storeResponse" ${draftValue("storeResponse", a.store_response) ? "checked" : ""} style="width:auto" /> Server-side response store</label>
       </div>
       ${lockedDraft ? `<p class="field-note">This assessment is saved as <strong>draft</strong>. After saving, use <em>Upload CSV</em> to add its question paper; the assessment becomes active automatically. The paper folder is managed for you.</p>` : ""}
@@ -577,16 +586,19 @@ function assessmentForm(assessment, assessments = [], options = {}) {
   const nameInput = m.root.querySelector("[name=name]");
 
   const masterFullscreen = m.root.querySelector("[name=enableFullscreen]");
-  const feedbackRows = [...m.root.querySelectorAll("[data-feedback-option]")];
-  const fullscreenNote = m.root.querySelector("#fullscreenNote");
+  const subOptionsContainer = m.root.querySelector("#fullscreenSubOptions");
+  const requireFullscreenInput = m.root.querySelector("[name=requireFullscreen]");
+  const trackFullscreenInput = m.root.querySelector("[name=trackFullscreen]");
 
-  const syncFullscreenOptions = () => {
+  const syncFullscreenSubOptions = () => {
     const isEnabled = masterFullscreen.checked;
-    for (const row of feedbackRows) row.style.display = isEnabled ? "none" : "flex";
-    if (fullscreenNote) fullscreenNote.style.display = isEnabled ? "" : "none";
+    subOptionsContainer.style.opacity = isEnabled ? "1" : ".55";
+    requireFullscreenInput.disabled = !isEnabled;
+    trackFullscreenInput.disabled = !isEnabled;
+    if (!isEnabled) requireFullscreenInput.checked = false;
   };
-  masterFullscreen.addEventListener("change", syncFullscreenOptions);
-  syncFullscreenOptions();
+  masterFullscreen.addEventListener("change", syncFullscreenSubOptions);
+  syncFullscreenSubOptions();
 
   const captureDraft = () => ({
     orgId: orgInput.value.trim(),
@@ -599,8 +611,8 @@ function assessmentForm(assessment, assessments = [], options = {}) {
     useDefaultFeedback: m.root.querySelector("[name=useDefaultFeedback]").checked,
     storeResponse: m.root.querySelector("[name=storeResponse]").checked,
     enableFullscreen: masterFullscreen.checked,
-    requireFullscreen: masterFullscreen.checked,
-    trackFullscreen: masterFullscreen.checked,
+    requireFullscreen: masterFullscreen.checked && requireFullscreenInput.checked,
+    trackFullscreen: masterFullscreen.checked && trackFullscreenInput.checked,
   });
   const reopenWithDraft = (callback) => {
     const draft = captureDraft();
@@ -661,8 +673,8 @@ function assessmentForm(assessment, assessments = [], options = {}) {
       useDefaultFeedback: m.root.querySelector("[name=useDefaultFeedback]").checked,
       storeResponse: m.root.querySelector("[name=storeResponse]").checked,
       enableFullscreen: masterFullscreen.checked,
-      requireFullscreen: masterFullscreen.checked,
-      trackFullscreen: masterFullscreen.checked,
+      requireFullscreen: masterFullscreen.checked && requireFullscreenInput.checked,
+      trackFullscreen: masterFullscreen.checked && trackFullscreenInput.checked,
     };
     if (isNew) body.basePath = autoBasePath(bodyOrg, id);
 
@@ -1043,36 +1055,64 @@ function settingJson(value, fallback) {
  * removes every per-assessment presentation override so all assessments switch
  * to the new values in one go.
  */
-async function globalPresentationForm() {
-  const { settings } = await api("/settings");
+async function globalPresentationForm(options = {}) {
+  const [{ settings }, { assessments }] = await Promise.all([
+    api("/settings"),
+    api("/assessments"),
+  ]);
   const storedTopbar = settingJson(settings.exam_topbar, {});
   const items = storedTopbar.items || {};
   const custom = Array.isArray(storedTopbar.custom) ? storedTopbar.custom : [];
   const tools = settingJson(settings.exam_tools, {});
+  const draft = options.draft || null;
+  const assessmentIds = new Set(assessments.map((assessment) => assessment.id));
+  const selectedId = assessmentIds.has(draft?.assessmentId)
+    ? draft.assessmentId
+    : assessments[0]?.id || "";
 
   const topbarRows = TOPBAR_META.map(([key, fallback]) => {
     const entry = items[key] || {};
+    const drafted = draft?.items?.[key] || {};
+    const label = drafted.label ?? entry.label ?? fallback;
+    const mode = drafted.mode ?? entry.mode ?? "auto";
+    const hasContent = Boolean(TOPBAR_CONTENT[key]);
     return `<tr>
-      <td><input data-topbar-label="${key}" value="${esc(entry.label || fallback)}" maxlength="60" aria-label="${esc(fallback)} button name" /></td>
-      <td style="width:190px">${modeSelect("topbar-mode", key, entry.mode || "auto")}</td>
+      <td><input data-topbar-label="${key}" value="${esc(label)}" maxlength="60" aria-label="${esc(fallback)} button name" /></td>
+      <td style="width:170px">${hasContent
+        ? `<button class="btn small" data-content="${key}" title="View and edit what this button opens" ${assessments.length ? "" : "disabled"}>View / edit</button>`
+        : `<span class="muted small">—</span>`}</td>
+      <td style="width:190px">${modeSelect("topbar-mode", key, mode)}</td>
     </tr>`;
   }).join("");
 
   const toolRows = TOOL_META.map(([key, toolLabel]) => `<tr>
     <td>${esc(toolLabel)}</td>
-    <td style="width:190px">${modeSelect("tool-mode", key, tools[key] || "auto")}</td>
+    <td style="width:190px">${modeSelect("tool-mode", key, draft?.tools?.[key] ?? tools[key] ?? "auto")}</td>
   </tr>`).join("");
+
+  const assessmentOptions = assessments.length
+    ? assessments.map((assessment) => `<option value="${esc(assessment.id)}" ${assessment.id === selectedId ? "selected" : ""}>${esc(assessment.id)} — ${esc(assessment.name || "")}</option>`).join("")
+    : `<option value="">No assessments yet</option>`;
 
   const m = modal({
     title: "Candidate UI — all assessments",
     wide: true,
+    onClose: options.onClose,
     body: `
-      <p class="field-note" style="margin-top:0">These top bar buttons and exam tools apply to <strong>every assessment</strong>. Saving here removes per-assessment candidate UI overrides, so all assessments switch to the values below. To change one assessment only, use <strong>Assessments → Edit → Candidate UI</strong>.</p>
+      <p class="field-note" style="margin-top:0">These top bar buttons and exam tools apply to <strong>every assessment</strong>. Saving here removes per-assessment candidate UI overrides, so all assessments switch to the values below. Button content is stored inside each assessment. To change one assessment only, use <strong>Assessments → Edit → Candidate UI</strong>.</p>
       <div class="card" style="margin-bottom:14px">
-        <div class="card-head"><h3>Candidate top bar</h3><span class="sub">Button names and visibility for all assessments</span></div>
+        <div class="card-head"><h3>Candidate top bar</h3><span class="sub">Button names, content and visibility for all assessments</span></div>
+        <div class="card-body" style="padding-bottom:0">
+          <div class="row" style="align-items:flex-end;gap:10px;margin-bottom:12px">
+            <label style="margin:0;flex:0 1 340px">View / edit content for
+              <select id="globalContentAssessment" ${assessments.length ? "" : "disabled"}>${assessmentOptions}</select>
+            </label>
+            <span class="field-note" style="margin:0 0 4px">Content is stored per assessment; names and visibility above still apply to all.</span>
+          </div>
+        </div>
         <div class="card-body tight">
           <div class="table-wrap"><table>
-            <thead><tr><th>Button name</th><th>Visibility</th></tr></thead>
+            <thead><tr><th>Button name</th><th>Content</th><th>Visibility</th></tr></thead>
             <tbody>${topbarRows}</tbody>
           </table></div>
         </div>
@@ -1090,6 +1130,52 @@ async function globalPresentationForm() {
     footer: `<button class="btn" data-close>Cancel</button>
       <button class="btn" data-defaults>Use built-in defaults</button>
       <button class="btn primary" data-save>Save for all assessments</button>`,
+  });
+
+  // Keep unsaved global values and the chosen assessment when a content editor is opened.
+  const captureDraft = () => ({
+    items: Object.fromEntries(TOPBAR_META.map(([key]) => [
+      key,
+      {
+        label: m.root.querySelector(`[data-topbar-label="${key}"]`).value.trim(),
+        mode: m.root.querySelector(`[data-topbar-mode="${key}"]`).value,
+      },
+    ])),
+    tools: Object.fromEntries(
+      TOOL_META.map(([key]) => [key, m.root.querySelector(`[data-tool-mode="${key}"]`).value]),
+    ),
+    custom,
+    assessmentId: m.root.querySelector("#globalContentAssessment")?.value || selectedId,
+    scrollTop: m.root.querySelector(".modal")?.scrollTop || 0,
+  });
+
+  const modalNode = m.root.querySelector(".modal");
+  if (draft?.scrollTop && modalNode) {
+    requestAnimationFrame(() => { modalNode.scrollTop = draft.scrollTop; });
+  }
+
+  const contentSelect = m.root.querySelector("#globalContentAssessment");
+  const syncContentTitles = () => {
+    const assessment = assessments.find((entry) => entry.id === contentSelect?.value);
+    m.root.querySelectorAll("[data-content]").forEach((button) => {
+      button.title = assessment
+        ? `View and edit this content for ${assessment.id}`
+        : "View and edit what this button opens";
+    });
+  };
+  contentSelect?.addEventListener("change", syncContentTitles);
+  syncContentTitles();
+
+  m.root.querySelectorAll("[data-content]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const openContent = TOPBAR_CONTENT[button.dataset.content];
+      const assessment = assessments.find((entry) => entry.id === contentSelect?.value);
+      if (!openContent || !assessment) return;
+      const snapshot = captureDraft();
+      openContent(assessment, {
+        onClose: () => globalPresentationForm({ ...options, draft: snapshot }),
+      });
+    });
   });
 
   m.root.querySelector("[data-defaults]").addEventListener("click", () => {
@@ -1239,13 +1325,13 @@ const PAPER_LANGUAGE_MAX = 3;
  * editor that shows per-language content uses this so the same rules apply in
  * instructions, group/section instructions and question editors.
  */
-function languageManagerHtml() {
+function languageManagerHtml(note = "The primary language cannot be removed. Add or remove the other languages used by this assessment.") {
   return `<div class="card" data-lang-manager style="margin-bottom:12px;box-shadow:none">
     <div class="card-body">
       <div class="row" style="justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px">
         <div>
           <strong>Paper languages</strong>
-          <div class="muted small">The primary language cannot be removed. Add or remove the other languages used by this assessment.</div>
+          <div class="muted small">${esc(note)}</div>
         </div>
         <div class="row" style="align-items:flex-end;gap:6px">
           <label style="margin:0">Name<input data-lang-new-name maxlength="32" placeholder="Hindi" style="width:128px" /></label>
@@ -1372,6 +1458,8 @@ async function usefulDataForm(assessment, options = {}) {
   let rows = (data.files || []).map((row) => ({
     index: Number(row.index),
     path: String(row.path || ""),
+    url: String(row.url || ""),
+    name: String(row.name || ""),
   }));
 
   const m = modal({
@@ -1379,22 +1467,22 @@ async function usefulDataForm(assessment, options = {}) {
     wide: true,
     onClose: options.onClose,
     body: `
-      <p class="field-note" style="margin-top:0">These files are what the candidate opens from the <strong>Useful Data</strong> button. Leave a row empty to remove it. Paths can be paper-relative (for example <code>726/ASM/OnlineAssessment/M63/guide.pdf</code>) or a full URL.</p>
+      <p class="field-note" style="margin-top:0">Upload the PDF files candidates open from the <strong>Useful Data</strong> button. Use <strong>View</strong> to open a file in a new tab; remove a row to hide it from candidates.</p>
+      <div class="row" style="margin-bottom:10px; gap:8px;">
+        <input type="file" id="usefulPdfInput" accept="application/pdf,.pdf" multiple hidden />
+        <button type="button" class="btn" id="usefulUpload">Upload PDF</button>
+        <span class="muted small">PDF only, up to 5 MB per file.</span>
+      </div>
       <div class="table-wrap"><table>
-        <thead><tr><th style="width:100px">File</th><th>Path</th><th style="width:54px"></th></tr></thead>
+        <thead><tr><th style="width:70px">File</th><th>Name</th><th style="width:150px"></th></tr></thead>
         <tbody id="usefulRows"></tbody>
-      </table></div>
-      <div class="row" style="margin-top:10px"><button type="button" class="btn small" id="usefulAdd">Add file</button></div>`,
+      </table></div>`,
     footer: `<button class="btn" data-close>Cancel</button><button class="btn primary" data-save>Save useful data</button>`,
   });
 
   const tbody = m.root.querySelector("#usefulRows");
-  const collect = () => {
-    tbody.querySelectorAll("[data-useful-path]").forEach((input) => {
-      const row = rows.find((entry) => entry.index === Number(input.dataset.usefulPath));
-      if (row) row.path = input.value;
-    });
-  };
+  const uploadButton = m.root.querySelector("#usefulUpload");
+  const uploadInput = m.root.querySelector("#usefulPdfInput");
   const nextIndex = () => {
     for (let index = 1; index <= 27; index += 1) {
       if (!rows.some((row) => row.index === index)) return index;
@@ -1405,13 +1493,23 @@ async function usefulDataForm(assessment, options = {}) {
     tbody.innerHTML = rows.length
       ? rows.map((row) => `<tr>
           <td class="num">File ${row.index}</td>
-          <td><input data-useful-path="${row.index}" value="${esc(row.path)}" placeholder="Paper-relative path or full URL" /></td>
-          <td><button type="button" class="btn small danger" data-useful-remove="${row.index}" title="Remove this file">&times;</button></td>
+          <td><span title="${esc(row.path)}">${esc(row.name || row.path)}</span></td>
+          <td><div class="row" style="gap:6px;justify-content:flex-end">
+            <button type="button" class="btn small" data-useful-view="${row.index}">View</button>
+            <button type="button" class="btn small danger" data-useful-remove="${row.index}" title="Remove this file">&times;</button>
+          </div></td>
         </tr>`).join("")
-      : `<tr><td colspan="3" class="muted small">No useful-data files. The button stays hidden for candidates until a file is added.</td></tr>`;
+      : `<tr><td colspan="3" class="muted small">No useful-data files yet. Upload a PDF to add one; the button stays hidden for candidates until you save a file.</td></tr>`;
+    tbody.querySelectorAll("[data-useful-view]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const row = rows.find((entry) => entry.index === Number(button.dataset.usefulView));
+        if (!row) return;
+        if (!row.url) { toast("This file has no viewable URL.", "error"); return; }
+        window.open(row.url, "_blank", "noopener");
+      });
+    });
     tbody.querySelectorAll("[data-useful-remove]").forEach((button) => {
       button.addEventListener("click", () => {
-        collect();
         rows = rows.filter((row) => row.index !== Number(button.dataset.usefulRemove));
         render();
       });
@@ -1419,20 +1517,59 @@ async function usefulDataForm(assessment, options = {}) {
   };
   render();
 
-  m.root.querySelector("#usefulAdd").addEventListener("click", () => {
-    collect();
-    const index = nextIndex();
-    if (!index) { toast("All 27 useful-data slots are in use.", "error"); return; }
-    rows.push({ index, path: "" });
-    render();
-    m.root.querySelector(`[data-useful-path="${index}"]`)?.focus();
+  const readAsDataUrl = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => reject(new Error("Could not read that PDF."));
+    reader.readAsDataURL(file);
+  });
+
+  uploadButton.addEventListener("click", () => uploadInput.click());
+  uploadInput.addEventListener("change", async () => {
+    const files = [...(uploadInput.files || [])];
+    uploadInput.value = "";
+    if (!files.length) return;
+    const label = uploadButton.textContent;
+    uploadButton.disabled = true;
+    for (const file of files) {
+      if (!/\.pdf$/i.test(file.name) && file.type !== "application/pdf") {
+        toast(`${file.name}: choose a PDF file.`, "error");
+        continue;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        toast(`${file.name}: keep each PDF under 5 MB.`, "error");
+        continue;
+      }
+      const index = nextIndex();
+      if (!index) { toast("All 27 useful-data slots are in use.", "error"); break; }
+      uploadButton.textContent = "Uploading…";
+      try {
+        const uploaded = await api(`/assessments/${encodeURIComponent(assessment.id)}/useful-data/upload`, {
+          method: "POST",
+          body: { fileName: file.name, data: await readAsDataUrl(file) },
+        });
+        rows.push({
+          index,
+          path: String(uploaded.file?.path || ""),
+          url: String(uploaded.file?.url || ""),
+          name: String(uploaded.file?.name || file.name),
+        });
+        rows.sort((a, b) => a.index - b.index);
+        render();
+      } catch (e) {
+        toast(e.message, "error");
+      } finally {
+        uploadButton.textContent = label;
+      }
+    }
+    uploadButton.textContent = label;
+    uploadButton.disabled = false;
   });
 
   m.root.querySelector("[data-save]").addEventListener("click", async () => {
     const button = m.root.querySelector("[data-save]");
-    collect();
     const files = rows
-      .map((row) => ({ index: row.index, path: row.path.trim() }))
+      .map((row) => ({ index: row.index, path: String(row.path || "").trim() }))
       .filter((row) => row.path);
     button.disabled = true;
     try {
@@ -1796,14 +1933,15 @@ async function instructionsForm(assessment, options = {}) {
  */
 async function globalInstructionsForm() {
   const data = await api("/settings/instructions");
-  const languages = (data.languages || [])
+  const initialLanguages = (data.languages || [])
     .map((language) => ({
       id: Number(language.id),
       name: String(language.name || ""),
       primary: Boolean(language.primary),
     }))
     .filter((language) => Number.isInteger(language.id));
-  if (!languages.length) {
+  const initialList = initialLanguages.map((language) => ({ id: Number(language.id), name: String(language.name) }));
+  if (!initialLanguages.length) {
     toast("No assessment languages found yet.", "error");
     return;
   }
@@ -1816,27 +1954,12 @@ async function globalInstructionsForm() {
   const m = modal({
     title: "Candidate instructions — all assessments",
     wide: true,
-    body: `
-      <p class="field-note" style="margin-top:0">These instructions are written to <strong>every assessment</strong> that uses the language. Saving here updates all of them at once. To change one assessment only, use <strong>Assessments → Edit → Instructions</strong>.</p>
+    body: `${languageManagerHtml("The primary language cannot be removed. Added or removed languages are applied to every assessment.")}
+      <p class="field-note" style="margin-top:0">These instructions are written to <strong>every assessment</strong> that uses the language. Saving here updates all of them at once. Paper language changes here are applied to every assessment. To change one assessment only, use <strong>Assessments → Edit → Instructions</strong>.</p>
       <p class="field-note" style="margin-top:0">${data.stored
         ? "The fields below show the current global template."
         : "No global template is stored yet; the fields below show the values from the existing assessments. Saving creates the global template."}</p>
-      <div data-lang-blocks>${languages.map((language, index) => `<details class="card" ${index === 0 ? "open" : ""} style="margin-bottom:12px">
-        <summary style="cursor:pointer;padding:10px 14px;font-weight:600">
-          ${esc(language.name)}${language.primary ? " (primary)" : ""}
-        </summary>
-        <div class="card-body">
-          <label>System instructions (shown on the instructions page)
-            <textarea data-lang="${language.id}" data-field="systemInstruction" style="min-height:180px"></textarea>
-          </label>
-          <label style="margin-top:12px">Custom instructions (paper-specific additions)
-            <textarea data-lang="${language.id}" data-field="customInstruction" style="min-height:120px"></textarea>
-          </label>
-          <label style="margin-top:12px">Disclaimer
-            <textarea data-lang="${language.id}" data-field="disclaimer" style="min-height:90px"></textarea>
-          </label>
-        </div>
-      </details>`).join("")}</div>`,
+      <div data-lang-blocks></div>`,
     footer: `<button class="btn" data-close>Cancel</button><button class="btn primary" data-save>Save for all assessments</button>`,
   });
 
@@ -1849,24 +1972,74 @@ async function globalInstructionsForm() {
       values.set(id, entry);
     });
   };
-  for (const language of languages) {
-    const entry = values.get(language.id) || {};
-    for (const field of ["systemInstruction", "customInstruction", "disclaimer"]) {
-      const input = blocksRoot.querySelector(`[data-lang="${language.id}"][data-field="${field}"]`);
-      if (input) input.value = entry[field] || "";
+  const render = (languages) => {
+    blocksRoot.innerHTML = languages.map((language, index) => `<details class="card" ${index === 0 ? "open" : ""} style="margin-bottom:12px">
+      <summary style="cursor:pointer;padding:10px 14px;font-weight:600">
+        ${esc(language.name)}${language.primary ? " (primary)" : ""}
+      </summary>
+      <div class="card-body">
+        <label>System instructions (shown on the instructions page)
+          <textarea data-lang="${language.id}" data-field="systemInstruction" style="min-height:180px"></textarea>
+        </label>
+        <label style="margin-top:12px">Custom instructions (paper-specific additions)
+          <textarea data-lang="${language.id}" data-field="customInstruction" style="min-height:120px"></textarea>
+        </label>
+        <label style="margin-top:12px">Disclaimer
+          <textarea data-lang="${language.id}" data-field="disclaimer" style="min-height:90px"></textarea>
+        </label>
+      </div>
+    </details>`).join("");
+    for (const language of languages) {
+      const entry = values.get(Number(language.id)) || {};
+      for (const field of ["systemInstruction", "customInstruction", "disclaimer"]) {
+        const input = blocksRoot.querySelector(`[data-lang="${language.id}"][data-field="${field}"]`);
+        if (input) input.value = entry[field] || "";
+      }
     }
-  }
+  };
+  const manager = bindLanguageManager(m.root, initialLanguages, (languages) => {
+    collect();
+    render(languages);
+  });
+  render(manager.languages());
 
   m.root.querySelector("[data-save]").addEventListener("click", async () => {
     collect();
+    const languages = manager.languages();
+    const before = new Map(initialList.map((language) => [language.id, language]));
+    const after = new Map(languages.map((language) => [language.id, language]));
+    const added = languages
+      .filter((language) => !before.has(language.id))
+      .map((language) => ({ id: language.id, name: language.name }));
+    const removed = initialList
+      .filter((language) => !after.has(language.id))
+      .map((language) => language.id);
+    const changed = added.length > 0 || removed.length > 0;
     const rows = languages.map((language) => ({
       id: language.id,
       name: language.name,
-      systemInstruction: values.get(language.id)?.systemInstruction || "",
-      customInstruction: values.get(language.id)?.customInstruction || "",
-      disclaimer: values.get(language.id)?.disclaimer || "",
+      systemInstruction: values.get(Number(language.id))?.systemInstruction || "",
+      customInstruction: values.get(Number(language.id))?.customInstruction || "",
+      disclaimer: values.get(Number(language.id))?.disclaimer || "",
     }));
-    if (!(await confirmDialog(
+
+    if (changed) {
+      const parts = [];
+      if (added.length) {
+        parts.push(`add ${added.map((language) => `${language.name} (#${language.id})`).join(", ")}`);
+      }
+      if (removed.length) {
+        const names = removed.map((id) => {
+          const language = initialList.find((entry) => entry.id === id);
+          return `${language?.name || "language"} (#${id})`;
+        });
+        parts.push(`remove ${names.join(", ")} and delete ${removed.length === 1 ? "its" : "their"} translations`);
+      }
+      if (!(await confirmDialog(
+        `Save these instructions and update paper languages on every assessment? This will ${parts.join("; ")}.`,
+        "Save for all assessments",
+      ))) return;
+    } else if (!(await confirmDialog(
       `Save these instructions for every assessment? ${data.assessmentCount || 0} assessment(s) that use these languages will be updated.`,
       "Save for all assessments",
     ))) return;
@@ -1874,8 +2047,13 @@ async function globalInstructionsForm() {
     const button = m.root.querySelector("[data-save]");
     if (button) button.disabled = true;
     try {
-      const saved = await api("/settings/instructions", { method: "PUT", body: { languages: rows } });
-      toast(`Instructions saved for ${saved.updated ?? 0} assessment(s).`, "success");
+      const saved = await api("/settings/instructions", {
+        method: "PUT",
+        body: { languages: rows, ...(changed ? { languageChanges: { added, removed } } : {}) },
+      });
+      toast(changed
+        ? `Instructions and paper languages saved; ${saved.updated ?? 0} assessment(s) updated.`
+        : `Instructions saved for ${saved.updated ?? 0} assessment(s).`, "success");
       m.close();
     } catch (e) {
       if (button) button.disabled = false;
@@ -2339,16 +2517,16 @@ async function renderCandidates() {
   $("#view").innerHTML = `
     <div class="card"><div class="card-body">
       <div class="toolbar">
-        <label class="grow">Search<input id="cSearch" value="${esc(search)}" placeholder="Name, login, group, email or phone" /></label>
+        <label class="grow">Search<input id="cSearch" value="${esc(search)}" placeholder="Name, Candidate ID, Login ID, group, email or phone" /></label>
       </div>
     </div></div>
     <div class="card">
       <div class="card-head"><h3>Candidates</h3><span class="sub">${total} total</span></div>
       <div class="card-body tight">
         ${candidates.length ? `<div class="table-wrap"><table>
-          <thead><tr><th>Name</th><th>System name</th><th>Groups</th><th>Login</th><th>Email / Phone</th><th>Attempts</th><th>Best score</th><th>Status</th><th>Last login</th><th></th></tr></thead>
+          <thead><tr><th>Name / Candidate ID</th><th>System name</th><th>Groups</th><th>Login ID</th><th>Email / Phone</th><th>Attempts</th><th>Best score</th><th>Status</th><th>Last login</th><th></th></tr></thead>
           <tbody>${candidates.map((c) => `<tr>
-            <td>${esc(c.name)}</td>
+            <td>${esc(c.name)} <span class="muted small">${esc(c.id)}</span></td>
             <td>${esc(c.system_name || "—")}</td>
             <td>${esc(c.group_names || "—")}</td>
             <td><code>${esc(c.login)}</code></td>
@@ -2426,29 +2604,42 @@ async function candidateForm(candidate) {
         <span id="candPhotoNote" class="photo-upload-note">${photo ? "Uploaded photo" : "Default photo"}</span>
       </div>
       <div class="grid2">
-        <label>Login ID *<input name="login" value="${esc(c.login || "")}" ${isNew ? 'required autocomplete="off"' : "disabled"} /></label>
+        <label>Candidate ID *
+          <span class="input-with-action">
+            <input name="candidateId" value="${esc(isNew ? "" : c.id)}" readonly autocomplete="off" spellcheck="false" placeholder="Auto-generated" aria-readonly="true" />
+            ${isNew ? `<button type="button" class="btn" data-refresh-candidate title="Generate a new 10-character Candidate ID" aria-label="Generate a new 10-character Candidate ID">&#x21bb;</button>` : ""}
+          </span>
+          <span class="field-note" data-candidate-note>${isNew ? "Auto-generated 10 letters/numbers. Cannot be changed after creation." : "Candidate ID is permanent and cannot be changed."}</span>
+        </label>
+        <label>Login ID *
+          <span class="input-with-action">
+            <input name="login" value="${esc(c.login || "")}" autocomplete="off" spellcheck="false" maxlength="10" inputmode="numeric" pattern="[0-9]{10}" placeholder="10-digit number" />
+            <button type="button" class="btn" data-refresh-login title="Generate a new 10-digit Login ID" aria-label="Generate a new 10-digit Login ID">&#x21bb;</button>
+          </span>
+          <span class="field-note" data-login-note>${isNew ? "10 digits (numbers only). Used to sign in and open the result; auto-generated, or type your own." : "Current Login ID. Used to sign in and open the result."}</span>
+        </label>
+      </div>
+      <div class="grid2">
         ${isNew
           ? `<label>Password *<input name="password" type="password" value="" required autocomplete="new-password" /></label>`
           : `<label>Status<select name="status">${["active", "inactive"].map((s) => `<option ${c.status === s ? "selected" : ""}>${s}</option>`).join("")}</select></label>`}
-      </div>
-      <div class="grid2">
         <label>Candidate name<input name="name" value="${esc(c.name || (isNew ? "Your Name" : ""))}" placeholder="Your Name" /></label>
-        <label>System name<input name="systemName" value="${esc(c.system_name || "")}" placeholder="e.g. C001" /></label>
       </div>
       <div class="grid2">
+        <label>System name<input name="systemName" value="${esc(c.system_name || "")}" placeholder="e.g. C001" /></label>
         <label>Email / Phone (optional)<input name="contact" value="${esc(c.email || c.phone || "")}" /></label>
-        <div>
-          <div class="photo-field-title" style="margin-bottom:6px">Candidate groups</div>
-          ${groups.length
-            ? `<div style="display:flex;flex-wrap:wrap;gap:6px 18px">
-                ${groups.map((group) => `<label class="row" style="gap:8px;width:auto;font-weight:400">
-                  <input type="checkbox" data-candidate-group="${esc(group.id)}" ${selectedGroups.has(String(group.id)) ? "checked" : ""} style="width:auto" />
-                  <span>${esc(group.name)}</span>
-                </label>`).join("")}
-              </div>`
-            : `<div class="muted small">No candidate groups yet. Create them from <strong>Candidate groups</strong>.</div>`}
-          <span class="field-note">A candidate can belong to more than one group.</span>
-        </div>
+      </div>
+      <div>
+        <div class="photo-field-title" style="margin-bottom:6px">Candidate groups</div>
+        ${groups.length
+          ? `<div style="display:flex;flex-wrap:wrap;gap:6px 18px">
+              ${groups.map((group) => `<label class="row" style="gap:8px;width:auto;font-weight:400">
+                <input type="checkbox" data-candidate-group="${esc(group.id)}" ${selectedGroups.has(String(group.id)) ? "checked" : ""} style="width:auto" />
+                <span>${esc(group.name)}</span>
+              </label>`).join("")}
+            </div>`
+          : `<div class="muted small">No candidate groups yet. Create them from <strong>Candidate groups</strong>.</div>`}
+        <span class="field-note">A candidate can belong to more than one group.</span>
       </div>
       ${isNew ? `<div class="grid2">
         <label>Status<select name="status">${["active", "inactive"].map((s) => `<option ${c.status === s ? "selected" : ""}>${s}</option>`).join("")}</select></label>
@@ -2456,6 +2647,161 @@ async function candidateForm(candidate) {
       </div>` : ""}
     `,
     footer: `<button class="btn" data-close>Cancel</button><button class="btn primary" data-save>${isNew ? "Create" : "Save"}</button>`,
+  });
+
+  const candidateIdInput = m.root.querySelector("[name=candidateId]");
+  const candidateIdNote = m.root.querySelector("[data-candidate-note]");
+  const refreshCandidateId = m.root.querySelector("[data-refresh-candidate]");
+  const loginInput = m.root.querySelector("[name=login]");
+  const loginNote = m.root.querySelector("[data-login-note]");
+  const refreshLogin = m.root.querySelector("[data-refresh-login]");
+  const originalLogin = String(c.login || "");
+  const defaultLoginNote = isNew
+    ? "10 digits (numbers only). Used to sign in and open the result; auto-generated, or type your own."
+    : "Current Login ID. Used to sign in and open the result.";
+  const defaultCandidateNote = isNew
+    ? "Auto-generated 10 letters/numbers. Cannot be changed after creation."
+    : "Candidate ID is permanent and cannot be changed.";
+  let loginCheckSeq = 0;
+  let loginCheckTimer = null;
+  let candidateCheckSeq = 0;
+
+  const ALPHANUM = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const randomCode = (length = 10) => {
+    const values = new Uint32Array(length);
+    if (globalThis.crypto?.getRandomValues) globalThis.crypto.getRandomValues(values);
+    else for (let i = 0; i < values.length; i += 1) values[i] = Math.floor(Math.random() * 0xffffffff);
+    let out = "";
+    for (let i = 0; i < length; i += 1) out += ALPHANUM[values[i] % ALPHANUM.length];
+    return out;
+  };
+  const randomDigits = (length = 10) => {
+    const values = new Uint32Array(length);
+    if (globalThis.crypto?.getRandomValues) globalThis.crypto.getRandomValues(values);
+    else for (let i = 0; i < values.length; i += 1) values[i] = Math.floor(Math.random() * 0xffffffff);
+    let out = String(1 + (values[0] % 9));
+    for (let i = 1; i < length; i += 1) out += String(values[i] % 10);
+    return out;
+  };
+  const isLoginCode = (value) => /^[0-9]{10}$/.test(value);
+  const isCandidateCode = (value) => /^[A-Za-z0-9]{10}$/.test(value);
+
+  const setCandidateState = (state, message) => {
+    candidateIdInput.classList.toggle("invalid", state === "invalid");
+    candidateIdInput.classList.toggle("valid", state === "valid");
+    candidateIdInput.setAttribute("aria-invalid", state === "invalid" ? "true" : "false");
+    if (!candidateIdNote) return;
+    candidateIdNote.textContent = message || defaultCandidateNote;
+    candidateIdNote.classList.toggle("field-error", state === "invalid");
+  };
+
+  const checkCandidateId = async () => {
+    const value = candidateIdInput.value.trim();
+    const seq = ++candidateCheckSeq;
+    if (!isCandidateCode(value)) {
+      setCandidateState("invalid", "Candidate ID must be exactly 10 letters or numbers.");
+      return false;
+    }
+    try {
+      const data = await api(`/candidates/check-id?id=${encodeURIComponent(value)}`);
+      if (seq !== candidateCheckSeq) return false;
+      if (!data.available) {
+        setCandidateState("invalid", "This Candidate ID is already taken. Refresh to generate another.");
+        return false;
+      }
+      setCandidateState("valid", "Candidate ID is available.");
+      return true;
+    } catch {
+      if (seq !== candidateCheckSeq) return false;
+      setCandidateState("", "Could not check this Candidate ID right now.");
+      return false;
+    }
+  };
+
+  const generateCandidateId = async () => {
+    for (let i = 0; i < 5; i += 1) {
+      candidateIdInput.value = randomCode(10);
+      if (await checkCandidateId()) return;
+    }
+  };
+
+  const setLoginState = (state, message) => {
+    loginInput.classList.toggle("invalid", state === "invalid");
+    loginInput.classList.toggle("valid", state === "valid");
+    loginInput.setAttribute("aria-invalid", state === "invalid" ? "true" : "false");
+    if (!loginNote) return;
+    loginNote.textContent = message || defaultLoginNote;
+    loginNote.classList.toggle("field-error", state === "invalid");
+  };
+
+  const checkLogin = async ({ strict = false } = {}) => {
+    const value = loginInput.value.trim();
+    const seq = ++loginCheckSeq;
+    // Editing an existing candidate: leaving a legacy Login ID untouched is
+    // allowed, but any new value must be a 10-digit number.
+    if (!isNew && value === originalLogin && value) {
+      setLoginState("", defaultLoginNote);
+      return true;
+    }
+    if (!isLoginCode(value)) {
+      setLoginState(strict ? "invalid" : "", strict ? "Login ID must be exactly 10 digits (numbers only)." : "");
+      return false;
+    }
+    setLoginState("", "Checking availability…");
+    try {
+      const exclude = isNew ? "" : `&exclude=${encodeURIComponent(c.id)}`;
+      const data = await api(`/candidates/check-login?login=${encodeURIComponent(value)}${exclude}`);
+      if (seq !== loginCheckSeq) return false;
+      if (!data.available) {
+        setLoginState("invalid", "This Login ID is already taken.");
+        return false;
+      }
+      setLoginState("valid", "Login ID is available.");
+      return true;
+    } catch {
+      if (seq !== loginCheckSeq) return false;
+      setLoginState("", "Could not check this Login ID right now.");
+      return false;
+    }
+  };
+
+  const generateLogin = async () => {
+    for (let i = 0; i < 5; i += 1) {
+      loginInput.value = randomDigits(10);
+      if (await checkLogin()) return;
+    }
+  };
+
+  if (isNew) {
+    generateCandidateId();
+    generateLogin();
+  } else {
+    setLoginState("", defaultLoginNote);
+  }
+
+  candidateIdInput.addEventListener("input", () => {
+    candidateCheckSeq += 1;
+    setCandidateState("", "");
+  });
+  refreshCandidateId?.addEventListener("click", () => {
+    if (!isNew) return;
+    candidateCheckSeq += 1;
+    setCandidateState("", "Generating a new Candidate ID…");
+    generateCandidateId();
+  });
+  loginInput.addEventListener("input", () => {
+    const clean = loginInput.value.replace(/\D+/g, "").slice(0, 10);
+    if (clean !== loginInput.value) loginInput.value = clean;
+    loginCheckSeq += 1;
+    setLoginState("", "");
+    clearTimeout(loginCheckTimer);
+    loginCheckTimer = setTimeout(checkLogin, 350);
+  });
+  loginInput.addEventListener("blur", () => checkLogin({ strict: true }));
+  refreshLogin?.addEventListener("click", () => {
+    loginCheckSeq += 1;
+    setLoginState("", "Generating a new Login ID…");
+    generateLogin().then(() => loginInput.focus());
   });
 
   const photoInput = $("#candPhotoFile", m.root);
@@ -2516,10 +2862,40 @@ async function candidateForm(candidate) {
   });
 
   m.root.querySelector("[data-save]").addEventListener("click", async () => {
-    const login = m.root.querySelector("[name=login]").value.trim();
+    const candidateId = candidateIdInput.value.trim();
+    const login = loginInput.value.trim();
+    const loginChanged = isNew || login !== originalLogin;
     const passwordInput = m.root.querySelector("[name=password]");
     const password = passwordInput ? passwordInput.value : "";
-    if (isNew && !login) { toast("Login ID is required.", "error"); return; }
+    if (isNew) {
+      if (!isCandidateCode(candidateId)) {
+        setCandidateState("invalid", "Candidate ID must be exactly 10 letters or numbers.");
+        toast("Candidate ID must be exactly 10 letters or numbers.", "error");
+        candidateIdInput.focus();
+        return;
+      }
+      if (!(await checkCandidateId())) {
+        toast(candidateIdNote?.textContent || "This Candidate ID is already taken. Refresh to generate another.", "error");
+        candidateIdInput.focus();
+        return;
+      }
+    }
+    if (loginChanged) {
+      if (!login) { toast("Login ID is required.", "error"); loginInput.focus(); return; }
+      if (!isLoginCode(login)) {
+        setLoginState("invalid", "Login ID must be exactly 10 digits (numbers only).");
+        toast("Login ID must be exactly 10 digits (numbers only).", "error");
+        loginInput.focus();
+        return;
+      }
+      if (!(await checkLogin({ strict: true }))) {
+        toast(loginInput.classList.contains("invalid")
+          ? (loginNote?.textContent || "This Login ID is already taken.")
+          : "Could not check this Login ID. Try again.", "error");
+        loginInput.focus();
+        return;
+      }
+    }
     if (isNew && !password.trim()) { toast("Password is required.", "error"); return; }
     const contact = m.root.querySelector("[name=contact]").value.trim();
     if (contact) {
@@ -2539,10 +2915,12 @@ async function candidateForm(candidate) {
     };
     try {
       if (isNew) {
+        body.id = candidateId;
         body.login = login;
         body.password = password;
         await api("/candidates", { method: "POST", body });
       } else {
+        if (loginChanged) body.login = login;
         await api("/candidates/" + encodeURIComponent(c.id), { method: "PUT", body });
       }
       m.close();
@@ -2786,9 +3164,9 @@ function candidateGroupEditForm(group, options = {}) {
 function importCandidatesForm() {
   csvImportForm({
     title: "Import candidates from CSV",
-    hint: `Columns: <code>login,password,name,contact,system_name,group</code>. <code>contact</code> is a 10-digit phone number or an email address. <code>group</code> is one or more candidate group names separated by <code>;</code> (for example <code>Batch A;Batch B</code>); new names are created automatically. Missing passwords default to <code>Guest</code>, missing names to <code>Your Name</code>. Quoted fields, commas and line breaks inside quotes are supported.`,
+    hint: `Columns: <code>login,password,name,contact,system_name,group</code>. <code>login</code> is a 10-digit number. <code>contact</code> is a 10-digit phone number or an email address. <code>group</code> is one or more candidate group names separated by <code>;</code> (for example <code>Batch A;Batch B</code>); new names are created automatically. Missing passwords default to <code>Guest</code>, missing names to <code>Your Name</code>. Quoted fields, commas and line breaks inside quotes are supported.`,
     endpoint: "/candidates/import",
-    placeholder: "login,password,name,contact,system_name,group\n20001,Welcome1,Asha Rao,asha@example.com,C001,Batch A;Batch B",
+    placeholder: "login,password,name,contact,system_name,group\n1234567890,Welcome1,Asha Rao,asha@example.com,C001,Batch A;Batch B",
     toastMessage: (result) => `Imported ${result.created}, skipped ${result.skipped}.`,
     onDone: renderCandidates,
   });
@@ -2876,7 +3254,7 @@ async function renderAttempts() {
   if (search) params.set("q", search);
   if (state.assessmentId) params.set("assessment", state.assessmentId);
   const { attempts, total, pageSize } = await api("/attempts?" + params);
-  $("#topbarActions").innerHTML = `<a class="btn" href="/api/admin/export/attempts.csv">Export CSV</a>`;
+  $("#topbarActions").innerHTML = `<a class="btn" href="/api/admin/export/attempts.csv?${params}">Export CSV</a>`;
   $("#view").innerHTML = `
     <div class="card"><div class="card-body">
       <div class="toolbar">
@@ -3043,47 +3421,245 @@ async function renderLive() {
 // results
 // ---------------------------------------------------------------------------
 
+function updateResultsSelectionUi() {
+  const selection = state.resultsSelection;
+  const count = selection.size;
+  const boxes = [...document.querySelectorAll("#view [data-select]")];
+  const all = $("#selectAllResults");
+  if (all) {
+    all.checked = boxes.length > 0 && boxes.every((box) => box.checked);
+    all.indeterminate = boxes.some((box) => box.checked) && !all.checked;
+  }
+  const button = $("#generateResultLinks");
+  if (button) {
+    button.disabled = !state.assessmentId || count === 0;
+    button.textContent = count ? `Generate result links (${count})` : "Generate result links";
+  }
+  const hint = $("#selectionHint");
+  if (hint) {
+    hint.textContent = !state.assessmentId
+      ? "Link generation needs one selected assessment. CSV export still follows the filters."
+      : count
+        ? `${count} candidate${count === 1 ? "" : "s"} selected. Each result opens with the Login ID only.`
+        : "Select candidates below to generate their result links.";
+  }
+}
+
 async function renderResults() {
   const { assessments } = await api("/assessments");
+  const status = state.resultsStatus || "submitted";
   const params = new URLSearchParams();
   if (state.assessmentId) params.set("assessment", state.assessmentId);
+  params.set("status", status);
   const { results } = await api("/results?" + params);
-  const avg = results.length ? results.reduce((a, r) => a + Number(r.percentage || 0), 0) / results.length : 0;
-  const best = results.length ? Math.max(...results.map((r) => Number(r.percentage || 0))) : 0;
-  $("#topbarActions").innerHTML = `<a class="btn" href="/api/admin/export/results.csv">Export CSV</a>`;
+
+  const selection = state.resultsSelection;
+  const visibleIds = new Set(results.map((row) => String(row.id)));
+  for (const id of [...selection]) if (!visibleIds.has(id)) selection.delete(id);
+  state.resultsRows = results;
+
+  const submitted = results.filter((r) => r.status === "submitted");
+  const inProgress = results.filter((r) => r.status === "in_progress");
+  const scored = submitted;
+  const avg = scored.length ? scored.reduce((sum, r) => sum + Number(r.percentage || 0), 0) / scored.length : 0;
+  const best = scored.length ? Math.max(...scored.map((r) => Number(r.percentage || 0))) : 0;
+  const answeredTotal = results.reduce((sum, r) => sum + Number(r.answered || 0), 0);
+  const candidates = new Set(results.map((r) => r.login || r.candidate)).size;
+
+  const exportParams = new URLSearchParams();
+  if (state.assessmentId) exportParams.set("assessment", state.assessmentId);
+  exportParams.set("status", status);
+  $("#topbarActions").innerHTML = "";
+
+  const stats = status === "in_progress"
+    ? `<div class="stat"><div class="k">In progress</div><div class="v">${results.length}</div></div>
+       <div class="stat"><div class="k">Candidates</div><div class="v">${candidates}</div></div>
+       <div class="stat"><div class="k">Answered</div><div class="v">${answeredTotal}</div></div>`
+    : status === "all"
+      ? `<div class="stat"><div class="k">Submitted</div><div class="v">${submitted.length}</div></div>
+         <div class="stat"><div class="k">In progress</div><div class="v">${inProgress.length}</div></div>
+         <div class="stat"><div class="k">Average</div><div class="v">${num(avg, 1)}%</div></div>
+         <div class="stat"><div class="k">Best</div><div class="v">${num(best, 1)}%</div></div>`
+      : `<div class="stat"><div class="k">Submitted</div><div class="v">${results.length}</div></div>
+         <div class="stat"><div class="k">Average</div><div class="v">${num(avg, 1)}%</div></div>
+         <div class="stat"><div class="k">Best</div><div class="v">${num(best, 1)}%</div></div>`;
+
+  const empty = status === "in_progress"
+    ? "No attempts are in progress."
+    : status === "all" ? "No attempts yet." : "No submitted attempts yet.";
+
   $("#view").innerHTML = `
-    <div class="stats" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
-      <div class="stat"><div class="k">Submitted</div><div class="v">${results.length}</div></div>
-      <div class="stat"><div class="k">Average</div><div class="v">${num(avg, 1)}%</div></div>
-      <div class="stat"><div class="k">Best</div><div class="v">${num(best, 1)}%</div></div>
-    </div>
+    <div class="stats" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">${stats}</div>
     <div class="card"><div class="card-body">
       <div class="toolbar">
         <label>Assessment<select id="rAssessment">
           <option value="">All assessments</option>
           ${assessments.map((a) => `<option value="${esc(a.id)}" ${a.id === state.assessmentId ? "selected" : ""}>${esc(a.id)} — ${esc(a.name)}</option>`).join("")}
         </select></label>
+        <label>Show<select id="rStatus">
+          <option value="submitted" ${status === "submitted" ? "selected" : ""}>Submitted results</option>
+          <option value="in_progress" ${status === "in_progress" ? "selected" : ""}>In progress</option>
+          <option value="all" ${status === "all" ? "selected" : ""}>All attempts</option>
+        </select></label>
+        <div class="toolbar-actions">
+          <span class="muted small">${results.length} row(s)</span>
+          <a class="btn" title="CSV export follows the assessment and status filters" href="/api/admin/export/results.csv?${exportParams}">Export CSV</a>
+          <button class="btn primary" type="button" id="generateResultLinks" disabled>Generate result links</button>
+        </div>
       </div>
+      <div class="toolbar-note muted small" id="selectionHint"></div>
     </div></div>
     <div class="card">
-      <div class="card-head"><h3>Results</h3><span class="sub">sorted by percentage</span></div>
+      <div class="card-head"><h3>Results</h3><span class="sub">${status === "in_progress" ? "live progress" : status === "all" ? "submitted + in progress" : "sorted by percentage"}</span></div>
       <div class="card-body tight">
         ${results.length ? `<div class="table-wrap"><table>
-          <thead><tr><th>#</th><th>Candidate</th><th>Assessment</th><th>Attempt</th><th>Score</th><th>Percentage</th><th>Fullscreen</th><th>Toggles</th><th>Submitted</th></tr></thead>
-          <tbody>${results.map((r, i) => `<tr>
-            <td class="num">${i + 1}</td>
-            <td>${esc(r.candidate)}<div class="muted small">${esc(r.login)}</div></td>
-            <td>${esc(r.assessment)}</td>
-            <td class="num">#${r.attempt_no}</td>
-            <td class="num">${num(r.score, 2)} / ${num(r.max_score, 2)}</td>
-            <td class="num">${num(r.percentage, 1)}%</td>
-            <td class="num">${fullscreenTime(r.fullscreen_seconds)}</td>
-            <td class="num">${fullscreenToggles(r.fullscreen_toggle_count)}</td>
-            <td class="muted small">${dt(r.submitted_at)}</td>
-          </tr>`).join("")}</tbody></table></div>` : `<div class="empty">No submitted attempts yet.</div>`}
+          <thead><tr><th class="select-col"><input type="checkbox" id="selectAllResults" aria-label="Select all attempts" /></th><th>#</th><th>Candidate</th><th>Assessment</th><th>Attempt</th><th>Status</th><th>Score</th><th>Percentage</th><th>Progress</th><th>Fullscreen</th><th>Toggles</th><th>Started</th><th>${status === "in_progress" ? "Last seen" : "Submitted"}</th><th></th></tr></thead>
+          <tbody>${results.map((r, i) => {
+            const isSubmitted = r.status === "submitted";
+            const total = Number(r.total_questions) || 0;
+            const answered = Number(r.answered) || 0;
+            const progress = total > 0 ? Math.min(100, Math.round((answered / total) * 100)) : 0;
+            return `<tr>
+              <td class="select-col"><input type="checkbox" class="results-select" data-select="${esc(r.id)}" ${selection.has(String(r.id)) ? "checked" : ""} aria-label="Select ${esc(r.candidate)}" /></td>
+              <td class="num">${i + 1}</td>
+              <td>${esc(r.candidate)}<div class="muted small">${esc(r.login)}</div></td>
+              <td>${esc(r.assessment)}</td>
+              <td class="num">#${r.attempt_no}</td>
+              <td>${badge(r.status)}</td>
+              <td class="num">${isSubmitted ? `${num(r.score, 2)} / ${num(r.max_score, 2)}` : "—"}</td>
+              <td class="num">${isSubmitted ? `${num(r.percentage, 1)}%` : "—"}</td>
+              <td style="min-width:120px"><div class="progress"><i style="width:${progress}%"></i></div>
+                <div class="muted small">${answered}/${total} answered</div></td>
+              <td class="num">${fullscreenTime(r.fullscreen_seconds)}</td>
+              <td class="num">${fullscreenToggles(r.fullscreen_toggle_count)}</td>
+              <td class="muted small">${dt(r.started_at)}</td>
+              <td class="muted small">${dt(isSubmitted ? r.submitted_at : r.last_seen_at)}</td>
+              <td><button class="btn small" data-open="${r.id}">View</button></td>
+            </tr>`;
+          }).join("")}</tbody></table></div>` : `<div class="empty">${empty}</div>`}
       </div>
     </div>`;
   $("#rAssessment").addEventListener("change", (e) => { state.assessmentId = e.target.value; renderResults(); });
+  $("#rStatus").addEventListener("change", (e) => { state.resultsStatus = e.target.value; renderResults(); });
+  $("#selectAllResults")?.addEventListener("change", (e) => {
+    document.querySelectorAll("#view [data-select]").forEach((box) => {
+      box.checked = e.target.checked;
+      if (box.checked) selection.add(box.dataset.select);
+      else selection.delete(box.dataset.select);
+    });
+    updateResultsSelectionUi();
+  });
+  $("#view").querySelectorAll("[data-select]").forEach((box) => box.addEventListener("change", () => {
+    if (box.checked) selection.add(box.dataset.select);
+    else selection.delete(box.dataset.select);
+    updateResultsSelectionUi();
+  }));
+  $("#generateResultLinks")?.addEventListener("click", openBulkResultLinks);
+  $("#view").querySelectorAll("[data-open]").forEach((b) => b.addEventListener("click", () => openAttempt(Number(b.dataset.open))));
+  updateResultsSelectionUi();
+}
+
+async function copyText(value) {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(value);
+      return true;
+    }
+  } catch {
+    // Clipboard API can be blocked on plain HTTP; fall back below.
+  }
+  const area = document.createElement("textarea");
+  area.value = value;
+  area.setAttribute("readonly", "");
+  area.style.position = "fixed";
+  area.style.left = "-9999px";
+  document.body.appendChild(area);
+  area.select();
+  let ok = false;
+  try { ok = document.execCommand("copy"); } catch { ok = false; }
+  area.remove();
+  return ok;
+}
+
+const resultLinkFor = (row, assessmentId) => {
+  const login = row.login || "";
+  return `${location.origin}/result.html?candidate=${encodeURIComponent(login)}&assessment=${encodeURIComponent(assessmentId)}`;
+};
+
+const resultLinkText = (row) =>
+  `${row.candidate}${row.login ? ` (${row.login})` : ""}\nLogin ID: ${row.login}\nLink: ${row.link}`;
+
+const csvCell = (value) => `"${String(value ?? "").replace(/"/g, '""')}"`;
+
+function openBulkResultLinks() {
+  if (!state.assessmentId) { toast("Choose one assessment to generate result links.", "error"); return; }
+  const selected = (state.resultsRows || []).filter((row) => state.resultsSelection.has(String(row.id)));
+  if (!selected.length) { toast("Select at least one candidate.", "error"); return; }
+  const assessmentLabel = $("#rAssessment")?.selectedOptions?.[0]?.textContent?.trim() || state.assessmentId;
+
+  const byCandidate = new Map();
+  for (const row of selected) {
+    const login = row.login || "";
+    if (!byCandidate.has(login)) {
+      byCandidate.set(login, {
+        candidate: row.candidate,
+        login,
+        link: resultLinkFor(row, state.assessmentId),
+      });
+    }
+  }
+  const linkRows = [...byCandidate.values()];
+  const countLabel = `${linkRows.length} candidate${linkRows.length === 1 ? "" : "s"}`;
+
+  const m = modal({
+    wide: true,
+    title: `Result links — ${countLabel}`,
+    body: `
+      <p class="field-note" style="margin-top:0">Candidates open these links with their <strong>Login ID only</strong> for <strong>${esc(assessmentLabel)}</strong>. Candidate IDs and passwords are not used.</p>
+      <div class="share-panel">
+        <div class="table-wrap"><table>
+          <thead><tr><th>Candidate</th><th>Login ID</th><th>Link</th><th></th></tr></thead>
+          <tbody>${linkRows.map((row, index) => `<tr>
+            <td>${esc(row.candidate)}</td>
+            <td><code>${esc(row.login)}</code></td>
+            <td class="small" style="word-break:break-all">${esc(row.link)}</td>
+            <td><button class="btn small" data-copy-row="${index}">Copy link</button></td>
+          </tr>`).join("")}</tbody>
+        </table></div>
+        <div class="row" style="gap:8px;flex-wrap:wrap">
+          <button class="btn small" data-copy-all>Copy all</button>
+          <button class="btn small" data-download-links>Download CSV</button>
+        </div>
+        <div class="muted small">Anyone who knows a candidate's Login ID can open that result. Share each link only with its candidate.</div>
+      </div>`,
+    footer: `<button class="btn" data-close>Close</button>`,
+  });
+
+  m.root.querySelectorAll("[data-copy-row]").forEach((copyButton) => copyButton.addEventListener("click", async () => {
+    const row = linkRows[Number(copyButton.dataset.copyRow)];
+    const ok = await copyText(resultLinkText(row));
+    toast(ok ? "Result link copied." : "Could not copy to the clipboard.", ok ? "success" : "error");
+  }));
+  m.root.querySelector("[data-copy-all]")?.addEventListener("click", async () => {
+    const ok = await copyText(linkRows.map(resultLinkText).join("\n\n"));
+    toast(ok ? `${linkRows.length} result link(s) copied.` : "Could not copy to the clipboard.", ok ? "success" : "error");
+  });
+  m.root.querySelector("[data-download-links]")?.addEventListener("click", () => {
+    const header = ["Candidate", "Login ID", "Assessment", "Link"];
+    const lines = linkRows.map((row) => [
+      row.candidate, row.login, assessmentLabel, row.link,
+    ].map(csvCell).join(","));
+    const blob = new Blob(["\uFEFF" + [header.map(csvCell).join(","), ...lines].join("\r\n")], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `result-links-${state.assessmentId}.csv`;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    toast("Result links CSV downloaded.", "success");
+  });
 }
 
 // ---------------------------------------------------------------------------

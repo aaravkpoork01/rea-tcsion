@@ -89,7 +89,8 @@
 		".help_div.usefulDataDiv",
 		".refdocDiv",
 		".instruction_div",
-		"#viewQPTD"
+		"#viewQPTD",
+		"#viewFullScreenTD"
 	];
 
 	var TOOL_TARGETS = {
@@ -209,8 +210,8 @@
 	}
 
 	/**
-	 * Stock order is preserved exactly. Added buttons (fullscreen, custom links)
-	 * sit at the far left so the right-aligned stock cluster never shifts.
+	 * Stock order is preserved exactly. Custom links sit at the far left and the
+	 * stock fullscreen control closes the row as the far-right icon action.
 	 */
 	function restoreTopbarOrder() {
 		var toolbar = document.querySelector(".helpinstruction_div");
@@ -421,30 +422,25 @@
 			links.forEach(function (node) { node.href = brand.icon; });
 			global.__ION_BRAND_ICON__ = brand.icon;
 		}
-		// Login page: only the optional admin brand icon is shown. The brand
-		// name is deliberately not repeated as header text. Exam pages keep
-		// the paper banner that top.js paints via #bannerImg.
-		if (document.getElementById("login")) {
-			var headerImage = document.getElementById("bannerImg");
-			if (headerImage && brand.icon && !headerImage.querySelector("img")) {
-				var logo = document.createElement("img");
-				logo.alt = brand.name || "";
-				logo.style.maxHeight = "44px";
-				logo.src = brand.icon;
-				headerImage.innerHTML = "";
-				headerImage.appendChild(logo);
-			}
-		}
-		if (brand.version) {
-			try {
-				sessionStorage.consoleVersion = brand.version;
-				document.cookie = "consoleVersion=" + encodeURIComponent(brand.version) + "; path=/";
-			} catch (e) {}
+		// The paper banner is owned by top.js via #bannerImg. Do not inject the
+		// admin brand icon into the candidate header or the login bar.
+
+		var ver = brand.version || sessionStorage.consoleVersion || "17.07.00";
+		try {
+			sessionStorage.consoleVersion = ver;
+			document.cookie = "consoleVersion=" + encodeURIComponent(ver) + "; path=/";
+		} catch (e) {}
+		var updateFooterVersion = function() {
 			var footer = document.getElementById("footer");
 			if (footer) {
-				footer.innerHTML = "Version : " + brand.version + "</div>";
+				var text = (footer.textContent || "").trim();
+				if (!text || text === "Version :" || text === "Version : " || text === "Version" || !text.includes(ver)) {
+					footer.innerHTML = "Version : " + ver + "</div>";
+				}
 			}
-		}
+		};
+		updateFooterVersion();
+		setInterval(updateFooterVersion, 1000);
 		global.__ION_BRAND__ = brand;
 	}
 
@@ -514,7 +510,32 @@
 		});
 	}
 
+	/**
+	 * The stock quiz header prefers sessionStorage.assessmentName over the name
+	 * in confDetails.xml. A session that began before the paper was renamed can
+	 * keep painting the old brand even though top.js already holds the current
+	 * mockVar.mockName. Mirror the loaded paper name back into storage and the
+	 * visible header so quiz and instructions pages stay consistent.
+	 */
+	function syncAssessmentName() {
+		var mv = global.mockVar || {};
+		var name = String(mv.mockName || "").trim();
+		if (!name) return;
+		try {
+			if (global.sessionStorage.getItem("assessmentName") !== name) {
+				global.sessionStorage.setItem("assessmentName", name);
+			}
+		} catch (error) { /* storage unavailable */ }
+
+		var display = name.length > 100 ? name.substring(0, 100) + "..." : name;
+		bySelector(".test-header, .testName, .mockName, #mockName, .greenBgConatiner h1").forEach(function (el) {
+			if ((el.textContent || "").trim() !== display) el.textContent = display;
+			if (el.getAttribute("title") !== name) el.setAttribute("title", name);
+		});
+	}
+
 	function apply() {
+		syncAssessmentName();
 		if (!config) return;
 		injectStyle();
 		applyBrand(config.brand);
@@ -545,6 +566,16 @@
 				.catch(function () { /* config is optional */ });
 		} catch (error) { /* fetch unavailable */ }
 	}
+
+	// top.js reads the paper XML asynchronously; keep the header in step until
+	// the loaded assessment name has settled (and repair any stale storage).
+	syncAssessmentName();
+	var nameSyncPasses = 0;
+	var nameSyncTimer = global.setInterval(function () {
+		syncAssessmentName();
+		nameSyncPasses += 1;
+		if (nameSyncPasses >= 30) global.clearInterval(nameSyncTimer);
+	}, 1000);
 
 	if (document.readyState === "loading") {
 		document.addEventListener("DOMContentLoaded", load);

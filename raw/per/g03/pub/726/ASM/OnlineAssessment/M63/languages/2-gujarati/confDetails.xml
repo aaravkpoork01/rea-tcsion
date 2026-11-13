@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Details>
+<CandidateResponseHandlerURL>/IBA/MockCandResponseHandler</CandidateResponseHandlerURL>
+<AssessmentName>01-04-2024 (CCE - Shift 1)</AssessmentName>
+<AssessmentDescription>Demo question paper for XML upload. Replace these sample questions with your own.</AssessmentDescription>
+<USELOGINID>NO</USELOGINID>
+<LoginIDLabel>Welcome</LoginIDLabel>
+<UseDefaultSystemInstruction>YES</UseDefaultSystemInstruction>
+<UseBanner/>
+<BannerPath> </BannerPath>
+<BannerText>#2D70B6</BannerText>
+<CandidateName>Your Name</CandidateName>
+<AssessmentDuration>30</AssessmentDuration>
+<COMPULSORYTIME>0</COMPULSORYTIME>
+<ConsiderMarkForReview>YES</ConsiderMarkForReview>
+<ISOPTIONALSECTIONSAVAILABLE>YES</ISOPTIONALSECTIONSAVAILABLE>
+<ShowFeedback>YES</ShowFeedback>
+<UseDefaultFeedback>YES</UseDefaultFeedback>
+<SHOWCONTACTNO>YES</SHOWCONTACTNO>
+<SHOWEMAILID>YES</SHOWEMAILID>
+<Version>17.03.00</Version>
+<UseAssessmentForever>YES</UseAssessmentForever>
+<AssessmentStartDate/>
+<AssessmentEndDate/>
+<USEDEFAULTCANDIDATEIMG>YES</USEDEFAULTCANDIDATEIMG>
+<ShowViewQPButton>YES</ShowViewQPButton>
+<OptionOrientation>Vertical</OptionOrientation>
+<ShowScoreCard>YES</ShowScoreCard>
+<ShowPercentageScore>YES</ShowPercentageScore>
+<StoreCandResponse>NO</StoreCandResponse>
+<MaxNoOfAttempt>1</MaxNoOfAttempt>
+<SoftwareLanguages>English</SoftwareLanguages>
+<ReportPublishDate/>
+<DefaultReportFormat>YES</DefaultReportFormat>
+<UseDefaultExitPage>YES</UseDefaultExitPage>
+<showOptionInViewQP>YES</showOptionInViewQP>
+<TimeFormat>MM:SS</TimeFormat>
+<UseDefaultDisclaimerInstruction>YES</UseDefaultDisclaimerInstruction>
+<EXTRAPARAM1> </EXTRAPARAM1>
+<EXTRAPARAM2> </EXTRAPARAM2>
+</Details>

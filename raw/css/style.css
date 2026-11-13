@@ -3985,7 +3985,7 @@ background: -ms-linear-gradient(top, rgba(247,247,247,0) 0%, rgba(226,225,226,1)
 background: linear-gradient(to bottom, rgba(247,247,247,0) 0%, rgba(226,225,226,1) 55%, rgba(212,211,212,1) 91%, rgba(209,207,209,1) 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#d1cfd1', GradientType=0 );
 }
-.confrmPopup { background-color: #fff; border-radius: 4px; box-shadow: 0 2px 10px #000000; display: none; position: absolute; width: 400px; z-index: 100; }
+.confrmPopup { background-color: #fff; border-radius: 4px; box-shadow: 0 2px 10px #000000; display: none; position: fixed; width: 400px; max-width: calc(100vw - 24px); max-height: calc(100vh - 24px); overflow-y: auto; box-sizing: border-box; z-index: 100; }
 .confrmPopup .cnfPopBdy { padding: 10px; }
 .confrmPopup .cnfPopBdy span{vertical-align:middle}
 .confrmPopup .cnfPopHdr { background-color: #004fd2; border-radius: 4px 4px 0 0; height: 28px; color: #fff; }
@@ -4002,7 +4002,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', end
 .greenBtn { background-color: #00a951; border-color: #40a26f; border-radius: 3px; border-style: solid; border-width: 1px; color: #fff; cursor: pointer; display: inline-block; font-size: 14px; margin-bottom: 0; min-width: 24px; padding: 2px 12px; text-align: center; transition: all 0.2s; }
 .greenBtn:hover { background-color: #248653; }
 .fRight { float: right; }
-.warningPopup { background-color: #fff; border-radius: 4px; box-shadow: 0 2px 10px #000000; display: none; position: absolute; width: 400px; z-index: 100; }
+.warningPopup { background-color: #fff; border-radius: 4px; box-shadow: 0 2px 10px #000000; display: none; position: fixed; width: 400px; max-width: calc(100vw - 24px); max-height: calc(100vh - 24px); overflow-y: auto; box-sizing: border-box; z-index: 100; }
 .warningPopup .cnfPopBdy { padding: 10px; }
 .warningPopup .cnfPopHdr { background-color: #2d70b6; border-radius: 4px 4px 0 0; height: 28px; color: #fff; }
 .warningPopup .cnfPopHdrLbl { font-weight: bold; margin-left: 5px; margin-top: 7px; float: left; }
@@ -7375,16 +7375,34 @@ display:none;
 	top: 83px;  
 	right: 264px; 
 	display: none;
-	font-size: 13px;
+	font-size: 12px;
 	position: fixed; 
+	width: 300px;
+	max-width: calc(100vw - 24px);
+	box-sizing: border-box;
 	background: var(--white) none repeat scroll 0% 0%; 
 	color: #666666 ; 
-	padding: 20px 0;
+	padding: 10px 12px;
 	/*display: none;*/
 	/*transition:  ease-in;*/
 	transition-duration: 0.3s;
 	transition-property: transform;
 	transition-timing-function: ease-out;
+}
+.courseInfoPop .candidateDetailstbl{
+	width: 100%;
+	margin-top: 8px;
+	table-layout: fixed;
+}
+.courseInfoPop .candidateDetailstbl td{
+	font-size: 12px;
+	padding-bottom: 6px;
+	word-break: break-word;
+}
+.courseInfoPop .candidateDetailstbl td.head1{
+	width: 42%;
+	padding-right: 4px;
+	white-space: nowrap;
 }
 .courseInfoPop:before {
 	width: 0; 
@@ -7395,7 +7413,7 @@ display:none;
 	content:"";
 	position: absolute;
 	right: -17px;
-	top:40px;
+	top: var(--courseInfoPopArrowTop, 40px);
 }
 .courseInfoPop:after {
 	width: 0; 
@@ -7406,7 +7424,7 @@ display:none;
 	content:"";
 	position: absolute;
 	right: -16px;
-	top:40px;
+	top: var(--courseInfoPopArrowTop, 40px);
 }
 
 .zoomimage{margin-bottom:20px;position:relative}
@@ -8699,7 +8717,7 @@ position: absolute;top: 64%;left: 172px;width: 280px;background: rgb(255, 255, 2
         float: left !important;
     }
     #currentQues {
-        width: 100% !important;
+        width: calc(100% - 248px) !important;
         margin-top: 0 !important;
     }
 }
@@ -8727,12 +8745,12 @@ position: absolute;top: 64%;left: 172px;width: 280px;background: rgb(255, 255, 2
     display: none !important;
 }
 
-/* Top bar Fullscreen Button styling */
+/* Top bar fullscreen: icon-only action, anchored at the far right */
 .viewfullscreen_div {
-    float: left;
+    float: none;
     height: 38px;
     line-height: 38px;
-    margin-right: 5px;
+    margin: 0 12px 0 6px;
     display: inline-flex;
     align-items: center;
 }
@@ -8741,49 +8759,924 @@ position: absolute;top: 64%;left: 172px;width: 280px;background: rgb(255, 255, 2
     border: none;
     cursor: pointer;
     color: #fff;
-    font-size: 13px;
     font-family: inherit;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    height: 100%;
-    padding: 0 5px;
+    justify-content: center;
+    height: 30px;
+    width: 34px;
+    margin-top: 0;
+    padding: 0;
+    border-radius: 4px;
+    transition: background-color .15s ease, box-shadow .15s ease;
+}
+.viewfullscreen_div button:hover,
+.viewfullscreen_div button:focus-visible {
+    background: rgba(255, 255, 255, .14);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .18);
+    outline: none;
+}
+.viewfullscreen_div .FullscreenText {
+    display: none !important;
 }
 .fullscreen_header_icon {
-    width: 17px;
-    height: 17px;
+    width: 18px;
+    height: 18px;
     display: inline-block;
     vertical-align: middle;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%2338bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>') no-repeat center center;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%2338bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>') no-repeat center center;
+    background-size: 18px 18px;
+}
+#viewFullScreenTD {
+    display: inline-flex !important;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 6px;
+    margin-right: 12px;
+    float: none;
+}
+#btnHeaderFullscreen {
+    cursor: pointer;
 }
 
-/* Mobile floating / reminder banner */
+/* Fullscreen reminder: same card theme as the assessment popups */
 #ionLandscapePrompt {
     display: none;
     position: fixed;
-    bottom: 12px;
+    bottom: 16px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(17, 24, 39, 0.95);
-    color: #f9fafb;
-    padding: 10px 18px;
-    border-radius: 9999px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    width: min(400px, calc(100vw - 24px));
+    background: #fff;
+    color: #333;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px #000;
     z-index: 2147483640;
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
-    align-items: center;
-    gap: 12px;
-    border: 1px solid #3b82f6;
+    overflow: hidden;
+    border: 0;
+    flex-direction: column;
+    align-items: stretch;
+}
+#ionLandscapePrompt .ion-fs-prompt-head {
+    background: #2d70b6;
+    color: #fff;
+    font-weight: bold;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 10px;
+    border-radius: 4px 4px 0 0;
+}
+#ionLandscapePrompt .ion-fs-prompt-body {
+    padding: 12px 14px;
+    line-height: 1.45;
+    background: #fff;
+}
+#ionLandscapePrompt .ion-fs-prompt-foot {
+    padding: 10px 0 12px;
+    text-align: center;
+    background: #F8F3F0;
+    border-radius: 0 0 4px 4px;
 }
 #ionLandscapePrompt button {
-    background: #2563eb;
+    background: #00a951;
+    border: 1px solid #40a26f;
+    border-radius: 3px;
     color: #fff;
-    border: none;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 12px;
     cursor: pointer;
+    display: inline-block;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 5px 16px;
+    transition: background-color .2s;
+}
+#ionLandscapePrompt button:hover {
+    background: #248653;
+}
+
+/* Enforce desktop layout on mobile */
+.canvasmenu, #canvasmenuid,
+.hamburgerBar, #hamburgerBarBtnid, #hamiconid, .hamicon,
+.subheader_tab, .grup_components,
+.buttons-div.btntab,
+#mob_save_id,
+#other_buttoncontainer_mob_id,
+#save_buttoncontainer_mob_id,
+#save_buttoncontainer_2_mob_id,
+.mobActionFixedLayer,
+.cricleImageMobEle,
+#mobMoreOptionsBtnAction,
+#mobMoreOptionsBtnActionGrp {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
+
+#header, .headergrup {
+  display: block !important;
+  visibility: visible !important;
+  width: 100% !important;
+}
+
+#col1, .Lft_Section {
+  display: block !important;
+  float: left !important;
+  width: calc(100% - 250px) !important;
+  visibility: visible !important;
+}
+
+#col2, .Rght_Section, .Rght_Section.column {
+  display: block !important;
+  float: right !important;
+  width: 248px !important;
+  visibility: visible !important;
+}
+
+/* top.js collapses #header on the quiz; without this its 1px bottom border
+   still paints as a blue line above the top bar on wide screens. */
+#header {
+  border-bottom: 0 !important;
+}
+
+/* Center the assessment name and top-bar actions inside the 38px header. */
+#sub-header .exam_name,
+#sub-header .exam_name .test-header {
+  height: 38px;
+  line-height: 38px;
+}
+
+.helpinstruction_div {
+  height: 38px;
+  align-items: center;
+}
+
+.helpinstruction_div > div:not(.viewfullscreen_div) .test-instruct {
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  line-height: normal;
+}
+
+.helpinstruction_div .instruction_icon,
+.helpinstruction_div .help_icon,
+.helpinstruction_div .questionpaper_icon {
+  margin-top: 10px;
+}
+
+/* Touch phones render the desktop layout scaled down. Keep the full-screen
+   action at the far right and enlarge the rotate/fullscreen prompt. */
+@media (pointer: coarse) {
+  #viewFullScreenTD {
+    margin-right: 12px !important;
+    margin-left: 6px !important;
+  }
+  #ionLandscapePrompt {
+    width: min(520px, calc(100vw - 32px));
+    font-size: 18px;
+    bottom: 20px;
+  }
+  #ionLandscapePrompt .ion-fs-prompt-head {
+    font-size: 18px;
+    height: 38px;
+    line-height: 38px;
+  }
+  #ionLandscapePrompt .ion-fs-prompt-body {
+    font-size: 18px;
+    padding: 16px 18px;
+  }
+  #ionLandscapePrompt button {
+    font-size: 17px;
+    padding: 10px 22px;
+  }
+}
+
+/* =========================================================================
+   PHONE LANDSCAPE AUTO-FIT (quiz.html)
+   In phone landscape the browser lays the exam console out at the device
+   width (the quiz viewport is reset when the assessment enters fullscreen).
+   The fixed 1100px canvas then forces horizontal panning and top.js clamps
+   the question pane to the palette height, hiding the question body.
+   These rules are scoped to the class the quiz page sets on <html> only for
+   touch phones in landscape; the desktop composition above is untouched.
+   ========================================================================= */
+html.ion-phone-landscape,
+html.ion-phone-landscape body {
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+html.ion-phone-landscape #minwidth {
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+html.ion-phone-landscape #header,
+html.ion-phone-landscape #sub-header,
+html.ion-phone-landscape .headergrup,
+html.ion-phone-landscape #candidateConsoleId,
+html.ion-phone-landscape .profile-grouping-section,
+html.ion-phone-landscape #rightDivision,
+html.ion-phone-landscape .Questn_Area,
+html.ion-phone-landscape .buttons-div {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* Left question strip + fixed status column, measured against the phone
+   width instead of the 1100px desktop canvas. */
+html.ion-phone-landscape #col1,
+html.ion-phone-landscape .Lft_Section {
+  width: calc(100% - 248px) !important;
+  max-width: calc(100% - 248px) !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone-landscape #col2,
+html.ion-phone-landscape .Rght_Section,
+html.ion-phone-landscape .Rght_Section.column {
+  width: 248px !important;
+  max-width: 248px !important;
+  box-sizing: border-box;
+}
+
+/* top.js pins this palette to the 1100px canvas when the window is narrow. */
+html.ion-phone-landscape #rightDivision > #col2 {
+  left: auto !important;
+  right: 0 !important;
+}
+
+/* Let the question pane grow with its content and let the page scroll
+   vertically. Nothing in the question is clipped or unreachable. */
+html.ion-phone-landscape #currentQues {
+  width: calc(100% - 248px) !important;
+  max-width: calc(100% - 248px) !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone-landscape #currentQues #quesOuterDiv,
+html.ion-phone-landscape #currentQues .quesOuterDiv,
+html.ion-phone-landscape #currentQues .leftDiv,
+html.ion-phone-landscape #currentQues .rightDiv,
+html.ion-phone-landscape #currentQues .que,
+html.ion-phone-landscape #currentQues .qustn_txt {
+  height: auto !important;
+  max-height: none !important;
+}
+
+html.ion-phone-landscape #currentQues #quesOuterDiv,
+html.ion-phone-landscape #currentQues .quesOuterDiv,
+html.ion-phone-landscape #currentQues .leftDiv {
+  overflow: visible !important;
+}
+
+/* Contain the floated question/answer blocks so the pane actually grows to
+   the height of the question instead of collapsing to the toolbar height. */
+html.ion-phone-landscape #currentQues,
+html.ion-phone-landscape #currentQues #quesOuterDiv,
+html.ion-phone-landscape #currentQues .quesOuterDiv {
+  display: flow-root !important;
+}
+
+/* Media questions are laid out at fixed desktop sizes by top.js (the video
+   player is created 600x337.5) and by the desktop styles. Cap them to the
+   phone-width question pane so nothing slides under the palette. */
+html.ion-phone-landscape #currentQues .video-js,
+html.ion-phone-landscape #currentQues .jwplayer,
+html.ion-phone-landscape #currentQues .jwAudioVideo,
+html.ion-phone-landscape #currentQues video,
+html.ion-phone-landscape #currentQues audio,
+html.ion-phone-landscape #currentQues iframe,
+html.ion-phone-landscape #currentQues canvas,
+html.ion-phone-landscape #currentQues object,
+html.ion-phone-landscape #currentQues embed,
+html.ion-phone-landscape #currentQues img {
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* A plain <video>/<audio> tag (subjective and typing questions) must keep its
+   aspect ratio when the width is capped. .vjs-tech is the Video.js surface
+   and has to keep filling the player box, so it is excluded. */
+html.ion-phone-landscape #currentQues video:not(.vjs-tech),
+html.ion-phone-landscape #currentQues img {
+  height: auto !important;
+}
+
+/* The palette's collapse handle is pinned over the question on the desktop
+   canvas. It would cover text now that the columns meet at the phone edge. */
+html.ion-phone-landscape #rightDivision .collapsebel_panel {
+  border-left: 0 !important;
+}
+
+html.ion-phone-landscape #rightDivision .collapse_icon {
+  display: none !important;
+}
+
+/* Group / section tab strips must not widen the page when they hold many
+   tabs. The strips keep their own arrows for reaching hidden tabs. */
+html.ion-phone-landscape .nav-container,
+html.ion-phone-landscape .group-panel,
+html.ion-phone-landscape .subject-selection,
+html.ion-phone-landscape #sections,
+html.ion-phone-landscape #groups {
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* Keep the answer/next controls in flow after the now-taller question. */
+html.ion-phone-landscape .buttons-div {
+  position: relative !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+html.ion-phone-landscape .buttons-div .Bttn_Area,
+html.ion-phone-landscape .buttons-div .other_buttoncontainerGrp,
+html.ion-phone-landscape .buttons-div .save_buttoncontainerGrp {
+  position: static !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* Candidate card: keep the name inside the 248px column. */
+html.ion-phone-landscape #col2 #User_Hldr {
+  overflow: hidden;
+}
+
+html.ion-phone-landscape #col2 #User_Hldr .profile_details {
+  max-width: calc(100% - 104px) !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone-landscape #col2 #User_Hldr .candOriginalName {
+  white-space: normal !important;
+  word-break: break-word;
+}
+
+/* Group / question instruction screens: fit in the phone width and keep the
+   candidate card visible beside the instructions instead of below the fold.
+   The structural rules apply whenever the quiz is in phone-landscape, so a
+   browser that still honours the 1200px scaled desktop viewport gets the same
+   side-by-side layout. Only the typography compaction is limited to <=1000px,
+   where the console is laid out at the real device width. */
+html.ion-phone-landscape #grpInstruDialogContainer,
+html.ion-phone-landscape #quesInstruDialogContainer {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+  box-sizing: border-box;
+}
+
+/* Clear the floated instruction column and candidate card without touching
+   the dialog's inline display:none state. */
+html.ion-phone-landscape #grpInstruDialogContainer::after,
+html.ion-phone-landscape #quesInstruDialogContainer::after {
+  content: "" !important;
+  display: block !important;
+  clear: both !important;
+}
+
+html.ion-phone-landscape #grpInstruDialogContainer .preGrpInstruL,
+html.ion-phone-landscape #quesInstruDialogContainer .preGrpInstruL {
+  float: left !important;
+  width: calc(100% - 172px) !important;
+  max-width: calc(100% - 172px) !important;
+  height: auto !important;
+  padding: 0 6px !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone-landscape #grpInstruDialogContainer .preGroupInstR,
+html.ion-phone-landscape #quesInstruDialogContainer .preGroupInstR {
+  display: block !important;
+  float: right !important;
+  width: 172px !important;
+  max-width: 172px !important;
+  border-left: 1px solid #bbb !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone-landscape #grpInstruDialogContainer .preGroupInstR .instruTimeCountDiv,
+html.ion-phone-landscape #quesInstruDialogContainer .preGroupInstR .instruTimeCountDiv {
+  padding: 6px 4px !important;
+  text-align: center;
+}
+
+html.ion-phone-landscape #grpInstruDialogContainer .preGroupInstR > div[style*="height: 107px"],
+html.ion-phone-landscape #quesInstruDialogContainer .preGroupInstR > div[style*="height: 107px"] {
+  height: auto !important;
+  padding: 4px 0 6px;
+}
+
+html.ion-phone-landscape #grpInstruDialogContainer .preGroupInstR img.candidateImg,
+html.ion-phone-landscape #quesInstruDialogContainer .preGroupInstR img.candidateImg {
+  width: 72px !important;
+  height: 78px !important;
+}
+
+html.ion-phone-landscape #mobPreGrpInstru {
+  display: none !important;
+}
+
+/* While a group/question instruction dialog is open the app hides the quiz
+   chrome through jQuery. The desktop enforcement rules use display:block
+   !important on #col2, which defeats that hide and leaves a second candidate
+   card under the instructions. Drop the profile strip for this state. */
+html.ion-phone-landscape.ion-instructions-open .profile-grouping-section {
+  display: none !important;
+}
+
+html.ion-phone-landscape #instruContentDiv,
+html.ion-phone-landscape #quesInstruContentDiv {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: calc(100vh - 140px) !important;
+  min-height: 0 !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  position: static !important;
+  top: auto !important;
+  padding: 8px 6px 12px !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone-landscape #InstruContent,
+html.ion-phone-landscape #quesInstruContent {
+  float: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone-landscape #InstruContent *,
+html.ion-phone-landscape #quesInstruContent * {
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone-landscape #InstruContent img,
+html.ion-phone-landscape #quesInstruContent img {
+  height: auto !important;
+}
+
+html.ion-phone-landscape #InstruContent p,
+html.ion-phone-landscape #quesInstruContent p {
+  margin: 0 0 6px !important;
+  text-align: left !important;
+}
+
+html.ion-phone-landscape #instruPrcdBtnDiv,
+html.ion-phone-landscape #quesInstruPrcdBtnDiv {
+  display: block !important;
+  position: static !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: 100% !important;
+  height: auto !important;
+  padding: 4px 0 6px !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone-landscape #proceedToGrp,
+html.ion-phone-landscape #proceedToGrpxx {
+  display: inline-block !important;
+  position: static !important;
+  width: auto !important;
+  min-width: 110px !important;
+  height: 38px !important;
+  padding: 0 28px !important;
+  margin: 0 auto !important;
+}
+
+/* At the real device width the instruction body ships with an inline 18px
+   span; bring that down so the short landscape viewport shows the whole
+   instruction block. The scaled 1200px viewport keeps the desktop type size. */
+@media screen and (max-width: 1000px) {
+html.ion-phone-landscape .preGrpInstruL .titlepath {
+  height: 34px !important;
+  line-height: 34px !important;
+  font-size: 18px !important;
+}
+
+html.ion-phone-landscape #instruContentDiv,
+html.ion-phone-landscape #quesInstruContentDiv {
+  font-size: 13px !important;
+  line-height: 1.28 !important;
+}
+
+html.ion-phone-landscape #InstruContent,
+html.ion-phone-landscape #quesInstruContent {
+  font-size: 13px !important;
+  line-height: 1.28 !important;
+}
+
+html.ion-phone-landscape #InstruContent .instructionMedia,
+html.ion-phone-landscape #quesInstruContent .instructionMedia,
+html.ion-phone-landscape #InstruContent .instructionMedia span,
+html.ion-phone-landscape #quesInstruContent .instructionMedia span {
+  font-size: 13px !important;
+  line-height: 1.25 !important;
+}
+}
+
+/* Very short landscape phones (e.g. 568x320). The title strip is pure
+   overhead there, and the language row plus the instruction body have to
+   share the remaining height with Proceed. Remove the strip, compact the
+   language row and tighten the body a little so the whole instruction block
+   and Proceed stay on screen without an inner scroll. */
+@media screen and (max-width: 620px) and (max-height: 340px) {
+html.ion-phone-landscape .preGrpInstruL .titlepath {
+  display: none !important;
+}
+
+html.ion-phone-landscape #instView,
+html.ion-phone-landscape #quesInstView {
+  padding: 1px 4px !important;
+}
+
+html.ion-phone-landscape #instruContentDiv,
+html.ion-phone-landscape #quesInstruContentDiv {
+  max-height: calc(100vh - 88px) !important;
+  font-size: 12px !important;
+  line-height: 1.18 !important;
+}
+
+html.ion-phone-landscape #InstruContent,
+html.ion-phone-landscape #quesInstruContent,
+html.ion-phone-landscape #InstruContent .instructionMedia,
+html.ion-phone-landscape #quesInstruContent .instructionMedia,
+html.ion-phone-landscape #InstruContent .instructionMedia span,
+html.ion-phone-landscape #quesInstruContent .instructionMedia span {
+  font-size: 12px !important;
+  line-height: 1.18 !important;
+}
+}
+
+/* =========================================================================
+   PHONE INSTRUCTIONS (portrait)
+   The desktop script pins #instruContentDiv to the full 1200px-canvas height.
+   On a portrait phone that leaves a huge blank pane and pushes the Proceed
+   button to the very bottom edge. Size the instruction body to its content
+   instead (scroll only when the text is long) and keep a single candidate
+   card: the dialog's own card, not the second copy in the quiz profile strip.
+   The phone-landscape equivalents live in the block above.
+   ========================================================================= */
+html.ion-phone:not(.ion-phone-landscape) #grpInstruDialogContainer,
+html.ion-phone:not(.ion-phone-landscape) #quesInstruDialogContainer {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone:not(.ion-phone-landscape) #grpInstruDialogContainer::after,
+html.ion-phone:not(.ion-phone-landscape) #quesInstruDialogContainer::after {
+  content: "" !important;
+  display: block !important;
+  clear: both !important;
+}
+
+html.ion-phone:not(.ion-phone-landscape) #grpInstruDialogContainer .preGrpInstruL,
+html.ion-phone:not(.ion-phone-landscape) #quesInstruDialogContainer .preGrpInstruL {
+  float: left !important;
+  width: calc(100% - 172px) !important;
+  max-width: calc(100% - 172px) !important;
+  height: auto !important;
+  padding: 0 6px !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone:not(.ion-phone-landscape) #grpInstruDialogContainer .preGroupInstR,
+html.ion-phone:not(.ion-phone-landscape) #quesInstruDialogContainer .preGroupInstR {
+  display: block !important;
+  float: right !important;
+  width: 172px !important;
+  max-width: 172px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  border-left: 1px solid #bbb !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone:not(.ion-phone-landscape) #grpInstruDialogContainer .preGroupInstR .instruTimeCountDiv,
+html.ion-phone:not(.ion-phone-landscape) #quesInstruDialogContainer .preGroupInstR .instruTimeCountDiv {
+  padding: 6px 4px !important;
+  text-align: center;
+}
+
+html.ion-phone:not(.ion-phone-landscape) #grpInstruDialogContainer .preGroupInstR > div[style*="height: 107px"],
+html.ion-phone:not(.ion-phone-landscape) #quesInstruDialogContainer .preGroupInstR > div[style*="height: 107px"] {
+  height: auto !important;
+  padding: 4px 0 6px;
+}
+
+html.ion-phone:not(.ion-phone-landscape) #grpInstruDialogContainer .preGroupInstR img.candidateImg,
+html.ion-phone:not(.ion-phone-landscape) #quesInstruDialogContainer .preGroupInstR img.candidateImg {
+  width: 72px !important;
+  height: 78px !important;
+}
+
+html.ion-phone:not(.ion-phone-landscape) #instruContentDiv,
+html.ion-phone:not(.ion-phone-landscape) #quesInstruContentDiv {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: calc(100vh - 140px) !important;
+  min-height: 0 !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  position: static !important;
+  top: auto !important;
+  padding: 8px 6px 12px !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone:not(.ion-phone-landscape) #InstruContent,
+html.ion-phone:not(.ion-phone-landscape) #quesInstruContent {
+  float: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone:not(.ion-phone-landscape) #InstruContent *,
+html.ion-phone:not(.ion-phone-landscape) #quesInstruContent * {
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone:not(.ion-phone-landscape) #InstruContent img,
+html.ion-phone:not(.ion-phone-landscape) #quesInstruContent img {
+  height: auto !important;
+}
+
+html.ion-phone:not(.ion-phone-landscape) #InstruContent p,
+html.ion-phone:not(.ion-phone-landscape) #quesInstruContent p {
+  margin: 0 0 6px !important;
+  text-align: left !important;
+}
+
+html.ion-phone:not(.ion-phone-landscape) #instruPrcdBtnDiv,
+html.ion-phone:not(.ion-phone-landscape) #quesInstruPrcdBtnDiv {
+  display: block !important;
+  position: static !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: 100% !important;
+  height: auto !important;
+  padding: 4px 0 6px !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone:not(.ion-phone-landscape) #proceedToGrp,
+html.ion-phone:not(.ion-phone-landscape) #proceedToGrpxx {
+  display: inline-block !important;
+  position: static !important;
+  width: auto !important;
+  min-width: 110px !important;
+  height: 38px !important;
+  padding: 0 28px !important;
+  margin: 0 auto !important;
+}
+
+/* One candidate card only: the dialog's own card stays; the quiz profile
+   strip below the instructions would repeat the same name/photo. */
+html.ion-phone:not(.ion-phone-landscape).ion-instructions-open .profile-grouping-section {
+  display: none !important;
+}
+
+/* =========================================================================
+   PHONE STOCK ACTION BAR
+   Keep the desktop answer row (Mark / Clear / Save & Next / Submit) but lift
+   it above the fixed 22px footer. The desktop bar sits flush with the page
+   bottom, where phone browser chrome and the fullscreen-exit notice can cover
+   it. Only its position changes here; the buttons and handlers are the stock
+   ones. The inner desktop containers use fixed/absolute positioning, so they
+   are normalised into one flex row inside the pinned bar.
+   ========================================================================= */
+html.ion-phone .buttons-div {
+  position: fixed !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: calc(22px + env(safe-area-inset-bottom, 0px)) !important;
+  width: 100% !important;
+  height: 57px !important;
+  min-height: 57px !important;
+  margin: 0 !important;
+  background: #fff !important;
+  border: 1px solid #c3c3c1 !important;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.16);
+  box-sizing: border-box;
+  z-index: 9998 !important;
+}
+
+html.ion-phone .buttons-div .Bttn_Area {
+  display: flex !important;
+  align-items: stretch !important;
+  float: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+}
+
+html.ion-phone .buttons-div .other_buttoncontainerGrp,
+html.ion-phone .buttons-div .other_buttoncontainer {
+  position: static !important;
+  float: left !important;
+  width: auto !important;
+  max-width: none !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  padding: 0 6px !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone .buttons-div .other_buttoncontainerGrp > input,
+html.ion-phone .buttons-div .other_buttoncontainer > input {
+  margin-top: 8px !important;
+}
+
+html.ion-phone .buttons-div .save_buttoncontainer {
+  position: static !important;
+  float: none !important;
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  height: 100% !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone .buttons-div .save_buttoncontainer > input {
+  margin-top: 8px !important;
+}
+
+html.ion-phone .buttons-div .finalSubmit {
+  position: static !important;
+  float: none !important;
+  flex: 0 0 250px !important;
+  width: 250px !important;
+  height: 100% !important;
+  clear: none !important;
+  margin: 0 !important;
+  box-sizing: border-box;
+}
+
+html.ion-phone .buttons-div .finalSubmit #finalSubmit {
+  margin-top: 8px !important;
+}
+
+html.ion-phone body.darkThemeParent .buttons-div {
+  background: #1a2134 !important;
+  border-color: #1a2134 !important;
+}
+
+/* Very short phone viewports (landscape fullscreen): the palette's question
+   buttons are 50x43 with 10px gaps, so the last row is clipped by the status
+   panel. Scale the number grid down as a block (sprite and hit area included)
+   so all nine questions stay visible without inner scrolling. */
+@media screen and (max-height: 700px) {
+  html.ion-phone-landscape #numberpanelQues {
+    zoom: 0.7;
+  }
+}
+
+/* The desktop layout sizes #currentQues from the desktop viewport, so on a
+   short phone screen a tall question can run underneath the pinned action bar
+   and push the whole page down. Keep the question panel inside the space
+   between the header and the bar and scroll only that panel. The 252px offset
+   is the fixed header/profile stack plus the 79px bar+footer at the phone
+   viewport width. */
+html.ion-phone #currentQues {
+  max-height: calc(100vh - 252px) !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Landscape is shorter than the desktop viewport, so anchor the question pane
+   to the bar and let it fill the space. The 8px safety margin covers a wrapped
+   candidate name without letting the pane slide under the buttons.
+   100vh tracks the tallest viewport (URL bar hidden), so on Android it
+   overshoots the visible area and pushes the pane under the action bar.
+   100dvh follows the current visible viewport; 100vh stays as fallback. */
+@media screen and (orientation: landscape) {
+  html.ion-phone #currentQues {
+    max-height: calc(100vh - 240px) !important;
+    max-height: calc(100dvh - 240px) !important;
+    min-height: calc(100vh - 240px);
+    min-height: calc(100dvh - 240px);
+  }
+}
+
+/* =========================================================================
+   PHONE FULLSCREEN DESKTOP CANVAS
+   Chrome resets the layout viewport to the device width when the exam enters
+   fullscreen, even though quiz.html asks for width=1200. At 768x360 the narrow
+   rules take over and top.js computes a zero-height palette from the 360px
+   viewport, so the question grid and footer disappear.
+
+   Keep the 1200px desktop composition and scale it down to the device width.
+   The virtual canvas height (innerHeight / scale) gives the question pane and
+   palette the same proportions they have on a desktop screen. The class and
+   the two custom properties are set by exam/phone-landscape.js only for touch
+   phones in landscape, so portrait, tablets and desktop are untouched.
+   ========================================================================= */
+html.ion-fs-canvas,
+html.ion-fs-canvas body {
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+html.ion-fs-canvas #wrapper {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+html.ion-fs-canvas #minwidth {
+  width: 1200px !important;
+  min-width: 1200px !important;
+  max-width: none !important;
+  height: var(--ion-fs-vh) !important;
+  min-height: var(--ion-fs-vh) !important;
+  right: auto !important;
+  overflow: hidden !important;
+  transform: scale(var(--ion-fs-scale)) !important;
+  transform-origin: top left !important;
+}
+
+/* The phone media queries hide the blue "View in :" language strip. The
+   fullscreen canvas is the desktop composition, so show it again. Its 41px
+   height comes from the base desktop rule and scales with the canvas. */
+html.ion-fs-canvas #Questn_Innr_Div_section {
+  display: block !important;
+}
+
+/* Question pane: fill the space between the profile strip and the action bar
+   on the virtual canvas. The 240px offset is the same one the landscape rule
+   above uses (top strip + bar + footer + safety margin). */
+html.ion-fs-canvas #currentQues {
+  width: calc(100% - 248px) !important;
+  max-width: calc(100% - 248px) !important;
+  height: auto !important;
+  min-height: calc(var(--ion-fs-vh) - 240px) !important;
+  max-height: calc(var(--ion-fs-vh) - 240px) !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Palette: top.js sizes this from the real 360px viewport, which collapses it
+   to 0. Its top edge is fixed at 351px on the 1200px canvas (profile strip +
+   notation + legend), so derive the height from the virtual canvas instead. */
+html.ion-fs-canvas #question_area {
+  height: calc(var(--ion-fs-vh) - 427px) !important;
+  min-height: calc(var(--ion-fs-vh) - 427px) !important;
+  max-height: calc(var(--ion-fs-vh) - 427px) !important;
+}
+
+/* The footer lives outside #minwidth, so scale it separately and anchor it to
+   the real viewport bottom. 22px x scale keeps it exactly below the scaled
+   action bar. */
+html.ion-fs-canvas #footer {
+  display: block !important;
+  position: fixed !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 1200px !important;
+  min-width: 0 !important;
+  height: 22px !important;
+  transform: scale(var(--ion-fs-scale)) !important;
+  transform-origin: bottom left !important;
+  z-index: 9999 !important;
 }
 

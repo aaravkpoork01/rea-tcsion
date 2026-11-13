@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questionPaperXML totalMarks="5">
+   <languages>
+      <language id="1" name="Gujarati"/>
+   </languages>
+   <groups>
+      <group id="G1" totalMarks="5" instructionTime="1" maxDuration="0">
+         <groupDisplayText>ગુજરાતી વિભાગ - ડેમો પ્રશ્નપત્ર</groupDisplayText>
+         <groupInstructions>બધા પ્રશ્નોના જવાબ આપો. દરેક પ્રશ્નનો એક ગુણ છે.</groupInstructions>
+         <sections>
+            <section id="S1" sectionType="ONLINE" totalMarks="5" maxQuestionsToBeAttempted="5">
+               <sectionDisplayText>ગુજરાતી પ્રશ્નો</sectionDisplayText>
+               <sectionInstruction>દરેક પ્રશ્ન માટે સાચો વિકલ્પ પસંદ કરો.</sectionInstruction>
+               <subsections>
+                  <subsection id="SS1">
+                     <questions>
+                        <question id="Q86" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+                           <languageSpecificData>
+                              <lang id="1">
+                                 <questionString><![CDATA[આપેલ વિકલ્પોમાંથી ખોટી જોડણીવાળો શબ્દ શોધો.]]></questionString>
+                                 <hint><![CDATA[]]></hint>
+                                 <allOptions>
+                                    <option optionID="Q86O1" sequenceID="1" correct="false"><optionText><![CDATA[કીમિયાગર]]></optionText></option>
+                                    <option optionID="Q86O2" sequenceID="2" correct="true"><optionText><![CDATA[કામિની]]></optionText></option>
+                                    <option optionID="Q86O3" sequenceID="3" correct="false"><optionText><![CDATA[કૂળવધુ]]></optionText></option>
+                                    <option optionID="Q86O4" sequenceID="4" correct="false"><optionText><![CDATA[કિકિયારી]]></optionText></option>
+                                 </allOptions>
+                              </lang>
+                           </languageSpecificData>
+                        </question>
+                        <question id="Q87" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+                           <languageSpecificData>
+                              <lang id="1">
+                                 <questionString><![CDATA['રૂપ + અંતર' નું સાચું સંધિ જોડાણ શોધો]]></questionString>
+                                 <hint><![CDATA[]]></hint>
+                                 <allOptions>
+                                    <option optionID="Q87O1" sequenceID="1" correct="false"><optionText><![CDATA[રૂપઉત્તર]]></optionText></option>
+                                    <option optionID="Q87O2" sequenceID="2" correct="false"><optionText><![CDATA[રૂપઅત્તર]]></optionText></option>
+                                    <option optionID="Q87O3" sequenceID="3" correct="false"><optionText><![CDATA[રૂપઅંતર]]></optionText></option>
+                                    <option optionID="Q87O4" sequenceID="4" correct="true"><optionText><![CDATA[રૂપાંતર]]></optionText></option>
+                                 </allOptions>
+                              </lang>
+                           </languageSpecificData>
+                        </question>
+                        <question id="Q88" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+                           <languageSpecificData>
+                              <lang id="1">
+                                 <questionString><![CDATA['મલિન' શબ્દનો વિરુદ્ધાર્થી શબ્દ શોધો]]></questionString>
+                                 <hint><![CDATA[]]></hint>
+                                 <allOptions>
+                                    <option optionID="Q88O1" sequenceID="1" correct="false"><optionText><![CDATA[પવિત્ર]]></optionText></option>
+                                    <option optionID="Q88O2" sequenceID="2" correct="false"><optionText><![CDATA[મધુર]]></optionText></option>
+                                    <option optionID="Q88O3" sequenceID="3" correct="false"><optionText><![CDATA[મેલું]]></optionText></option>
+                                    <option optionID="Q88O4" sequenceID="4" correct="true"><optionText><![CDATA[નિર્મળ]]></optionText></option>
+                                 </allOptions>
+                              </lang>
+                           </languageSpecificData>
+                        </question>
+                        <question id="Q89" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+                           <languageSpecificData>
+                              <lang id="1">
+                                 <questionString><![CDATA['પવનચક્કી' સમાસનો સાચો વિગ્રહ શોધો]]></questionString>
+                                 <hint><![CDATA[]]></hint>
+                                 <allOptions>
+                                    <option optionID="Q89O1" sequenceID="1" correct="true"><optionText><![CDATA[પવનથી ચાલતી ચક્કી]]></optionText></option>
+                                    <option optionID="Q89O2" sequenceID="2" correct="false"><optionText><![CDATA[પવનની ચક્કી]]></optionText></option>
+                                    <option optionID="Q89O3" sequenceID="3" correct="false"><optionText><![CDATA[પવન અને ચક્કી]]></optionText></option>
+                                    <option optionID="Q89O4" sequenceID="4" correct="false"><optionText><![CDATA[પવનથી ચક્કી]]></optionText></option>
+                                 </allOptions>
+                              </lang>
+                           </languageSpecificData>
+                        </question>
+                        <question id="Q90" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+                           <languageSpecificData>
+                              <lang id="1">
+                                 <questionString><![CDATA[આપેલ સમાસનો સાચો વિગ્રહ શોધો - કલ્પવૃક્ષ]]></questionString>
+                                 <hint><![CDATA[]]></hint>
+                                 <allOptions>
+                                    <option optionID="Q90O1" sequenceID="1" correct="true"><optionText><![CDATA[કલ્પેલું આપનાર વૃક્ષ]]></optionText></option>
+                                    <option optionID="Q90O2" sequenceID="2" correct="false"><optionText><![CDATA[કામદેવનું વૃક્ષ]]></optionText></option>
+                                    <option optionID="Q90O3" sequenceID="3" correct="false"><optionText><![CDATA[જેની કલ્પના છે વૃક્ષની તે]]></optionText></option>
+                                    <option optionID="Q90O4" sequenceID="4" correct="false"><optionText><![CDATA[કામધેનુ વૃક્ષ]]></optionText></option>
+                                 </allOptions>
+                              </lang>
+                           </languageSpecificData>
+                        </question>
+                     </questions>
+                  </subsection>
+               </subsections>
+            </section>
+         </sections>
+      </group>
+   </groups>
+</questionPaperXML>

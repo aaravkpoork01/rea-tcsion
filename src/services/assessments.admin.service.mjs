@@ -40,6 +40,7 @@ export const list = async () => {
 export const brief = async () => assessmentsRepo.listBrief();
 
 const USEFUL_DATA_MAX = 27;
+const PAPER_LANGUAGE_LIMIT = 3;
 
 /** Language rows for an assessment, falling back to its quiz.xml for old imports. */
 async function languagesFor(assessment) {
@@ -228,6 +229,15 @@ export async function updateGlobalInstructions(body = {}) {
   const requested = Array.isArray(body.languages) ? body.languages : [];
   if (!requested.length) throw badRequest("At least one language is required.");
 
+  const languageChanges = body.languageChanges && typeof body.languageChanges === "object"
+    ? body.languageChanges
+    : null;
+  const added = Array.isArray(languageChanges?.added) ? languageChanges.added : [];
+  const removed = new Set((Array.isArray(languageChanges?.removed) ? languageChanges.removed : [])
+    .map((id) => Number.parseInt(id, 10))
+    .filter((id) => Number.isInteger(id)));
+  if (added.length || removed.size) await applyGlobalLanguageChanges(added, removed);
+
   const template = await saveInstructionTemplate(requested.map((row) => ({
     id: row?.id,
     name: row?.name,
@@ -278,11 +288,79 @@ export async function updateGlobalInstructions(body = {}) {
   return { ...(await getGlobalInstructions()), updated };
 }
 
+/**
+ * Apply only the languages explicitly added or removed in the global language
+ * manager to every assessment. Untouched languages in the union are never
+ * propagated, so saving instructions alone does not change a paper's language
+ * list. Every assessment is validated before the first file is written.
+ */
+async function applyGlobalLanguageChanges(added = [], removed = new Set()) {
+  const addRows = [];
+  const addIds = new Set();
+  for (const row of added) {
+    const id = Number.parseInt(row?.id, 10);
+    const name = String(row?.name || "").trim().replace(/\s+/g, " ").slice(0, 32);
+    if (!Number.isInteger(id) || id < 1 || id > 99 || !name) {
+      throw badRequest("Every added language needs an id between 1 and 99 and a name.");
+    }
+    if (addIds.has(id)) throw badRequest(`Language id ${id} is added twice.`);
+    addIds.add(id);
+    addRows.push({ id, name });
+  }
+
+  const plans = [];
+  for (const brief of await assessmentsRepo.listBrief()) {
+    const assessment = await assessmentsRepo.findById(brief.id);
+    if (!assessment) continue;
+
+    const current = await languagesFor(assessment);
+    if (!current.length) continue;
+    const primary = current.find((language) => language.primary) || current[0];
+    const primaryId = Number(primary.id);
+    const next = current
+      .map((language) => ({
+        id: Number(language.id),
+        name: String(language.name),
+        primary: Number(language.id) === primaryId,
+      }))
+      .filter((language) => !removed.has(language.id));
+    for (const row of addRows) {
+      if (!next.some((language) => language.id === row.id)) {
+        next.push({ id: row.id, name: row.name, primary: false });
+      }
+    }
+
+    if (!next.some((language) => language.id === primaryId)) {
+      throw badRequest(`The primary language (${primary.name}) cannot be removed from assessment ${assessment.id}.`);
+    }
+    if (next.length > PAPER_LANGUAGE_LIMIT) {
+      throw badRequest(`Assessment ${assessment.id} would have more than ${PAPER_LANGUAGE_LIMIT} languages.`);
+    }
+    const names = new Set();
+    for (const language of next) {
+      const key = language.name.trim().toLowerCase();
+      if (!key) throw badRequest(`Every language needs a name for assessment ${assessment.id}.`);
+      if (names.has(key)) {
+        throw badRequest(`Assessment ${assessment.id} would have two languages named "${language.name}".`);
+      }
+      names.add(key);
+    }
+
+    const unchanged = current.length === next.length && current.every((language) => {
+      const planned = next.find((entry) => entry.id === Number(language.id));
+      return planned && planned.name === String(language.name);
+    });
+    if (!unchanged) plans.push({ id: assessment.id, languages: next });
+  }
+
+  for (const plan of plans) {
+    await updateLanguages(plan.id, { languages: plan.languages });
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Paper languages
 // ---------------------------------------------------------------------------
-
-const PAPER_LANGUAGE_LIMIT = 3;
 
 /**
  * Add or remove paper languages. The primary language is permanent: it can
@@ -393,9 +471,77 @@ export async function getUsefulData(assessmentId) {
   const files = [];
   for (let index = 1; index <= USEFUL_DATA_MAX; index += 1) {
     const path = readFileValue(xml, usefulDataTag(index));
-    if (path) files.push({ index, path });
+    if (path) {
+      files.push({
+        index,
+        path,
+        name: usefulDataFileName(path),
+        url: usefulDataUrl(assessment, path),
+      });
+    }
   }
   return { assessmentId: assessment.id, files };
+}
+
+/** Display name of a stored useful-data path (without query string). */
+function usefulDataFileName(value) {
+  const clean = String(value || "").split("?")[0].split("#")[0];
+  const last = clean.split("/").filter(Boolean).pop() || "";
+  try {
+    return decodeURIComponent(last) || clean;
+  } catch {
+    return last || clean;
+  }
+}
+
+/** Absolute console URL for a useful-data path stored in confDetails.xml. */
+function usefulDataUrl(assessment, value) {
+  const path = String(value || "").trim();
+  if (!path) return "";
+  if (path.startsWith("/") || /^[a-z]+:\/\//i.test(path)) return path;
+  const prefix = String(assessment.base_path || "").match(/^(\/per\/[^/]+\/pub\/)/i)?.[1] || "";
+  if (prefix && path.startsWith(`${assessment.org_id}/`)) return prefix + path;
+  return `/${String(assessment.base_path || "").replace(/^\/|\/$/g, "")}/${path}`;
+}
+
+const USEFUL_DATA_UPLOAD_BYTES = 5 * 1024 * 1024;
+
+/** Store an uploaded PDF in the assessment paper folder for Useful Data. */
+export async function uploadUsefulDataFile(assessmentId, body = {}) {
+  const assessment = await assessmentsRepo.findById(String(assessmentId || "").trim());
+  if (!assessment) throw notFound("Assessment not found.");
+
+  const match = /^data:application\/pdf(?:;[^,]*)?;base64,([A-Za-z0-9+/=\s]+)$/i.exec(String(body.data || ""));
+  if (!match) throw badRequest("Choose a PDF file to upload.");
+  const bytes = Buffer.from(match[1].replace(/\s+/g, ""), "base64");
+  if (!bytes.length) throw badRequest("That PDF file is empty.");
+  if (bytes.length > USEFUL_DATA_UPLOAD_BYTES) throw badRequest("Keep each PDF under 5 MB.");
+  if (bytes.subarray(0, 5).toString("latin1") !== "%PDF-") throw badRequest("That file is not a valid PDF.");
+
+  const original = String(body.fileName || "useful-data.pdf").trim() || "useful-data.pdf";
+  const safe = original
+    .replace(/[^A-Za-z0-9._-]+/g, "_")
+    .replace(/^[._-]+|[._-]+$/g, "")
+    .slice(-80) || "useful-data.pdf";
+  const relative = `${String(assessment.base_path || "").replace(/^\/|\/$/g, "")}/usefulDataFiles/uploads/${Date.now()}_${safe}`;
+  const target = mirrorPath(...relative.split("/"));
+  try {
+    mkdirSync(dirname(target), { recursive: true });
+    writeFileSync(target, bytes);
+  } catch (error) {
+    throw badRequest(`Could not store the PDF: ${error.message}`);
+  }
+
+  const prefix = String(assessment.base_path || "").match(/^(\/per\/[^/]+\/pub\/)/i)?.[1] || "";
+  const stored = prefix ? relative.slice(prefix.replace(/^\/|\/$/g, "").length + 1) : `/${relative}`;
+  return {
+    file: {
+      name: original,
+      path: stored,
+      url: `/${relative}`,
+      bytes: bytes.length,
+    },
+  };
 }
 
 /** Replace the Useful Data file list in confDetails.xml. */

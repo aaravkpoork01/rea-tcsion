@@ -226,6 +226,12 @@ tbody tr.drop-after td { box-shadow: inset 0 -2px 0 var(--accent); }
 .toolbar label { min-width: 150px; flex: 1 1 150px; }
 .toolbar .grow { flex: 2 1 240px; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+.input-with-action { display: flex; align-items: stretch; gap: 8px; }
+.input-with-action input { flex: 1; min-width: 0; }
+.input-with-action .btn { flex: none; padding: 0 13px; font-size: 17px; line-height: 1; }
+input.invalid { border-color: var(--red); box-shadow: 0 0 0 3px rgba(242, 85, 90, .14); }
+input.valid { border-color: var(--green); }
+.field-note.field-error { color: var(--red); }
 .photo-field { display: grid; justify-items: center; gap: 6px; }
 .photo-field-title { font-size: 12.5px; color: var(--muted); }
 .photo-upload {
@@ -372,3 +378,15 @@ tbody tr.drop-after td { box-shadow: inset 0 -2px 0 var(--accent); }
   .view { padding: 16px; }
   .topbar { padding: 16px; }
 }
+
+/* shareable result link */
+.share-panel { border: 1px solid var(--accent); border-radius: var(--radius); background: var(--accent-soft); padding: 14px; margin-top: 12px; display: grid; gap: 10px; }
+.share-panel input[readonly] { font-family: var(--mono); }
+
+/* bulk result links */
+.toolbar-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.toolbar-note { margin-top: 10px; }
+.select-col { width: 30px; text-align: center; }
+.select-col input { width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer; }
+.share-panel table { margin-top: 2px; }
+.share-panel td code { white-space: nowrap; }

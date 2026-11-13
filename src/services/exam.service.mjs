@@ -252,6 +252,9 @@ export async function persistAuditPayload(raw, attempt, ip) {
 
 /** `MockCandResponseHandler` — periodic state backup and final hand-off. */
 export async function handleBackup({ snapshot, isFinal, ip, session }) {
+  if (!session) {
+    return { BackUpStatus: "success", attemptConfigFileDate: Date.now() };
+  }
   const attempt = await attemptsService.resolveAttemptForSnapshot(snapshot, session);
   if (!attempt) {
     return { BackUpStatus: "success", attemptConfigFileDate: Date.now() };
