@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><Details>
+<CandidateResponseHandlerURL>/IBA/MockCandResponseHandler</CandidateResponseHandlerURL>
+<AssessmentName>EI Mock Assessment</AssessmentName>
+<USELOGINID>NO</USELOGINID>
+<LoginIDLabel>Welcome</LoginIDLabel>
+<UseDefaultSystemInstruction>YES</UseDefaultSystemInstruction>
+<UseBanner/>
+<BannerPath> </BannerPath>
+<BannerText>#2D70B6</BannerText>
+<CandidateName>Your Name</CandidateName>
+<AssessmentDuration>100</AssessmentDuration>
+<COMPULSORYTIME>0</COMPULSORYTIME>
+<ConsiderMarkForReview>YES</ConsiderMarkForReview>
+<ISOPTIONALSECTIONSAVAILABLE>YES</ISOPTIONALSECTIONSAVAILABLE>
+<ShowFeedback>YES</ShowFeedback>
+<UseDefaultFeedback>YES</UseDefaultFeedback>
+<SHOWCONTACTNO>YES</SHOWCONTACTNO>
+<SHOWEMAILID>YES</SHOWEMAILID>
+<Version>17.03.00</Version>
+<UseAssessmentForever>YES</UseAssessmentForever>
+<AssessmentStartDate/>
+<AssessmentEndDate/>
+<USEDEFAULTCANDIDATEIMG>YES</USEDEFAULTCANDIDATEIMG>
+<CANDIDATEIMGPATH>/per/g01/pub/726/ASM/OnlineAssessment/M62/images/candidateImg.jpg?v=1577752726284</CANDIDATEIMGPATH>
+<UsefulDataFile1>726/ASM/OnlineAssessment/M62/usefulDataFiles/usefulDataFile_1/UploadedPDF_1_4.pdf?v=1510312484572</UsefulDataFile1>
+<UsefulDataFile2> </UsefulDataFile2>
+<ShowViewQPButton>YES</ShowViewQPButton>
+<OptionOrientation>Vertical</OptionOrientation>
+<ShowScoreCard>YES</ShowScoreCard>
+<ShowPercentageScore>YES</ShowPercentageScore>
+<StoreCandResponse>NO</StoreCandResponse>
+<MaxNoOfAttempt>1</MaxNoOfAttempt>
+<SoftwareLanguages>English,Hindi,Tamil</SoftwareLanguages>
+<ReportPublishDate/>
+<DefaultReportFormat>YES</DefaultReportFormat>
+<UseDefaultExitPage>YES</UseDefaultExitPage>
+<showOptionInViewQP>YES</showOptionInViewQP>
+<TimeFormat>MM:SS</TimeFormat>
+<UseDefaultDisclaimerInstruction>YES</UseDefaultDisclaimerInstruction>
+<EXTRAPARAM1> </EXTRAPARAM1>
+<EXTRAPARAM2> </EXTRAPARAM2>
+<AssessmentDescription></AssessmentDescription><RequireFullscreen>NO</RequireFullscreen></Details>

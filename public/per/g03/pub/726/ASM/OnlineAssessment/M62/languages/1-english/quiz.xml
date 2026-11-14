@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questionPaperXML questionPaperTotalTime="60" totalMarks="3">
+   <languages>
+      <language id="1" name="English"/>
+   </languages>
+   <groups>
+<group id="G1" totalMarks="3" instructionTime="1" maxDuration="30" minDuration="0">
+   <groupDisplayText><![CDATA[General Aptitude]]></groupDisplayText>
+   <groupInstructions><![CDATA[Answer every question in this group. Use the question palette to move between questions.]]></groupInstructions>
+   <sections>
+<section id="S1-1" sectionType="ONLINE" totalMarks="3" maxQuestionsToBeAttempted="3" instructionTime="0" MinInstructionTime="0">
+   <sectionDisplayText><![CDATA[Sample Questions]]></sectionDisplayText>
+   <sectionInstruction><![CDATA[Each question carries one mark. Choose the single best answer.]]></sectionInstruction>
+   <subsections>
+      <subsection id="S1-1-SS1">
+         <questions>
+<question id="Q1" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[What is 2 + 2?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="Q1O1" sequenceID="1" correct="true"><optionText><![CDATA[4]]></optionText></option>
+<option optionID="Q1O2" sequenceID="2" correct="false"><optionText><![CDATA[3]]></optionText></option>
+<option optionID="Q1O3" sequenceID="3" correct="false"><optionText><![CDATA[5]]></optionText></option>
+<option optionID="Q1O4" sequenceID="4" correct="false"><optionText><![CDATA[6]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="Q2" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Which planet is known as the Red Planet?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="Q2O1" sequenceID="1" correct="false"><optionText><![CDATA[Venus]]></optionText></option>
+<option optionID="Q2O2" sequenceID="2" correct="true"><optionText><![CDATA[Mars]]></optionText></option>
+<option optionID="Q2O3" sequenceID="3" correct="false"><optionText><![CDATA[Jupiter]]></optionText></option>
+<option optionID="Q2O4" sequenceID="4" correct="false"><optionText><![CDATA[Saturn]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="Q3" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Choose the synonym of "begin".]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="Q3O1" sequenceID="1" correct="true"><optionText><![CDATA[Start]]></optionText></option>
+<option optionID="Q3O2" sequenceID="2" correct="false"><optionText><![CDATA[Stop]]></optionText></option>
+<option optionID="Q3O3" sequenceID="3" correct="false"><optionText><![CDATA[Close]]></optionText></option>
+<option optionID="Q3O4" sequenceID="4" correct="false"><optionText><![CDATA[Finish]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+         </questions>
+      </subsection>
+   </subsections>
+</section>
+   </sections>
+</group>
+   </groups>
+</questionPaperXML>

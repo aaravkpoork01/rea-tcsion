@@ -259,7 +259,10 @@ export async function handleBackup({ snapshot, isFinal, ip, session }) {
     return { BackUpStatus: "success", attemptConfigFileDate: Date.now() };
   }
 
-  if (isClosed(attempt.status) && !isFinal) {
+  // Never persist onto an already-submitted attempt, even when a stale tab
+  // sends a final backup. Returning the submitted message lets the client
+  // move on to feedback/exit without touching the frozen responses.
+  if (isClosed(attempt.status) && (attempt.status === "submitted" || !isFinal)) {
     return {
       BackUpStatus: "success",
       ERROR: attempt.status === "submitted" ? CLOSED_MESSAGES.submitted : undefined,

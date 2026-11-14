@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><Details>
 <CandidateResponseHandlerURL>/IBA/MockCandResponseHandler</CandidateResponseHandlerURL>
-<AssessmentName>EI Mock Assessment</AssessmentName>
+<AssessmentName>TCS iON Mock Assessment</AssessmentName>
 <USELOGINID>NO</USELOGINID>
 <LoginIDLabel>Welcome</LoginIDLabel>
 <UseDefaultSystemInstruction>YES</UseDefaultSystemInstruction>
@@ -8,7 +8,7 @@
 <BannerPath> </BannerPath>
 <BannerText>#2D70B6</BannerText>
 <CandidateName>Your Name</CandidateName>
-<AssessmentDuration>100</AssessmentDuration>
+<AssessmentDuration>60</AssessmentDuration>
 <COMPULSORYTIME>0</COMPULSORYTIME>
 <ConsiderMarkForReview>YES</ConsiderMarkForReview>
 <ISOPTIONALSECTIONSAVAILABLE>YES</ISOPTIONALSECTIONSAVAILABLE>
@@ -22,15 +22,15 @@
 <AssessmentEndDate/>
 <USEDEFAULTCANDIDATEIMG>YES</USEDEFAULTCANDIDATEIMG>
 <CANDIDATEIMGPATH>/per/g01/pub/726/ASM/OnlineAssessment/M62/images/candidateImg.jpg?v=1577752726284</CANDIDATEIMGPATH>
-<UsefulDataFile1>726/ASM/OnlineAssessment/M62/usefulDataFiles/usefulDataFile_1/UploadedPDF_1_4.pdf?v=1510312484572</UsefulDataFile1>
-<UsefulDataFile2> </UsefulDataFile2>
+<UsefulDataFile1>/per/g03/pub/726/ASM/OnlineAssessment/M62/usefulDataFiles/usefulDataFile_1/UploadedPDF_1_4.pdf?v=1510312484572</UsefulDataFile1>
+<UsefulDataFile2>/per/g03/pub/726/ASM/OnlineAssessment/M62/usefulDataFiles/usefulDataFile_1/UploadedPDF_1_4.pdf?v=1510312484572</UsefulDataFile2>
 <ShowViewQPButton>YES</ShowViewQPButton>
 <OptionOrientation>Vertical</OptionOrientation>
 <ShowScoreCard>YES</ShowScoreCard>
 <ShowPercentageScore>YES</ShowPercentageScore>
-<StoreCandResponse>NO</StoreCandResponse>
+<StoreCandResponse>YES</StoreCandResponse>
 <MaxNoOfAttempt>1</MaxNoOfAttempt>
-<SoftwareLanguages>English,Hindi,Tamil</SoftwareLanguages>
+<SoftwareLanguages>English</SoftwareLanguages>
 <ReportPublishDate/>
 <DefaultReportFormat>YES</DefaultReportFormat>
 <UseDefaultExitPage>YES</UseDefaultExitPage>

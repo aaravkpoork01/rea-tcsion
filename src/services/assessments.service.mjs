@@ -7,15 +7,16 @@ import { notFound } from "../core/errors.mjs";
 import * as assessmentsRepo from "../db/repositories/assessments.repo.mjs";
 
 /**
- * Resolve an assessment by id, falling back to the org's first assessment.
- * The legacy engine strips the leading `M` from mock ids before asking for
- * the paper path, so try the canonical `M<id>` form too.
+ * Resolve an assessment by id. The legacy engine strips the leading `M` from
+ * mock ids before asking for the paper path, so try the canonical `M<id>` form
+ * too. Only an empty id falls back to the org's first assessment: an explicitly
+ * requested but unknown id must not silently open a different paper.
  */
 export async function resolveAssessment(orgId, assessmentId) {
   const id = String(assessmentId || "").trim();
+  if (!id) return assessmentsRepo.findFirstForOrg(String(orgId || ""));
   return (await assessmentsRepo.findById(id))
-    || (id && !/^M/i.test(id) ? await assessmentsRepo.findById(`M${id}`) : null)
-    || assessmentsRepo.findFirstForOrg(String(orgId || ""));
+    || (!/^M/i.test(id) ? await assessmentsRepo.findById(`M${id}`) : null);
 }
 
 export async function requireAssessment(orgId, assessmentId) {

@@ -5,6 +5,7 @@ import * as auditRepo from "../db/repositories/audit.repo.mjs";
 import * as structureRepo from "../db/repositories/structure.repo.mjs";
 import { nowIso } from "../core/time.mjs";
 import { forbidden, notFound } from "../core/errors.mjs";
+import { snapshotMatchesAttempt } from "../domain/snapshot-guard.mjs";
 
 /** Return the open attempt for the pair, creating a fresh one when allowed. */
 export async function openAttempt({ candidate, assessment, context = {} }) {
@@ -59,15 +60,24 @@ export async function resolveAttemptForState({ attemptId, candidateId, assessmen
   return null;
 }
 
-/** Resolve the attempt a snapshot belongs to (autosave path). */
+/**
+ * Resolve the attempt a snapshot belongs to (autosave path).
+ *
+ * The session's attempt is authoritative because it was minted at sign-in.
+ * A snapshot from a stale tab must never fall through to an unrelated
+ * attempt: if its assessment/candidate does not match the attempt, it is
+ * rejected instead of being persisted.
+ */
 export async function resolveAttemptForSnapshot(snapshot, session) {
-  const attemptId = Number(snapshot?.attemptId || session?.attemptId || 0);
-  if (attemptId) {
-    const row = await attemptsRepo.findById(attemptId);
-    if (row) return row;
-  }
-  const candidateId = snapshot?.candMasterId || session?.candidateId;
-  return candidateId ? attemptsRepo.findLatestForCandidate(candidateId) : null;
+  const attemptId = Number(session?.attemptId || snapshot?.attemptId || 0);
+  if (!attemptId) return null;
+
+  const row = await attemptsRepo.findById(attemptId);
+  if (!row) return null;
+  if (!snapshotMatchesAttempt(snapshot, row)) return null;
+  if (session?.candidateId && String(session.candidateId) !== String(row.candidate_id)) return null;
+
+  return row;
 }
 
 export async function requireAttempt(id) {
