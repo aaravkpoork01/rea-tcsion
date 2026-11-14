@@ -216,7 +216,10 @@ export async function importPaper({ orgId, assessmentId, quizPath, confPath, pro
           replays: Number(attr(question, "numberOfReplays", "0")) || 0,
           meta: JSON.stringify(question.attrs),
         });
-        const questionId = Number(questionInfo.lastInsertRowid);
+        let questionId = Number(questionInfo.lastInsertRowid);
+        if (!Number.isFinite(questionId) || questionId <= 0) {
+          questionId = await questionsRepo.findLastId(assessmentId);
+        }
 
         for (const node of langNodes) {
           await translationsRepo.upsertQuestionLanguage(questionId, langIdOf(node, primaryLangId), {
@@ -237,7 +240,10 @@ export async function importPaper({ orgId, assessmentId, quizPath, confPath, pro
             body: text(option, "optionText", ""),
             correct: attr(option, "correct", "false") === "true" ? 1 : 0,
           });
-          const optionId = Number(optionInfo.lastInsertRowid);
+          let optionId = Number(optionInfo.lastInsertRowid);
+          if (!Number.isFinite(optionId) || optionId <= 0) {
+            optionId = await questionsRepo.findLastOptionId(questionId);
+          }
           if (extId) optionIdByExt.set(extId, optionId);
           optionIdBySeq.set(String(seq), optionId);
         }

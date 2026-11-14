@@ -84,6 +84,16 @@ export const updateOption = async (questionId, optionId, { correct, body }) =>
 export const removeForAssessment = async (assessmentId) =>
   run("DELETE FROM questions WHERE assessment_id = ?", assessmentId);
 
+export const findLastId = async (assessmentId) => {
+  const row = await one("SELECT id FROM questions WHERE assessment_id = ? ORDER BY id DESC LIMIT 1", assessmentId);
+  return Number(row?.id ?? 0);
+};
+
+export const findLastOptionId = async (questionId) => {
+  const row = await one("SELECT id FROM options WHERE question_id = ? ORDER BY id DESC LIMIT 1", questionId);
+  return Number(row?.id ?? 0);
+};
+
 export const create = async (row) =>
   run(`INSERT INTO questions
       (assessment_id, group_id, section_id, seq, ext_id, type, comprehension_id, laq_id, body, hint,
