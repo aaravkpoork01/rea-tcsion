@@ -28,7 +28,7 @@
 <ShowScoreCard>YES</ShowScoreCard>
 <ShowPercentageScore>YES</ShowPercentageScore>
 <StoreCandResponse>YES</StoreCandResponse>
-<RequireFullscreen>YES</RequireFullscreen>
+<RequireFullscreen>NO</RequireFullscreen>
 <MaxNoOfAttempt>1</MaxNoOfAttempt>
 <SoftwareLanguages>English,Gujarati</SoftwareLanguages>
 <ReportPublishDate/>
