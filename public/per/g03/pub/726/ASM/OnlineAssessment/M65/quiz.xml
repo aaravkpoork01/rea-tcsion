@@ -15,7 +15,7 @@
 <subsections>
 <subsection id="S1-1-SS1">
 <questions>
-<question id="Q1" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q1" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Choose the most appropriate noun to complete the given sentence.<br>The jury was impressed by the _____ of the witness.]]></questionString>
@@ -39,7 +39,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q2" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q2" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Choose the sentence that is correctly written in the passive voice.]]></questionString>
@@ -63,7 +63,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q3" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q3" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Convert this sentence into the Future Perfect Continuous tense, beginning your new sentence with "By next year." She has been teaching at the academy for nine years.]]></questionString>
@@ -87,7 +87,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q4" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q4" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Identify the sentence with the correct use of articles.<br>He is best candidate for the position.]]></questionString>
@@ -111,7 +111,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q5" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q5" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Choose the synonym for the bold word in the sentence. The scientist was amazed by the results.]]></questionString>
@@ -135,7 +135,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q6" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q6" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Select the correct one-word substitution for “outrageous and disgraceful; shockingly bad or offensive.”]]></questionString>
@@ -159,7 +159,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q7" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q7" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Select the most appropriate option to substitute the underlined word segment in the given sentence.<br>Rosenberg has faded into a poorly remembered written, spoken, or drawn silly portrayal of himself.]]></questionString>
@@ -183,7 +183,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q8" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q8" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA["I have seen this film." નો સાચો ગુજરાતી અનુવાદ કયો છે?]]></questionString>
@@ -207,7 +207,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q9" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q9" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Select the most appropriate meaning of the given idiom- cast pearls before swine]]></questionString>
@@ -231,7 +231,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q10" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q10" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Transform the simple sentence into a compound sentence. She opened the window to let in fresh air.]]></questionString>
@@ -255,7 +255,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q11" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q11" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Choose the most appropriate option to complete the given sentence.<br>The ______ of the conference inspired many ______ to pursue research in the field.]]></questionString>
@@ -279,7 +279,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q12" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q12" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Choose the option that shows another meaning of the bold word given in the sentence. The seal balanced a ball on its nose.]]></questionString>
@@ -303,7 +303,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q13" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q13" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Arrange the segments in the correct order to form a complete sentence. A. shifted his attention B. to the unfinished report C. having finally completed the presentation, D. on his desk E. the project manager]]></questionString>
@@ -327,7 +327,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q14" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q14" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Select the most appropriate option to fill in the blank. The dean said, "Any student who ________ absent for more than twenty percent of classes will be barred from the final examination."]]></questionString>
@@ -351,7 +351,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q15" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q15" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Convert the given sentence into the Future Perfect tense.<br>By midnight, the storm will destroy the old wooden pier.]]></questionString>
@@ -385,7 +385,7 @@
 <subsections>
 <subsection id="S1-2-SS2">
 <questions>
-<question id="Q16" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q16" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[નીચે આપેલ વાક્યોમાંથી ભાષાશુદ્ધિની દૃષ્ટિએ સાચું વાક્ય ઓળખાવો.]]></questionString>
@@ -409,7 +409,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q17" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q17" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[નીચેનામાંથી સંજ્ઞા સાથે વિભક્તિનો ઉપયોગ થયો હોય તેવું વાક્ય શોધો.]]></questionString>
@@ -433,7 +433,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q18" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q18" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[આ સાથે આપેલ ગુજરાતી વાક્યનો યોગ્ય અંગ્રેજી અનુવાદ ઓળખાવો : અમે હિન્દી વાંચીએ છીએ.]]></questionString>
@@ -457,7 +457,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q19" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q19" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[‘હરિ’ શબ્દનો સમાનાર્થી શબ્દ શોધો.]]></questionString>
@@ -481,7 +481,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q20" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q20" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[માત્રામેળ છંદમાં અમુક અમુક અંતરે ભાર મુકાય છે તેને શું કહેવામાં આવે છે?]]></questionString>
@@ -505,7 +505,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q21" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q21" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[સાચી જોડણીવાળું વાક્ય શોધો:]]></questionString>
@@ -529,7 +529,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q22" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q22" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[’અડધું ત્યજે પંડિત, સઘળું ત્યજે ગમાર’ કહેવતનો અર્થ શું છે?]]></questionString>
@@ -553,7 +553,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q23" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q23" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[આપેલ વિકલ્પમાંથી ‘સમૃદ્ધ’ શબ્દનો સાચો સંધિ વિચ્છેદ શોધો.]]></questionString>
@@ -577,7 +577,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q24" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q24" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA["જાહેરાત" શબ્દનો સાચો અંગ્રેજી શબ્દ કયો છે?]]></questionString>
@@ -601,7 +601,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q25" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q25" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[’રચનાત્મક’ શબ્દનો વિરુદ્ધાર્થી કયો છે?]]></questionString>
@@ -625,7 +625,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q26" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q26" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[નીચે આપેલ પંક્તિનો અલંકાર ઓળખાવો. એ અદ્ભુત પ્રદેશ પૃથ્વી પર સ્વર્ગ જેવો પ્રકાશતો.]]></questionString>
@@ -649,7 +649,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q27" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q27" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[‘શ્ + આ’નું અક્ષરરૂપ કયું છે?]]></questionString>
@@ -673,7 +673,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q28" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q28" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[નીચેનામાંથી કયો વ્યંજન ’ઘોષ’ અને ’અલ્પપ્રાણ’ બંને ગુણધર્મ ધરાવે છે?]]></questionString>
@@ -697,7 +697,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q29" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q29" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA["ઓ" પહેલાં કયો સ્વર આવે?]]></questionString>
@@ -721,7 +721,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q30" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q30" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[’સદ્ગુણ’ શબ્દનો સમાસ ઓળખાવો.]]></questionString>
@@ -755,7 +755,7 @@
 <subsections>
 <subsection id="S1-3-SS3">
 <questions>
-<question id="Q31" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q31" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Which population characteristic is most commonly associated with regions having fertile soil?]]></questionString>
@@ -779,7 +779,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q32" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q32" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Why was the marketed surplus of food grains important to the wider economic impact of the Green Revolution?]]></questionString>
@@ -803,7 +803,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q33" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q33" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[In June 2026, the successful hot test of ISRO’s Power Head Test Article (PHTA) was conducted as part of the development of which type of propulsion system?]]></questionString>
@@ -827,7 +827,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q34" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q34" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Following the 2026 Assam Assembly election, who continued as the Chief Minister after the National Democratic Alliance (NDA) retained power?]]></questionString>
@@ -851,7 +851,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q35" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q35" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Atomic radius is commonly measured in units of]]></questionString>
@@ -875,7 +875,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q36" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q36" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[The phenomenon in which the left and right sides of an object appear interchanged in a plane mirror is known as]]></questionString>
@@ -899,7 +899,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q37" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q37" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Which princely state was annexed by Lord Dalhousie in 1856 on the grounds of misgovernment?]]></questionString>
@@ -923,7 +923,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q38" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q38" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[National Panchayati Raj Day 2026 was observed on which date?]]></questionString>
@@ -947,7 +947,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q39" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q39" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[In June 2026, the Samagra Shishu Bal Swasthya Karyakram (SSBSK) was launched by the Government of India to provide a seamless continuum of care for children up to what age?]]></questionString>
@@ -971,7 +971,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q40" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q40" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Which statement best defines energy?]]></questionString>
@@ -995,7 +995,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q41" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q41" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[What was India’s overall rank in the QS World Future Skills Index 2027?]]></questionString>
@@ -1019,7 +1019,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q42" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q42" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[In 2026, which pair of agricultural products from Gujarat was awarded the Geographical Indication (GI) Tag for its distinct geographical origin and traditional reputation?]]></questionString>
@@ -1043,7 +1043,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q43" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q43" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Which of the following statements most accurately distinguishes population density from total population?]]></questionString>
@@ -1067,7 +1067,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q44" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q44" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Which of the following correctly describes the function of subordinate courts in India?]]></questionString>
@@ -1091,7 +1091,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q45" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q45" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[In the three-tier Panchayati Raj system, which institution functions as the apex body at the district level?]]></questionString>
@@ -1115,7 +1115,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q46" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q46" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Which groups were increasingly recruited into the British Indian Army after the Revolt of 1857?]]></questionString>
@@ -1139,7 +1139,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q47" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q47" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Which architectural aspect of Dholavira distinguishes it as a carefully organised Harappan settlement?]]></questionString>
@@ -1163,7 +1163,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q48" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q48" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Who authored the memoir The Second Orbit: Belief of a Man… Dreams of 1.4 Billion Hearts, released by Air Chief Marshal Amar Preet Singh in June 2026?]]></questionString>
@@ -1187,7 +1187,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q49" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q49" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[If a farmer hires more workers beyond the point where land becomes crowded, what is likely to happen according to the law of variable proportions?]]></questionString>
@@ -1211,7 +1211,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q50" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q50" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Which practice most clearly demonstrates the economic priorities of the Rig Vedic Aryans as described in historical sources?]]></questionString>
@@ -1235,7 +1235,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q51" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q51" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[What was a key reason the government played a large role in industrial development after independence?]]></questionString>
@@ -1259,7 +1259,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q52" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q52" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[The sequence of changes in birth and death rates described by the Demographic Transition Theory is collectively known as the:]]></questionString>
@@ -1283,7 +1283,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q53" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q53" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Kathakali, the classical dance-drama form of Kerala, is primarily based on stories drawn from which literary tradition?]]></questionString>
@@ -1307,7 +1307,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q54" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q54" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Which development best explains why the Gupta period is regarded as a significant phase in the history of Classical Sanskrit literature?]]></questionString>
@@ -1331,7 +1331,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q55" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q55" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[According to Jain doctrine, how many Tirthankaras have been recognized from the origins to the expansion of Jainism up to Mahavir Swami?]]></questionString>
@@ -1355,7 +1355,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q56" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q56" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Which category of activities relies primarily on specialised skills and knowledge of individuals to offer professional services in exchange for prescribed fees?]]></questionString>
@@ -1379,7 +1379,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q57" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q57" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Which singer won Song of the Year at the Grammys 2026?]]></questionString>
@@ -1403,7 +1403,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q58" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q58" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[The World Economic Outlook (WEO) 2026 was published by which of the following organizations in April 2026?]]></questionString>
@@ -1427,7 +1427,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q59" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q59" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Which of the following is the supreme institution for larger urban areas?]]></questionString>
@@ -1451,7 +1451,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q60" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q60" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[What was the theme of the Ahmedabad International Flower Show inaugurated in January 2026?]]></questionString>
@@ -1485,7 +1485,7 @@
 <subsections>
 <subsection id="S1-4-SS4">
 <questions>
-<question id="Q61" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q61" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A pipe fills a tank in 15 hours, while a leak empties it in 30 hours. If both of them operate together, how long will it take to fill the tank?]]></questionString>
@@ -1509,7 +1509,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q62" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q62" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A sum of money earns a simple interest of ₹2,250 in 5 years at the rate of 9% per annum. What is the principal?]]></questionString>
@@ -1533,7 +1533,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q63" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q63" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A man’s expenditure is 80% of his income. If his income decreases by 10% and his expenditure decreases by 5%, what is the percentage decrease in his savings?]]></questionString>
@@ -1557,7 +1557,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q64" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q64" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[The cost price of 120 notebooks is equal to the selling price of 96 notebooks. Find the profit percentage.]]></questionString>
@@ -1581,7 +1581,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q65" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q65" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Consider the system of linear equations: 2x + 3y = 7 and 4x + 6y = 15. Which of the following best describes the nature of the solution of this system?]]></questionString>
@@ -1605,7 +1605,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q66" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q66" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Find the mean proportional between 45 and 245.]]></questionString>
@@ -1629,7 +1629,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q67" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q67" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A map is drawn to a scale of 1 : 50,000. The distance between two towns on the map is 8.4 cm. Find the actual distance between the towns (in km).]]></questionString>
@@ -1653,7 +1653,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q68" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q68" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A vehicle covers 90 km at 45 km/h, 120 km at 60 km/h, and 150 km at 75 km/h. What is the average speed of the journey?]]></questionString>
@@ -1677,7 +1677,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q69" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q69" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A person reduces his speed by 20 km/h and takes 1 hour more to cover 240 km. What was his original speed?]]></questionString>
@@ -1701,7 +1701,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q70" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q70" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A shopkeeper sold a bicycle for ₹6000 and gained 20%. How much would he have gained or lost if he had sold it for ₹5000?]]></questionString>
@@ -1725,7 +1725,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q71" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q71" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[The vertices of a park are located at points A (2, 3) and B (8, 11) on a coordinate plane. What is the distance (in units) between the two points?]]></questionString>
@@ -1749,7 +1749,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q72" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q72" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[The difference between the compound interest (compounded annually) and simple interest on a sum of money for 2 years at 8% per annum is ₹128. Find the principal.]]></questionString>
@@ -1773,7 +1773,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q73" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q73" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A person spends 75% of his income. If his monthly income is ₹8,000, how much does he save in a month?]]></questionString>
@@ -1797,7 +1797,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q74" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q74" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[The mean of 12, 16, 20, 24 and 28 is:]]></questionString>
@@ -1821,7 +1821,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q75" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q75" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Two inlet pipes A and B can fill a tank in 20 hours and 30 hours, respectively. An outlet pipe C can empty the full tank in 60 hours. All three pipes are opened together. After 8 hours, Pipe B is closed, while Pipes A and C continue to operate. How much additional time will be required to fill the remaining part of the tank?]]></questionString>
@@ -1845,7 +1845,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q76" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q76" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A dataset arranged in ascending order is given as 12, 15, 18, 2x − 3, 2x + 1, 30, 35, 40. If the median of this dataset is 23, what is the value of x?]]></questionString>
@@ -1869,7 +1869,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q77" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q77" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Find the mean proportional between 27 and 75.]]></questionString>
@@ -1893,7 +1893,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q78" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q78" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Evaluate: [72 ÷ {3 × (5 + 1)}] + 18 – 4 × (9 – 7)]]></questionString>
@@ -1917,7 +1917,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q79" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q79" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A motorcyclist travels 144 km in 360 minutes. What is his speed in km/h?]]></questionString>
@@ -1941,7 +1941,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q80" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q80" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[The population of a town is 50,000. It increases at the rate of 8% per annum. What will be the population after 2 years?]]></questionString>
@@ -1965,7 +1965,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q81" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q81" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Given roots 6 and 7, what is the quadratic equation formed?]]></questionString>
@@ -1989,7 +1989,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q82" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q82" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Three traffic lights blink at intervals of 15 seconds, 20 seconds, and 30 seconds respectively. After how many seconds will they blink together again?]]></questionString>
@@ -2013,7 +2013,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q83" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q83" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A tent consists of a cylindrical portion surmounted by a hemispherical top. If the radius of both the cylinder and the hemisphere is 7 m and the height of the cylindrical portion is 6 m, find the total surface area of the tent, excluding the base. (Use π = 22/7)]]></questionString>
@@ -2037,7 +2037,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q84" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q84" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A shopkeeper claims to sell sugar at its cost price. However, he uses a faulty weight of 900 g as 1 kg while selling. What is his profit percentage?]]></questionString>
@@ -2061,7 +2061,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q85" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q85" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A circle of radius 7 cm is inscribed in a square whose side measures 14 cm, touching all four sides. Find the area enclosed by the square but lying outside the circle. (Use π = 22/7)]]></questionString>
@@ -2085,7 +2085,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q86" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q86" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[If a pole 6 m high casts a shadow 2√3 m long on the ground, then the sun’s elevation is ________.]]></questionString>
@@ -2109,7 +2109,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q87" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q87" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A pipe can fill a tank in 8 hours. How much of the tank does it fill in 1 hour?]]></questionString>
@@ -2133,7 +2133,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q88" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q88" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[If the product of the roots of a quadratic equation x² + bx + 12 = 0 is 12, which value of b gives the sum of the roots as -7?]]></questionString>
@@ -2157,7 +2157,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q89" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q89" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[If tan A = 7/24, then the value of 2 cos A − sin A is:]]></questionString>
@@ -2181,7 +2181,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q90" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q90" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A solid right circular cone has a height of 24 cm and a base radius of 7 cm. It is sliced by a plane parallel to the base, passing through the midpoint of its height. Find the volume of the smaller cone formed above the cutting plane. (Use π = 22/7)]]></questionString>
@@ -2215,7 +2215,7 @@
 <subsections>
 <subsection id="S1-5-SS5">
 <questions>
-<question id="Q91" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q91" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[In this question, a question is followed by two statements numbered (I) and (II). You have to decide whether the data provided in the statements are sufficient to answer the question. Read both the statements and decide the appropriate answer.<br>Question: Six people, P, Q, R, S, T and U, live on different floors of a six-storey building. The ground floor is numbered 1 and the top floor is numbered 6. Determine who lives on the top floor.<br>Statement I: P lives on floor 3. Q lives immediately above R. Statement II: S lives immediately below P.]]></questionString>
@@ -2239,7 +2239,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q92" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q92" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[There are 8 persons in a family B, E, H, L, P, S, W and Z. B is the father of E. E is the mother of H. L is the husband of E. P is the brother of H. S is the daughter of E. W is the wife of B. Z is the son of S. Fill in the following blank. B is the _______ of H.]]></questionString>
@@ -2263,7 +2263,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q93" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q93" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[What should come in place of ? in the given series based on the English alphabetical order? OXL KTH GPD CLZ YHV ?]]></questionString>
@@ -2287,7 +2287,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q94" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q94" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[This question is based on the five, four-digit numbers given below.<br>(Left) 6352 4917 8274 5638 3496 (Right)<br>(Example- 6971 – First digit = 6, second digit = 9, third digit = 7 and fourth digit = 1)<br>If 1 is added to third digit of every number, in how many numbers will the new third digit be exactly divisible by the fourth digit?]]></questionString>
@@ -2311,7 +2311,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q95" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q95" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Select the correct option that indicates the arrangement of the following words in a logical and meaningful order. 1. Pain 2. Recovery 3. Doctor 4. Hospital 5. Medicine]]></questionString>
@@ -2335,7 +2335,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q96" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q96" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[In this question, a question is followed by two statements numbered (I) and (II). You have to decide whether the data provided in the statements are sufficient to answer the question. Read both the statements and decide the appropriate answer.<br>Question: Five people, R, S, T, U and V, live on different floors of a five-storey building. The ground floor is numbered 1 and the top floor is numbered 5. Determine who lives on the top floor.<br>Statement I: R lives immediately above S. T lives on floor 2. Statement II: U lives immediately above T. V lives somewhere below R]]></questionString>
@@ -2359,7 +2359,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q97" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q97" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Refer to the following letter-symbol series and answer the question. Counting to be done from left to right only. (Left) W L D L ^ S D W L E F K G $ I $ # N A * H T Z $ % K V A Z P (Right) How many such letters are there, each of which is immediately preceded by a symbol and also immediately followed by a letter?]]></questionString>
@@ -2383,7 +2383,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q98" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q98" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Each letter in the word RANDOM is arranged as per the English alphabetical order. How many letters are there in the English alphabetical order between the letter which is third from the left and the one which is second from the right in the new letter cluster thus formed?]]></questionString>
@@ -2407,7 +2407,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q99" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q99" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Six friends, Hemant, Lakshmi, Farhan, Deepa, Tanvi and Bharat, each has different ages. Farhan is older than Hemant. Tanvi is older than Farhan. Deepa is younger than Hemant. Lakshmi is older than Tanvi. Bharat is younger than Deepa. Who is the youngest person in this group?]]></questionString>
@@ -2431,7 +2431,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q100" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q100" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Read the given statements and conclusions carefully. Assuming that the information given in the statements is true, even if it appears to be at variance with commonly known facts, decide which of the given conclusions logically follow(s) from the statements. Statements: Some soil types are land areas. All earth surfaces are land areas. Conclusion (I) : Some soil types are earth surfaces. Conclusion (II) : All land areas are earth surfaces.]]></questionString>
@@ -2455,7 +2455,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q101" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q101" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[120 is related to 70 following a certain logic. Following the same logic, 135 is related to 85. To which of the following is 105 related to, following the same logic? (NOTE : Operations should be performed on the whole numbers, without breaking down the numbers into its constituent digits. E.g. 13 – Operations on 13 such as adding /subtracting /multiplying etc. to 13 can be performed. Breaking down 13 into 1 and 3 and then performing mathematical operations on 1 and 3 is not allowed)]]></questionString>
@@ -2479,7 +2479,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q102" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q102" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[In this question, a question is followed by two statements numbered (I) and (II). You have to decide whether the data provided in the statements are sufficient to answer the question. Read both the statements and decide the appropriate answer.<br>Question: Four men, P, Q, R and T, live on different floors of a four- storey building. The ground floor is numbered 1 and the top floor is numbered 4. Who lives on the top floor?<br>Statement I: R lives on floor 2, and P lives immediately above R. Statement II: Q lives on the ground floor, and T lives above P.]]></questionString>
@@ -2503,7 +2503,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q103" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q103" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Refer to the following letter, symbol series and answer the question. Counting to be done from left to right only. All numbers are single digit numbers only. (Left) 8 * 2 @ # 5 1 % 9 & £ 4 7 ^ 3 (Right) How many such symbols are there each of which is immediately preceded by a number and also immediately followed by a number?]]></questionString>
@@ -2527,7 +2527,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q104" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q104" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[E, I, O, P, Q and Z live on six different floors of the same building. The lowermost floor in the building is numbered 1, the floor above it, number 2 and so on till the topmost floor is numbered 6. Only three people live between Q and I, where Q lives below I. Z lives on an odd numbered floor and immediately above Q. O lives on one of the floors below E and on one of the floors above P. Who lives on floor numbered 5?]]></questionString>
@@ -2551,7 +2551,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q105" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q105" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A question is followed by two statements numbered (I) and (II). You have to decide whether the data provided in the statements are sufficient to answer the question. Read both the statements and decide the appropriate answer.<br>Question: Ravi starts from point A and reaches point D. In which direction is point D from point A? Statements: (I) From A, Ravi walks 3 km north to reach B. From B, he turns right and walks 4 km to reach C. From C, he turns right and walks 3 km to reach D. (II) Point B is to the north of A. Point C is to the east of B.]]></questionString>
@@ -2575,7 +2575,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q106" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q106" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[F, G, H, I, T, U and V are sitting around a circular table facing the centre. I sits fourth to the right of U. H sits second to the left of I. T sits to the immediate left of G. Only one person sits between G and F. Who is an immediate neighbour of both V and F?]]></questionString>
@@ -2599,7 +2599,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q107" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q107" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[The position(s) of how many letters will remain unchanged if each letter in the word SQUELCH is arranged in the English alphabetical order?]]></questionString>
@@ -2623,7 +2623,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q108" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q108" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Five people, N, R, V, W and X are sitting in a row, facing north. Only three people sit to the left of N. V sits to the immediate left of X. Only one person sits between W and R. Only two people sit between X and W. Who sits to the immediate left of W?]]></questionString>
@@ -2647,7 +2647,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q109" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q109" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[In a certain code language,<br>W + X means ’W is the sister of X’<br>W - X means ’W is the husband of X’<br>W × X means ’W is the father of X’<br>W ÷ X means ’W is the daughter of X’<br>Based on the above, how is F related to W if ’F - Q + S ÷ R × W’?]]></questionString>
@@ -2671,7 +2671,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q110" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q110" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Mani starts from Point Y and drives 52 km towards North. He turns right and drives 11 km, takes a right and drives 77 km. He then takes a right turn and drives 45 km. He takes a right turn, drives 25 km, turns left and drives 41 km to stop at Point Z. How far (shortest distance) and towards which direction should he drive in order to reach Point Y again? (All turns are 90 degrees turns only unless specified)]]></questionString>
@@ -2695,7 +2695,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q111" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q111" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Based on the alphabetical order, three of the following four are alike in a certain way and thus form a group. Which is the one that does not belong to that group? (Note: The odd one out is not based on the number of consonants/vowels or their position in the letter cluster.)]]></questionString>
@@ -2719,7 +2719,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q112" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q112" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[This question is based on the following words<br>FLY HOT BAG PEN<br>If in each of the words, each letter is changed to the letter immediately following it in the English alphabetical order, how many words thus formed will have no vowel?]]></questionString>
@@ -2743,7 +2743,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q113" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q113" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[An accurate clock shows 9:07 am. By how many degrees will the minute hand rotate when the clock shows 9:51 am on the same day?]]></questionString>
@@ -2767,7 +2767,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q114" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q114" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Choose the option in which all the details of the given name and address are correctly reproduced. Mrs. Padmavathi R. Shekhawat, H. No. 23/4-A, Gangapole Lane, Near Hawa Mahal, Johari Bazaar, Jaipur, Rajasthan – 302002]]></questionString>
@@ -2791,7 +2791,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q115" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q115" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Five friends C, G, L, R, and W scored different marks in an exam. G scored more marks than L. C scored more marks than G. R scored fewer marks than L. W scored more marks than C. Fill in the following blank. _______ got the third highest marks in that exam.]]></questionString>
@@ -2815,7 +2815,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q116" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q116" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Select the correct option that indicates the arrangement of the following words in a logical and meaningful order. 1. Decade 2. Month 3. Year 4. Century 5. Week]]></questionString>
@@ -2839,7 +2839,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q117" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q117" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Refer to the following letter-symbol series and answer the question. Counting to be done from left to right only. (Left) G J P R $ E L K ^ $ B T $ F Y £ H U S P Y U Q F Q E N # V G (Right) How many such letters are there, each of which is immediately preceded by a symbol and also immediately followed by a letter?]]></questionString>
@@ -2863,7 +2863,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q118" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q118" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Refer to the following letter-symbol series and answer the question. Counting to be done from left to right only. (Left) Z P S Z K @ Y U C & £ % P B U * P T $ & * C R R J G M (Right) How many such letters are there, each of which is immediately preceded by a symbol and also immediately followed by a letter?]]></questionString>
@@ -2887,7 +2887,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q119" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q119" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Select the correct option that indicates the arrangement of the following words in a logical and meaningful order. 1. Decade 2. Minute 3. Century 4. Millenium 5. Day]]></questionString>
@@ -2911,7 +2911,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q120" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q120" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Select the correct option that indicates the arrangement of the following words in a logical and meaningful order. 1. Furniture 2. Forest 3. Wood 4. Carpenter 5. Tree]]></questionString>
@@ -2935,7 +2935,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q121" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q121" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[If 30 July 2002 is Tuesday then what will be the day of the week on 14 December 2015?]]></questionString>
@@ -2959,7 +2959,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q122" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q122" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Each of D, E, F, G, H, L and M has an interview on a different day of a week, starting from Monday and ending on Sunday of the same week. Only three people have interview between E and M. Only three people have interview between F and D. H has interview on some day before L and on some day after G. Only D has interview after M. How many people have interview before H?]]></questionString>
@@ -2983,7 +2983,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q123" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q123" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[What should come in place of ? in the given series? 3200, 3400, 3700, 4100, 4600, 5200, ?]]></questionString>
@@ -3007,7 +3007,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q124" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q124" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[What will come in the place of ‘?’ in the following equation, if ‘+’ and ‘-‘ are interchanged and ‘×’ and ‘÷’ are interchanged? 13 + 7 ÷ 2 - 24 × 3 = ?]]></questionString>
@@ -3031,7 +3031,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q125" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q125" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[In this question, a question is followed by two statements numbered (I) and (II). You have to decide whether the data provided in the statements are sufficient to answer the question. Read both the statements and decide the appropriate answer. Among 5 athletes Bharat, Chetan, Disha, Eshan and Fiza, each having a different height, who is the shortest? (I) Chetan is shorter than Bharat. Disha is shorter than Chetan. Eshan is shorter than Disha. (II) Fiza is taller than Eshan. Bharat is the tallest.]]></questionString>
@@ -3055,7 +3055,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q126" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q126" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Which of the following letter-number clusters will replace the question mark (?) in the given series to make it logically complete? MFQ 23, RKV 28, WPA 33, BUF 38, ?]]></questionString>
@@ -3079,7 +3079,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q127" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q127" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[If 14 December 2017 is a Thursday, then what was the day of the week on 23 January 2017?]]></questionString>
@@ -3103,7 +3103,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q128" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q128" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[In this question, a question is followed by two statements numbered (I) and (II). You have to decide whether the data provided in the statements are sufficient to answer the question. Read both the statements and decide the appropriate answer.<br>Question: Four people, R, S, T and U, live on different floors of a four- storey building. The ground floor is numbered 1 and the top floor is numbered 4. Who lives on floor 2?<br>Statement I: S lives on the ground floor. U lives immediately above T. Statement II: R lives on floor 4.]]></questionString>
@@ -3127,7 +3127,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q129" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q129" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[If 2 is added to each odd digit and 1 is subtracted from each even digit in the number 5142873, how many digits will appear more than once in the new number thus formed?]]></questionString>
@@ -3151,7 +3151,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q130" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q130" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[All 33 students in a class are standing in a row facing north. Dany is 8th from the right end while Liya is 10th from the left end. How many people stand between Dany and Liya?]]></questionString>
@@ -3175,7 +3175,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q131" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q131" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Based on the English alphabetical order, three of the following four letter cluster pairs are alike in a certain way and thus form a group. Which is the one that does not belong to that group? (Note: The odd man out is not based on the number of consonants/vowels or their position in the letter cluster)]]></questionString>
@@ -3199,7 +3199,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q132" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q132" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Which of the following options is the closest approximate value which will come in place of question mark(?) in the following equation? 200.05 ÷ 19.99 - 15.02 + 40.01 = ?]]></questionString>
@@ -3223,7 +3223,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q133" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q133" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Mr. Abdo starts from Point A and drives 6 km towards the East. He then takes a right turn, drives 7 km, then turns right and drives 8 km. He then takes a right turn and drives 9 km. He takes a final right turn, drives 2 km and stops at Point P. How far (shortest distance) and towards which direction should he drive in order to reach Point A again? (All turns are 90 degree turns only, unless specified.)]]></questionString>
@@ -3247,7 +3247,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q134" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q134" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Five friends Amit, Divya, Kunal, Rohit, and Sonia have different weights. Divya is heavier than Sonia. Amit is heavier than Divya. Rohit is heavier than Amit. Kunal is lighter than Sonia. Fill in the following blank. _______ is the heaviest person in this group.]]></questionString>
@@ -3271,7 +3271,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q135" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q135" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[A question is followed by two statements numbered (I) and (II). You have to decide whether the data provided in the statements is sufficient to answer the question. Read both statements and decide the appropriate answer. Five people, Deepa, Farhan, Isha, Mohan and Ravi are sitting in a row facing north. Who sits exactly in the middle? (I) Deepa sits at the extreme left end. Farhan sits to the immediate right of Deepa. (II) Ravi sits second from the extreme right end. Isha is not an immediate neighbour of Mohan.]]></questionString>
@@ -3295,7 +3295,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q136" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q136" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[In a certain code language, ‘YARK’ is coded as ‘7958’ and ‘RACK’ is coded as ‘8679’.What is the code for ‘C’ in the given code language?]]></questionString>
@@ -3319,7 +3319,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q137" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q137" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[BEI is related to FIM in a certain way based on the English alphabetical order. In the same way, FJN is related to JNR. To which of the following is CGL related to, following the same logic?]]></questionString>
@@ -3343,7 +3343,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q138" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q138" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[In a row of 83 students facing north, Kiran’s position is 29th from the left end and Varun’s position is 18th from the right end. Fill in the following blank. Only _______ students are sitting between Kiran and Varun.]]></questionString>
@@ -3367,7 +3367,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q139" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q139" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Each letter in "KABELJOU" is changed to the letter immediately following it in the English alphabetical order and then all the letters thus formed are arranged in the English alphabetical order. How many letters positions will not change in the group of letters thus formed, as compared to the original word?]]></questionString>
@@ -3391,7 +3391,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q140" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q140" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[The position(s) of how many letters will remain unchanged if each letter in the word WHISPER is arranged in alphabetical order?]]></questionString>
@@ -3415,7 +3415,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q141" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q141" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Seven boxes K, L, M, N, T, U and Z are kept one over the other but not necessarily in the same order. Only two boxes are kept between L and N. Only U is kept above K. No box is kept below N.Z is kept at some place below T but at some place above M. Which box is kept third above M?]]></questionString>
@@ -3439,7 +3439,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q142" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q142" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[If + means - , - means × , × means ÷ , ÷ means +, then what will come in place of the question mark (?) in the following equation? 9 × 3 + 11 ÷ 2 - 4 = ?]]></questionString>
@@ -3463,7 +3463,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q143" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q143" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Refer to the following letter series and answer the question. Counting to be done from left to right. (Left) Q M Y A O X O U N J I U W T U O Z M X B I O R O Z Y D (Right) How many such vowels are there, each of which is immediately preceded by a vowel and also immediately followed by a consonant?]]></questionString>
@@ -3487,7 +3487,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q144" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q144" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[There are 8 persons in a family A, D, G, K, N, R, V and X. A is the wife of D. G is the daughter of A. K is the husband of G. N is the son of G. R is the brother of G. V is the daughter of K. X is the sister of N. Fill in the following blank. N is the _______ of A.]]></questionString>
@@ -3511,7 +3511,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q145" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q145" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[In this question, a question is followed by two statements numbered (I) and (II). You have to decide whether the data provided in the statements are sufficient to answer the question. Read both the statements and decide the appropriate answer.<br>Question: Four people, N, O, P and Q, live on different floors of a four- storey building. The ground floor is numbered 1 and the top floor is numbered 4. Who lives on the ground floor?<br>Statement I: P lives on floor 3, and Q lives on floor 4. Statement II: O lives immediately above N.]]></questionString>
@@ -3535,7 +3535,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q146" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q146" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Below are given two sets of numbers. In each set of numbers, certain mathematical operation(s) on the first number results in the second number. Similarly, certain mathematical operation(s) on the second number results in the third number and so on. Which of the given options follows the same set of operations as in the given sets? (NOTE – A two/three digit number cannot be broken into individual digits for operations e.g. if 37 is followed by 10, the operation cannot be 3 + 7 as a two digit number cannot be broken into individual digits)<br>46 - 42 - 37 - 111<br>33 - 29 - 24 - 72]]></questionString>
@@ -3559,7 +3559,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q147" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q147" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[Select the pair which follows the same pattern as that followed by the two set of pairs given below. Both pairs follow the same pattern. CHP : IMT<br>GLS : MQW]]></questionString>
@@ -3583,7 +3583,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q148" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q148" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[This question is based on the five, three-digit numbers given below.<br>(Left) 347 421 319 483 532 (Right)<br>(Example - 697 – First digit = 6, second digit = 9 and third digit = 7)<br>NOTE - All operations to be done from left to right.<br>What will be the resultant if the second digit of the highest number is added to the third digit of the lowest number?]]></questionString>
@@ -3607,7 +3607,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q149" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q149" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[In this question, a group of number/symbol is coded using letter codes as per the codes given below and the conditions which follow. The correct combination of codes following the conditions is your answer. If none of the conditions follow, then codes for the respective Number/Symbol to be followed directly as given in the table.<table style="border-collapse:collapse;margin:6px 0;"><tr><td style="border:1px solid #8a93a2;padding:5px 14px;text-align:center;white-space:nowrap;font-weight:bold;">Number/Symbol</td><td style="border:1px solid #8a93a2;padding:5px 14px;text-align:center;white-space:nowrap;">3 # 7 &amp; 1 ! @ 5 $ 8</td></tr><tr><td style="border:1px solid #8a93a2;padding:5px 14px;text-align:center;white-space:nowrap;font-weight:bold;">Codes</td><td style="border:1px solid #8a93a2;padding:5px 14px;text-align:center;white-space:nowrap;">P F V K M R H T D Q</td></tr></table>Conditions – (i) If the first element is a symbol and the last a number, the codes for these two (the first and the last elements) are to be interchanged. (ii) If the first element is an odd number and the last an even number, the first and last elements are to be coded as © (iii) If both second and third elements are perfect squares, the third element is to be coded as the code for the second element.<br><br><b>&amp; ! 5 @ 7</b>]]></questionString>
@@ -3631,7 +3631,7 @@
 </lang>
 </languageSpecificData>
 </question>
-<question id="Q150" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+<question id="Q150" type="MCQ" allottedMarks="1" negativeMarks="0.25" isMandatory="false" maxTime="0" numberOfReplays="0">
 <languageSpecificData>
 <lang id="1">
 <questionString><![CDATA[In this question, a group of number/symbol is coded using letter codes as per the codes given below and the conditions which follow. The correct combination of codes following the conditions is your answer. If none of the conditions follow, then codes for the respective Number/Symbol to be followed directly as given in the table.<table style="border-collapse:collapse;margin:6px 0;"><tr><td style="border:1px solid #8a93a2;padding:5px 14px;text-align:center;white-space:nowrap;font-weight:bold;">Number/Symbol</td><td style="border:1px solid #8a93a2;padding:5px 14px;text-align:center;white-space:nowrap;">1 8 % 6 # 5 + @ ! 3</td></tr><tr><td style="border:1px solid #8a93a2;padding:5px 14px;text-align:center;white-space:nowrap;font-weight:bold;">Code</td><td style="border:1px solid #8a93a2;padding:5px 14px;text-align:center;white-space:nowrap;">R H T M P K V D F Q</td></tr></table>Conditions – (i) If the first element is a number and the last a symbol, the codes for these two (the first and the last elements) are to be interchanged. (ii) If the first element is an odd number and the last an even number, the first and last elements are to be coded as © (iii) If both second and third elements are perfect squares, the third element is to be coded as the code for the second element.<br><br><b>1 3 # % 6</b>]]></questionString>

@@ -32585,14 +32585,6 @@ document.addEventListener("visibilitychange", (e) => {
 );
 
 
-document.addEventListener('fullscreenchange', (e) => {
-	if($('#videoCheckFrame').is(":visible") || $('#audioCheckFrame').is(":visible") ||  $('#deakinVideoCheckIframe').is(":visible") || $('#iframeDeakinRef').is(":visible") || $('#iframeDeakinInstru').is(":visible") || $('#iframeDeakinHelp').is(":visible"))
-		return;
-	
-    if (!document.fullscreenElement) {
-    	checkInterruption(e);
-    }
-});
 var interruptionTimeout;
 var tenSecInterruptionTimeOut;
 var tempInterruptionTime = 0;
