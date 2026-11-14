@@ -905,12 +905,21 @@ export async function uploadPapers(body, id) {
 
   const relative = basePath.replace(/^\/|\/$/g, "");
   const folder = mirrorPath(...relative.split("/"));
-  const currentQuiz = existsSync(join(folder, "quiz.xml"))
-    ? readFileSync(join(folder, "quiz.xml"), "utf8")
-    : "";
-  const currentConf = existsSync(join(folder, "confDetails.xml"))
-    ? readFileSync(join(folder, "confDetails.xml"), "utf8")
-    : "";
+  // On serverless hosts the public paper folder is read-only (and often not
+  // present at all), so the database copy is the source of truth. Prefer the
+  // file when it exists locally, then fall back to the stored XML.
+  const readCurrentPaper = (name, stored) => {
+    try {
+      const file = join(folder, name);
+      if (existsSync(file)) {
+        const text = readFileSync(file, "utf8");
+        if (text.trim()) return text;
+      }
+    } catch (_) { /* fall through to the database copy */ }
+    return String(stored || "");
+  };
+  const currentQuiz = readCurrentPaper("quiz.xml", assessment.quiz_xml);
+  const currentConf = readCurrentPaper("confDetails.xml", assessment.conf_xml);
 
   const csvDuration = (Array.isArray(body.languages) ? body.languages : [])
     .map((entry) => (entry && typeof entry.csv === "string" ? csvConfDuration(entry.csv) : 0))
@@ -1260,15 +1269,24 @@ export async function removeAllQuestions(assessmentId) {
   await comprehensionsRepo.removeForAssessment(assessment.id);
   await assessmentsRepo.syncTotalMarks(assessment.id);
 
-  // The candidate console reads quiz.xml directly, so clearing only the
-  // database would leave the old paper playable.
-  writeQuizXml(assessment, (xml) => removeQuestionsXml(xml));
+  // The candidate console reads the stored paper and may also read quiz.xml.
+  // Compute the emptied paper from the local file when present, otherwise from
+  // the database copy, and persist it to both (file writes fail silently on
+  // read-only serverless filesystems).
+  let currentQuiz = String(assessment.quiz_xml || "");
   try {
     const file = paperPath(assessment, "quiz.xml");
     if (existsSync(file)) {
-      await assessmentsRepo.updatePaperXml(assessment.id, readFileSync(file, "utf8"), assessment.conf_xml ?? null);
+      const text = readFileSync(file, "utf8");
+      if (text.trim()) currentQuiz = text;
     }
   } catch (_) {}
+
+  if (currentQuiz) {
+    const emptied = removeQuestionsXml(currentQuiz);
+    writeQuizXml(assessment, () => emptied);
+    await assessmentsRepo.updatePaperXml(assessment.id, emptied, assessment.conf_xml ?? null).catch(() => {});
+  }
 
   return { removed: count, questions: 0 };
 }
