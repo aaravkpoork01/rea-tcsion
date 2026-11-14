@@ -93,6 +93,21 @@ function langBlocks(body) {
   return out;
 }
 
+/** Drop every `&lt;lang id="…"&gt;` block whose id is listed. */
+function stripLanguageIds(xml, ids) {
+  const drop = new Set((ids || []).map(String));
+  if (!drop.size) return xml;
+  return String(xml || "").replace(/<lang\b([^>]*)>([\s\S]*?)<\/lang>/g, (whole, attrs) =>
+    (drop.has(attrOf(attrs, "id")) ? "" : whole));
+}
+
+/** Keep only the requested language ids; every other translation block is dropped. */
+function keepOnlyLanguageIds(xml, ids) {
+  const keep = new Set([...ids].map(String));
+  return String(xml || "").replace(/<lang\b([^>]*)>([\s\S]*?)<\/lang>/g, (whole, attrs) =>
+    (keep.has(attrOf(attrs, "id")) ? whole : ""));
+}
+
 function secondaryIndex(xml) {
   const index = new Map();
   ELEMENT_RE.lastIndex = 0;
@@ -253,13 +268,19 @@ export function mergePapers({ basePath, entries }) {
 
   for (const entry of files) {
     if (entry === primary) continue;
+    // A language that is being (re)uploaded must replace the old translation:
+    // drop the stale blocks first, then merge the freshly supplied ones.
+    quizXml = stripLanguageIds(quizXml, [entry.code]);
     const result = mergeLanguagesInto(quizXml, entry.quizXml, entry.code);
     quizXml = result.xml;
     merged += result.merged;
   }
 
-  const map = languageMap(quizXml);
-  for (const entry of files) map.set(entry.code, entry.name);
+  // The admin dialog always submits the full language list. Drop translations
+  // for rows the admin removed instead of leaving them in the paper forever.
+  quizXml = keepOnlyLanguageIds(quizXml, files.map((entry) => entry.code));
+
+  const map = new Map(files.map((entry) => [entry.code, entry.name]));
   quizXml = LANGS_RE.test(quizXml)
     ? quizXml.replace(LANGS_RE, renderLanguages(map))
     : quizXml.replace(/(<questionPaperXML[^>]*>)/, `$1\n   ${renderLanguages(map)}`);
@@ -280,13 +301,17 @@ export function mergePapers({ basePath, entries }) {
     }
   } catch (_) {}
 
-  const archive = files.map((entry) => {
+  const archive = [];
+  for (const entry of files) {
+    // Existing languages loaded from the current paper are already archived;
+    // re-writing the merged file into their folder would misrepresent them.
+    if (entry.archive === false) continue;
     const dir = join(folder, "languages", `${entry.code}-${slug(entry.name)}`);
     try { mkdirSync(dir, { recursive: true }); } catch (_) {}
     try { writeFileSync(join(dir, "quiz.xml"), entry.quizXml); } catch (_) {}
     try { writeFileSync(join(dir, "confDetails.xml"), entry.confXml); } catch (_) {}
-    return { name: entry.name, code: entry.code, path: dir };
-  });
+    archive.push({ name: entry.name, code: entry.code, path: dir });
+  }
 
   try { writeFileSync(join(folder, "quiz.xml"), quizXml); } catch (_) {}
   try { writeFileSync(join(folder, "confDetails.xml"), confXml); } catch (_) {}

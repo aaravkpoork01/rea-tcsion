@@ -94,6 +94,8 @@ export function registerAdminRoutes(router) {
     sendOk(res, await assessmentsService.uploadPapers(await readJson(req), params.id))));
   guarded[1]("/api/admin/assessments/:id/questions/import", auth(async (req, res, { params }) =>
     sendOk(res, await assessmentsService.importQuestionsCsv(params.id, await readJson(req)))));
+  guarded[3]("/api/admin/assessments/:id/questions", auth(async (_req, res, { params }) =>
+    sendOk(res, await assessmentsService.removeAllQuestions(params.id))));
   guarded[1]("/api/admin/assessments/:id/groups", auth(async (req, res, { params }) =>
     sendCreated(res, { group: await assessmentsService.createAssessmentGroup(params.id, await readJson(req)) })));
   guarded[1]("/api/admin/assessments/:id/sections", auth(async (req, res, { params }) =>

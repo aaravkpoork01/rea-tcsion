@@ -1,3 +1,4 @@
+import { insertMany } from "../bulk.mjs";
 import { all, one, run } from "../connection.mjs";
 
 export const findById = async (id) => one("SELECT * FROM questions WHERE id = ?", id);
@@ -102,6 +103,34 @@ export const create = async (row) =>
   row.assessmentId, row.groupId, row.sectionId, row.seq, row.extId, row.type, row.comprehensionId, row.laqId,
   row.body, row.hint, row.marks, row.negativeMarks, row.mandatory, row.maxTime, row.replays, row.meta);
 
+/** Bulk insert questions (paper import). */
+export const createMany = async (rows) =>
+  insertMany("questions", [
+    "assessment_id", "group_id", "section_id", "seq", "ext_id", "type", "comprehension_id", "laq_id",
+    "body", "hint", "marks", "negative_marks", "mandatory", "max_time", "replays", "meta",
+  ], (rows || []).map((row) => ({
+    assessment_id: row.assessmentId,
+    group_id: row.groupId,
+    section_id: row.sectionId,
+    seq: row.seq,
+    ext_id: row.extId,
+    type: row.type,
+    comprehension_id: row.comprehensionId,
+    laq_id: row.laqId,
+    body: row.body,
+    hint: row.hint,
+    marks: row.marks,
+    negative_marks: row.negativeMarks,
+    mandatory: row.mandatory,
+    max_time: row.maxTime,
+    replays: row.replays,
+    meta: row.meta,
+  })), { chunk: 300 });
+
+/** Question id per sequence number, for mapping bulk-inserted questions. */
+export const listSeqIds = async (assessmentId) =>
+  all("SELECT id, seq FROM questions WHERE assessment_id = ? ORDER BY seq, id", assessmentId);
+
 export const nextSeq = async (assessmentId) => {
   const row = await one("SELECT COALESCE(MAX(seq), 0) + 1 AS n FROM questions WHERE assessment_id = ?", assessmentId);
   return Number(row?.n ?? 1);
@@ -111,7 +140,32 @@ export const createOption = async (row) =>
   run("INSERT INTO options(question_id, ext_id, seq, body, correct) VALUES(?,?,?,?,?)",
     row.questionId, row.extId, row.seq, row.body, row.correct);
 
+/** Bulk insert options (paper import). */
+export const createOptionsMany = async (rows) =>
+  insertMany("options", ["question_id", "ext_id", "seq", "body", "correct"],
+    (rows || []).map((row) => ({
+      question_id: row.questionId,
+      ext_id: row.extId,
+      seq: row.seq,
+      body: row.body,
+      correct: row.correct,
+    })), { chunk: 500 });
+
+/** Option ids keyed by question and sequence, for translation mapping. */
+export const listOptionKeys = async (assessmentId) =>
+  all(`SELECT o.id, o.question_id, o.ext_id, o.seq
+       FROM options o JOIN questions q ON q.id = o.question_id
+       WHERE q.assessment_id = ? ORDER BY o.id`, assessmentId);
+
 export const count = async () => {
   const row = await one("SELECT COUNT(*) AS n FROM questions");
   return Number(row?.n ?? 0);
 };
+
+export const countByAssessment = async (assessmentId) => {
+  const row = await one("SELECT COUNT(*) AS n FROM questions WHERE assessment_id = ?", assessmentId);
+  return Number(row?.n ?? 0);
+};
+
+/** Alias used by the admin delete-all flow. */
+export const countForAssessment = countByAssessment;

@@ -1,6 +1,7 @@
 // Per-language paper content: assessment language list plus translated question
 // and option text. The primary language also stays on `questions` / `options`
 // so existing admin and scoring code keeps working unchanged.
+import { insertMany } from "../bulk.mjs";
 import { all, one, run } from "../connection.mjs";
 
 export const listAssessmentLanguages = async (assessmentId) =>
@@ -39,6 +40,37 @@ export const upsertQuestionLanguage = async (questionId, langId, { body, hint })
        ON CONFLICT(question_id, lang_id)
        DO UPDATE SET body = excluded.body, hint = excluded.hint`,
   questionId, langId, body, hint);
+
+/** Bulk question translations (paper import). One row per question language. */
+export const insertQuestionLanguages = async (rows) => {
+  const unique = new Map();
+  for (const row of rows || []) unique.set(`${row.questionId}:${row.langId}`, row);
+  await insertMany("question_languages", ["question_id", "lang_id", "body", "hint"],
+    [...unique.values()].map((row) => ({
+      question_id: row.questionId,
+      lang_id: row.langId,
+      body: row.body,
+      hint: row.hint,
+    })), {
+    chunk: 800,
+    suffix: "ON CONFLICT(question_id, lang_id) DO UPDATE SET body = excluded.body, hint = excluded.hint",
+  });
+};
+
+/** Bulk option translations (paper import). One row per option language. */
+export const insertOptionLanguages = async (rows) => {
+  const unique = new Map();
+  for (const row of rows || []) unique.set(`${row.optionId}:${row.langId}`, row);
+  await insertMany("option_languages", ["option_id", "lang_id", "body"],
+    [...unique.values()].map((row) => ({
+      option_id: row.optionId,
+      lang_id: row.langId,
+      body: row.body,
+    })), {
+    chunk: 800,
+    suffix: "ON CONFLICT(option_id, lang_id) DO UPDATE SET body = excluded.body",
+  });
+};
 
 export const listOptionsForLang = async (questionId, langId) =>
   all(`SELECT o.*, COALESCE(ol.body, o.body) AS body

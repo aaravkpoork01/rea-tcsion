@@ -107,6 +107,19 @@ export function updateQuestionInstructionXml(xml, extId, instruction, options = 
 }
 
 /**
+ * Remove every question block from a paper (delete-all in the question bank).
+ * Groups and sections stay in place so the admin can upload a new question set
+ * without rebuilding the structure.
+ */
+export function removeQuestionsXml(xml) {
+  let next = String(xml || "").replace(/<question\b[^>]*>[\s\S]*?<\/question>\s*/gi, "");
+  next = next.replace(/<questionPaperXML\b[^>]*>/i, (open) => setAttr(open, "totalMarks", 0));
+  next = next.replace(/<group\b[^>]*>/gi, (open) => setAttr(open, "totalMarks", 0));
+  next = next.replace(/<section\b[^>]*>/gi, (open) => setAttr(open, "totalMarks", 0));
+  return next;
+}
+
+/**
  * Update one question's language text, hint, marks and options in quiz.xml.
  * `question.langId` selects the <lang> block; missing blocks are left alone.
  */

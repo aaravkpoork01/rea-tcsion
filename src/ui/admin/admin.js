@@ -522,8 +522,8 @@ async function renderAssessments() {
     setView("questions");
   }));
   v.querySelectorAll("[data-papers]").forEach((b) => b.addEventListener("click", async () => {
-    const { assessment, softwareLanguages } = await api("/assessments/" + encodeURIComponent(b.dataset.papers));
-    paperUploadForm(assessment, softwareLanguages);
+    const info = await api("/assessments/" + encodeURIComponent(b.dataset.papers));
+    paperUploadForm(info.assessment, { softwareLanguages: info.softwareLanguages, languages: info.languages });
   }));
   v.querySelectorAll("[data-del]").forEach((b) => b.addEventListener("click", async () => {
     if (!(await confirmDialog(`Delete assessment ${b.dataset.del}? All questions and attempts belonging to it will be removed.`, "Delete"))) return;
@@ -2080,18 +2080,53 @@ async function globalInstructionsForm() {
  * the server converts it to quiz.xml, merges the languages and imports the paper.
  * confDetails.xml is taken from the existing paper or generated automatically.
  */
-function paperUploadForm(assessment, softwareLanguages = []) {
+function paperUploadForm(assessment, info = {}) {
   const basePath = assessment.base_path || autoBasePath(assessment.org_id, assessment.id);
-  const existingLanguages = (softwareLanguages || []).filter(Boolean).slice(0, 3);
-  const initialLanguages = existingLanguages.length ? existingLanguages : ["English"];
+  const softwareLanguages = Array.isArray(info) ? info : (info.softwareLanguages || []);
+  const dbLanguages = Array.isArray(info) ? [] : (info.languages || []);
+
+  const seed = [];
+  const seenNames = new Set();
+  const nextCode = () => {
+    const used = new Set(seed.map((language) => Number(language.code)));
+    let code = 1;
+    while (used.has(code)) code += 1;
+    return code;
+  };
+  for (const language of dbLanguages) {
+    const name = String(language?.name || "").trim();
+    if (!name || seenNames.has(name.toLowerCase())) continue;
+    const code = Number(language.id);
+    seed.push({
+      name,
+      code: Number.isInteger(code) && code > 0 ? code : nextCode(),
+      uploaded: language.uploaded !== false,
+    });
+    seenNames.add(name.toLowerCase());
+  }
+  for (const rawName of softwareLanguages) {
+    const name = String(rawName || "").trim();
+    if (!name || seenNames.has(name.toLowerCase())) continue;
+    seed.push({ name, code: nextCode(), uploaded: true });
+    seenNames.add(name.toLowerCase());
+  }
+  if (!seed.length) seed.push({ name: "English", code: 1, uploaded: false });
 
   let demoCsv = "";
+  let demoRow = null;
 
-  function row(language, index, primary = false) {
-    return `<tr class="paper-row${primary ? " paper-primary" : ""}">
-      <td><input class="paper-name" value="${esc(language)}" maxlength="32" placeholder="Language" /></td>
-      <td style="width:74px"><input class="paper-code" type="number" min="1" max="99" value="${index + 1}" /></td>
-      <td><input class="paper-file" type="file" accept=".csv,.xml,text/csv,application/xml,text/xml" /></td>
+  function row(language, index) {
+    const name = String(language?.name || "");
+    const code = Number(language?.code) || index + 1;
+    const uploaded = Boolean(language?.uploaded);
+    return `<tr class="paper-row${index === 0 ? " paper-primary" : ""}" data-uploaded="${uploaded ? "1" : "0"}">
+      <td><input class="paper-name" value="${esc(name)}" maxlength="32" placeholder="Language" /></td>
+      <td style="width:74px"><input class="paper-code" type="number" min="1" max="99" value="${code}" ${uploaded ? "readonly" : ""} /></td>
+      <td><input class="paper-file" type="file" accept=".csv,.xml,text/csv,application/xml,text/xml" />
+        <div class="paper-state">${uploaded
+          ? `<span class="pill">Uploaded</span> <span class="muted">Leave empty to keep this file.</span>`
+          : `<span class="muted">Not uploaded yet</span>`}</div>
+      </td>
       <td style="width:38px"><button type="button" class="btn small danger paper-remove" title="Remove language">&times;</button></td>
     </tr>`;
   }
@@ -2107,14 +2142,16 @@ function paperUploadForm(assessment, softwareLanguages = []) {
       </div>
       <div class="table-wrap"><table>
         <thead><tr><th>Language</th><th>ID</th><th>CSV / quiz.xml</th><th></th></tr></thead>
-        <tbody id="paperRows">${initialLanguages.map((language, index) => row(language, index, index === 0)).join("")}</tbody>
+        <tbody id="paperRows">${seed.map((language, index) => row(language, index)).join("")}</tbody>
       </table></div>
-      ${existingLanguages.length > 1 ? `<p class="muted small" style="margin:10px 0 0">This paper already has ${existingLanguages.length} languages. They are pre-filled below; remove a secondary row if the new paper has fewer languages.</p>` : ""}
-      <p class="muted small" style="margin:10px 0 0">Use the same Question ID (or Question No) in each language CSV so their translations stay on one question number.</p>
+      <p class="muted small" style="margin:10px 0 0">A language marked <strong>Uploaded</strong> is already in this paper. Leave its file empty to keep it, or choose a new CSV / quiz.xml to replace just that language. Use <strong>+ Hindi</strong> or <strong>+ Gujarati</strong> to add those languages without uploading English again.</p>
+      <p class="muted small" style="margin:6px 0 0">The first language in the table is the primary language. Remove a row to delete that language from the paper. Use the same Question ID (or Question No) in each language CSV so translations stay on one question number.</p>
       <p class="muted small" style="margin:6px 0 0">One CSV can also carry <code>Group Instruction</code>, <code>Group Instruction Time</code>, <code>Group Max Duration</code>, <code>Section Instruction</code>, <code>Section Type</code>, <code>Section Max Questions</code> and paper settings such as <code>Assessment Duration</code>, <code>Max Attempts</code>, <code>Show Feedback</code>, <code>Store Response</code> and <code>Show View QP Button</code>. See the demo CSV for the full header.</p>
-      <p class="muted small" style="margin:6px 0 0">New here? Click <strong>Use demo CSV</strong> to try the complete demo paper without downloading a file. The first language row is the primary language and cannot be removed.</p>
+      <p class="muted small" style="margin:6px 0 0">New here? Click <strong>Use demo CSV</strong> to try the complete demo paper without downloading a file.</p>
       <div class="row" style="margin-top:12px">
         <button type="button" class="btn small" id="paperAdd">Add language</button>
+        <button type="button" class="btn small" id="paperAddHindi">+ Hindi</button>
+        <button type="button" class="btn small" id="paperAddGujarati">+ Gujarati</button>
         <span class="muted small" id="paperStatus">The assessment becomes active after import.</span>
       </div>`,
     footer: `<button class="btn" data-close>Cancel</button><button class="btn primary" data-upload>Upload &amp; import</button>`,
@@ -2122,36 +2159,76 @@ function paperUploadForm(assessment, softwareLanguages = []) {
 
   const rowsBody = m.root.querySelector("#paperRows");
   const addButton = m.root.querySelector("#paperAdd");
+  const hindiButton = m.root.querySelector("#paperAddHindi");
+  const gujaratiButton = m.root.querySelector("#paperAddGujarati");
   const demoButton = m.root.querySelector("#paperDemo");
   const status = m.root.querySelector("#paperStatus");
 
+  const rows = () => Array.from(rowsBody.querySelectorAll(".paper-row"));
+
   const syncRows = () => {
-    const count = rowsBody.querySelectorAll(".paper-row").length;
-    const primaryRow = rowsBody.querySelector(".paper-row");
-    rowsBody.querySelectorAll(".paper-remove").forEach((button) => {
-      const isPrimary = button.closest(".paper-row") === primaryRow;
-      button.style.visibility = count > 1 && !isPrimary ? "visible" : "hidden";
-      button.title = isPrimary ? "Primary language cannot be removed" : "Remove language";
+    const tableRows = rows();
+    const count = tableRows.length;
+    tableRows.forEach((tableRow, index) => {
+      tableRow.classList.toggle("paper-primary", index === 0);
+      const remove = tableRow.querySelector(".paper-remove");
+      remove.style.visibility = count > 1 ? "visible" : "hidden";
+      remove.title = "Remove language";
+      tableRow.querySelector(".paper-code").readOnly = tableRow.dataset.uploaded === "1";
     });
+    const names = new Set(tableRows.map((tableRow) =>
+      tableRow.querySelector(".paper-name").value.trim().toLowerCase()).filter(Boolean));
     addButton.disabled = count >= 3;
     addButton.textContent = count >= 3 ? "3 languages max" : "Add language";
+    hindiButton.disabled = count >= 3 || names.has("hindi");
+    gujaratiButton.disabled = count >= 3 || names.has("gujarati");
   };
   syncRows();
 
-  addButton.addEventListener("click", () => {
-    const count = rowsBody.querySelectorAll(".paper-row").length;
-    if (count >= 3) return;
-    rowsBody.insertAdjacentHTML("beforeend", row("", count));
+  const addLanguage = (name = "") => {
+    if (rows().length >= 3) return null;
+    if (name && rows().some((tableRow) =>
+      tableRow.querySelector(".paper-name").value.trim().toLowerCase() === name.toLowerCase())) {
+      toast(`${name} is already in the table.`, "error");
+      return null;
+    }
+    rowsBody.insertAdjacentHTML("beforeend", row({ name, code: nextCode(), uploaded: false }, rows().length));
+    const added = rowsBody.lastElementChild;
     syncRows();
-    rowsBody.querySelector(".paper-row:last-child .paper-name").focus();
+    if (!name) added.querySelector(".paper-name").focus();
+    return added;
+  };
+
+  addButton.addEventListener("click", () => addLanguage(""));
+  hindiButton.addEventListener("click", () => addLanguage("Hindi"));
+  gujaratiButton.addEventListener("click", () => addLanguage("Gujarati"));
+
+  rowsBody.addEventListener("input", (event) => {
+    if (event.target.closest(".paper-name")) syncRows();
+  });
+
+  rowsBody.addEventListener("change", (event) => {
+    const input = event.target.closest(".paper-file");
+    if (!input) return;
+    const tableRow = input.closest(".paper-row");
+    const state = tableRow.querySelector(".paper-state");
+    if (input.files && input.files[0]) {
+      if (tableRow === demoRow) { demoRow = null; demoCsv = ""; }
+      state.innerHTML = `<span class="pill">Selected</span> <span class="muted">${esc(input.files[0].name)} &middot; ready to import</span>`;
+    } else {
+      state.innerHTML = tableRow.dataset.uploaded === "1"
+        ? `<span class="pill">Uploaded</span> <span class="muted">Leave empty to keep this file.</span>`
+        : `<span class="muted">Not uploaded yet</span>`;
+    }
   });
 
   rowsBody.addEventListener("click", (event) => {
     const button = event.target.closest(".paper-remove");
     if (!button) return;
-    if (button.closest(".paper-row").classList.contains("paper-primary")) return;
-    if (rowsBody.querySelectorAll(".paper-row").length <= 1) return;
-    button.closest(".paper-row").remove();
+    if (rows().length <= 1) return;
+    const tableRow = button.closest(".paper-row");
+    if (tableRow === demoRow) { demoRow = null; demoCsv = ""; }
+    tableRow.remove();
     syncRows();
   });
 
@@ -2161,18 +2238,26 @@ function paperUploadForm(assessment, softwareLanguages = []) {
     try {
       const res = await fetch(DEMO_PAPER.csv, { credentials: "same-origin", cache: "no-store" });
       if (!res.ok) throw new Error("Could not load the demo CSV.");
-      demoCsv = await res.text();
-      rowsBody.querySelectorAll(".paper-row").forEach((rowElement, index) => {
-        if (index > 0) rowElement.remove();
-      });
-      const first = rowsBody.querySelector(".paper-row");
-      const nameInput = first.querySelector(".paper-name");
-      const codeInput = first.querySelector(".paper-code");
+      const csv = await res.text();
+      const tableRows = rows();
+      let target = tableRows.find((tableRow) =>
+        tableRow.querySelector(".paper-name").value.trim().toLowerCase() === "english");
+      if (!target) target = tableRows.find((tableRow) => tableRow.dataset.uploaded !== "1");
+      if (!target && tableRows.length < 3) target = addLanguage("English");
+      if (!target) {
+        toast("Remove one uploaded language row first, then use the demo CSV.", "error");
+        return;
+      }
+      demoCsv = csv;
+      demoRow = target;
+      const nameInput = target.querySelector(".paper-name");
       if (!nameInput.value.trim()) nameInput.value = "English";
-      if (!Number(codeInput.value)) codeInput.value = "1";
-      first.querySelector(".paper-file").value = "";
+      const codeInput = target.querySelector(".paper-code");
+      if (!Number(codeInput.value)) codeInput.value = String(nextCode());
+      target.querySelector(".paper-file").value = "";
+      target.querySelector(".paper-state").innerHTML = `<span class="pill">Demo CSV</span> <span class="muted">Ready to import.</span>`;
       syncRows();
-      status.textContent = "Demo CSV loaded (single language). Click Upload & import to try it.";
+      status.textContent = "Demo CSV loaded. Click Upload & import to try it.";
       demoButton.textContent = "Demo CSV loaded";
     } catch (e) {
       status.textContent = "";
@@ -2184,11 +2269,12 @@ function paperUploadForm(assessment, softwareLanguages = []) {
 
   m.root.querySelector("[data-upload]").addEventListener("click", async () => {
     const button = m.root.querySelector("[data-upload]");
-    const tableRows = Array.from(rowsBody.querySelectorAll(".paper-row"));
+    const tableRows = rows();
     if (!tableRows.length) { toast("Add one language paper.", "error"); return; }
 
     button.disabled = true;
     status.textContent = "Reading CSV...";
+    let ticker = null;
     try {
       const confXml = await confXmlFor(assessment);
       const languages = [];
@@ -2197,25 +2283,47 @@ function paperUploadForm(assessment, softwareLanguages = []) {
       for (const [index, tableRow] of tableRows.entries()) {
         const name = tableRow.querySelector(".paper-name").value.trim();
         const code = Number(tableRow.querySelector(".paper-code").value);
+        const fileInput = tableRow.querySelector(".paper-file");
+        const hasFile = Boolean(fileInput.files && fileInput.files[0]);
+        const isDemo = tableRow === demoRow && Boolean(demoCsv);
+        const isExisting = tableRow.dataset.uploaded === "1";
+
+        // A blank, newly added row is simply ignored; the paper may already
+        // contain the other languages.
+        if (!name && !hasFile && !isDemo && !isExisting) continue;
         if (!name) throw new Error(`Language ${index + 1}: name is required.`);
         if (!Number.isInteger(code) || code < 1 || code > 99) {
           throw new Error(`Language "${name}": ID must be between 1 and 99.`);
         }
+
+        let content = "";
+        if (hasFile) content = await fileText(fileInput, `${name} CSV / quiz.xml`);
+        else if (isDemo) content = demoCsv;
+
+        let entry;
+        if (content) {
+          entry = /<questionPaperXML\b/.test(content)
+            ? { name, code, quizXml: content, confXml }
+            : { name, code, csv: content, confXml };
+        } else if (isExisting) {
+          entry = { name, code, existing: true };
+        } else {
+          // New row without a file: leave it out instead of failing the whole
+          // upload (the old dialog forced an English CSV even for Gujarati).
+          continue;
+        }
+
         if (usedNames.has(name.toLowerCase())) throw new Error(`Language "${name}" is used twice.`);
         if (usedCodes.has(code)) throw new Error(`Language ID ${code} is used twice.`);
         usedNames.add(name.toLowerCase());
         usedCodes.add(code);
-        const fileInput = tableRow.querySelector(".paper-file");
-        const content = fileInput.files && fileInput.files[0]
-          ? await fileText(fileInput, `${name} CSV`)
-          : (index === 0 && demoCsv ? demoCsv : "");
-        if (!content) throw new Error(`Choose ${name} CSV, or use the demo CSV.`);
-        if (/<questionPaperXML\b/.test(content)) {
-          languages.push({ name, code, quizXml: content, confXml });
-        } else {
-          languages.push({ name, code, csv: content, confXml });
-        }
+        languages.push(entry);
       }
+
+      if (!languages.length) {
+        throw new Error("Choose at least one CSV or quiz.xml, or use the demo CSV.");
+      }
+
       if (Number(assessment.total_marks) > 0) {
         const replace = await confirmDialog(
           `Replace the existing paper for ${assessment.id}? Questions, groups and sections will be replaced; attempts and responses are preserved.`,
@@ -2227,7 +2335,11 @@ function paperUploadForm(assessment, softwareLanguages = []) {
           return;
         }
       }
+      const startedAt = Date.now();
       status.textContent = "Uploading and importing...";
+      ticker = setInterval(() => {
+        status.textContent = `Uploading and importing... ${Math.max(1, Math.round((Date.now() - startedAt) / 1000))}s`;
+      }, 1000);
       const data = await api(`/assessments/${encodeURIComponent(assessment.id)}/papers`, {
         method: "POST",
         body: { basePath, languages },
@@ -2253,6 +2365,8 @@ function paperUploadForm(assessment, softwareLanguages = []) {
       status.textContent = "";
       button.disabled = false;
       toast(e.message, "error");
+    } finally {
+      if (ticker) clearInterval(ticker);
     }
   });
 }
@@ -2314,7 +2428,8 @@ async function renderQuestions() {
       </div>
     </div>
     <div class="card">
-      <div class="card-head"><h3>Questions</h3><span class="sub">${total}${state.questionsTerm ? " matching" : ""} · drag rows to reorder</span></div>
+      <div class="card-head"><h3>Questions</h3><span class="sub">${total}${state.questionsTerm ? " matching" : ""} · drag rows to reorder</span>
+        <button class="btn small danger" id="qDeleteAll" ${total ? "" : "disabled"} title="Delete every question in this assessment and empty its quiz.xml">Delete all questions</button></div>
       <div class="card-body tight">
         ${questions.length ? `<div class="table-wrap"><table>
           <thead><tr><th class="drag-col"></th><th>#</th><th>ID</th><th>Type</th><th>Group</th><th>Section</th><th>Question</th><th>Marks</th><th>Negative</th><th></th></tr></thead>
@@ -2354,6 +2469,28 @@ async function renderQuestions() {
   });
   $("#qPrev").addEventListener("click", () => { state.questionsPage = Math.max(1, state.questionsPage - 1); renderQuestions(); });
   $("#qNext").addEventListener("click", () => { state.questionsPage += 1; renderQuestions(); });
+  $("#qDeleteAll").addEventListener("click", async () => {
+    if (!selected) return;
+    const ok = await confirmDialog(
+      `Delete all questions in ${selected.id}? Its quiz.xml will be emptied and candidate responses for those questions removed. Groups, sections and attempts are kept.`,
+      "Delete all questions",
+    );
+    if (!ok) return;
+    const button = $("#qDeleteAll");
+    button.disabled = true;
+    button.textContent = "Deleting...";
+    try {
+      const result = await api(`/assessments/${encodeURIComponent(selected.id)}/questions`, { method: "DELETE" });
+      toast(`${result.removed ?? 0} question${Number(result.removed) === 1 ? "" : "s"} deleted.`, "success");
+      state.questionsPage = 1;
+      state.questionsSection = 0;
+      renderQuestions();
+    } catch (e) {
+      button.disabled = false;
+      button.textContent = "Delete all questions";
+      toast(e.message, "error");
+    }
+  });
   bindRows();
   enableDrag();
 

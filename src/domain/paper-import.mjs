@@ -146,11 +146,12 @@ export async function importPaper({ orgId, assessmentId, quizPath, confPath, pro
 
   await translationsRepo.replaceAssessmentLanguages(assessmentId, languageList);
 
+  const comprehensionRows = [];
   for (const kind of XML_ANSWERS_DIR) {
     const singular = kind === "laqs" ? "laq" : "comprehension";
     const row = child(quizXml, kind);
     for (const node of children(row, singular)) {
-      await comprehensionsRepo.create({
+      comprehensionRows.push({
         assessmentId,
         extId: attr(node, "id"),
         kind: singular,
@@ -159,9 +160,13 @@ export async function importPaper({ orgId, assessmentId, quizPath, confPath, pro
       });
     }
   }
+  await comprehensionsRepo.createMany(comprehensionRows);
 
   let groupSeq = 0;
   let questionSeq = 0;
+
+  const questionRows = [];
+  const questionPlans = [];
 
   for (const group of children(child(quizXml, "groups"), "group")) {
     groupSeq += 1;
@@ -198,7 +203,7 @@ export async function importPaper({ orgId, assessmentId, quizPath, confPath, pro
         const primaryLang = langNodes.find((node) => langIdOf(node, primaryLangId) === Number(primaryLangId))
           || langNodes[0]
           || null;
-        const questionInfo = await questionsRepo.create({
+        questionRows.push({
           assessmentId,
           groupId,
           sectionId,
@@ -216,52 +221,102 @@ export async function importPaper({ orgId, assessmentId, quizPath, confPath, pro
           replays: Number(attr(question, "numberOfReplays", "0")) || 0,
           meta: JSON.stringify(question.attrs),
         });
-        let questionId = Number(questionInfo.lastInsertRowid);
-        if (!Number.isFinite(questionId) || questionId <= 0) {
-          questionId = await questionsRepo.findLastId(assessmentId);
-        }
 
-        for (const node of langNodes) {
-          await translationsRepo.upsertQuestionLanguage(questionId, langIdOf(node, primaryLangId), {
+        questionPlans.push({
+          seq: questionSeq,
+          languages: langNodes.map((node) => ({
+            langId: langIdOf(node, primaryLangId),
             body: text(node, "questionString", ""),
             hint: text(node, "hint", ""),
-          });
-        }
-
-        const optionIdByExt = new Map();
-        const optionIdBySeq = new Map();
-        for (const option of children(child(primaryLang, "allOptions"), "option")) {
-          const extId = attr(option, "optionID");
-          const seq = Number(attr(option, "sequenceID", "0")) || 0;
-          const optionInfo = await questionsRepo.createOption({
-            questionId,
-            extId,
-            seq,
+          })),
+          options: children(child(primaryLang, "allOptions"), "option").map((option) => ({
+            extId: attr(option, "optionID"),
+            seq: Number(attr(option, "sequenceID", "0")) || 0,
             body: text(option, "optionText", ""),
             correct: attr(option, "correct", "false") === "true" ? 1 : 0,
-          });
-          let optionId = Number(optionInfo.lastInsertRowid);
-          if (!Number.isFinite(optionId) || optionId <= 0) {
-            optionId = await questionsRepo.findLastOptionId(questionId);
-          }
-          if (extId) optionIdByExt.set(extId, optionId);
-          optionIdBySeq.set(String(seq), optionId);
-        }
+          })),
+          optionLanguages: langNodes.map((node) => ({
+            langId: langIdOf(node, primaryLangId),
+            options: children(child(node, "allOptions"), "option").map((option) => ({
+              extId: attr(option, "optionID"),
+              seq: String(Number(attr(option, "sequenceID", "0")) || 0),
+              body: text(option, "optionText", ""),
+            })),
+          })),
+        });
+      }
+    }
+  }
 
-        for (const node of langNodes) {
-          const langId = langIdOf(node, primaryLangId);
-          for (const option of children(child(node, "allOptions"), "option")) {
-            const extId = attr(option, "optionID");
-            const seq = String(Number(attr(option, "sequenceID", "0")) || 0);
-            const optionId = (extId && optionIdByExt.get(extId)) || optionIdBySeq.get(seq);
-            if (optionId) {
-              await translationsRepo.upsertOptionLanguage(optionId, langId, text(option, "optionText", ""));
-            }
-          }
+  // Write the paper in bulk. Against a remote Postgres every statement is a
+  // network round-trip, so inserting question-by-question makes uploads crawl
+  // (a 100-question paper was ~1,500 round-trips). Multi-row inserts keep the
+  // whole import under ~15 statements regardless of paper size.
+  await questionsRepo.createMany(questionRows);
+
+  const questionIdBySeq = new Map();
+  for (const row of await questionsRepo.listSeqIds(assessmentId)) {
+    questionIdBySeq.set(Number(row.seq), Number(row.id));
+  }
+
+  const questionLanguageRows = [];
+  for (const plan of questionPlans) {
+    const questionId = questionIdBySeq.get(plan.seq);
+    if (!questionId) continue;
+    for (const language of plan.languages) {
+      questionLanguageRows.push({
+        questionId,
+        langId: language.langId,
+        body: language.body,
+        hint: language.hint,
+      });
+    }
+  }
+  await translationsRepo.insertQuestionLanguages(questionLanguageRows);
+
+  const optionRows = [];
+  for (const plan of questionPlans) {
+    const questionId = questionIdBySeq.get(plan.seq);
+    if (!questionId) continue;
+    for (const option of plan.options) {
+      optionRows.push({
+        questionId,
+        extId: option.extId,
+        seq: option.seq,
+        body: option.body,
+        correct: option.correct,
+      });
+    }
+  }
+  await questionsRepo.createOptionsMany(optionRows);
+
+  const optionsByQuestion = new Map();
+  for (const row of await questionsRepo.listOptionKeys(assessmentId)) {
+    const questionId = Number(row.question_id);
+    if (!optionsByQuestion.has(questionId)) optionsByQuestion.set(questionId, []);
+    optionsByQuestion.get(questionId).push(row);
+  }
+
+  const optionLanguageRows = [];
+  for (const plan of questionPlans) {
+    const questionId = questionIdBySeq.get(plan.seq);
+    if (!questionId) continue;
+    const byExt = new Map();
+    const bySeq = new Map();
+    for (const option of optionsByQuestion.get(questionId) || []) {
+      if (option.ext_id) byExt.set(String(option.ext_id), Number(option.id));
+      bySeq.set(String(Number(option.seq) || 0), Number(option.id));
+    }
+    for (const language of plan.optionLanguages) {
+      for (const option of language.options) {
+        const optionId = (option.extId && byExt.get(option.extId)) || bySeq.get(option.seq);
+        if (optionId) {
+          optionLanguageRows.push({ optionId, langId: language.langId, body: option.body });
         }
       }
     }
   }
+  await translationsRepo.insertOptionLanguages(optionLanguageRows);
 
   await assessmentsRepo.syncTotalMarks(assessmentId);
   await metaRepo.set("paper_imported_at", nowIso());

@@ -11,13 +11,14 @@ import * as candidateGroupsRepo from "../db/repositories/candidate-groups.repo.m
 import * as orgsRepo from "../db/repositories/orgs.repo.mjs";
 import * as structureRepo from "../db/repositories/structure.repo.mjs";
 import * as questionsRepo from "../db/repositories/questions.repo.mjs";
+import * as comprehensionsRepo from "../db/repositories/comprehensions.repo.mjs";
 import * as translationsRepo from "../db/repositories/translations.repo.mjs";
 import { mirrorPath, normaliseBasePath, paperPath, quizXml } from "./assessments.service.mjs";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { mergeInstructionView, parseInstructionFile, pruneInstructionLanguages, writeInstructionFile } from "../domain/paper-instruction-editor.mjs";
 import { removeGroupXml, removeSectionXml, updateGroupXml, updateSectionXml } from "../domain/paper-structure-editor.mjs";
-import { normaliseInstruction, questionInstructionMap, updateQuestionInstructionXml, updateQuestionXml } from "../domain/paper-question-editor.mjs";
+import { normaliseInstruction, questionInstructionMap, removeQuestionsXml, updateQuestionInstructionXml, updateQuestionXml } from "../domain/paper-question-editor.mjs";
 import { instructionTemplateRow } from "../domain/paper-instructions.mjs";
 import { clearAssessmentOverrides, instructionTemplate, saveInstructionTemplate } from "./settings.service.mjs";
 
@@ -91,7 +92,10 @@ export async function get(id) {
   return {
     assessment,
     softwareLanguages,
-    languages,
+    // The upload dialog needs to know which language files are already in the
+    // paper. A DB language row only exists after a successful import, so it is
+    // safe to report those as uploaded and pre-fill their status.
+    languages: languages.map((language) => ({ ...language, uploaded: true })),
     primaryLangId: pickLanguage(languages).id,
     groups: groups.map((group) => ({
       ...group,
@@ -899,46 +903,77 @@ export async function uploadPapers(body, id) {
   const basePath = normaliseBasePath(body.basePath || assessment.base_path);
   if (!basePath) throw badRequest("Base path is required.");
 
+  const relative = basePath.replace(/^\/|\/$/g, "");
+  const folder = mirrorPath(...relative.split("/"));
+  const currentQuiz = existsSync(join(folder, "quiz.xml"))
+    ? readFileSync(join(folder, "quiz.xml"), "utf8")
+    : "";
+  const currentConf = existsSync(join(folder, "confDetails.xml"))
+    ? readFileSync(join(folder, "confDetails.xml"), "utf8")
+    : "";
+
   const csvDuration = (Array.isArray(body.languages) ? body.languages : [])
     .map((entry) => (entry && typeof entry.csv === "string" ? csvConfDuration(entry.csv) : 0))
     .find((value) => value > 0) || 0;
 
-  const entries = (Array.isArray(body.languages) ? body.languages : []).map((entry) => {
-    if (entry && typeof entry.csv === "string") {
-      return {
+  const entries = [];
+  for (const entry of Array.isArray(body.languages) ? body.languages : []) {
+    const hasCsv = typeof entry?.csv === "string" && entry.csv.trim() !== "";
+    const hasXml = typeof entry?.quizXml === "string" && entry.quizXml.trim() !== "";
+    // A blank row the admin added but did not fill in is ignored. Uploaded
+    // languages are sent with `existing: true` so they are kept as-is.
+    if (!hasCsv && !hasXml && !entry?.existing) continue;
+
+    if (hasCsv) {
+      entries.push({
         ...entry,
-        confXml: applyCsvConfSettings(entry.confXml, entry.csv),
+        confXml: applyCsvConfSettings(entry.confXml || currentConf, entry.csv),
         quizXml: buildQuizXmlFromCsv({
           csv: entry.csv,
           name: entry.name,
           code: entry.code,
           totalTime: csvDuration || assessment.duration_min,
         }),
-      };
+      });
+    } else if (hasXml) {
+      entries.push({ ...entry, confXml: entry.confXml || currentConf });
+    } else {
+      if (!currentQuiz) {
+        throw badRequest(`No uploaded ${entry?.name || "language"} paper found. Choose a CSV or quiz.xml for it.`);
+      }
+      entries.push({
+        ...entry,
+        quizXml: currentQuiz,
+        confXml: currentConf || entry?.confXml || "",
+        archive: false,
+      });
     }
-    return entry;
-  });
+  }
+
+  if (!entries.length) throw badRequest("Choose at least one CSV or quiz.xml, or use the demo CSV.");
 
   const merged = await mergePapers({ basePath, entries });
 
-  await assessmentsRepo.updateBasePath(id, basePath);
-  const imported = await importPaper({
-    orgId: assessment.org_id,
-    assessmentId: id,
-    ...paperFiles(basePath),
-    providedQuizXml: merged.quizXml,
-    providedConfXml: merged.confXml,
-    meta: { type: assessment.type, basePath },
-  });
-  try {
-    await assessmentsRepo.updatePaperXml(id, merged.quizXml, merged.confXml);
-  } catch (_) {}
+  const [, imported] = await Promise.all([
+    assessmentsRepo.updateBasePath(id, basePath),
+    importPaper({
+      orgId: assessment.org_id,
+      assessmentId: id,
+      ...paperFiles(basePath),
+      providedQuizXml: merged.quizXml,
+      providedConfXml: merged.confXml,
+      meta: { type: assessment.type, basePath },
+    }),
+  ]);
+  await Promise.all([
+    assessmentsRepo.updatePaperXml(id, merged.quizXml, merged.confXml).catch(() => {}),
+    assessmentsRepo.updateStatus(id, "active"),
+  ]);
 
-  // A paper that reached the mirror is playable: make it visible on the
-  // candidate site immediately, even when the caller does not PATCH status.
-  await assessmentsRepo.updateStatus(id, "active");
-
-  return { ...merged, imported, status: "active" };
+  // The merged XML is already written to disk and imported. Returning it would
+  // only inflate the response (and make large papers feel slow in the dialog).
+  const { quizXml: _quizXml, confXml: _confXml, ...summary } = merged;
+  return { ...summary, imported, status: "active" };
 }
 
 // ---- question bank ---------------------------------------------------------
@@ -1213,6 +1248,29 @@ export async function removeQuestion(id) {
   await Promise.all(remaining.map((row, index) => questionsRepo.setSeq(row.id, index + 1)));
 
   return { removed: id, questions: remaining.length };
+}
+
+/** Remove every question in one assessment and empty the candidate paper. */
+export async function removeAllQuestions(assessmentId) {
+  const assessment = await assessmentsRepo.findById(String(assessmentId || "").trim());
+  if (!assessment) throw notFound("Assessment not found.");
+
+  const count = await questionsRepo.countForAssessment(assessment.id);
+  await questionsRepo.removeForAssessment(assessment.id);
+  await comprehensionsRepo.removeForAssessment(assessment.id);
+  await assessmentsRepo.syncTotalMarks(assessment.id);
+
+  // The candidate console reads quiz.xml directly, so clearing only the
+  // database would leave the old paper playable.
+  writeQuizXml(assessment, (xml) => removeQuestionsXml(xml));
+  try {
+    const file = paperPath(assessment, "quiz.xml");
+    if (existsSync(file)) {
+      await assessmentsRepo.updatePaperXml(assessment.id, readFileSync(file, "utf8"), assessment.conf_xml ?? null);
+    }
+  } catch (_) {}
+
+  return { removed: count, questions: 0 };
 }
 
 /**
