@@ -98,6 +98,9 @@ export const updateOpenToAll = async (id, openToAll) =>
 export const updateBasePath = async (id, basePath) =>
   run("UPDATE assessments SET base_path = ? WHERE id = ?", basePath, id);
 
+export const updatePaperXml = async (id, quizXml, confXml) =>
+  run("UPDATE assessments SET quiz_xml = ?, conf_xml = ? WHERE id = ?", quizXml ?? null, confXml ?? null, id);
+
 export const syncTotalMarks = async (id) =>
   run("UPDATE assessments SET total_marks = (SELECT COALESCE(SUM(marks),0) FROM questions WHERE assessment_id = ?) WHERE id = ?", id, id);
 

@@ -926,8 +926,13 @@ export async function uploadPapers(body, id) {
     orgId: assessment.org_id,
     assessmentId: id,
     ...paperFiles(basePath),
+    providedQuizXml: merged.quizXml,
+    providedConfXml: merged.confXml,
     meta: { type: assessment.type, basePath },
   });
+  try {
+    await assessmentsRepo.updatePaperXml(id, merged.quizXml, merged.confXml);
+  } catch (_) {}
 
   // A paper that reached the mirror is playable: make it visible on the
   // candidate site immediately, even when the caller does not PATCH status.

@@ -120,9 +120,16 @@ async function servePaperXml(res, pathname) {
   if (!assessment) return false;
 
   const file = resolveWithin(config.paths.mirror, pathname);
-  if (!existsSync(file)) return false;
-
-  let xml = readFileSync(file, "utf8");
+  let xml = "";
+  if (existsSync(file)) {
+    xml = readFileSync(file, "utf8");
+  } else if (hit[2].toLowerCase() === "quiz" && assessment.quiz_xml) {
+    xml = String(assessment.quiz_xml);
+  } else if (hit[2].toLowerCase() === "confdetails" && assessment.conf_xml) {
+    xml = String(assessment.conf_xml);
+  } else {
+    return false;
+  }
   if (hit[2].toLowerCase() === "quiz") {
     xml = normalizeGroupIds(xml);
     const duration = Math.round(Number(assessment.duration_min) || 0);

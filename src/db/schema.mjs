@@ -35,6 +35,8 @@ CREATE TABLE IF NOT EXISTS assessments (
   track_fullscreen INTEGER NOT NULL DEFAULT 1,
   max_attempts INTEGER NOT NULL DEFAULT 1,
   open_to_all INTEGER NOT NULL DEFAULT 1,
+  quiz_xml TEXT,
+  conf_xml TEXT,
   created_at TEXT NOT NULL
 );
 

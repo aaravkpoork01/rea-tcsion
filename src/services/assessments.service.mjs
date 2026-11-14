@@ -39,7 +39,15 @@ export function quizXml(assessment) {
   try {
     return readFileSync(paperPath(assessment, "quiz.xml"), "utf8");
   } catch {
-    return "";
+    return String(assessment?.quiz_xml || "");
+  }
+}
+
+export function confXml(assessment) {
+  try {
+    return readFileSync(paperPath(assessment, "confDetails.xml"), "utf8");
+  } catch {
+    return String(assessment?.conf_xml || "");
   }
 }
 

@@ -267,32 +267,36 @@ export function mergePapers({ basePath, entries }) {
   confXml = replaceSoftwareLanguages(confXml, [...map.entries()].sort((a, b) => a[0] - b[0]).map(([, name]) => name));
   confXml = ensureResponseHandler(confXml);
 
-  mkdirSync(folder, { recursive: true });
-  mkdirSync(join(folder, "languages"), { recursive: true });
+  try { mkdirSync(folder, { recursive: true }); } catch (_) {}
+  try { mkdirSync(join(folder, "languages"), { recursive: true }); } catch (_) {}
 
   // Keep the pre-merge paper once, for rollback/diffing.
   const original = join(folder, "languages", "original");
-  if (existsSync(join(folder, "quiz.xml")) && !existsSync(join(original, "quiz.xml"))) {
-    mkdirSync(original, { recursive: true });
-    writeFileSync(join(original, "quiz.xml"), readFileSync(join(folder, "quiz.xml")));
-    writeFileSync(join(original, "confDetails.xml"), readFileSync(join(folder, "confDetails.xml")));
-  }
+  try {
+    if (existsSync(join(folder, "quiz.xml")) && !existsSync(join(original, "quiz.xml"))) {
+      mkdirSync(original, { recursive: true });
+      writeFileSync(join(original, "quiz.xml"), readFileSync(join(folder, "quiz.xml")));
+      writeFileSync(join(original, "confDetails.xml"), readFileSync(join(folder, "confDetails.xml")));
+    }
+  } catch (_) {}
 
   const archive = files.map((entry) => {
     const dir = join(folder, "languages", `${entry.code}-${slug(entry.name)}`);
-    mkdirSync(dir, { recursive: true });
-    writeFileSync(join(dir, "quiz.xml"), entry.quizXml);
-    writeFileSync(join(dir, "confDetails.xml"), entry.confXml);
+    try { mkdirSync(dir, { recursive: true }); } catch (_) {}
+    try { writeFileSync(join(dir, "quiz.xml"), entry.quizXml); } catch (_) {}
+    try { writeFileSync(join(dir, "confDetails.xml"), entry.confXml); } catch (_) {}
     return { name: entry.name, code: entry.code, path: dir };
   });
 
-  writeFileSync(join(folder, "quiz.xml"), quizXml);
-  writeFileSync(join(folder, "confDetails.xml"), confXml);
+  try { writeFileSync(join(folder, "quiz.xml"), quizXml); } catch (_) {}
+  try { writeFileSync(join(folder, "confDetails.xml"), confXml); } catch (_) {}
 
   return {
     basePath: `/${relative}/`,
     languages,
     mergedElements: merged,
     archived: archive,
+    quizXml,
+    confXml,
   };
 }

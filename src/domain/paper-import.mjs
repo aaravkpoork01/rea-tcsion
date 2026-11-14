@@ -57,18 +57,20 @@ const langIdOf = (node, fallback = 1) => {
  * Import (or re-import) a question paper.
  * @param {{orgId:string,assessmentId:string,quizPath:string,confPath:string,meta?:object,generateInstructions?:boolean}} input
  */
-export async function importPaper({ orgId, assessmentId, quizPath, confPath, meta = {}, generateInstructions = true }) {
-  let quizSource;
-  let confSource;
-  try {
-    quizSource = readFileSync(quizPath, "utf8");
-    confSource = readFileSync(confPath, "utf8");
-  } catch (error) {
-    throw new AppError(`Cannot read paper files: ${error.message}`, 400, "paper_unreadable");
+export async function importPaper({ orgId, assessmentId, quizPath, confPath, providedQuizXml, providedConfXml, meta = {}, generateInstructions = true }) {
+  let quizSource = providedQuizXml;
+  let confSource = providedConfXml;
+  if (quizSource === undefined || confSource === undefined) {
+    try {
+      quizSource = quizSource === undefined ? readFileSync(quizPath, "utf8") : quizSource;
+      confSource = confSource === undefined ? readFileSync(confPath, "utf8") : confSource;
+    } catch (error) {
+      throw new AppError(`Cannot read paper files: ${error.message}`, 400, "paper_unreadable");
+    }
   }
-
   const quizXml = parseXml(quizSource);
   const confXml = parseXml(confSource);
+
   const existing = await assessmentsRepo.findById(assessmentId);
 
   // The first <lang> block in the primary question is the paper's primary
@@ -91,10 +93,12 @@ export async function importPaper({ orgId, assessmentId, quizPath, confPath, met
   // needs both of them before it can start the exam. Legacy papers already
   // ship their own instructions, so discovery imports skip generation.
   if (generateInstructions) {
-    const template = normalizeInstructionTemplate(
-      await settingsRepo.getSetting("exam_instructions", ""),
-    );
-    ensureInstructionFiles(dirname(quizPath), languageList, template);
+    try {
+      const template = normalizeInstructionTemplate(
+        await settingsRepo.getSetting("exam_instructions", ""),
+      );
+      ensureInstructionFiles(dirname(quizPath), languageList, template);
+    } catch (_) {}
   }
 
   if (existing) {

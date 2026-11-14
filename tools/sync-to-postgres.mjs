@@ -32,6 +32,8 @@ async function main() {
       "ALTER TABLE assessments ADD COLUMN IF NOT EXISTS require_fullscreen INTEGER NOT NULL DEFAULT 0",
       "ALTER TABLE assessments ADD COLUMN IF NOT EXISTS enable_fullscreen INTEGER NOT NULL DEFAULT 0",
       "ALTER TABLE assessments ADD COLUMN IF NOT EXISTS track_fullscreen INTEGER NOT NULL DEFAULT 1",
+      "ALTER TABLE assessments ADD COLUMN IF NOT EXISTS quiz_xml TEXT",
+      "ALTER TABLE assessments ADD COLUMN IF NOT EXISTS conf_xml TEXT",
       "ALTER TABLE attempts ADD COLUMN IF NOT EXISTS fullscreen_seconds INTEGER NOT NULL DEFAULT 0",
       "ALTER TABLE attempts ADD COLUMN IF NOT EXISTS fullscreen_toggle_count INTEGER NOT NULL DEFAULT 0",
       "ALTER TABLE candidates ADD COLUMN IF NOT EXISTS system_name TEXT NOT NULL DEFAULT ''",
