@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Details>
 <CandidateResponseHandlerURL>/IBA/MockCandResponseHandler</CandidateResponseHandlerURL>
-<AssessmentName>01-04-2024 (CCE - Shift 1)</AssessmentName>
+<AssessmentName>EI Mock Assesment</AssessmentName>
 <AssessmentDescription></AssessmentDescription>
 <USELOGINID>NO</USELOGINID>
 <LoginIDLabel>Welcome</LoginIDLabel>
@@ -10,12 +10,12 @@
 <BannerPath> </BannerPath>
 <BannerText>#2D70B6</BannerText>
 <CandidateName>Your Name</CandidateName>
-<AssessmentDuration>120</AssessmentDuration>
+<AssessmentDuration>60</AssessmentDuration>
 <COMPULSORYTIME>0</COMPULSORYTIME>
 <ConsiderMarkForReview>YES</ConsiderMarkForReview>
 <ISOPTIONALSECTIONSAVAILABLE>YES</ISOPTIONALSECTIONSAVAILABLE>
-<ShowFeedback>YES</ShowFeedback>
-<UseDefaultFeedback>YES</UseDefaultFeedback>
+<ShowFeedback>NO</ShowFeedback>
+<UseDefaultFeedback>NO</UseDefaultFeedback>
 <SHOWCONTACTNO>YES</SHOWCONTACTNO>
 <SHOWEMAILID>YES</SHOWEMAILID>
 <Version>17.03.00</Version>
@@ -27,7 +27,7 @@
 <OptionOrientation>Vertical</OptionOrientation>
 <ShowScoreCard>YES</ShowScoreCard>
 <ShowPercentageScore>YES</ShowPercentageScore>
-<StoreCandResponse>YES</StoreCandResponse>
+<StoreCandResponse>NO</StoreCandResponse>
 <MaxNoOfAttempt>1</MaxNoOfAttempt>
 <SoftwareLanguages>English</SoftwareLanguages>
 <ReportPublishDate/>
@@ -38,4 +38,4 @@
 <UseDefaultDisclaimerInstruction>YES</UseDefaultDisclaimerInstruction>
 <EXTRAPARAM1> </EXTRAPARAM1>
 <EXTRAPARAM2> </EXTRAPARAM2>
-<RequireFullscreen>NO</RequireFullscreen></Details>
+<RequireFullscreen>YES</RequireFullscreen></Details>
