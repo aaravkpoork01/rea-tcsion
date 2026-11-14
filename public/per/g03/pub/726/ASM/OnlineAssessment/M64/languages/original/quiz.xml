@@ -1,0 +1,1742 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questionPaperXML questionPaperTotalTime="60" totalMarks="100">
+   <languages>
+      <language id="1" name="English"/>
+   </languages>
+   <groups>
+<group id="G1" totalMarks="100" instructionTime="0" maxDuration="0" minDuration="0">
+   <groupDisplayText><![CDATA[General]]></groupDisplayText>
+   <groupInstructions><![CDATA[]]></groupInstructions>
+   <sections>
+<section id="S1-1" sectionType="ONLINE" isOptional="false" totalMarks="100" maxQuestionsToBeAttempted="100" instructionTime="0" MinInstructionTime="0">
+   <sectionDisplayText><![CDATA[General]]></sectionDisplayText>
+   <sectionInstruction><![CDATA[]]></sectionInstruction>
+   <subsections>
+      <subsection id="S1-1-SS1">
+         <questions>
+<question id="630680708282" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[01-04-2024 (CCE - Shift 1) First page removed for candidates' privacy.
+Q.1 A piece of paper is folded and punched as shown below in the question figure. From the given option figures, indicate how it will appear when opened?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708282O1" sequenceID="1" correct="false"><optionText><![CDATA[[Figure options - OCR garbled in source]]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708028" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 3
+Q.2 Select the option that is related to the fourth number-cluster in the same way as the first number-cluster is related to the second number-cluster and the fifth number-cluster is related to the sixth number-cluster. (Note: Operations should be performed on the whole numbers, without breaking down the numbers into its constituent digits. E.g. 13 - Operations on 13 such as adding/subtracting/multiplying etc. to 13 can be done. Breaking down 13 into 1 and 3 and then performing mathematical operations on 1 and 3 is not allowed.)
+9 : 90 :: ? : 272 :: 26 : 702]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708028O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 18]]></optionText></option>
+<option optionID="630680708028O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 16]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708035" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.3 The table given below shows the number of pencils sold by 7 shops.
+Shop | Pencils
+S2 | 68
+S5 | 64
+What is the average number of pencils sold by shops S2, S3 and S7?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708035O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 75]]></optionText></option>
+<option optionID="630680708035O2" sequenceID="2" correct="false"><optionText><![CDATA[3. 58]]></optionText></option>
+<option optionID="630680708035O3" sequenceID="3" correct="true"><optionText><![CDATA[4. 65]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708238" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 3
+Q.4 In the following question, select the figure which can be placed at the sign of question mark (?) from the given alternatives.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708238O1" sequenceID="1" correct="false"><optionText><![CDATA[[Figure options - OCR garbled in source]]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708361" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 2
+Q.5 Select the option from the given alternatives that is related to the fifth number-cluster in the same way as the second number-cluster is related to the first number-cluster and the fourth number-cluster is related to the third number-cluster. (Note: Operations should be performed on the whole numbers, without breaking down the numbers into its constituent digits. E.g. 13 - Operations on 13 such as adding/subtracting/multiplying etc. to 13 can be done. Breaking down 13 into 1 and 3 and then performing mathematical operations on 1 and 3 is not allowed.)
+33 : 1090 :: 42 : 1765 :: 11 : ?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708361O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 121]]></optionText></option>
+<option optionID="630680708361O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 122]]></optionText></option>
+<option optionID="630680708361O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 123]]></optionText></option>
+<option optionID="630680708361O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 124]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708048" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.6 In the following question, select the figure which can be placed at the sign of question mark (?) from the given alternatives.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708048O1" sequenceID="1" correct="true"><optionText><![CDATA[[Figure options - OCR garbled in source]]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708057" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 1
+Q.7 If '#' means '+', '@' means '÷', '>' means '×' and '<' means '-', then which of the following equations is NOT correct?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708057O1" sequenceID="1" correct="true"><optionText><![CDATA[1. 10 < 24 @ 8 > 17 # 20 = 61]]></optionText></option>
+<option optionID="630680708057O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 80 > 70 < 100 @ 2 # 3 = 0]]></optionText></option>
+<option optionID="630680708057O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 20 # 25 > 30 < 40 @ 10 = 526]]></optionText></option>
+<option optionID="630680708057O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 17 # 7 < 18 @ 3 > 19 = 132]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708146" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 1
+Q.8 A is the mother of B. B is the sister of C. C is the wife of D. D is the father of E. How is D related to B?
+Options:
+1. Husband's father (Father-in-law)
+2. Wife's sister (Sister-in-law)
+3. Sister's husband (Brother-in-law)
+4. Wife's brother (Brother-in-law)]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708080" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 2
+Q.9 In this question, some statements and some conclusions based on those statements are given. Take the given statements to be true even if they seem to be at variance from commonly known facts. Read all the conclusions and then decide which of the given conclusions logically follows from the given statements.
+Statements:
+I. Some farmers are brave.
+II. All brave are honest.
+Conclusions:
+I. All honest are farmers.
+II. Some farmers are honest.
+III. Some brave are farmers.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708080O1" sequenceID="1" correct="false"><optionText><![CDATA[1. Only conclusion I follows]]></optionText></option>
+<option optionID="630680708080O2" sequenceID="2" correct="false"><optionText><![CDATA[2. Only conclusion II follows]]></optionText></option>
+<option optionID="630680708080O3" sequenceID="3" correct="false"><optionText><![CDATA[3. Both conclusion I and conclusion III follow]]></optionText></option>
+<option optionID="630680708080O4" sequenceID="4" correct="true"><optionText><![CDATA[4. Both conclusion II and conclusion III follow]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707989" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 4
+Q.10 In the following question, select the missing number from the given series.
+141, 283, 567, 1135, 2271, ?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707989O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 4545]]></optionText></option>
+<option optionID="630680707989O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 4541]]></optionText></option>
+<option optionID="630680707989O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 4542]]></optionText></option>
+<option optionID="630680707989O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 4543]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707973" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.11 In the following question, relationships between different elements are shown in the statements. These statements are followed by two conclusions. Give answer:
+Statements:
+I. A ≥ B = C
+II. N ≥ B
+Conclusions:
+I. A ≥ N
+II. N > C]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707973O1" sequenceID="1" correct="false"><optionText><![CDATA[1. If only conclusion I is true]]></optionText></option>
+<option optionID="630680707973O2" sequenceID="2" correct="false"><optionText><![CDATA[2. If neither conclusion I nor conclusion II is true]]></optionText></option>
+<option optionID="630680707973O3" sequenceID="3" correct="false"><optionText><![CDATA[3. If only conclusion II is true]]></optionText></option>
+<option optionID="630680707973O4" sequenceID="4" correct="true"><optionText><![CDATA[4. If both conclusions I and II are true]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708323" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 4
+Q.12 In the following question, select the missing number from the given series.
+87, 90, 97, 108, 123, ?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708323O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 138]]></optionText></option>
+<option optionID="630680708323O2" sequenceID="2" correct="true"><optionText><![CDATA[2. 142]]></optionText></option>
+<option optionID="630680708323O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 131]]></optionText></option>
+<option optionID="630680708323O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 137]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708367" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 2
+Q.13 The line graph given below shows the number of 5 different bikes sold by two showrooms.
+[Graph data OCR-garbled in source: P, Q, R, S, T; 60, 60, 45, 40, 25, 30, 25, 2, 15]
+What is the sum of P, Q and R bikes sold together by showroom X and Y?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708367O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 180]]></optionText></option>
+<option optionID="630680708367O2" sequenceID="2" correct="true"><optionText><![CDATA[2. 190]]></optionText></option>
+<option optionID="630680708367O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 195]]></optionText></option>
+<option optionID="630680708367O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 200]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708326" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 2
+Q.14 In this question, a question and two statements (I) and (II) are given. You have to decide whether the data provided in the statements are sufficient to answer the question. Read both the statements and decide the appropriate answer.
+Find the area of equilateral triangle ABC.
+I. The measure of one side of triangle ABC is 7 cm.
+II. The perimeter of triangle ABC is 21 cm.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708326O1" sequenceID="1" correct="false"><optionText><![CDATA[1. If the question cannot be answered even by using both statements together.]]></optionText></option>
+<option optionID="630680708326O2" sequenceID="2" correct="false"><optionText><![CDATA[2. If the question can be answered by using both statements together, but cannot be answered by using either statement alone.]]></optionText></option>
+<option optionID="630680708326O3" sequenceID="3" correct="false"><optionText><![CDATA[3. If the question can be answered by using either statement (I) alone or statement (II) alone.]]></optionText></option>
+<option optionID="630680708326O4" sequenceID="4" correct="false"><optionText><![CDATA[4. If the question can be answered by using one statement alone, but cannot be answered by using the other statement alone.]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708082" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.15 In each of the following problems, a question and two statements (I) and (II) are given.
+What is the remainder when N is divided by 10?
+I. When N is divided by 5, the remainder is 2.
+II. N is divisible by 20.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708082O1" sequenceID="1" correct="false"><optionText><![CDATA[1. If the question can be answered by using both statements together, but cannot be answered by using either statement alone.]]></optionText></option>
+<option optionID="630680708082O2" sequenceID="2" correct="false"><optionText><![CDATA[2. If the question can be answered by using either statement (I) alone or statement (II) alone.]]></optionText></option>
+<option optionID="630680708082O3" sequenceID="3" correct="false"><optionText><![CDATA[3. If the question cannot be answered even by using both statements together.]]></optionText></option>
+<option optionID="630680708082O4" sequenceID="4" correct="true"><optionText><![CDATA[4. If the question can be answered by using one statement alone, but cannot be answered by using the other statement alone.]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708296" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 4
+Q.16 Select the option in which the numbers share the same relationship as that shared by the numbers in the given set. (Note: Operations should be performed on the whole numbers, without breaking down the numbers into its constituent digits. E.g. 13 - Operations on 13 such as adding/subtracting/multiplying etc. to 13 can be done. Breaking down 13 into 1 and 3 and then performing mathematical operations on 1 and 3 is not allowed.)
+(2, 3, 6)
+(4, 6, 12)]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708296O1" sequenceID="1" correct="true"><optionText><![CDATA[1. (6, 9, 18)]]></optionText></option>
+<option optionID="630680708296O2" sequenceID="2" correct="false"><optionText><![CDATA[2. (5, 12, 13)]]></optionText></option>
+<option optionID="630680708296O3" sequenceID="3" correct="false"><optionText><![CDATA[3. (8, 12, 16)]]></optionText></option>
+<option optionID="630680708296O4" sequenceID="4" correct="false"><optionText><![CDATA[4. (16, 24, 30)]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708351" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 1
+Q.17 If 80 P 10 Q 70 R 50 = 70 and 45 P 55 Q 65 R 75 = 110, then 40 P 10 Q 18 R 28 = ?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708351O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 90]]></optionText></option>
+<option optionID="630680708351O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 70]]></optionText></option>
+<option optionID="630680708351O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 60]]></optionText></option>
+<option optionID="630680708351O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 80]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708097" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.18 In each of the following problems, a question and two statements (I) and (II) are given.
+In which direction is A with respect to D?
+I. C is to the north of B, which is to the west of A.
+II. D is to the west of B.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708097O1" sequenceID="1" correct="false"><optionText><![CDATA[1. If the question can be answered by using one statement alone, but cannot be answered by using the other statement alone.]]></optionText></option>
+<option optionID="630680708097O2" sequenceID="2" correct="false"><optionText><![CDATA[2. If the question can be answered by using either statement (I) alone or statement (II) alone.]]></optionText></option>
+<option optionID="630680708097O3" sequenceID="3" correct="true"><optionText><![CDATA[3. If the question can be answered by using both statements together, but cannot be answered by using either statement alone.]]></optionText></option>
+<option optionID="630680708097O4" sequenceID="4" correct="false"><optionText><![CDATA[4. If the question cannot be answered even by using both statements together.]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708290" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 3
+Q.19 In the following question, select the missing number from the given series.
+197, 189, 173, 149, 117, ?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708290O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 74]]></optionText></option>
+<option optionID="630680708290O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 75]]></optionText></option>
+<option optionID="630680708290O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 76]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708306" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.20 P is the brother of Q. Q is the sister of R. R is the mother of S. S is the father of T. T is the wife of U. Then how many males are there?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708306O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 2]]></optionText></option>
+<option optionID="630680708306O2" sequenceID="2" correct="true"><optionText><![CDATA[2. 3]]></optionText></option>
+<option optionID="630680708306O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 4]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708112" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 2
+Q.21 In this question, some statements and some conclusions based on those statements are given. Take the given statements to be true even if they seem to be at variance from commonly known facts. Read all the conclusions and then decide which of the given conclusions logically follows from the given statements.
+Statements:
+I. Some caps are socks.
+II. No shirt is socks.
+Conclusions:
+I. All caps are shirts.
+II. Some caps are not shirts.
+Options:
+1. Both conclusions I and II follow
+2. Only conclusion I follows
+3. Neither conclusion I nor conclusion II follows
+4. Only conclusion II follows]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708274" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 3
+Q.22 In the following question, relationships between different elements are shown in the statements. These statements are followed by two conclusions. Give answer:
+Statements:
+I. P = Q > R ≥ S
+II. T ≥ U > V
+III. W > T
+Conclusions:
+I. Q > V
+II. Z = S
+Options:
+1. If only conclusion I is true
+2. If only conclusion II is true
+3. If both conclusions I and II are true
+4. If neither conclusion I nor conclusion II is true]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708165" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 4
+Q.23 After interchanging which two signs and two numbers, the value of the equation given below will be '1'?
+4 × 6 ÷ 9 + 8 - 3]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708165O1" sequenceID="1" correct="false"><optionText><![CDATA[1. ÷ and +, 6 and 9]]></optionText></option>
+<option optionID="630680708165O2" sequenceID="2" correct="false"><optionText><![CDATA[2. + and -, 4 and 6]]></optionText></option>
+<option optionID="630680708165O3" sequenceID="3" correct="false"><optionText><![CDATA[3. × and ÷, 4 and 8]]></optionText></option>
+<option optionID="630680708165O4" sequenceID="4" correct="false"><optionText><![CDATA[4. × and +, 8 and 3]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708220" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.24 Select the option from the given alternatives in which the numbers share the same relationship as that shared by the numbers in the given set.
+(Note: Perform mathematical operations on the whole numbers, without breaking down the numbers into its constituent digits. E.g. 13 - Operations on 13 such as adding/subtracting/multiplying etc. to 13 can be done. Breaking down 13 into 1 and 3 and then performing mathematical operations on 1 and 3 is not allowed.)
+(3, 6, 27)
+(2, 4, 18)]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708220O1" sequenceID="1" correct="false"><optionText><![CDATA[1. (7, 13, 80)]]></optionText></option>
+<option optionID="630680708220O2" sequenceID="2" correct="false"><optionText><![CDATA[2. (4, 14, 36)]]></optionText></option>
+<option optionID="630680708220O3" sequenceID="3" correct="true"><optionText><![CDATA[3. (8, 12, 60)]]></optionText></option>
+<option optionID="630680708220O4" sequenceID="4" correct="false"><optionText><![CDATA[4. (5, 11, 64)]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708287" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 3
+Q.25 If 13 * 17 # 2 = 229 and 8 * 6 # 5 = 20, then 8 * 14 # 2 = ?
+1. 70
+2. 100
+3. 110
+4. 130]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708005" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.26 How many players are neither boys nor girls?
+[Venn diagram: Athletes, Boys, Girls - numbers missing in source]]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708005O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 49]]></optionText></option>
+<option optionID="630680708005O2" sequenceID="2" correct="false"><optionText><![CDATA[3. 27]]></optionText></option>
+<option optionID="630680708005O3" sequenceID="3" correct="false"><optionText><![CDATA[4. 25]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708365" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 4
+Q.27 The line graph given below shows the number of books sold by five shopkeepers.
+[Graph data OCR-garbled in source: P, Q, R, S, T; 60, 25]
+What is the average number of books sold by P, Q, R and S?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708365O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 39.5]]></optionText></option>
+<option optionID="630680708365O2" sequenceID="2" correct="true"><optionText><![CDATA[2. 37.5]]></optionText></option>
+<option optionID="630680708365O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 35.5]]></optionText></option>
+<option optionID="630680708365O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 36.5]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708345" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 2
+Q.28 In the following question, select the figure which can be placed at the sign of question mark (?) from the given alternatives.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708031" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 4
+Q.29 Select the option in which the numbers share the same relationship as that shared by the numbers in the given set.
+(Note: Operations should be performed on the whole numbers, without breaking down the numbers into its constituent digits. E.g. 13 - Operations on 13 such as adding/subtracting/multiplying etc. to 13 can be done. Breaking down 13 into 1 and 3 and then performing mathematical operations on 1 and 3 is not allowed.)
+(24, ?, 784)
+(29, 15, 196)
+Options:
+1. (34, 15, 484)
+2. (51, 32, 441)
+3. (5, 3, 9)
+4. (51, 31, 400)]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708319" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.30 If 'J' means '+', 'K' means '×', 'L' means '÷' and 'I' means '-', then which of the following equations is correct?
+I. 81 J 18 K 9 I 20 L 10 = 172
+II. 9 I 17 J 5 L 40 K 5 = 86]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708319O1" sequenceID="1" correct="false"><optionText><![CDATA[1. Only II]]></optionText></option>
+<option optionID="630680708319O2" sequenceID="2" correct="false"><optionText><![CDATA[2. Both I and II]]></optionText></option>
+<option optionID="630680708319O3" sequenceID="3" correct="false"><optionText><![CDATA[3. Neither I nor II]]></optionText></option>
+<option optionID="630680708319O4" sequenceID="4" correct="false"><optionText><![CDATA[4. Only I]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708255" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.31 Select the option that is related to the fifth number-cluster in the same way as the second number-cluster is related to the first number-cluster and the fourth number-cluster is related to the third number-cluster. (Note: Operations should be performed on the whole numbers, without breaking down the numbers into its constituent digits. E.g. 13 - Operations on 13 such as adding/subtracting/multiplying etc. to 13 can be done. Breaking down 13 into 1 and 3 and then performing mathematical operations on 1 and 3 is not allowed.)
+12 : 156 :: 23 : 552 :: 34 : ?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708255O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 1192]]></optionText></option>
+<option optionID="630680708255O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 1193]]></optionText></option>
+<option optionID="630680708255O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 1190]]></optionText></option>
+<option optionID="630680708255O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 1191]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708279" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.32 A piece of paper is folded and punched as shown below in the question figure. From the given option figures, indicate how it will appear when opened?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708279O1" sequenceID="1" correct="true"><optionText><![CDATA[[Figure options - OCR garbled in source]]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708125" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 1
+Q.33 A piece of paper is folded and punched as shown in the question figure below. From the figures given in the options, how will it appear when opened?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708125O1" sequenceID="1" correct="true"><optionText><![CDATA[[Figure options - OCR garbled in source]]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708129" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 1
+Q.34 In the following question, select the missing number from the given series.
+133, 140, 147, 154, 161, ?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708129O1" sequenceID="1" correct="true"><optionText><![CDATA[1. 168]]></optionText></option>
+<option optionID="630680708129O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 167]]></optionText></option>
+<option optionID="630680708129O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 164]]></optionText></option>
+<option optionID="630680708129O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 163]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708270" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 1
+Q.35 In this question, some statements and some conclusions based on those statements are given. Take the given statements to be true even if they seem to be at variance from commonly known facts. Read all the conclusions and then decide which of the given conclusions logically follows from the given statements.
+Statements:
+I. Some red are torch.
+II. All white are torch.
+Conclusions:
+I. Some torch are red.
+II. Some torch are white.
+III. No red is white.
+Options:
+1. Both conclusions I and II follow
+2. All conclusions follow
+3. Only conclusion I follows
+4. Both conclusions II and III follow]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708339" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 1
+Q.36 If A + B means 'A' is the mother of 'B', A - B means 'A' is the father of 'B', A × B means 'A' is the sister of 'B' and A ÷ B means 'A' is the daughter of 'B'. If P × Q - R ÷ S $ T, then how is Q related to T?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708339O1" sequenceID="1" correct="false"><optionText><![CDATA[1. Grandfather]]></optionText></option>
+<option optionID="630680708339O2" sequenceID="2" correct="false"><optionText><![CDATA[2. Uncle]]></optionText></option>
+<option optionID="630680708339O3" sequenceID="3" correct="false"><optionText><![CDATA[3. Brother]]></optionText></option>
+<option optionID="630680708339O4" sequenceID="4" correct="false"><optionText><![CDATA[4. Father]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708016" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.37 From the given option figures, select the one in which the question figure is embedded. (Rotation is not allowed).]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708016O1" sequenceID="1" correct="true"><optionText><![CDATA[[Figure options - OCR garbled in source]]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708181" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 1
+Q.38 The table given below shows the marked price (in Rs.) and discount value (in Rs.) of 7 items.
+Item | Marked Price | Discount
+A | 300 | 50
+B | 350 | 150
+C | 500 | 100
+Selling Price = Marked Price - Discount
+What is the average selling price of items A and B?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708181O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 275]]></optionText></option>
+<option optionID="630680708181O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 250]]></optionText></option>
+<option optionID="630680708181O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 225]]></optionText></option>
+<option optionID="630680708181O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 175]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708250" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.39 In the following question, select the missing number from the given series.
+191, 183, 167, 143, 111, ?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708250O1" sequenceID="1" correct="true"><optionText><![CDATA[1. 71]]></optionText></option>
+<option optionID="630680708250O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 75]]></optionText></option>
+<option optionID="630680708250O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 77]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680708153" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 1
+Q.40 In each of the following problems, a question and two statements (I) and (II) are given.
+Is A × B an even number?
+I. A + B is an even number.
+II. B is an odd number.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680708153O1" sequenceID="1" correct="false"><optionText><![CDATA[1. If the question can be answered by using either statement (I) or (II).]]></optionText></option>
+<option optionID="630680708153O2" sequenceID="2" correct="true"><optionText><![CDATA[2. If the question can be answered by using both statements together, but not by either statement alone.]]></optionText></option>
+<option optionID="630680708153O3" sequenceID="3" correct="false"><optionText><![CDATA[3. If the question can be answered by using one statement alone, but cannot be answered by using the other statement alone.]]></optionText></option>
+<option optionID="630680708153O4" sequenceID="4" correct="false"><optionText><![CDATA[4. If the question cannot be answered even by using both statements together.]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707747" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 2
+Section : Quantitative Aptitude
+Q.41 The distance between place K and L is 1584 km. An express train leaves place K at 4:20 p.m. and runs at a speed of 198 km/hr. The train stops for 50 minutes on the way. At what time does the train reach place L?
+Options:
+1. 4:10 am
+2. 2:20 am
+3. 12:40 am
+4. 3:30 am]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707875" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.42 The average age of a group of 27 boys is 30 years. A boy aged 22 years leaves the group. A new boy joins the group and the average increases by 1 year. What will be the age of the new boy?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707875O1" sequenceID="1" correct="true"><optionText><![CDATA[1. 45 years]]></optionText></option>
+<option optionID="630680707875O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 48 years]]></optionText></option>
+<option optionID="630680707875O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 52 years]]></optionText></option>
+<option optionID="630680707875O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 49 years]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707804" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 1
+Q.43 M and N together can complete a work in 24 days. N alone can complete the same work in 72 days. In how many days will M alone complete the same work?
+1. 42 days
+2. 56 days
+3. 46 days
+4. 36 days]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707916" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.44 Both X and Y sell their bags at Rs. 9000 per bag. X made a profit of 10 percent while Y incurred a loss of 25 percent. What is the ratio of the cost prices of X and Y?
+Options:
+1. 18 : 23
+2. 15 : 22
+3. 9 : 11
+4. 5 : 7]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707820" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.45 What is the value of [OCR-garbled expression: /343 81 14 51 (2-34 4+2)x3 410 / 73 27 7 3]?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707820O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 97]]></optionText></option>
+<option optionID="630680707820O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 81]]></optionText></option>
+<option optionID="630680707820O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 83]]></optionText></option>
+<option optionID="630680707820O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 79]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707703" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.46 What is the Least Common Multiple (LCM) of 3/24, 6/9 and [OCR-garbled fraction: /5]?
+Options:
+1. 18/5
+2. 6/5
+3. 6/10
+4. 18]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707960" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.47 If x + y = 3, x³ + y³ = 7, then what is the value of 18xy?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707960O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 50]]></optionText></option>
+<option optionID="630680707960O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 20]]></optionText></option>
+<option optionID="630680707960O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 40]]></optionText></option>
+<option optionID="630680707960O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 24]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707786" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.48 The average height of L, M and N is 190 cm. If the average height of L and M is 158 cm and the average height of M and N is 157 cm, then what will be the height of M?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707786O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 69 cm]]></optionText></option>
+<option optionID="630680707786O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 62 cm]]></optionText></option>
+<option optionID="630680707786O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 64 cm]]></optionText></option>
+<option optionID="630680707786O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 60 cm]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707754" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.49 If 3a - (1/a) - 3 = 0, then what is the value of 27a³ - (1/a³) + 2? [Note: OCR-garbled expression in source]]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707754O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 0]]></optionText></option>
+<option optionID="630680707754O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 6]]></optionText></option>
+<option optionID="630680707754O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 2]]></optionText></option>
+<option optionID="630680707754O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 4]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707963" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.50 The 7th term of a geometric progression is 2 and its 12th term is 1/16. What is the first term of this series?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707963O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 256]]></optionText></option>
+<option optionID="630680707963O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 128]]></optionText></option>
+<option optionID="630680707963O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 64]]></optionText></option>
+<option optionID="630680707963O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 32]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707657" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.51 If X : Y = 5 : 4, then what is the value of X + Y : Y?
+Options:
+1. 7 : 4
+2. 4 : 9
+3. 4 : 5
+4. 9 : 4]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707647" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.52 What is the value of 1³ + 3³ + 5³ + ... + 15³?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707647O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 6328]]></optionText></option>
+<option optionID="630680707647O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 8438]]></optionText></option>
+<option optionID="630680707647O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 8230]]></optionText></option>
+<option optionID="630680707647O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 8128]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707726" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.53 What will be the sum of the series 17 + 21 + 25 + ... + 213?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707726O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 5850]]></optionText></option>
+<option optionID="630680707726O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 6150]]></optionText></option>
+<option optionID="630680707726O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 5750]]></optionText></option>
+<option optionID="630680707726O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 5650]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707825" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.54 The profit earned on selling an article for Rs. 460 is equal to the loss incurred on selling the same article for Rs. 380. If the selling price is Rs. 400, what will be the loss percentage?
+1. 6.66 percent
+2. 7.14 percent
+3. 4.76 percent
+4. 5.25 percent]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707868" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.55 If a + b = 10 and ab = 16, then what is the value of a³ + b³?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707868O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 720]]></optionText></option>
+<option optionID="630680707868O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 640]]></optionText></option>
+<option optionID="630680707868O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 520]]></optionText></option>
+<option optionID="630680707868O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 640]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707920" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.56 If P : Q = 11 : 2 and Q : R = 3 : 2, then find the value of P : Q : R.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707920O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 33 : 6 : 2]]></optionText></option>
+<option optionID="630680707920O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 33 : 6 : 4]]></optionText></option>
+<option optionID="630680707920O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 33 : 6 : 1]]></optionText></option>
+<option optionID="630680707920O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 33 : 4 : 6]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707678" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.57 If C is 75 percent less than A, then by what percent is A more than C?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707678O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 350]]></optionText></option>
+<option optionID="630680707678O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 325]]></optionText></option>
+<option optionID="630680707678O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 275]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707695" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.58 If a + 2b = 27, a³ + 8b³ = 5427, then find the value of 2ab?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707695O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 149]]></optionText></option>
+<option optionID="630680707695O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 176]]></optionText></option>
+<option optionID="630680707695O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 172]]></optionText></option>
+<option optionID="630680707695O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 156]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707684" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.59 A trader marks the price of his article 60 percent above the cost price. He gives some discount on it and earns a profit of 30 percent. What is the discount percentage?
+1. 25 percent
+2. 20 percent
+3. 16.25 percent
+4. 18.75 percent]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="680680707917" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.60 The marked price of an article is Rs. 2500. If a discount of 30 percent is given, what is the selling price of that article?
+1. Rs. 1660
+2. Rs. 1820
+3. Rs. 1750
+4. Rs. 1650]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="680680707869" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.61 If x - (2/x) = 15, then what will be the value of x² + (4/x²)?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="680680707869O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 229]]></optionText></option>
+<option optionID="680680707869O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 221]]></optionText></option>
+<option optionID="680680707869O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 227]]></optionText></option>
+<option optionID="680680707869O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 223]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="680680707767" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.62 Student L scored 60 marks more than student M and L's marks were equal to 65 percent of the sum of their marks. What are the marks obtained by L and M respectively?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="680680707767O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 120, 50]]></optionText></option>
+<option optionID="680680707767O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 150, 80]]></optionText></option>
+<option optionID="680680707767O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 130, 70]]></optionText></option>
+<option optionID="680680707767O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 100, 40]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707895" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.63 A bus travels for 4 hours at a speed of 65 km/hr. A train travels 90 km more than the bus in 1 hour more time. What is the speed of the train?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707895O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 70 km/hr]]></optionText></option>
+<option optionID="630680707895O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 85 km/hr]]></optionText></option>
+<option optionID="630680707895O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 80 km/hr]]></optionText></option>
+<option optionID="630680707895O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 75 km/hr]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707677" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.64 The greatest possible length which can be used to measure exactly the lengths 8 m 16 cm, 6 m 24 cm, 11 m 04 cm is ____ cm.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707677O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 49]]></optionText></option>
+<option optionID="630680707677O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 54]]></optionText></option>
+<option optionID="630680707677O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 58]]></optionText></option>
+<option optionID="630680707677O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 68]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707921" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.65 A box contains 5-rupee, 2-rupee and 1-rupee coins and their total value is in the ratio 10 : 6 : 7 respectively. If there are 144 coins in total, how many 2-rupee coins will be in the box?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707921O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 36]]></optionText></option>
+<option optionID="630680707921O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 84]]></optionText></option>
+<option optionID="630680707921O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 24]]></optionText></option>
+<option optionID="630680707921O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 96]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707897" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.66 The diameter of a bicycle wheel is 1.4 cm. A cyclist takes 12 minutes to reach the destination at a speed of 53.9 km/hr. How many revolutions will the wheel make during the journey?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707897O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 312000]]></optionText></option>
+<option optionID="630680707897O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 245000]]></optionText></option>
+<option optionID="630680707897O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 208000]]></optionText></option>
+<option optionID="630680707897O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 276000]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707653" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.67 The profit earned by selling a laptop for Rs. 7280 is equal to the loss incurred by selling the same laptop for Rs. 6190. What should be the selling price of the laptop to earn a 20 percent profit?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707653O1" sequenceID="1" correct="false"><optionText><![CDATA[1. Rs. 8468]]></optionText></option>
+<option optionID="630680707653O2" sequenceID="2" correct="false"><optionText><![CDATA[2. Rs. 7982]]></optionText></option>
+<option optionID="630680707653O3" sequenceID="3" correct="false"><optionText><![CDATA[3. Rs. 8082]]></optionText></option>
+<option optionID="630680707653O4" sequenceID="4" correct="false"><optionText><![CDATA[4. Rs. 8158]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707749" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.68 The distance between place E and place F is 702 km. An express train leaves place E at 4:00 p.m. and runs at a speed of 54 km/hr. The train stops for 50 minutes on the way. At what time does the train reach place F?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707749O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 8:20 am]]></optionText></option>
+<option optionID="630680707749O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 5:50 am]]></optionText></option>
+<option optionID="630680707749O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 3:50 am]]></optionText></option>
+<option optionID="630680707749O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 6:30 am]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707846" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.69 The average of three values is 70. If the first value is 3/4 of the third value and the third value is 10 more than the second value, what will be the difference between the first and second values?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680707846O1" sequenceID="1" correct="false"><optionText><![CDATA[1. 17]]></optionText></option>
+<option optionID="630680707846O2" sequenceID="2" correct="false"><optionText><![CDATA[2. 10]]></optionText></option>
+<option optionID="630680707846O3" sequenceID="3" correct="false"><optionText><![CDATA[3. 15]]></optionText></option>
+<option optionID="630680707846O4" sequenceID="4" correct="false"><optionText><![CDATA[4. 12]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680707689" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.70 T1, T2 and T3 together can complete a work in 165 days less than T1 alone, 82.5 days less than T2 alone and 27.5 days less than T3 alone. T1, T2 and T3 together take 82.5 days to complete the same work. In how many days can T1 and T2 together complete the same work?
+1. 110 days
+2. 99 days
+3. 105 days
+4. 107 days]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680706020" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Section : English
+Q.71 Fill in the blank with the most appropriate option.
+Iwas made very uneasy in my mind by Mrs. Pocket’s into a discussion with Drummle.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680706020O1" sequenceID="1" correct="true"><optionText><![CDATA[; falling]]></optionText></option>
+<option optionID="630680706020O2" sequenceID="2" correct="false"><optionText><![CDATA[2. collapsing]]></optionText></option>
+<option optionID="630680706020O3" sequenceID="3" correct="false"><optionText><![CDATA[3. dropping]]></optionText></option>
+<option optionID="630680706020O4" sequenceID="4" correct="false"><optionText><![CDATA[4. trapping]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680706033" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 1
+972 Select the most appropriate synonym of the given word.
+Expedite]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680706033O1" sequenceID="1" correct="false"><optionText><![CDATA[1. Hasten]]></optionText></option>
+<option optionID="630680706033O2" sequenceID="2" correct="false"><optionText><![CDATA[2 Cease]]></optionText></option>
+<option optionID="630680706033O3" sequenceID="3" correct="false"><optionText><![CDATA[3. Hinder]]></optionText></option>
+<option optionID="630680706033O4" sequenceID="4" correct="false"><optionText><![CDATA[4. Siege]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680706092" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+0.73 Fill in the blank with the most appropriate option.
+To this effect the sergeant and the nearest men were ‘under their breath, when Joe and I came up.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680706092O1" sequenceID="1" correct="false"><optionText><![CDATA[pipping]]></optionText></option>
+<option optionID="630680706092O2" sequenceID="2" correct="false"><optionText><![CDATA[2. transmitting]]></optionText></option>
+<option optionID="630680706092O3" sequenceID="3" correct="false"><optionText><![CDATA[3. speaking]]></optionText></option>
+<option optionID="630680706092O4" sequenceID="4" correct="false"><optionText><![CDATA[4. conveying]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680706050" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.74 Fill in the blank with the most appropriate option.
+Some half an hour, since I had put my new suit on, I had gone an immensity of posturing with Mr.
+Pumblechook’s very limited dressing-glass, in the futile endeavour to see my legs.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680706050O1" sequenceID="1" correct="false"><optionText><![CDATA[, through]]></optionText></option>
+<option optionID="630680706050O2" sequenceID="2" correct="false"><optionText><![CDATA[2 toward]]></optionText></option>
+<option optionID="630680706050O3" sequenceID="3" correct="false"><optionText><![CDATA[3. until]]></optionText></option>
+<option optionID="630680706050O4" sequenceID="4" correct="false"><optionText><![CDATA[4. beneath]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680706010" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+975 Select the most appropriate word for the given phrase.
+A herd or flock of animals being driven in a body.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680706010O1" sequenceID="1" correct="false"><optionText><![CDATA[1. Drove]]></optionText></option>
+<option optionID="630680706010O2" sequenceID="2" correct="false"><optionText><![CDATA[2. Posse]]></optionText></option>
+<option optionID="630680706010O3" sequenceID="3" correct="false"><optionText><![CDATA[3. Torrent]]></optionText></option>
+<option optionID="630680706010O4" sequenceID="4" correct="false"><optionText><![CDATA[4. Horde]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680706065" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+976 Fill in the blank with the most appropriate option.
+Romel to his feet.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680706065O1" sequenceID="1" correct="false"><optionText><![CDATA[; sprang]]></optionText></option>
+<option optionID="630680706065O2" sequenceID="2" correct="false"><optionText><![CDATA[2. spring]]></optionText></option>
+<option optionID="630680706065O3" sequenceID="3" correct="false"><optionText><![CDATA[3. springing]]></optionText></option>
+<option optionID="630680706065O4" sequenceID="4" correct="false"><optionText><![CDATA[4. have sprung]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680706053" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Q.77 The sentence given below is divided and jumbled into four parts. Choose the option that arranges these parts to form
+‘a meaningful sentence.
+‘A. he was taken with a violent fit of trembling
+છે. any means prepared for nothing: and, consequently, when
+C. now, being prepared for almost anything, he was not by
+D. the Bell struck One, and no shape appeared,]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680706053O1" sequenceID="1" correct="false"><optionText><![CDATA[, DBAC]]></optionText></option>
+<option optionID="630680706053O2" sequenceID="2" correct="false"><optionText><![CDATA[2 BADC]]></optionText></option>
+<option optionID="630680706053O3" sequenceID="3" correct="false"><optionText><![CDATA[3. CBDA]]></optionText></option>
+<option optionID="630680706053O4" sequenceID="4" correct="false"><optionText><![CDATA[4 ADCB]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680705979" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+0.78 112 sentence given below is divided and jumbled into four parts. Choose the option that arranges these parts to form
+‘a meaningful sentence.
+‘A. of the pronoun "you" for use only in addressing the emperor
+છ. ground clear; and the Japanese language includes special forms
+. servants went ahead of the Inca emperor's litter and swept the
+22. the Aztec and Inca emperors were both carried about in litters:]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680705979O1" sequenceID="1" correct="false"><optionText><![CDATA[. DCBA]]></optionText></option>
+<option optionID="630680705979O2" sequenceID="2" correct="false"><optionText><![CDATA[2 ADCB]]></optionText></option>
+<option optionID="630680705979O3" sequenceID="3" correct="false"><optionText><![CDATA[3. BADC]]></optionText></option>
+<option optionID="630680705979O4" sequenceID="4" correct="false"><optionText><![CDATA[4. CBAD]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680705966" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+279 Select the most appropriate word for the given phrase.
+Collective noun for ships.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680705966O1" sequenceID="1" correct="false"><optionText><![CDATA[1. Harbour]]></optionText></option>
+<option optionID="630680705966O2" sequenceID="2" correct="false"><optionText><![CDATA[2. Armada]]></optionText></option>
+<option optionID="630680705966O3" sequenceID="3" correct="false"><optionText><![CDATA[3. Fleet]]></optionText></option>
+<option optionID="630680705966O4" sequenceID="4" correct="false"><optionText><![CDATA[4. Jetty]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680706089" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+980 Select the most appropriate antonym of the given word.
+Tender]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680706089O1" sequenceID="1" correct="false"><optionText><![CDATA[1. Callous]]></optionText></option>
+<option optionID="630680706089O2" sequenceID="2" correct="false"><optionText><![CDATA[2. Unbreakable]]></optionText></option>
+<option optionID="630680706089O3" sequenceID="3" correct="false"><optionText><![CDATA[3. Supple]]></optionText></option>
+<option optionID="630680706089O4" sequenceID="4" correct="false"><optionText><![CDATA[4. Saintly]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680697275" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+૧81 Translate the following question:
+What is negative effect on our sense of smell?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680697275O1" sequenceID="1" correct="false"><optionText><![CDATA[5]]></optionText></option>
+<option optionID="630680697275O2" sequenceID="2" correct="false"><optionText><![CDATA[+ આપણી ઘાણેન્ટ્રિય પર નકારાત્મક અસર શું હોય છે?]]></optionText></option>
+<option optionID="630680697275O3" sequenceID="3" correct="false"><optionText><![CDATA[2 આપણી ઘાણેન્દ્રિયની અસર શેની પર હોય છે?]]></optionText></option>
+<option optionID="630680697275O4" sequenceID="4" correct="false"><optionText><![CDATA[3 આપણી ઘાણેન્ટ્રિય ૫ર શી અસર છે?]]></optionText></option>
+<option optionID="630680697275O5" sequenceID="5" correct="false"><optionText><![CDATA[4 આપણી ઘાણેન્ટ્રિયની નકારાત્મક અસર શેની પર હોય છે?]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680706103" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+
+Comprehension:
+
+Read the given passage carefully and select the most appropriate answer to the questions
+
+that follow.
+
+Historians have judged the Qing dynasty's vulnerability and weakness to foreign imperialism
+
+in the 19th century to be based mainly on its maritime naval weakness, but it achieved
+
+military success against Westerners on land. The historian Edward L. Dreyer stated, "China's
+
+nineteenth-century humiliations were strongly related to her weakness and failure at sea. At
+
+the start of the First Opium War, China had no unified navy and not a sense of how
+
+vulnerable she was to attack from the sea. British navy forces sailed and steamed wherever
+
+they wanted to go. In the Second Opium War (1856-60), the Chinese had no way to prevent
+
+the Anglo-French navy expedition of 1860 from sailing into the Gulf of Zhili and landing as
+
+near as possible to Beijing. Meanwhile, new but not exactly modern Chinese armies
+
+suppressed the mid-century rebellions, bluffed Russia into a peaceful settlement of disputed
+
+frontiers in Central Asia, and defeated the French forces on land in the Sino-French War
+
+(1884-85). But the defeat at sea, and the resulting threat to steamship traffic to Taiwan,
+
+forced China to conclude peace on unfavourable terms.
+
+SubQuestion No : 82
+
+982 What is the tone of the passage?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680706103O1" sequenceID="1" correct="false"><optionText><![CDATA[1. Remorseful]]></optionText></option>
+<option optionID="630680706103O2" sequenceID="2" correct="false"><optionText><![CDATA[2. Distressed]]></optionText></option>
+<option optionID="630680706103O3" sequenceID="3" correct="false"><optionText><![CDATA[3. Ambivalent]]></optionText></option>
+<option optionID="630680706103O4" sequenceID="4" correct="false"><optionText><![CDATA[4. Narrative]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680706102" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Comprehension:
+Read the given passage carefully and select the most appropriate answer to the questions
+that follow.
+Historians have judged the Qing dynasty's vulnerability and weakness to foreign imperialism
+in the 19th century to be based mainly on its maritime naval weakness, but it achieved
+military success against Westerners on land. The historian Edward L. Dreyer stated, "China's
+nineteenth-century humiliations were strongly related to her weakness and failure at sea. At
+the start of the First Opium War, China had no unified navy and not a sense of how
+vulnerable she was to attack from the sea. British navy forces sailed and steamed wherever
+they wanted to go. 10 the Second Opium War (1856-60), the Chinese had no way to prevent
+the Anglo-French navy expedition of 1860 from sailing into the Gulf of Zhili and landing as
+near as possible to Beijing. Meanwhile, new but not exactly modern Chinese armies
+suppressed the mid-century rebellions, bluffed Russia into a peaceful settlement of disputed
+frontiers in Central Asia, and defeated the French forces on land in the Sino-French War
+(1884-85). But the defeat at sea, and the resulting threat to steamship traffic to Taiwan,
+forced China to conclude peace on unfavourable terms.
+SubQuestion No : 83
+283 Identify the correct inference that can be drawn from the passage.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680706102O1" sequenceID="1" correct="false"><optionText><![CDATA[1.]]></optionText></option>
+<option optionID="630680706102O2" sequenceID="2" correct="false"><optionText><![CDATA[China faced this humiliation because despite being strong at land, it wasn't strong at sea.]]></optionText></option>
+<option optionID="630680706102O3" sequenceID="3" correct="false"><optionText><![CDATA[2. The Qing dynasty ruled a major part of Asia.]]></optionText></option>
+<option optionID="630680706102O4" sequenceID="4" correct="false"><optionText><![CDATA[3. The French had stronger Army than China.]]></optionText></option>
+<option optionID="630680706102O5" sequenceID="5" correct="false"><optionText><![CDATA[4.]]></optionText></option>
+<option optionID="630680706102O6" sequenceID="6" correct="false"><optionText><![CDATA[The Second Opium War China won again the Anglo- French Navy.]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680706101" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Comprehension:
+
+Read the given passage carefully and select the most appropriate answer to the questions
+
+that follow.
+
+Historians have judged the Qing dynasty's vulnerability and weakness to foreign imperialism
+
+in the 19th century to be based mainly on its maritime naval weakness, but it achieved
+
+military success against Westerners on land. The historian Edward L. Dreyer stated, "China's
+
+nineteenth-century humiliations were strongly related to her weakness and failure at sea. At
+
+the start of the First Opium War, China had no unified navy and not a sense of how
+
+vulnerable she was to attack from the sea. British navy forces sailed and steamed wherever
+
+they wanted 10 go. In the Second Opium War (1856-60), the Chinese had no way to prevent
+
+the Anglo-French navy expedition of 1860 from sailing into the Gulf of Zhili and landing as
+
+near as possible to Beijing. Meanwhile, new but not exactly modern Chinese armies
+
+suppressed the mid-century rebellions, bluffed Russia into a peaceful settlement of disputed
+
+frontiers in Central Asia, and defeated the French forces on land in the Sino-French War
+
+(1884-85). But the defeat at sea, and the resulting threat to steamship traffic to Taiwan,
+
+forced China to conclude peace on unfavourable terms.
+
+‘SubQuestion No : 84
+
+9.84 Which of the following statements is not true with respect to the passage.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680706101O1" sequenceID="1" correct="false"><optionText><![CDATA[1. China lost battle with Russia and France.]]></optionText></option>
+<option optionID="630680706101O2" sequenceID="2" correct="false"><optionText><![CDATA[2.]]></optionText></option>
+<option optionID="630680706101O3" sequenceID="3" correct="false"><optionText><![CDATA[In the Second Opium War, the Chinese had no way to prevent the Anglo-French naval expedition from sailing into]]></optionText></option>
+<option optionID="630680706101O4" sequenceID="4" correct="false"><optionText><![CDATA[the Gulf of Zhili.]]></optionText></option>
+<option optionID="630680706101O5" sequenceID="5" correct="false"><optionText><![CDATA[3]]></optionText></option>
+<option optionID="630680706101O6" sequenceID="6" correct="false"><optionText><![CDATA[China was not aware of how vulnerable she was to attack from the sea.]]></optionText></option>
+<option optionID="630680706101O7" sequenceID="7" correct="false"><optionText><![CDATA[4. China had a powerful army.]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680706100" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Comprehension:
+Read the given passage carefully and select the most appropriate answer to the questions
+that follow.
+Historians have judged the Qing dynasty's vulnerability and weakness to foreign imperialism
+in the 19th century to be based mainly on its maritime naval weakness, but it achieved
+military success against Westerners on land. The historian Edward L. Dreyer stated, "China's
+nineteenth-century humiliations were strongly related to her weakness and failure at sea. At
+the start of the First Opium War, China had no unified navy and not a sense of how
+vulnerable she was to attack from the sea. British navy forces sailed and steamed wherever
+they wanted to go. In the Second Opium War (1856-60), the Chinese had no way to prevent
+the Anglo-French navy expedition of 1860 from sailing into the Gulf of Zhili and landing as
+near as possible to Beijing. Meanwhile, new but not exactly modern Chinese armies
+suppressed the mid-century rebellions, bluffed Russia into a peaceful settlement of disputed
+frontiers in Central Asia, and defeated the French forces on land in the Sino-French War
+(1884-85). But the defeat at sea, and the resulting threat to steamship traffic to Taiwan,
+forced China to conclude peace on unfavourable terms.
+SubQuestion No : 85
+285 From the given options, identify the suitable title for the passage.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680706100O1" sequenceID="1" correct="false"><optionText><![CDATA[; Edward L. Dreyer stated]]></optionText></option>
+<option optionID="630680706100O2" sequenceID="2" correct="false"><optionText><![CDATA[2. Rise of the Qing Dynasty]]></optionText></option>
+<option optionID="630680706100O3" sequenceID="3" correct="false"><optionText><![CDATA[3. China's Downfall]]></optionText></option>
+<option optionID="630680706100O4" sequenceID="4" correct="false"><optionText><![CDATA[4. Wars at Sea]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680703293" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : --
+Section : Gujarati
+Q.86 Find the misspelled word from the given options.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680703293O1" sequenceID="1" correct="false"><optionText><![CDATA[* કીૌમિયાગર]]></optionText></option>
+<option optionID="630680703293O2" sequenceID="2" correct="true"><optionText><![CDATA[* કામિની]]></optionText></option>
+<option optionID="630680703293O3" sequenceID="3" correct="false"><optionText><![CDATA[« કિક્યારી]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680703261" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 2
+Q.87 Find the correct sandhi joining of 'રૂપ + અંતર'
+1. UBL
+2. સ્પઅત્તર
+3. સ્પઅંતર
+4. રૂપાંતર]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680703218" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 4
+Q.88 Find the antonym of the word 'મલિન' (OCR: 'વિન')]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680703218O1" sequenceID="1" correct="false"><optionText><![CDATA[| Sita]]></optionText></option>
+<option optionID="630680703218O2" sequenceID="2" correct="true"><optionText><![CDATA[2 મધુર]]></optionText></option>
+<option optionID="630680703218O3" sequenceID="3" correct="false"><optionText><![CDATA[4 નિર્મળ]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680703255" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 2
+Q.89 Find the correct samas vigrah (compound breakdown) of 'પવનચક્કી'
+1. પવનથી ચાલતી ચક્કી
+2. પવનની ચક્કી
+3. પવન અને ચક્કી
+4. પવનથી ચક્કી]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680703285" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 1
+Q.90 Find the correct samas vigrah (compound breakdown) of 'કલ્પવૃક્ષ'
+1. કલ્પેલું આપનાર વૃક્ષ
+2. કામદેવનું વૃક્ષ
+3. જેની કલ્પના છે વૃક્ષની તે
+4. કામધેનુ વૃક્ષ]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680703339" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 1
+Q.91 Find the correct English translation of the sentence:
+ગાંધી કુટુંબ પ્રથમ તો ગાંધિયાણાનો વેપાર કરનારું હોય એમ જણાય છે.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680703339O1" sequenceID="1" correct="false"><optionText><![CDATA[; The Gandhi family frost of all shopkeepers]]></optionText></option>
+<option optionID="630680703339O2" sequenceID="2" correct="true"><optionText><![CDATA[જર Gandhis belong to the Bania caste and seem to have been originally grocers]]></optionText></option>
+<option optionID="630680703339O3" sequenceID="3" correct="false"><optionText><![CDATA[3. Gandhis have been owners of the shops]]></optionText></option>
+<option optionID="630680703339O4" sequenceID="4" correct="false"><optionText><![CDATA[4. All Gandhis are businessmen]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680703269" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 2
+Q.92 Identify the samas (compound) of the following word - નવરાત્રિ
+1. કર્મધારય સમાસ
+2. મધ્યમપદલોપી સમાસ
+3. દ્વંદ્વ સમાસ
+4. દ્વિગુ સમાસ]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680703350" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 4
+Q.93 Split the sandhi - સમાચાર]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680703350O1" sequenceID="1" correct="false"><optionText><![CDATA[. સમા*અચાર]]></optionText></option>
+<option optionID="630680703350O2" sequenceID="2" correct="false"><optionText><![CDATA[2 ચારઃસમ]]></optionText></option>
+<option optionID="630680703350O3" sequenceID="3" correct="false"><optionText><![CDATA[3 સમાચાર]]></optionText></option>
+<option optionID="630680703350O4" sequenceID="4" correct="true"><optionText><![CDATA[& સમ્‌ * આચાર]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680703322" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 4
+Q.94 Read the sentences and find the correct answer to the given question.
+માતા સાધ્વી સ્ત્રી હતી એવી મારા ઉપર છાપ રહેલી છે. હું સમજણો થયો ત્યારથી તેણે કદી ચાતુર્માસ છોડયા હોય એવું મને સ્મરણ નથી. કઠણમાં કઠણ વ્રતો તે આદરતી અને નિર્વિઘ્ને પૂરાં કરતી.
+Question:
+What did Gandhiji's mother observe continuously?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680703322O1" sequenceID="1" correct="false"><optionText><![CDATA[; પૂજા]]></optionText></option>
+<option optionID="630680703322O2" sequenceID="2" correct="false"><optionText><![CDATA[2 AdSAL]]></optionText></option>
+<option optionID="630680703322O3" sequenceID="3" correct="false"><optionText><![CDATA[5 હવેલીધર્શન]]></optionText></option>
+<option optionID="630680703322O4" sequenceID="4" correct="true"><optionText><![CDATA[4 ચાર મહિનાના એકટાણા]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680703189" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 4
+Q.95 Find the antonym of the word 'વક્તા'
+1. ભોક્તા
+2. MINS
+3. શ્રોતા
+4. ત્યકતા]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680703294" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 1
+Q.96 Read the poetic lines and find the correct answer to the given question.
+'હણો ના પાપીને દ્વિગુણ બનશે પાપ જગનાં,
+લડો પાપો સામે વિમલ દિલના ગુપ્ત બળથી !'
+What is the meaning of the word 'વિમલ' in the line?]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680703294O1" sequenceID="1" correct="false"><optionText><![CDATA[, મ લી ન]]></optionText></option>
+<option optionID="630680703294O2" sequenceID="2" correct="false"><optionText><![CDATA[3. ઉદાર]]></optionText></option>
+<option optionID="630680703294O3" sequenceID="3" correct="true"><optionText><![CDATA[4 ગંદા]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680703260" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 3
+Q.97 Find the grammatically correct sentence from the following
+1. cai વંડીની દીવાલ પડી ગઈ છે.
+2. (aaa મંદિર ફરતે પ્રદક્ષિણા ફરી.
+3. પ્રત્યેક વિદ્યાર્થીને ઇનામ મળ્યું.
+4. મા - બાપુજી અને બહેન ગયા.]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680703306" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 4
+Q.98 Find the correct sandhi split of 'પ્રતિષ્ઠા' from the given options.
+1. પતી + સ્થા
+2. પ્રતી + ઠા
+3. Uld + UL
+4. uld + BL]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680703329" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 2
+Q.99 Find the synonym of 'શેષનાગ']]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+<option optionID="630680703329O1" sequenceID="1" correct="true"><optionText><![CDATA[1. કાળીનાગ]]></optionText></option>
+<option optionID="630680703329O2" sequenceID="2" correct="false"><optionText><![CDATA[2. કેશનાગ]]></optionText></option>
+<option optionID="630680703329O3" sequenceID="3" correct="false"><optionText><![CDATA[3. નાગેશ]]></optionText></option>
+<option optionID="630680703329O4" sequenceID="4" correct="false"><optionText><![CDATA[4. વેશનાગ]]></optionText></option>
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+<question id="630680703214" type="MCQ" allottedMarks="1" negativeMarks="0" isMandatory="true" maxTime="0" numberOfReplays="0">
+   <languageSpecificData>
+      <lang id="1">
+         <questionString><![CDATA[Chosen Option : 1
+Q.100 Find the meaning of the proverb 'ટીપે ટીપે સરોવર ભરાય'
+1. સરોવર પાસે ટીપાનું કોઈ મૂલ્ય નથી
+2. થોડે થોડે મોટું કામ થાય
+3. એક ટીપાનું મૂલ્ય સમજવું
+4. દુકાળ પડવો]]></questionString>
+         <hint><![CDATA[]]></hint>
+         <allOptions>
+
+         </allOptions>
+      </lang>
+   </languageSpecificData>
+</question>
+         </questions>
+      </subsection>
+   </subsections>
+</section>
+   </sections>
+</group>
+   </groups>
+</questionPaperXML>
