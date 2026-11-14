@@ -13,8 +13,11 @@ export const splitSelected = (value) =>
 
 export const splitCorrect = (value) => String(value ?? "").split(SA_SEP).map((s) => s.trim()).filter(Boolean);
 
-export const normaliseAnswer = (value) =>
-  typeof value === "string" ? value : JSON.stringify(value ?? "");
+export const normaliseAnswer = (value) => {
+  if (typeof value === "string") return value;
+  if (value === null || value === undefined) return "";
+  return JSON.stringify(value);
+};
 
 /** Pull the first number out of a feedback answer such as "3-Met expectations". */
 export function leadingNumber(value) {

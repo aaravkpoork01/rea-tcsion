@@ -270,9 +270,8 @@ export async function handleBackup({ snapshot, isFinal, ip, session }) {
     };
   }
 
-  await persistSnapshot(attempt, snapshot ?? {});
-
   if (isFinal) {
+    // finaliseAttempt persists the snapshot itself; avoid writing it twice.
     await finaliseAttempt(attempt.id, snapshot, { ip }, "backup-final");
     return {
       BackUpStatus: "success",
@@ -282,6 +281,8 @@ export async function handleBackup({ snapshot, isFinal, ip, session }) {
       quizPageLaunchTime: Date.now(),
     };
   }
+
+  await persistSnapshot(attempt, snapshot ?? {});
 
   return {
     BackUpStatus: "success",

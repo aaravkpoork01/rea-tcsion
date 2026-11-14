@@ -15,6 +15,7 @@ export const isObjectiveType = (type) => OBJECTIVE_TYPES.has(String(type || "").
  */
 export async function scoreAttempt(attemptId) {
   const rows = await responsesRepo.listForScoring(attemptId);
+  const correctByQuestion = await questionsRepo.correctOptionIdsFor(rows.map((row) => row.question_id));
 
   let score = 0;
   let maxScore = 0;
@@ -35,7 +36,7 @@ export async function scoreAttempt(attemptId) {
       continue;
     }
 
-    const correctIds = await questionsRepo.correctOptionIds(row.question_id);
+    const correctIds = correctByQuestion.get(Number(row.question_id)) || [];
     const isCorrect = correctIds.length > 0
       && selected.length === correctIds.length
       && selected.every((id) => correctIds.includes(id));

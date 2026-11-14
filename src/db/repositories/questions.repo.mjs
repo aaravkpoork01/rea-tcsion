@@ -6,12 +6,33 @@ export const findById = async (id) => one("SELECT * FROM questions WHERE id = ?"
 export const findIdByExt = async (assessmentId, extId) =>
   one("SELECT id, ext_id FROM questions WHERE assessment_id = ? AND ext_id = ?", assessmentId, extId);
 
+export const listIdsForAssessment = async (assessmentId) =>
+  all("SELECT id, ext_id FROM questions WHERE assessment_id = ?", assessmentId);
+
 export const listOptions = async (questionId) =>
   all("SELECT * FROM options WHERE question_id = ? ORDER BY seq, id", questionId);
 
 export const correctOptionIds = async (questionId) => {
   const rows = await all("SELECT ext_id FROM options WHERE question_id = ? AND correct = 1", questionId);
   return rows.map((o) => String(o.ext_id));
+};
+
+/** Correct option ids for many questions in one round-trip (scoring). */
+export const correctOptionIdsFor = async (questionIds) => {
+  const ids = [...new Set((questionIds || []).map(Number).filter((id) => Number.isInteger(id) && id > 0))];
+  const map = new Map();
+  if (!ids.length) return map;
+  const placeholders = ids.map(() => "?").join(",");
+  const rows = await all(
+    `SELECT question_id, ext_id FROM options WHERE correct = 1 AND question_id IN (${placeholders})`,
+    ...ids);
+  for (const row of rows) {
+    const key = Number(row.question_id);
+    const list = map.get(key) || [];
+    list.push(String(row.ext_id));
+    map.set(key, list);
+  }
+  return map;
 };
 
 export const search = async ({ assessmentId, sectionId, term, langId = 0, limit, offset }) => {

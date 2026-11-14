@@ -49,6 +49,15 @@ export const saveState = async (id, state) =>
   state.stateJson, state.at, state.currentGroup, state.currentSection, state.currentQuestion,
   state.answered, state.clientScore, state.fullscreenSeconds, state.fullscreenToggleCount, id);
 
+/** Progress counters without the (large) state_json blob — used when closing. */
+export const saveProgress = async (id, state) =>
+  run(`UPDATE attempts SET last_seen_at = ?, current_group = ?, current_section = ?,
+        current_question = ?, answered = ?, client_score = COALESCE(?, client_score),
+        fullscreen_seconds = COALESCE(?, fullscreen_seconds),
+        fullscreen_toggle_count = COALESCE(?, fullscreen_toggle_count) WHERE id = ?`,
+  state.at, state.currentGroup, state.currentSection, state.currentQuestion,
+  state.answered, state.clientScore, state.fullscreenSeconds, state.fullscreenToggleCount, id);
+
 export const markSubmitted = async (id, score) =>
   run(`UPDATE attempts SET status = 'submitted', submitted_at = ?, last_seen_at = ?,
         score = ?, max_score = ?, percentage = ?, client_score = COALESCE(?, client_score) WHERE id = ?`,

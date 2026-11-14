@@ -43,23 +43,31 @@ function countAnswered(groups) {
  * Persist a client state snapshot.
  * @param {object} attempt attempt row
  * @param {object} snapshot the client `mockVar`
+ * @param {{saveState?: boolean}} [options] skip the large state blob when closing
  */
-export async function persistSnapshot(attempt, snapshot) {
+export async function persistSnapshot(attempt, snapshot, options = {}) {
   const groups = Array.isArray(snapshot.groups) ? snapshot.groups : [];
   const at = nowIso();
 
+  // Final submit used to look up and upsert each question separately. Against
+  // a remote database that meant hundreds of round-trips and could exceed the
+  // serverless timeout, leaving the candidate stuck on the submit dialog.
+  const known = await questionsRepo.listIdsForAssessment(attempt.assessment_id);
+  const idByExt = new Map(known.map((row) => [String(row.ext_id), Number(row.id)]));
+
+  const rows = [];
   for (const group of groups) {
     for (const section of group.secDetails || []) {
       for (const question of section.questions || []) {
         const extId = String(question.quesId ?? "");
         if (!extId) continue;
-        const row = await questionsRepo.findIdByExt(attempt.assessment_id, extId);
-        if (!row) continue;
+        const questionId = idByExt.get(extId);
+        if (!questionId) continue;
 
         const params = question.quesParam || {};
-        await responsesRepo.upsert({
+        rows.push({
           attemptId: attempt.id,
-          questionId: row.id,
+          questionId,
           extId,
           status: String(params.status || "notanswered"),
           selected: normaliseSelected(params.selectedOptId),
@@ -71,23 +79,52 @@ export async function persistSnapshot(attempt, snapshot) {
     }
   }
 
+  let incomingAnswered = 0;
+  for (const row of rows) {
+    if (row.selected || row.answer) incomingAnswered += 1;
+  }
+  if (rows.length === 0) incomingAnswered = 0;
   const { answered, seen } = countAnswered(groups);
+
+  // A blank/stale client state must never erase answers that were already
+  // captured by earlier backups (this happened after reopening an attempt).
+  const existing = await responsesRepo.listForScoring(attempt.id);
+  const existingAnswered = existing.filter((row) =>
+    String(row.selected || "").trim() || String(row.answer || "").trim()).length;
+  const wouldErase = incomingAnswered === 0 && existingAnswered > 0;
+  if (wouldErase) {
+    await auditRepo.insert({
+      attemptId: attempt.id,
+      candidateId: attempt.candidate_id,
+      event: "backup-ignored-empty",
+      detail: `incoming answered=0, kept ${existingAnswered} saved response(s)`,
+      at,
+    });
+  } else if (rows.length) {
+    await responsesRepo.upsertMany(rows);
+  }
+
   const currentGroup = Number(snapshot.currentGrp ?? 0) || 0;
   const clientScore = Number(snapshot.score ?? snapshot.totalScore ?? snapshot.mockScore);
   const fullscreen = Number(snapshot.fullscreenSeconds ?? snapshot.fullScreenSeconds);
   const fullscreenToggles = Number(snapshot.fullscreenToggleCount);
 
-  await attemptsRepo.saveState(attempt.id, {
-    stateJson: JSON.stringify(snapshot),
+  const progress = {
     at,
     currentGroup,
     currentSection: Number(groups[currentGroup]?.curSection ?? 0) || 0,
     currentQuestion: Number(groups[currentGroup]?.curQues ?? 0) || 0,
-    answered,
+    answered: wouldErase ? existingAnswered : answered,
     clientScore: Number.isFinite(clientScore) ? clientScore : null,
     fullscreenSeconds: Number.isFinite(fullscreen) ? Math.max(0, Math.round(fullscreen)) : null,
     fullscreenToggleCount: Number.isFinite(fullscreenToggles) ? Math.max(0, Math.round(fullscreenToggles)) : null,
-  });
+  };
+
+  if (options.saveState === false) {
+    await attemptsRepo.saveProgress(attempt.id, progress);
+  } else {
+    await attemptsRepo.saveState(attempt.id, { ...progress, stateJson: JSON.stringify(snapshot) });
+  }
 
   if (seen === 0) {
     await auditRepo.insert({
@@ -99,7 +136,7 @@ export async function persistSnapshot(attempt, snapshot) {
     });
   }
 
-  return { answered, seen };
+  return { answered: progress.answered, seen };
 }
 
 /**
@@ -114,7 +151,9 @@ export async function finaliseAttempt(attemptId, snapshot, context = {}, source 
   if (!attempt) return null;
   if (attempt.status !== "in_progress" && attempt.status !== "expired") return attempt;
 
-  if (snapshot && Array.isArray(snapshot.groups)) await persistSnapshot(attempt, snapshot);
+  if (snapshot && Array.isArray(snapshot.groups)) {
+    await persistSnapshot(attempt, snapshot, { saveState: false });
+  }
 
   const result = await scoreAttempt(attempt.id);
   const at = nowIso();
