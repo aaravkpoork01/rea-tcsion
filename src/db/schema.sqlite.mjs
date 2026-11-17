@@ -262,5 +262,4 @@ CREATE INDEX IF NOT EXISTS idx_attempts_assessment ON attempts(assessment_id);
 CREATE INDEX IF NOT EXISTS idx_attempts_candidate ON attempts(candidate_id);
 CREATE INDEX IF NOT EXISTS idx_audit_attempt ON audit_log(attempt_id);
 CREATE INDEX IF NOT EXISTS idx_feedback_attempt ON feedback(attempt_id);
-CREATE INDEX IF NOT EXISTS idx_admins_role_status ON admins(role, status);
 `;
