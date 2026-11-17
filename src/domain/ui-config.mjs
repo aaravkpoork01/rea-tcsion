@@ -2,6 +2,7 @@
 // language list. Pure functions — no storage, no HTTP. The admin surface sends
 // a flat settings object; this module turns it into a validated config tree.
 import { badRequest } from "../core/errors.mjs";
+import { normaliseLandingConfig } from "./landing-config.mjs";
 
 export const MODES = ["auto", "show", "hide"];
 
@@ -168,6 +169,13 @@ export function settingsFromAdmin(body = {}) {
   if ("exam_topbar" in body) rows.exam_topbar = JSON.stringify(validateTopbar(body.exam_topbar));
   if ("exam_tools" in body) rows.exam_tools = JSON.stringify(validateTools(body.exam_tools));
   if ("exam_languages" in body) rows.exam_languages = validateLanguages(body.exam_languages);
+
+  if ("landing_config" in body) rows.landing_config = JSON.stringify(normaliseLandingConfig(body.landing_config));
+  if ("landing_logo" in body) {
+    const logo = String(body.landing_logo ?? "").trim();
+    if (logo && !normaliseIcon(logo)) throw badRequest("Landing logo must be a PNG, JPEG, WEBP, SVG or ICO data URL under 300 KB.");
+    rows.landing_logo = logo;
+  }
 
   if (!Object.keys(rows).length) throw badRequest("No settings to update.");
   return rows;

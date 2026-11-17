@@ -5,22 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>TCS iON Assessment Platform</title>
 <meta name="description" content="Candidate portal for TCS iON style online assessments. Sign in or register for administrator-approved access." />
-<link rel="stylesheet" href="css/landing.css?v=17.08.16" />
+<link rel="stylesheet" href="css/landing.css?v=17.08.17" />
 </head>
 <body>
 
 <header class="site-header" id="siteHeader">
   <div class="wrap header-inner">
     <a class="brand" href="/" aria-label="Assessment Platform home">
-      <span class="brand-logo"><img src="images/collegelogo.png" alt="" /></span>
-      <span class="brand-text"><strong>TCS iON</strong><span>Assessment Platform</span></span>
+      <span class="brand-logo"><img src="images/collegelogo.png" alt="" data-landing-logo /></span>
+      <span class="brand-text"><strong data-landing="brandName">TCS iON</strong><span data-landing="brandSubtitle">Assessment Platform</span></span>
     </a>
     <nav class="site-nav" aria-label="Main navigation">
-      <a class="nav-link" href="#how-it-works">How it works</a>
-      <a class="nav-link" href="#before-you-begin">Before you begin</a>
-      <a class="nav-link" href="/admin/">Admin</a>
-      <a class="login-btn" href="index.html?726@@M65">
-        Login
+      <a class="nav-link" href="#how-it-works" data-landing="navHow">How it works</a>
+      <a class="nav-link" href="#before-you-begin" data-landing="navBefore">Before you begin</a>
+      <a class="login-btn" href="index.html?726@@M65" data-login-link>
+        <span data-landing="navLogin">Login</span>
         <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4.5 12.5 10 7 15.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </nav>
@@ -33,17 +32,17 @@
     <div class="hero-glow hero-glow-b" aria-hidden="true"></div>
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <span class="eyebrow"><span class="eyebrow-dot"></span> Candidate portal</span>
-        <h1>Focus on the exam.<br /><span>We&rsquo;ll handle the rest.</span></h1>
-        <p class="hero-lead">Sign in to continue your assessment, or register as a new candidate. Every new account is reviewed by an administrator before it becomes active.</p>
+        <span class="eyebrow"><span class="eyebrow-dot"></span> <span data-landing="heroEyebrow">Candidate portal</span></span>
+        <h1><span class="hero-title-main" data-landing="heroTitle">Focus on the exam.</span><br /><span data-landing="heroAccent">We&rsquo;ll handle the rest.</span></h1>
+        <p class="hero-lead" data-landing="heroLead">Sign in to continue your assessment, or register as a new candidate. Every new account is reviewed by an administrator before it becomes active.</p>
         <div class="hero-actions">
-          <a class="btn btn-light btn-lg" href="index.html?726@@M65">Login to your assessment</a>
-          <a class="btn btn-ghost btn-lg" href="index.html?726@@M65#register">Register as a candidate</a>
+          <a class="btn btn-light btn-lg" href="index.html?726@@M65" data-login-link data-landing="heroPrimary">Login to your assessment</a>
+          <a class="btn btn-ghost btn-lg" href="index.html?726@@M65#register" data-register-link data-landing="heroSecondary">Register as a candidate</a>
         </div>
         <ul class="hero-points">
-          <li><span class="tick">&#10003;</span> Secure, admin-approved accounts</li>
-          <li><span class="tick">&#10003;</span> Resume saved attempts</li>
-          <li><span class="tick">&#10003;</span> Works on desktop and mobile</li>
+          <li><span class="tick">&#10003;</span> <span data-landing="heroPoint1">Secure, admin-approved accounts</span></li>
+          <li><span class="tick">&#10003;</span> <span data-landing="heroPoint2">Resume saved attempts</span></li>
+          <li><span class="tick">&#10003;</span> <span data-landing="heroPoint3">Works on desktop and mobile</span></li>
         </ul>
       </div>
 
@@ -51,17 +50,17 @@
         <div class="exam-card">
           <div class="exam-card-top">
             <span class="status-dot"></span>
-            <span>Assessment ready</span>
-            <span class="exam-time">01:59:42</span>
+            <span data-landing="visualStatus">Assessment ready</span>
+            <span class="exam-time" data-landing="visualTime">01:59:42</span>
           </div>
           <div class="exam-card-body">
             <div class="exam-candidate">
-              <span class="avatar">AS</span>
-              <span class="exam-candidate-text"><strong>Candidate</strong><span>Assessment in progress</span></span>
-              <span class="pill-live">Live</span>
+              <span class="avatar" data-landing="visualAvatar">AS</span>
+              <span class="exam-candidate-text"><strong data-landing="visualCandidate">Candidate</strong><span data-landing="visualCandidateSub">Assessment in progress</span></span>
+              <span class="pill-live" data-landing="visualLive">Live</span>
             </div>
             <div class="exam-progress">
-              <div class="exam-progress-head"><span>Progress</span><span>12 / 50</span></div>
+              <div class="exam-progress-head"><span data-landing="visualProgress">Progress</span><span data-landing="visualProgressCount">12 / 50</span></div>
               <div class="bar"><i></i></div>
             </div>
             <div class="exam-dots">
@@ -81,8 +80,8 @@
             </div>
           </div>
         </div>
-        <div class="float-card float-card-a"><strong>24h</strong><span>Approval window</span></div>
-        <div class="float-card float-card-b"><strong>&#10003;</strong><span>Answers saved</span></div>
+        <div class="float-card float-card-a"><strong data-landing="visualApprovalValue">24h</strong><span data-landing="visualApprovalLabel">Approval window</span></div>
+        <div class="float-card float-card-b"><strong>&#10003;</strong><span data-landing="visualSavedLabel">Answers saved</span></div>
       </div>
     </div>
   </section>
@@ -91,18 +90,18 @@
     <div class="wrap feature-grid">
       <article class="feature-card reveal">
         <span class="feature-icon icon-shield" aria-hidden="true"></span>
-        <h3>Approved access</h3>
-        <p>Registrations are checked by an administrator before a candidate can sign in.</p>
+        <h3 data-landing="feature1Title">Approved access</h3>
+        <p data-landing="feature1Body">Registrations are checked by an administrator before a candidate can sign in.</p>
       </article>
       <article class="feature-card reveal">
         <span class="feature-icon icon-resume" aria-hidden="true"></span>
-        <h3>Pick up where you left off</h3>
-        <p>Saved answers and the remaining time are restored when you sign in again.</p>
+        <h3 data-landing="feature2Title">Pick up where you left off</h3>
+        <p data-landing="feature2Body">Saved answers and the remaining time are restored when you sign in again.</p>
       </article>
       <article class="feature-card reveal">
         <span class="feature-icon icon-device" aria-hidden="true"></span>
-        <h3>One candidate console</h3>
-        <p>A familiar, distraction-free exam interface on desktop, tablet and mobile.</p>
+        <h3 data-landing="feature3Title">One candidate console</h3>
+        <p data-landing="feature3Body">A familiar, distraction-free exam interface on desktop, tablet and mobile.</p>
       </article>
     </div>
   </section>
@@ -110,28 +109,28 @@
   <section class="section" id="how-it-works">
     <div class="wrap">
       <div class="section-head">
-        <span class="section-kicker">How it works</span>
-        <h2>From registration to your exam in three steps</h2>
-        <p>New candidates can register in a few minutes. Existing candidates can sign in straight away.</p>
+        <span class="section-kicker" data-landing="howKicker">How it works</span>
+        <h2 data-landing="howTitle">From registration to your exam in three steps</h2>
+        <p data-landing="howLead">New candidates can register in a few minutes. Existing candidates can sign in straight away.</p>
       </div>
       <div class="steps">
         <article class="step reveal">
           <span class="step-no">01</span>
-          <h3>Register</h3>
-          <p>Enter your name, contact details and a photo, then choose or generate your 10-digit Login ID and set a password.</p>
-          <a class="text-link" href="index.html?726@@M65#register">Create an account <span aria-hidden="true">&rarr;</span></a>
+          <h3 data-landing="step1Title">Register</h3>
+          <p data-landing="step1Body">Enter your name, contact details and a photo, then choose or generate your 10-digit Login ID and set a password.</p>
+          <a class="text-link" href="index.html?726@@M65#register" data-register-link><span data-landing="step1Link">Create an account</span> <span aria-hidden="true">&rarr;</span></a>
         </article>
         <article class="step reveal">
           <span class="step-no">02</span>
-          <h3>Wait for approval</h3>
-          <p>The administrator reviews your details. Approval can take up to 24 hours; you can sign in as soon as your account is active.</p>
-          <span class="step-note">Maximum 24-hour review window</span>
+          <h3 data-landing="step2Title">Wait for approval</h3>
+          <p data-landing="step2Body">The administrator reviews your details. Approval can take up to 24 hours; you can sign in as soon as your account is active.</p>
+          <span class="step-note" data-landing="step2Note">Maximum 24-hour review window</span>
         </article>
         <article class="step reveal">
           <span class="step-no">03</span>
-          <h3>Sign in and start</h3>
-          <p>Use your Login ID and password on the candidate sign-in page. Your instructions and assessment will open from there.</p>
-          <a class="text-link" href="index.html?726@@M65">Go to sign in <span aria-hidden="true">&rarr;</span></a>
+          <h3 data-landing="step3Title">Sign in and start</h3>
+          <p data-landing="step3Body">Use your Login ID and password on the candidate sign-in page. Your instructions and assessment will open from there.</p>
+          <a class="text-link" href="index.html?726@@M65" data-login-link><span data-landing="step3Link">Go to sign in</span> <span aria-hidden="true">&rarr;</span></a>
         </article>
       </div>
     </div>
@@ -140,25 +139,25 @@
   <section class="section section-soft" id="before-you-begin">
     <div class="wrap before-grid">
       <div class="before-copy">
-        <span class="section-kicker">Before you begin</span>
-        <h2>Keep these details ready</h2>
-        <p>A smooth start makes a real difference. Check the points below before you register or sign in.</p>
+        <span class="section-kicker" data-landing="beforeKicker">Before you begin</span>
+        <h2 data-landing="beforeTitle">Keep these details ready</h2>
+        <p data-landing="beforeLead">A smooth start makes a real difference. Check the points below before you register or sign in.</p>
         <ul class="checklist">
-          <li><span class="tick">&#10003;</span><span><strong>Your own photo.</strong> Use a clear, recent passport-style photograph. It is shown to the administrator during approval and on your candidate panel.</span></li>
-          <li><span class="tick">&#10003;</span><span><strong>A working email or phone.</strong> The administrator may use it to reach you about your registration.</span></li>
-          <li><span class="tick">&#10003;</span><span><strong>A Login ID you will remember.</strong> It must be exactly 10 digits. You can type your own or generate a fresh one.</span></li>
-          <li><span class="tick">&#10003;</span><span><strong>A stable connection.</strong> If your session closes, sign in again to resume from your last saved answer and remaining time.</span></li>
+          <li><span class="tick">&#10003;</span><span><strong data-landing="check1Title">Your own photo.</strong> <span data-landing="check1Body">Use a clear, recent passport-style photograph. It is shown to the administrator during approval and on your candidate panel.</span></span></li>
+          <li><span class="tick">&#10003;</span><span><strong data-landing="check2Title">A working email or phone.</strong> <span data-landing="check2Body">The administrator may use it to reach you about your registration.</span></span></li>
+          <li><span class="tick">&#10003;</span><span><strong data-landing="check3Title">A Login ID you will remember.</strong> <span data-landing="check3Body">It must be exactly 10 digits. You can type your own or generate a fresh one.</span></span></li>
+          <li><span class="tick">&#10003;</span><span><strong data-landing="check4Title">A stable connection.</strong> <span data-landing="check4Body">If your session closes, sign in again to resume from your last saved answer and remaining time.</span></span></li>
         </ul>
       </div>
       <aside class="notice-card reveal">
-        <div class="notice-badge">Please note</div>
-        <h3>Approval is required before your first sign-in</h3>
-        <p>After you submit the registration form, your account is marked <strong>pending</strong>. The administrator can approve or reject it after checking your details. Approval can take up to 24 hours.</p>
+        <div class="notice-badge" data-landing="noticeBadge">Please note</div>
+        <h3 data-landing="noticeTitle">Approval is required before your first sign-in</h3>
+        <p data-landing="noticeBody">After you submit the registration form, your account is marked pending. The administrator can approve or reject it after checking your details. Approval can take up to 24 hours.</p>
         <div class="notice-meta">
-          <span><strong>Registration</strong><br />Name, photo, contact, Login ID, password</span>
-          <span><strong>Decision</strong><br />Approve or reject from the admin console</span>
+          <span><strong data-landing="noticeMeta1Label">Registration</strong><br /><span data-landing="noticeMeta1Value">Name, photo, contact, Login ID, password</span></span>
+          <span><strong data-landing="noticeMeta2Label">Decision</strong><br /><span data-landing="noticeMeta2Value">Approve or reject from the admin console</span></span>
         </div>
-        <p class="notice-small">Already registered and waiting? Try signing in with your Login ID to see the latest status.</p>
+        <p class="notice-small" data-landing="noticeSmall">Already registered and waiting? Try signing in with your Login ID to see the latest status.</p>
       </aside>
     </div>
   </section>
@@ -166,13 +165,13 @@
   <section class="cta-band">
     <div class="wrap cta-inner">
       <div>
-        <span class="section-kicker light">Candidate sign-in</span>
-        <h2>Ready when you are.</h2>
-        <p>Sign in to continue, or register if you are a new candidate.</p>
+        <span class="section-kicker light" data-landing="ctaKicker">Candidate sign-in</span>
+        <h2 data-landing="ctaTitle">Ready when you are.</h2>
+        <p data-landing="ctaLead">Sign in to continue, or register if you are a new candidate.</p>
       </div>
       <div class="cta-actions">
-        <a class="btn btn-light btn-lg" href="index.html?726@@M65">Login</a>
-        <a class="btn btn-ghost btn-lg" href="index.html?726@@M65#register">Register</a>
+        <a class="btn btn-light btn-lg" href="index.html?726@@M65" data-login-link data-landing="ctaLogin">Login</a>
+        <a class="btn btn-ghost btn-lg" href="index.html?726@@M65#register" data-register-link data-landing="ctaRegister">Register</a>
       </div>
     </div>
   </section>
@@ -181,51 +180,20 @@
 <footer class="site-footer">
   <div class="wrap footer-inner">
     <div class="footer-brand">
-      <span class="brand-logo"><img src="images/collegelogo.png" alt="" /></span>
-      <span><strong>TCS iON Assessment Platform</strong><br /><span>Online assessments, candidate console and admin back office.</span></span>
+      <span class="brand-logo"><img src="images/collegelogo.png" alt="" data-landing-logo /></span>
+      <span><strong data-landing="footerBrand">TCS iON Assessment Platform</strong><br /><span data-landing="footerTagline">Online assessments, candidate console and admin back office.</span></span>
     </div>
     <div class="footer-links">
-      <a href="index.html?726@@M65">Candidate login</a>
-      <a href="index.html?726@@M65#register">Register</a>
-      <a href="/admin/">Admin console</a>
+      <a href="index.html?726@@M65" data-login-link data-landing="footerLogin">Candidate login</a>
+      <a href="index.html?726@@M65#register" data-register-link data-landing="footerRegister">Register</a>
     </div>
   </div>
   <div class="wrap footer-bottom">
-    <span>&copy; <span id="year">2026</span> TCS iON Assessment Platform</span>
-    <span>Use of this site is subject to the assessment rules shared at sign-in.</span>
+    <span>&copy; <span id="year">2026</span> <span data-landing="footerCopyright">TCS iON Assessment Platform</span></span>
+    <span data-landing="footerNote">Use of this site is subject to the assessment rules shared at sign-in.</span>
   </div>
 </footer>
 
-<script>
-(function () {
-  var header = document.getElementById("siteHeader");
-  var onScroll = function () { header.classList.toggle("scrolled", window.scrollY > 8); };
-  onScroll();
-  window.addEventListener("scroll", onScroll, { passive: true });
-
-  var year = document.getElementById("year");
-  if (year) year.textContent = String(new Date().getFullYear());
-
-  // Opened as /#register or /landing.html#register? Send the candidate to the
-  // sign-in page with the registration panel already open.
-  if (location.hash === "#register") {
-    location.replace("index.html?726@@M65#register");
-    return;
-  }
-
-  if (!("IntersectionObserver" in window)) {
-    document.querySelectorAll(".reveal").forEach(function (node) { node.classList.add("shown"); });
-    return;
-  }
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("shown");
-      observer.unobserve(entry.target);
-    });
-  }, { threshold: 0.14 });
-  document.querySelectorAll(".reveal").forEach(function (node) { observer.observe(node); });
-})();
-</script>
+<script src="js/landing.js?v=17.08.17"></script>
 </body>
 </html>

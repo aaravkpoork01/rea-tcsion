@@ -15,6 +15,10 @@ export const listWithCounts = async () =>
 export const listBrief = async () =>
   all("SELECT id, org_id, name, base_path, total_marks, duration_min, status FROM assessments ORDER BY created_at");
 
+/** Active assessments shown in the candidate sign-in assessment picker. */
+export const listActiveBrief = async () =>
+  all("SELECT id, org_id, name FROM assessments WHERE status = 'active' ORDER BY created_at, id");
+
 export const create = async (row) => {
   try {
     return await run(`INSERT INTO assessments

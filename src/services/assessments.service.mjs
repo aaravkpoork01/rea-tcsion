@@ -25,6 +25,15 @@ export async function requireAssessment(orgId, assessmentId) {
   return assessment;
 }
 
+/** Public list for the sign-in mock picker: active assessments only. */
+export async function listForSignIn() {
+  return (await assessmentsRepo.listActiveBrief()).map((assessment) => ({
+    id: assessment.id,
+    orgId: assessment.org_id,
+    name: assessment.name,
+  }));
+}
+
 export function mirrorPath(...parts) {
   return join(config.paths.mirror, ...parts);
 }

@@ -6,7 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
        
         <title>Login</title>
-        <link href="css/style-login.css" rel="stylesheet" type="text/css" />
+        <link href="css/style-login.css?v=17.08.17" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="css/keyboard.css" />
         <link rel="stylesheet" href="css/number_style.css" />
         <link rel="stylesheet" href="css/registration.css?v=17.08.16" />
@@ -16,7 +16,7 @@
         </style>
          <script>
 	    /* var date = new Date(); */
-	    var jsVersion = '17.07.06';
+	    var jsVersion = '17.07.07';
 	    var cdnPath = sessionStorage.cdnPath+"OnlineAssessment";
 	    sessionStorage.jsVersion=jsVersion;
 	    var isPaperMock = "0";
@@ -53,41 +53,55 @@
       	}
 	    </script>
         <script>
+		 function selectedMockId(){
+			return $.trim($("#mockSelect").val() || "");
+		 }
+		 function indexEntryParts(){
+			var url = document.URL;
+			if(url.indexOf("eID=") > -1){
+				return [sessionStorage.orgId || "", selectedMockId() || sessionStorage.assessmentId || "", sessionStorage.userdefinedcandconsole];
+			}
+			var suffix = url.split("index.html?")[1] || "";
+			var parts = suffix.split("@@");
+			parts[0] = $.trim(parts[0] || "") || sessionStorage.orgId || "";
+			if(parts.length < 2){
+				parts[1] = "";
+			}
+			parts[1] = selectedMockId() || $.trim(parts[1] || "");
+			return parts;
+		 }
 		 function openerNew(openInSameWindow){
             var params =  'top=0, left=0';
             params += ', width='+screen.width+', height='+screen.height+',statusbar=no,toolbar=no,location=no,directories=no,menubar=no,resizable=no';
             params += ', scrollbars=yes, status=no, fullscreen=yes';
 			var url = document.URL;
-			var urlSplit = url.split("index.html?");
-			if(urlSplit[1].indexOf("eID=")==-1){
-			var orgId = $.trim(urlSplit[1]).split("@@")[0];
-			sessionStorage.orgId = orgId;
-			var mockId = $.trim(urlSplit[1]).split("@@")[1];
-			sessionStorage.assessmentId = mockId;
-			}
+			var parts = indexEntryParts();
+			var targetSuffix = parts.join("@@");
+			sessionStorage.orgId = parts[0];
+			sessionStorage.assessmentId = parts[1];
 			sessionStorage.operatingSystem = "";//It was not showing numeric board for numeric;
 			if(url.indexOf("MOA") != -1){
-				isPaperMock = $.trim(urlSplit[1]).split("@@")[2];
-				url = url.substr(0,url.lastIndexOf("@@"));
+				isPaperMock = parts[2];
+				targetSuffix = parts.slice(0, 2).join("@@");
 			}
 			var viewInLang = document.getElementById('languageSelect').value;
 			setCookie(viewInLang);
 			if(url.indexOf("autoMock") >= 0 || (isPaperMock == "1" || sessionStorage.isPaperMock=="1")){
-				  window.location.href="instructions.html?"+url.split("index.html?")[1];
+				  window.location.href="instructions.html?"+targetSuffix;
 			}
 			else{
 				if(openInSameWindow){
 					if(sessionStorage.photoVerificationRequiredAtlaunch=='YES')
-						window.location.href="photoVerification.html?"+url.split("index.html?")[1]+"@@"+sessionStorage.userdefinedcandconsole;
+						window.location.href="photoVerification.html?"+targetSuffix+"@@"+sessionStorage.userdefinedcandconsole;
 					else
-					window.location.href="instructions.html?"+url.split("index.html?")[1]+"@@"+sessionStorage.userdefinedcandconsole;
+					window.location.href="instructions.html?"+targetSuffix+"@@"+sessionStorage.userdefinedcandconsole;
 					
 				}	
 				else{
 					if(sessionStorage.photoVerificationRequiredAtlaunch=='YES')
-						newwin=window.open("photoVerification.html?"+url.split("index.html?")[1]+"@@"+sessionStorage.userdefinedcandconsole,"_blank",params);
+						newwin=window.open("photoVerification.html?"+targetSuffix+"@@"+sessionStorage.userdefinedcandconsole,"_blank",params);
 					else
-					newwin=window.open("instructions.html?"+url.split("index.html?")[1]+"@@"+sessionStorage.userdefinedcandconsole,"_blank",params);
+					newwin=window.open("instructions.html?"+targetSuffix+"@@"+sessionStorage.userdefinedcandconsole,"_blank",params);
 					
 	           	 	if (window.focus) {newwin.focus()}
 		            return false;
@@ -99,16 +113,20 @@
 
 		// Two-step login: the first click verifies the credentials and reveals the
 		// candidate identity; only a second click on Login starts the assessment.
-		var signInState = { verified: null, busy: false, busyLabel: "" };
+		var signInState = { verified: null, busy: false, busyLabel: "", mocksReady: false };
 
 		function currentSignInContext(){
 			var url = document.URL;
 			var urlSplit = url.split("index.html?");
-			var orgId = $.trim(urlSplit[1]).split("@@")[0];
-			var mockId = $.trim(urlSplit[1]).split("@@")[1];
+			var orgId = urlSplit[1] ? $.trim(urlSplit[1]).split("@@")[0] : "";
+			var mockId = selectedMockId();
 			if(url.indexOf("eID=") > -1){
 				orgId = sessionStorage.orgId;
-				mockId = sessionStorage.assessmentId;
+				mockId = mockId || sessionStorage.assessmentId;
+			}
+			var selected = $("#mockSelect option:selected");
+			if(selected.length && selected.attr("data-org")){
+				orgId = selected.attr("data-org");
 			}
 			return {
 				orgId: orgId,
@@ -232,6 +250,7 @@
 				sessionStorage.cand_master_id = data.candidate.id;
 				sessionStorage.attemptId = String(data.attempt.id);
 				sessionStorage.username = data.candidate.name;
+				sessionStorage.orgId = data.assessment.orgId || sessionStorage.orgId || "";
 				sessionStorage.qp_id = data.assessment.id;
 				sessionStorage.qpLanguages = data.assessment.languages || "";
 				sessionStorage.defaultLang = data.assessment.primaryLanguage ? String(data.assessment.primaryLanguage.id) : "";
@@ -244,6 +263,13 @@
 				sessionStorage.trackFullscreen = data.assessment.trackFullscreen ? "1" : "0";
 				sessionStorage.consoleVersion = (data.assessment && data.assessment.version) || data.version || "17.07.00";
 				document.cookie = "consoleVersion=" + encodeURIComponent(sessionStorage.consoleVersion) + "; path=/";
+				var paperBase = String((data.assessment && data.assessment.basePath) || "").replace(/\\/g, "/");
+				if(paperBase && paperBase.charAt(paperBase.length - 1) !== "/"){ paperBase += "/"; }
+				if(paperBase){
+					sessionStorage.xmlFilePath = paperBase;
+					sessionStorage.assessmentUpdatedDate = String(Date.now());
+					document.cookie = "xmlFilePath=" + paperBase + "; path=/";
+				}
 				sessionStorage.assessType = "Mock";
 				sessionStorage.notificationPrompt = "false";
 				sessionStorage.isOnline = "1";
@@ -264,9 +290,16 @@
 		function signIn(){
 			if(signingIn){ return false; }
 			var context = currentSignInContext();
+			if(!signInState.mocksReady){ alert("Assessments are still loading. Please try again in a moment."); return false; }
+			if(context.mockId === ""){ alert("Please select an assessment (mock)."); return false; }
 			if(context.login === ""){ alert("Please enter your Login ID."); return false; }
 			if(context.password === ""){ alert("Please enter your Password."); return false; }
 			if(signInState.verified){
+				if(context.mockId !== signInState.verified.mockId){
+					resetVerification();
+					alert("The assessment changed. Please verify again.");
+					return false;
+				}
 				if(context.login !== signInState.verified.login || context.password !== signInState.verified.password){
 					resetVerification();
 					alert("Your login details changed. Please verify again.");
@@ -281,16 +314,48 @@
 		function signInOnEnter(e){
 			if(e && (e.which === 13 || e.keyCode === 13)){ signIn(); if(e.preventDefault) e.preventDefault(); return false; }
 		}
+		function loadSignInAssessments(){
+			var url = document.URL;
+			var urlMock = "";
+			if(url.indexOf("eID=") > -1){
+				urlMock = sessionStorage.assessmentId || "";
+			}else{
+				var suffix = url.split("index.html?")[1] || "";
+				urlMock = $.trim((suffix.split("@@")[1] || "").split("#")[0]);
+			}
+			var select = $("#mockSelect");
+			function finish(){
+				if(urlMock && !select.find("option").filter(function(){ return this.value === urlMock; }).length){
+					$("<option>").val(urlMock).text(urlMock + " — Assessment").appendTo(select);
+				}
+				if(urlMock){ select.val(urlMock); }
+				select.prop("disabled", false);
+				signInState.mocksReady = true;
+			}
+			fetch("/IBA/api/assessments").then(function(res){
+				return res.ok ? res.json() : null;
+			}).then(function(data){
+				var items = (data && data.assessments) || [];
+				items.forEach(function(item){
+					$("<option>").val(item.id).text(item.id + " — " + item.name).attr("data-org", item.orgId || "").appendTo(select);
+				});
+				finish();
+			}).catch(finish);
+		}
 		 $(document).ready(function() {
 			$("input[name=text15]").on("keydown", signInOnEnter);
 			$("input[name=text14]").on("keydown", signInOnEnter);
 			$("input[name=text15], input[name=text14]").on("input change", function(){
 				if(!signInState.busy){ resetVerification(); }
 			});
+			$("#mockSelect").on("change", function(){
+				if(!signInState.busy){ resetVerification(); }
+			});
+			loadSignInAssessments();
 			applySignInLabel();
 			var url = document.URL;
 			var urlSplit = url.split("index.html?");
-			var orgId = $.trim(urlSplit[1]).split("@@")[0];
+			var orgId = urlSplit[1] ? $.trim(urlSplit[1]).split("@@")[0] : "";
 			 if(orgId == "33037"){
 				 $('#notMySystem').hide();
 			 }else{
@@ -365,6 +430,13 @@
                 <div id="login">
                     <div class="form-header" id="LoginPageHeader">Sign in to Continue</div>
                     <form name='form-login'>
+
+                        <div class="login-row mock-row">
+                            <span class="fontawesome-mock" aria-hidden="true"></span>
+                            <select id="mockSelect" name="mockId" aria-label="Select assessment (mock)" disabled>
+                                <option value="">Select assessment (mock)</option>
+                            </select>
+                        </div>
 
                         <div class="login-row">
                             <span class="fontawesome-user"></span>

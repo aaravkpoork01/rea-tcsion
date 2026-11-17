@@ -2,6 +2,7 @@
 import * as settingsRepo from "../db/repositories/settings.repo.mjs";
 import * as assessmentsRepo from "../db/repositories/assessments.repo.mjs";
 import { applyPresentationOverrides, buildConfig, presentationFromAdmin, settingsFromAdmin } from "../domain/ui-config.mjs";
+import { buildLandingConfig } from "../domain/landing-config.mjs";
 import { badRequest, notFound } from "../core/errors.mjs";
 import { normalizeInstructionTemplate } from "../domain/paper-instructions.mjs";
 
@@ -43,6 +44,7 @@ export const all = async () => {
     exam_topbar: JSON.stringify(ui.topbar),
     exam_tools: JSON.stringify(ui.tools),
     exam_languages: ui.languages.join(","),
+    landing: buildLandingConfig(stored),
   };
 };
 
@@ -151,6 +153,9 @@ export const candidateConfig = async (assessmentId = "") => {
     tools: overrideFor(stored, ASSESSMENT_TOOLS_KEY(assessmentId)),
   });
 };
+
+/** Public landing-page copy and logo. */
+export const landingConfig = async () => buildLandingConfig(await raw());
 
 /** Candidate instruction template: one row per language, stored as JSON. */
 export const INSTRUCTION_SETTINGS_KEY = "exam_instructions";

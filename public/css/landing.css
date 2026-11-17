@@ -57,6 +57,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   overflow: hidden;
 }
 .brand-logo img { width: 27px; height: 29px; object-fit: contain; filter: brightness(0) invert(1); }
+.brand-logo img.is-custom { width: 100%; height: 100%; padding: 5px; object-fit: contain; filter: none; }
 .brand-text { display: grid; line-height: 1.18; }
 .brand-text strong { font-size: 16px; letter-spacing: .2px; color: var(--ion-blue-dark); }
 .brand-text span { font-size: 11.5px; color: var(--muted); letter-spacing: .3px; text-transform: uppercase; }
@@ -153,6 +154,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: #6fe0b4; box-shadow: 0 0 0 4px rgba(111, 224, 180, .18); }
 .hero h1 { margin: 20px 0 18px; font-size: clamp(38px, 5vw, 58px); line-height: 1.06; letter-spacing: -1.6px; font-weight: 700; }
 .hero h1 span { color: #bfe2ff; }
+.hero h1 span.hero-title-main { color: #ffffff; }
 .hero-lead { max-width: 560px; font-size: 17px; line-height: 1.68; color: #dcebfa; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0 30px; }
 .hero-points { display: grid; gap: 9px; font-size: 14px; color: #e2effc; }

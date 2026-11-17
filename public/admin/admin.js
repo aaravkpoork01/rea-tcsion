@@ -4285,6 +4285,163 @@ function modeSelect(scope, key, value) {
     `<option value="${mode}" ${value === mode ? "selected" : ""}>${optionLabel}</option>`).join("")}</select>`;
 }
 
+const LANDING_GROUPS = [
+  {
+    title: "Header, links and logo",
+    fields: [
+      ["pageTitle", "Browser title"],
+      ["brandName", "Brand name"],
+      ["brandSubtitle", "Brand subtitle"],
+      ["navHow", "Navigation — how it works"],
+      ["navBefore", "Navigation — before you begin"],
+      ["navLogin", "Login button label"],
+      ["orgId", "Organisation ID for sign-in links"],
+      ["assessmentId", "Assessment (mock) ID for sign-in links"],
+      ["metaDescription", "Search description", true],
+    ],
+  },
+  {
+    title: "Hero",
+    fields: [
+      ["heroEyebrow", "Small label"],
+      ["heroTitle", "Heading — first line"],
+      ["heroAccent", "Heading — accent line"],
+      ["heroPrimary", "Primary button"],
+      ["heroSecondary", "Secondary button"],
+      ["heroPoint1", "Bullet 1"],
+      ["heroPoint2", "Bullet 2"],
+      ["heroPoint3", "Bullet 3"],
+      ["heroLead", "Intro paragraph", true],
+    ],
+  },
+  {
+    title: "Hero preview card",
+    fields: [
+      ["visualStatus", "Status"],
+      ["visualTime", "Timer"],
+      ["visualAvatar", "Avatar initials"],
+      ["visualCandidate", "Candidate label"],
+      ["visualCandidateSub", "Candidate sub-label"],
+      ["visualLive", "Live badge"],
+      ["visualProgress", "Progress label"],
+      ["visualProgressCount", "Progress count"],
+      ["visualApprovalValue", "Approval card value"],
+      ["visualApprovalLabel", "Approval card label"],
+      ["visualSavedLabel", "Saved card label"],
+    ],
+  },
+  {
+    title: "Highlights",
+    fields: [
+      ["feature1Title", "Highlight 1 — title"],
+      ["feature2Title", "Highlight 2 — title"],
+      ["feature3Title", "Highlight 3 — title"],
+      ["feature1Body", "Highlight 1 — text", true],
+      ["feature2Body", "Highlight 2 — text", true],
+      ["feature3Body", "Highlight 3 — text", true],
+    ],
+  },
+  {
+    title: "How it works",
+    fields: [
+      ["howKicker", "Section label"],
+      ["howTitle", "Section title"],
+      ["step1Title", "Step 1 — title"],
+      ["step1Link", "Step 1 — link label"],
+      ["step2Title", "Step 2 — title"],
+      ["step2Note", "Step 2 — note"],
+      ["step3Title", "Step 3 — title"],
+      ["step3Link", "Step 3 — link label"],
+      ["howLead", "Section intro", true],
+      ["step1Body", "Step 1 — text", true],
+      ["step2Body", "Step 2 — text", true],
+      ["step3Body", "Step 3 — text", true],
+    ],
+  },
+  {
+    title: "Before you begin",
+    fields: [
+      ["beforeKicker", "Section label"],
+      ["beforeTitle", "Section title"],
+      ["check1Title", "Check 1 — title"],
+      ["check2Title", "Check 2 — title"],
+      ["check3Title", "Check 3 — title"],
+      ["check4Title", "Check 4 — title"],
+      ["noticeBadge", "Notice badge"],
+      ["noticeTitle", "Notice title"],
+      ["noticeMeta1Label", "Notice meta 1 — label"],
+      ["noticeMeta1Value", "Notice meta 1 — value"],
+      ["noticeMeta2Label", "Notice meta 2 — label"],
+      ["noticeMeta2Value", "Notice meta 2 — value"],
+      ["beforeLead", "Section intro", true],
+      ["check1Body", "Check 1 — text", true],
+      ["check2Body", "Check 2 — text", true],
+      ["check3Body", "Check 3 — text", true],
+      ["check4Body", "Check 4 — text", true],
+      ["noticeBody", "Notice paragraph", true],
+      ["noticeSmall", "Notice footer", true],
+    ],
+  },
+  {
+    title: "Call to action",
+    fields: [
+      ["ctaKicker", "Section label"],
+      ["ctaTitle", "Title"],
+      ["ctaLogin", "Login button"],
+      ["ctaRegister", "Register button"],
+      ["ctaLead", "Text", true],
+    ],
+  },
+  {
+    title: "Footer",
+    fields: [
+      ["footerBrand", "Brand line"],
+      ["footerLogin", "Login link"],
+      ["footerRegister", "Register link"],
+      ["footerCopyright", "Copyright name"],
+      ["footerTagline", "Tagline", true],
+      ["footerNote", "Footer note", true],
+    ],
+  },
+];
+
+function landingField([key, label, multiline]) {
+  const control = multiline
+    ? `<textarea rows="2" data-landing-field="${key}"></textarea>`
+    : `<input data-landing-field="${key}" />`;
+  return `<label class="landing-field${multiline ? " wide" : ""}">${esc(label)}${control}</label>`;
+}
+
+function landingSettingsCard(landing) {
+  const logo = landing.logo || "images/collegelogo.png";
+  const previewSrc = /^data:/i.test(logo) ? logo : "/" + logo.replace(/^\/+/, "");
+  return `
+    <div class="card">
+      <div class="card-head"><h3>Landing page</h3><span class="sub">Public home page</span></div>
+      <div class="card-body">
+        <p class="field-note" style="margin:0 0 12px">Everything shown on the public landing page is edited here. Blank fields fall back to the built-in text. The Admin link is intentionally omitted from the public page.</p>
+        <div class="landing-logo-row">
+          <span class="landing-logo-preview" id="landingLogoPreview"><img src="${esc(previewSrc)}" alt="" /></span>
+          <div class="grow">
+            <label>Landing logo (PNG, JPG, SVG, WEBP or ICO — max 300 KB)
+              <input type="file" id="landingLogoFile" accept="image/png,image/jpeg,image/svg+xml,image/webp,image/x-icon" />
+            </label>
+          </div>
+          <button type="button" class="btn small" id="landingLogoClear">Use default logo</button>
+        </div>
+        ${LANDING_GROUPS.map((group, index) => `
+          <details class="landing-group"${index < 2 ? " open" : ""}>
+            <summary>${esc(group.title)}</summary>
+            <div class="landing-fields">${group.fields.map(landingField).join("")}</div>
+          </details>`).join("")}
+        <div class="row" style="margin-top:16px">
+          <button class="btn primary" id="saveLanding">Save landing page</button>
+          <button class="btn" id="resetLanding">Reset landing page</button>
+        </div>
+      </div>
+    </div>`;
+}
+
 async function renderSettings() {
   const { settings } = await api("/settings");
   const brand = {
@@ -4296,6 +4453,7 @@ async function renderSettings() {
   };
 
   let pendingIcon; // undefined = untouched, "" = cleared, data URL = new icon
+  let pendingLandingLogo;
 
   $("#view").innerHTML = `
     <div class="card">
@@ -4339,7 +4497,14 @@ async function renderSettings() {
         <p class="field-note" style="margin:0 0 12px">Instructions saved here are written to every assessment that uses the language. Editing instructions from an assessment changes only that assessment.</p>
         <button class="btn" id="editGlobalInstructions">Edit instructions</button>
       </div>
-    </div>`;
+    </div>
+
+    ${landingSettingsCard(settings.landing || {})}`;
+
+  const landing = settings.landing || {};
+  $("#view").querySelectorAll("[data-landing-field]").forEach((input) => {
+    input.value = landing[input.getAttribute("data-landing-field")] || "";
+  });
 
   const mark = $("#settingsMark");
   const fileInput = $("#brandIconFile");
@@ -4401,6 +4566,50 @@ async function renderSettings() {
       } });
       toast("Branding reset.", "success");
       await loadBranding();
+      renderSettings();
+    } catch (e) { toast(e.message, "error"); }
+  });
+
+  const landingLogoPreview = $("#landingLogoPreview img");
+  const landingLogoFile = $("#landingLogoFile");
+  landingLogoFile.addEventListener("change", () => {
+    const file = landingLogoFile.files && landingLogoFile.files[0];
+    if (!file) return;
+    if (file.size > 300 * 1024) { toast("Logo must be under 300 KB.", "error"); landingLogoFile.value = ""; return; }
+    const reader = new FileReader();
+    reader.onload = () => {
+      pendingLandingLogo = String(reader.result || "");
+      landingLogoPreview.attr("src", pendingLandingLogo);
+    };
+    reader.onerror = () => toast("Could not read that file.", "error");
+    reader.readAsDataURL(file);
+  });
+
+  $("#landingLogoClear").addEventListener("click", () => {
+    pendingLandingLogo = "";
+    landingLogoFile.value = "";
+    landingLogoPreview.attr("src", "/images/collegelogo.png");
+  });
+
+  $("#saveLanding").addEventListener("click", async () => {
+    const landingConfig = {};
+    $("#view").querySelectorAll("[data-landing-field]").forEach((input) => {
+      landingConfig[input.getAttribute("data-landing-field")] = input.value;
+    });
+    const body = { landing_config: landingConfig };
+    if (pendingLandingLogo !== undefined) body.landing_logo = pendingLandingLogo;
+    try {
+      await api("/settings", { method: "PUT", body });
+      toast("Landing page saved.", "success");
+      renderSettings();
+    } catch (e) { toast(e.message, "error"); }
+  });
+
+  $("#resetLanding").addEventListener("click", async () => {
+    if (!(await confirmDialog("Reset the landing page copy and logo to the built-in defaults?", "Reset landing page"))) return;
+    try {
+      await api("/settings", { method: "PUT", body: { landing_config: {}, landing_logo: "" } });
+      toast("Landing page reset.", "success");
       renderSettings();
     } catch (e) { toast(e.message, "error"); }
   });

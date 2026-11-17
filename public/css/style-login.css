@@ -384,7 +384,8 @@ after { clear: both; }
     margin: 0 0 16px 0;
 }
 #login form .login-row .fontawesome-user,
-#login form .login-row .fontawesome-lock {
+#login form .login-row .fontawesome-lock,
+#login form .login-row .fontawesome-mock {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -400,6 +401,26 @@ after { clear: both; }
     border-right: 0;
     border-radius: 3px 0 0 3px;
 }
+#login form .login-row .fontawesome-mock {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7f95' stroke-width='2'%3E%3Crect x='4' y='3' width='16' height='18' rx='2'/%3E%3Cpath d='M8 8h8M8 12h8M8 16h5'/%3E%3C/svg%3E") no-repeat center center #eee;
+    background-size: 18px 18px;
+}
+#login form .login-row select {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+    height: 37px;
+    float: none;
+    margin: 0;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border: 1px solid #cacaca;
+    border-radius: 0;
+    background: #fff;
+    color: #333;
+    font-size: 14px;
+}
+#login form .login-row.mock-row { margin-bottom: 10px; }
 #login form .login-row input[type="text"],
 #login form .login-row input[type="password"] {
     flex: 1 1 auto;

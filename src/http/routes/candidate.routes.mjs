@@ -10,6 +10,7 @@ import * as examService from "../../services/exam.service.mjs";
 import * as registrationService from "../../services/registration.service.mjs";
 import * as resultService from "../../services/result-share.service.mjs";
 import * as settingsService from "../../services/settings.service.mjs";
+import * as assessmentsService from "../../services/assessments.service.mjs";
 import * as candidatesRepo from "../../db/repositories/candidates.repo.mjs";
 
 const CANDIDATE_COOKIE = authService.COOKIE_NAMES.candidate;
@@ -60,6 +61,14 @@ const setCookies = (entries) => ({
 });
 
 export function registerCandidateRoutes(router) {
+  // Public presentation data for the landing page and the sign-in assessment
+  // picker. No session required and no protected attempt data is exposed.
+  router.get("/IBA/api/landing", async (_req, res) =>
+    sendOk(res, { landing: await settingsService.landingConfig() }));
+
+  router.get("/IBA/api/assessments", async (_req, res) =>
+    sendOk(res, { assessments: await assessmentsService.listForSignIn() }));
+
   // Public self-registration. New accounts start as `pending` and cannot sign
   // in until an administrator approves them.
   router.get("/IBA/api/register/login-id", async (_req, res) => {

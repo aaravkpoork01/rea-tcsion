@@ -124,6 +124,43 @@ required.
 `mode` is `auto`, `show` or `hide`. Unknown/corrupt stored values fall back to
 the defaults in `src/domain/ui-config.mjs`.
 
+### `GET /IBA/api/landing`
+
+Public landing-page copy, logo and link targets. No session required.
+
+```json
+{
+  "ok": true,
+  "landing": {
+    "pageTitle": "TCS iON Assessment Platform",
+    "brandName": "TCS iON",
+    "orgId": "726",
+    "assessmentId": "M65",
+    "heroTitle": "Focus on the exam.",
+    "logo": "images/collegelogo.png",
+    "…": "every text field shown on the landing page"
+  }
+}
+```
+
+Missing or invalid stored fields fall back to the defaults in
+`src/domain/landing-config.mjs`. `orgId` and `assessmentId` are combined into
+`index.html?<orgId>@@<assessmentId>` for the Login and Register links. `logo` is
+either a site-relative path or an uploaded `data:` URL.
+
+### `GET /IBA/api/assessments`
+
+Public picker list for the sign-in page: active assessments only, in creation
+order.
+
+```json
+{ "ok": true, "assessments": [{ "id": "M65", "orgId": "726", "name": "Exam Intelligence Mock Assement" }] }
+```
+
+The sign-in page requires one of these to be selected before Verify. Opening
+`index.html?726@@M65` preselects that assessment; a bare `index.html?726` shows
+an empty "Select assessment (mock)" option.
+
 ### `POST /IBA/api/finalize`
 
 Closes the attempt: persists the final snapshot, scores it, expires the
@@ -197,6 +234,12 @@ cookie; `POST /api/admin/logout`; `GET /api/admin/me`.
 | GET | `/api/admin/export/feedback.csv` | CSV download |
 | GET | `/api/admin/export/candidates.csv` | CSV download |
 | GET | `/api/admin/export/audit.csv` | Recent audit entries as CSV (1000 rows) |
+
+`PUT /api/admin/settings` accepts `landing_config` (an object keyed by the fields
+returned from `GET /IBA/api/landing`; blank values fall back to the built-in
+defaults) and `landing_logo` (a PNG/JPEG/WEBP/SVG/ICO `data:` URL under 300 KB,
+or `""` to restore the bundled logo). Both are edited under Settings → Landing
+page and take effect on the public page immediately.
 
 Candidate `status` is `active` (can sit exams), `inactive` (blocked),
 `pending` (self-registered, awaiting approval) or `rejected`. Self-registered

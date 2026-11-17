@@ -774,11 +774,11 @@ removeTitles();
 		}
 		if(url.indexOf("index.html") >= 0 && !isProofReadingMock) {
 			params = url.split("index.html?");
-			if(params[1].indexOf("eID=")>-1){
+			if(params[1] && params[1].indexOf("eID=")>-1){
 				eId=params[1];
 			}else{
-			orgId= $.trim(params[1]).split("@@")[0];
-			assessmentId= $.trim(params[1]).split("@@")[1];
+			orgId= $.trim(params[1] || "").split("@@")[0];
+			assessmentId= $.trim(params[1] || "").split("@@")[1] || "";
 			try{
 				if(url.indexOf("MOA") != -1){
 					if(params[1].split("@@").length>=4){
@@ -807,9 +807,9 @@ removeTitles();
 
 		}
 		var mockType = "";	
-		if(params[1].indexOf("eID=")>-1){
+		if(params[1] && params[1].indexOf("eID=")>-1){
 			mockType = "";
-		}else if(assessmentId.indexOf("M")!=-1 ){
+		}else if(assessmentId && assessmentId.indexOf("M")!=-1 ){
 			assessmentId=assessmentId.split("M")[1];
 			mockType = "static";
 			if(assessmentId.indexOf("OA")!=-1){
@@ -826,7 +826,7 @@ removeTitles();
 			sessionStorage.offlineIBAInPaper = false;
 		}
 		
-		if(!isProofReadingMock && !isOfflineIBA && !offlineIBAInPaper){
+		if(!isProofReadingMock && !isOfflineIBA && !offlineIBAInPaper && (assessmentId || eId)){
 		var xmlURL = "/IBACC/MockAssessmentAction.do?action=getXMLPath&orgId="+orgId+"&mockId="+assessmentId+"&mockType="+mockType+"&isVersionRequired=true"+"&jsonFlg=1"+"&"+eId;
 		jQuery.ajax({
 			url: xmlURL,

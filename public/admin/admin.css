@@ -514,3 +514,19 @@ td.actions { flex-wrap: wrap; align-content: flex-start; }
   .approval-meta { grid-template-columns: 1fr; }
   .tabs { overflow-x: auto; }
 }
+
+/* landing page settings */
+.landing-logo-row { display: flex; align-items: center; gap: 14px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel-2); }
+.landing-logo-preview { width: 66px; height: 66px; border-radius: 12px; display: grid; place-items: center; overflow: hidden; background: linear-gradient(145deg, var(--accent), #38aae9); flex: none; }
+.landing-logo-preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.landing-group { border: 1px solid var(--line); border-radius: 10px; background: var(--panel-2); padding: 10px 12px; margin-top: 10px; }
+.landing-group summary { cursor: pointer; font-weight: 700; color: var(--ink); }
+.landing-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.landing-field { display: grid; gap: 6px; color: var(--muted); font-size: 11.5px; }
+.landing-field.wide { grid-column: 1 / -1; }
+.landing-field input, .landing-field textarea { width: 100%; }
+@media (max-width: 760px) {
+  .landing-logo-row { flex-wrap: wrap; }
+  .landing-logo-row .grow { flex-basis: 100%; }
+  .landing-fields { grid-template-columns: 1fr; }
+}
