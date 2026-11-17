@@ -280,7 +280,7 @@ admin sessions. Team actions are written to the audit log as
 | GET | `/api/admin/candidates?q=&page=&pageSize=` | List candidates (with attempt counts, best score); `q` matches name, login, email and candidate ID |
 | POST | `/api/admin/candidates` | Create a candidate |
 | POST | `/api/admin/candidates/import` | Bulk import from CSV (`login` column required) |
-| GET / PUT / DELETE | `/api/admin/candidates/:id` | Read, update, delete |
+| GET / PUT / DELETE | `/api/admin/candidates/:id` | Read, update, delete. Create/update accept separate `email` and `phone` fields (both optional); the legacy merged `contact` field is also accepted. |
 | GET | `/api/admin/approvals?status=pending&q=` | Self-registration review queue (`pending` or `rejected`) with `counts` |
 | GET | `/api/admin/approvals/count` | `{ counts: { pending, rejected } }` for the nav badge and dashboard |
 | POST | `/api/admin/candidates/:id/approve` | Activate a `pending` or `rejected` registration |

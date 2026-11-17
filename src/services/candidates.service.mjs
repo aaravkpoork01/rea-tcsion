@@ -35,6 +35,14 @@ async function candidateGroupIds(value) {
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/;
 const PHONE_PATTERN = /^\d{10}$/;
 const CONTACT_ERROR = "Enter a 10-digit phone number or a valid email address.";
+
+/** Accept `+91 ...`, a leading 0 or spaced digits and keep the 10-digit number. */
+function normalisePhone(value) {
+  let digits = String(value ?? "").replace(/\D/g, "");
+  if (digits.length === 12 && digits.startsWith("91")) digits = digits.slice(2);
+  if (digits.length === 11 && digits.startsWith("0")) digits = digits.slice(1);
+  return digits;
+}
 const LOGIN_PATTERN = /^[0-9]{10}$/;
 const CANDIDATE_ID_PATTERN = /^[A-Za-z0-9]{10}$/;
 const LOGIN_ERROR = "Login ID must be exactly 10 digits (numbers only).";
@@ -60,17 +68,19 @@ function parseContact(value) {
     if (!EMAIL_PATTERN.test(contact)) throw badRequest(CONTACT_ERROR);
     return { email: contact, phone: "" };
   }
-  if (!PHONE_PATTERN.test(contact)) throw badRequest(CONTACT_ERROR);
-  return { email: "", phone: contact };
+  const phone = normalisePhone(contact);
+  if (!PHONE_PATTERN.test(phone)) throw badRequest(CONTACT_ERROR);
+  return { email: "", phone };
 }
 
-/** Accept the merged `contact` field, with legacy email/phone fallbacks. */
+/** Accept separate email/phone fields, with the legacy merged `contact` fallback. */
 function contactFromBody(body, fallback = { email: "", phone: "" }) {
   if (body.contact !== undefined) return parseContact(body.contact);
   const email = body.email === undefined ? String(fallback.email || "") : String(body.email || "").trim();
-  const phone = body.phone === undefined ? String(fallback.phone || "") : String(body.phone || "").trim();
+  const rawPhone = body.phone === undefined ? String(fallback.phone || "") : String(body.phone || "");
+  const phone = normalisePhone(rawPhone);
   if (email && !EMAIL_PATTERN.test(email)) throw badRequest(CONTACT_ERROR);
-  if (phone && !PHONE_PATTERN.test(phone)) throw badRequest(CONTACT_ERROR);
+  if (String(rawPhone).trim() && !PHONE_PATTERN.test(phone)) throw badRequest(CONTACT_ERROR);
   return { email, phone };
 }
 

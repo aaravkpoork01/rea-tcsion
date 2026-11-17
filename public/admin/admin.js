@@ -2822,7 +2822,7 @@ async function renderCandidates() {
             <td>${esc(c.system_name || "—")}</td>
             <td>${esc(c.group_names || "—")}</td>
             <td><code>${esc(c.login)}</code></td>
-            <td class="muted small">${esc(c.email || c.phone || "—")}</td>
+            <td class="muted small">${[c.email, c.phone].filter(Boolean).map(esc).join("<br>") || "—"}</td>
             <td class="num">${c.attempts}</td>
             <td class="num">${c.best_score == null ? "—" : num(c.best_score, 1) + "%"}</td>
             <td>${badge(c.status)}</td>
@@ -2926,7 +2926,10 @@ async function candidateForm(candidate) {
       </div>
       <div class="grid2">
         <label>System name<input name="systemName" value="${esc(c.system_name || "")}" placeholder="e.g. C001" /></label>
-        <label>Email / Phone (optional)<input name="contact" value="${esc(c.email || c.phone || "")}" /></label>
+        <div class="contact-fields">
+          <label>Email (optional)<input name="email" type="email" value="${esc(c.email || "")}" placeholder="name@example.com" autocomplete="off" /></label>
+          <label>Phone (optional)<input name="phone" type="tel" inputmode="numeric" maxlength="16" value="${esc(c.phone || "")}" placeholder="10-digit number" autocomplete="off" /></label>
+        </div>
       </div>
       <div>
         <div class="photo-field-title" style="margin-bottom:6px">Candidate groups</div>
@@ -3196,19 +3199,29 @@ async function candidateForm(candidate) {
       }
     }
     if (isNew && !password.trim()) { toast("Password is required.", "error"); return; }
-    const contact = m.root.querySelector("[name=contact]").value.trim();
-    if (contact) {
-      const looksLikeEmail = contact.indexOf("@") !== -1 || /\.com$/i.test(contact);
-      const valid = looksLikeEmail
-        ? /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/.test(contact)
-        : /^\d{10}$/.test(contact);
-      if (!valid) { toast("Enter a 10-digit phone number or a valid email address.", "error"); return; }
+    const emailInput = m.root.querySelector("[name=email]");
+    const phoneInput = m.root.querySelector("[name=phone]");
+    const email = emailInput.value.trim();
+    if (email && !/^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/.test(email)) {
+      toast("Enter a valid email address.", "error");
+      emailInput.focus();
+      return;
+    }
+    // Accept spaces, +91 or a leading 0; store the 10-digit number only.
+    let phone = phoneInput.value.replace(/\D/g, "");
+    if (phone.length === 12 && phone.startsWith("91")) phone = phone.slice(2);
+    if (phone.length === 11 && phone.startsWith("0")) phone = phone.slice(1);
+    if (phone && !/^\d{10}$/.test(phone)) {
+      toast("Enter a 10-digit phone number.", "error");
+      phoneInput.focus();
+      return;
     }
     const body = {
       name: m.root.querySelector("[name=name]").value.trim() || "Your Name",
       systemName: m.root.querySelector("[name=systemName]").value.trim(),
       groupIds: [...m.root.querySelectorAll("[data-candidate-group]:checked")].map((input) => input.dataset.candidateGroup),
-      contact,
+      email,
+      phone,
       status: m.root.querySelector("[name=status]").value,
       photo,
     };

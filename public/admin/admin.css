@@ -228,6 +228,7 @@ tbody tr.drop-after td { box-shadow: inset 0 -2px 0 var(--accent); }
 .toolbar label { min-width: 150px; flex: 1 1 150px; }
 .toolbar .grow { flex: 2 1 240px; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+.contact-fields { display: grid; gap: 12px; align-content: start; }
 .input-with-action { display: flex; align-items: stretch; gap: 8px; }
 .input-with-action input { flex: 1; min-width: 0; }
 .input-with-action .btn { flex: none; padding: 0 13px; font-size: 17px; line-height: 1; }
