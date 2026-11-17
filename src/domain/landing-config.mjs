@@ -11,7 +11,7 @@ export const LANDING_DEFAULTS = Object.freeze({
   navBefore: "Before you begin",
   navLogin: "Login",
   orgId: "726",
-  assessmentId: "M65",
+  assessmentId: "",
 
   heroEyebrow: "Candidate portal",
   heroTitle: "Focus on the exam.",
@@ -191,7 +191,7 @@ export function normaliseLandingConfig(value) {
     out[key] = raw ? raw.slice(0, limit) : LANDING_DEFAULTS[key];
   }
   out.orgId = out.orgId.replace(/[^A-Za-z0-9_-]/g, "") || LANDING_DEFAULTS.orgId;
-  out.assessmentId = out.assessmentId.replace(/[^A-Za-z0-9_-]/g, "") || LANDING_DEFAULTS.assessmentId;
+  out.assessmentId = out.assessmentId.replace(/[^A-Za-z0-9_-]/g, "");
   return out;
 }
 

@@ -4612,7 +4612,7 @@ const LANDING_GROUPS = [
       ["navBefore", "Navigation — before you begin"],
       ["navLogin", "Login button label"],
       ["orgId", "Organisation ID for sign-in links"],
-      ["assessmentId", "Assessment (mock) ID for sign-in links"],
+      ["assessmentId", "Sign-in link assessment (optional — leave blank to let candidates choose)"],
       ["metaDescription", "Search description", true],
     ],
   },

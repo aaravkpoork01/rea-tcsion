@@ -135,7 +135,7 @@ Public landing-page copy, logo and link targets. No session required.
     "pageTitle": "TCS iON Assessment Platform",
     "brandName": "TCS iON",
     "orgId": "726",
-    "assessmentId": "M65",
+    "assessmentId": "",
     "heroTitle": "Focus on the exam.",
     "logo": "images/collegelogo.png",
     "…": "every text field shown on the landing page"
@@ -144,9 +144,10 @@ Public landing-page copy, logo and link targets. No session required.
 ```
 
 Missing or invalid stored fields fall back to the defaults in
-`src/domain/landing-config.mjs`. `orgId` and `assessmentId` are combined into
-`index.html?<orgId>@@<assessmentId>` for the Login and Register links. `logo` is
-either a site-relative path or an uploaded `data:` URL.
+`src/domain/landing-config.mjs`. `orgId` and an optional `assessmentId` are
+combined into the Login and Register links; when `assessmentId` is blank the
+links are `index.html?<orgId>` and candidates choose the assessment themselves.
+`logo` is either a site-relative path or an uploaded `data:` URL.
 
 ### `GET /IBA/api/assessments`
 
@@ -158,8 +159,9 @@ order.
 ```
 
 The sign-in page requires one of these to be selected before Verify. Opening
-`index.html?726@@M65` preselects that assessment; a bare `index.html?726` shows
-an empty "Select assessment (mock)" option.
+`index.html?726@@M65` preselects that assessment for a direct per-assessment
+link; the default `index.html?726` shows an empty "Select assessment (mock)"
+option.
 
 ### `POST /IBA/api/finalize`
 
