@@ -14,6 +14,10 @@ const state = {
   resultsStatus: "submitted",
   resultsSelection: new Set(),
   liveTimer: null,
+  approvalsStatus: "pending",
+  approvalsSearch: "",
+  approvalsCounts: { pending: 0, rejected: 0 },
+  approvalsTimer: null,
 };
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -119,6 +123,33 @@ function confirmDialog(message, confirmLabel = "Confirm") {
 }
 
 const badge = (status) => `<span class="badge ${esc(status)}">${esc(String(status || "").replace(/_/g, " "))}</span>`;
+const candidatePhotoSrc = (value) => String(value || "").trim() || DEFAULT_CANDIDATE_PHOTO;
+
+/** Show the pending-registration count in the sidebar badge. */
+function applyApprovalCounts(counts = {}) {
+  state.approvalsCounts = {
+    pending: Math.max(0, Number(counts.pending) || 0),
+    rejected: Math.max(0, Number(counts.rejected) || 0),
+  };
+  const badgeNode = $("#approvalsCount");
+  if (!badgeNode) return;
+  const pending = state.approvalsCounts.pending;
+  badgeNode.textContent = pending > 99 ? "99+" : String(pending);
+  badgeNode.classList.toggle("hidden", pending <= 0);
+  badgeNode.setAttribute("aria-label", `${pending} pending approval${pending === 1 ? "" : "s"}`);
+  badgeNode.title = `${pending} pending registration approval${pending === 1 ? "" : "s"}`;
+}
+
+async function refreshApprovalCounts() {
+  if (!state.admin) return null;
+  try {
+    const data = await api("/approvals/count");
+    applyApprovalCounts(data.counts || {});
+    return data.counts || null;
+  } catch {
+    return null;
+  }
+}
 
 // ---------------------------------------------------------------------------
 // shell
@@ -126,6 +157,7 @@ const badge = (status) => `<span class="badge ${esc(status)}">${esc(String(statu
 
 function showLogin() {
   state.admin = null;
+  if (state.approvalsTimer) { clearInterval(state.approvalsTimer); state.approvalsTimer = null; }
   $("#app").classList.add("hidden");
   $("#loginScreen").classList.remove("hidden");
   $("#loginForm [name=password]").value = "";
@@ -137,6 +169,11 @@ function showApp() {
   $("#app").classList.remove("hidden");
   $("#whoami").textContent = `${state.admin.name || state.admin.username} · ${state.admin.role}`;
   setView(state.view);
+  refreshApprovalCounts();
+  if (state.approvalsTimer) clearInterval(state.approvalsTimer);
+  state.approvalsTimer = setInterval(() => {
+    if (state.admin && state.view !== "approvals") refreshApprovalCounts();
+  }, 60000);
 }
 
 function adminInitials(value) {
@@ -264,6 +301,7 @@ function setView(view) {
     assessments: ["Assessments", "Create, configure and import assessment papers"],
     questions: ["Question bank", "Browse and edit questions, marks and answer keys"],
     candidates: ["Candidates", "Accounts, credentials and attempt history"],
+    approvals: ["Registration approvals", "Review self-registered candidates and approve or reject their accounts"],
     attempts: ["Attempts", "Every candidate attempt with responses and audit trail"],
     live: ["Live monitor", "Candidates currently writing the exam"],
     results: ["Results", "Scores and completion across attempts"],
@@ -279,6 +317,7 @@ function setView(view) {
     assessments: renderAssessments,
     questions: renderQuestions,
     candidates: renderCandidates,
+    approvals: renderApprovals,
     attempts: renderAttempts,
     live: renderLive,
     results: renderResults,
@@ -295,8 +334,10 @@ function setView(view) {
 
 async function renderDashboard() {
   const { stats, recent, live } = await api("/overview");
+  applyApprovalCounts({ pending: stats.pendingApprovals, rejected: state.approvalsCounts.rejected });
   const cards = [
     ["Candidates", stats.candidates],
+    ["Pending approvals", stats.pendingApprovals],
     ["Assessments", stats.assessments],
     ["Attempts", stats.attempts],
     ["In progress", stats.inProgress],
@@ -305,7 +346,16 @@ async function renderDashboard() {
     ["Questions", stats.questions],
     ["Average score", stats.avgScore + "%"],
   ];
+  const pending = Number(stats.pendingApprovals) || 0;
   $("#view").innerHTML = `
+    ${pending ? `<div class="approval-alert">
+      <span class="approval-alert-icon" aria-hidden="true">!</span>
+      <div class="approval-alert-text">
+        <strong>${pending} candidate registration${pending === 1 ? "" : "s"} waiting for approval</strong>
+        <span>New candidates cannot sign in until you approve or reject their registration. Approval should be decided within 24 hours.</span>
+      </div>
+      <button class="btn primary" data-go="approvals">Review approvals</button>
+    </div>` : ""}
     <div class="stats">
       ${cards.map(([k, v]) => `<div class="stat"><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`).join("")}
     </div>
@@ -2751,10 +2801,16 @@ async function renderCandidates() {
             <td>${badge(c.status)}</td>
             <td class="muted small">${dt(c.last_login_at)}</td>
             <td class="row">
+              ${c.status === "pending" || c.status === "rejected"
+                ? `<button class="btn small primary" data-capprove="${esc(c.id)}" data-name="${esc(c.name)}">Approve</button>`
+                : ""}
+              ${c.status === "pending"
+                ? `<button class="btn small danger" data-creject="${esc(c.id)}" data-name="${esc(c.name)}">Reject</button>`
+                : ""}
               <button class="btn small" data-cedit="${esc(c.id)}">Edit</button>
               <button class="btn small" data-creset="${esc(c.id)}">Password</button>
               <button class="btn small" data-cview="${esc(c.id)}">Attempts</button>
-              <button class="btn small danger" data-cdel="${esc(c.id)}">Delete</button>
+              <button class="btn small danger" data-cdel="${esc(c.id)}" data-name="${esc(c.name)}">Delete</button>
             </td>
           </tr>`).join("")}</tbody></table></div>` : `<div class="empty">No candidates.</div>`}
       </div>
@@ -2770,6 +2826,8 @@ async function renderCandidates() {
   $("#cPrev").addEventListener("click", () => { state.candidatesPage = Math.max(1, state.candidatesPage - 1); renderCandidates(); });
   $("#cNext").addEventListener("click", () => { state.candidatesPage += 1; renderCandidates(); });
   const v = $("#view");
+  v.querySelectorAll("[data-capprove]").forEach((b) => b.addEventListener("click", () => { approveCandidate(b.dataset.capprove, b.dataset.name); }));
+  v.querySelectorAll("[data-creject]").forEach((b) => b.addEventListener("click", () => { rejectCandidateForm(b.dataset.creject, b.dataset.name); }));
   v.querySelectorAll("[data-cedit]").forEach((b) => b.addEventListener("click", async () => {
     const { candidate } = await api("/candidates/" + encodeURIComponent(b.dataset.cedit));
     candidateForm(candidate);
@@ -2787,12 +2845,7 @@ async function renderCandidates() {
         : `<div class="empty">No attempts.</div>`,
     });
   }));
-  v.querySelectorAll("[data-cdel]").forEach((b) => b.addEventListener("click", async () => {
-    if (!(await confirmDialog("Delete this candidate and all of their attempts?", "Delete"))) return;
-    await api("/candidates/" + encodeURIComponent(b.dataset.cdel), { method: "DELETE" });
-    toast("Candidate deleted.", "success");
-    renderCandidates();
-  }));
+  v.querySelectorAll("[data-cdel]").forEach((b) => b.addEventListener("click", () => { deleteCandidate(b.dataset.cdel, b.dataset.name); }));
 }
 
 async function candidateForm(candidate) {
@@ -2805,6 +2858,9 @@ async function candidateForm(candidate) {
     (Array.isArray(c.groupIds) && c.groupIds.length ? c.groupIds : (c.group_id ? [c.group_id] : []))
       .map((id) => String(id)),
   );
+  const statuses = ["pending", "rejected"].includes(c.status)
+    ? ["pending", "rejected", "active", "inactive"]
+    : ["active", "inactive"];
   const m = modal({
     title: isNew ? "New candidate" : `Edit ${c.name}`,
     body: `
@@ -2837,7 +2893,8 @@ async function candidateForm(candidate) {
       <div class="grid2">
         ${isNew
           ? `<label>Password *<input name="password" type="password" value="" required autocomplete="new-password" /></label>`
-          : `<label>Status<select name="status">${["active", "inactive"].map((s) => `<option ${c.status === s ? "selected" : ""}>${s}</option>`).join("")}</select></label>`}
+          : `<label>Status<select name="status">${statuses.map((s) => `<option ${c.status === s ? "selected" : ""}>${s}</option>`).join("")}</select>
+              <span class="field-note">Use Registration approvals to record a formal approve/reject decision.</span></label>`}
         <label>Candidate name<input name="name" value="${esc(c.name || (isNew ? "Your Name" : ""))}" placeholder="Your Name" /></label>
       </div>
       <div class="grid2">
@@ -3157,6 +3214,218 @@ function resetPassword(id) {
       m.close();
       toast("Password updated.", "success");
     } catch (e) { toast(e.message, "error"); }
+  });
+}
+
+// ---------------------------------------------------------------------------
+// registration approvals
+// ---------------------------------------------------------------------------
+
+/** Refresh whichever view the approval action came from. */
+function afterApprovalChange() {
+  refreshApprovalCounts();
+  const rerender = state.view === "approvals" ? renderApprovals
+    : state.view === "candidates" ? renderCandidates
+      : state.view === "dashboard" ? renderDashboard
+        : null;
+  if (rerender) rerender().catch((e) => toast(e.message, "error"));
+}
+
+async function approveCandidate(id, name) {
+  if (!(await confirmDialog(`Approve ${name || "this candidate"}? They will be able to sign in immediately.`, "Approve"))) return false;
+  try {
+    await api(`/candidates/${encodeURIComponent(id)}/approve`, { method: "POST", body: {} });
+    toast("Registration approved.", "success");
+    afterApprovalChange();
+    return true;
+  } catch (e) {
+    toast(e.message, "error");
+    return false;
+  }
+}
+
+function rejectCandidateForm(id, name) {
+  return new Promise((resolve) => {
+    let rejected = false;
+    const m = modal({
+      title: "Reject registration",
+      onClose: () => resolve(rejected),
+      body: `
+        <p class="field-note" style="margin-top:0">Reject the registration of <strong>${esc(name || "this candidate")}</strong>? The account stays in the candidate list as <strong>rejected</strong> and the candidate cannot sign in.</p>
+        <label>Reason (optional)<textarea name="reason" rows="4" maxlength="300" placeholder="For example: photo unclear, details could not be verified"></textarea>
+          <span class="field-note">This reason is shown to the candidate when they try to sign in.</span>
+        </label>`,
+      footer: `<button class="btn" data-close>Cancel</button><button class="btn danger" data-modal-reject>Reject registration</button>`,
+    });
+    m.root.querySelector("[data-modal-reject]").addEventListener("click", async (event) => {
+      const button = event.currentTarget;
+      button.disabled = true;
+      try {
+        await api(`/candidates/${encodeURIComponent(id)}/reject`, {
+          method: "POST",
+          body: { reason: m.root.querySelector("[name=reason]").value.trim() },
+        });
+        rejected = true;
+        toast("Registration rejected.", "success");
+        m.close();
+        afterApprovalChange();
+      } catch (e) {
+        button.disabled = false;
+        toast(e.message, "error");
+      }
+    });
+  });
+}
+
+async function deleteCandidate(id, name) {
+  if (!(await confirmDialog(`Delete ${name || "this candidate"} and all of their attempts? This cannot be undone.`, "Delete"))) return false;
+  try {
+    await api("/candidates/" + encodeURIComponent(id), { method: "DELETE" });
+    toast("Candidate deleted.", "success");
+    afterApprovalChange();
+    return true;
+  } catch (e) {
+    toast(e.message, "error");
+    return false;
+  }
+}
+
+async function renderApprovals() {
+  const status = state.approvalsStatus === "rejected" ? "rejected" : "pending";
+  const search = state.approvalsSearch || "";
+  const data = await api(`/approvals?status=${encodeURIComponent(status)}&q=${encodeURIComponent(search)}`);
+  const counts = data.counts || {};
+  const approvals = data.approvals || [];
+  applyApprovalCounts(counts);
+
+  $("#topbarActions").innerHTML = `<button class="btn" id="approvalsRefresh">Refresh</button>`;
+  $("#view").innerHTML = `
+    <div class="card"><div class="card-body">
+      <div class="tabs" role="tablist" aria-label="Registration approval status">
+        <button type="button" role="tab" class="tab ${status === "pending" ? "active" : ""}" data-approval-tab="pending" aria-selected="${status === "pending"}">
+          Pending <span class="tab-count">${Number(counts.pending) || 0}</span>
+        </button>
+        <button type="button" role="tab" class="tab ${status === "rejected" ? "active" : ""}" data-approval-tab="rejected" aria-selected="${status === "rejected"}">
+          Rejected <span class="tab-count">${Number(counts.rejected) || 0}</span>
+        </button>
+      </div>
+      <div class="toolbar" style="margin-top:14px">
+        <label class="grow">Search<input id="aSearch" value="${esc(search)}" placeholder="Name, Login ID, email or phone" /></label>
+      </div>
+      <p class="field-note toolbar-note">${status === "pending"
+        ? "Candidates below registered themselves and are waiting for a decision. Approve to activate the account, or reject with an optional reason. Approval should be decided within 24 hours of submission."
+        : "Rejected registrations stay here for reference. You can approve an application later, or delete it permanently."}</p>
+    </div></div>
+    <div class="card">
+      <div class="card-head"><h3>${status === "pending" ? "Pending registrations" : "Rejected registrations"}</h3><span class="sub">${approvals.length} shown</span></div>
+      <div class="card-body tight">
+        ${approvals.length ? `<div class="table-wrap"><table>
+          <thead><tr><th>Candidate</th><th>Contact</th><th>Login ID</th><th>Submitted</th><th>Status</th><th>Reviewed</th><th></th></tr></thead>
+          <tbody>${approvals.map((candidate) => `<tr>
+            <td>
+              <div class="cand-cell">
+                <span class="cand-thumb"><img src="${esc(candidatePhotoSrc(candidate.photo))}" alt="" /></span>
+                <span><strong>${esc(candidate.name)}</strong><span class="muted small">${esc(candidate.id)}</span></span>
+              </div>
+            </td>
+            <td class="muted small">${esc(candidate.email || "—")}<div>${esc(candidate.phone || "—")}</div></td>
+            <td><code>${esc(candidate.login)}</code></td>
+            <td class="muted small">${dt(candidate.created_at)}</td>
+            <td>${badge(candidate.status)}</td>
+            <td class="muted small">${candidate.reviewed_at ? `${dt(candidate.reviewed_at)}<div>${esc(candidate.reviewed_by || "admin")}</div>` : "—"}</td>
+            <td><div class="row">
+              <button class="btn small" data-approval-view="${esc(candidate.id)}">Review</button>
+              ${candidate.status === "pending" || candidate.status === "rejected" ? `<button class="btn small primary" data-approval-approve="${esc(candidate.id)}" data-name="${esc(candidate.name)}">Approve</button>` : ""}
+              ${candidate.status === "pending" ? `<button class="btn small danger" data-approval-reject="${esc(candidate.id)}" data-name="${esc(candidate.name)}">Reject</button>` : ""}
+              ${candidate.status === "rejected" ? `<button class="btn small danger" data-approval-delete="${esc(candidate.id)}" data-name="${esc(candidate.name)}">Delete</button>` : ""}
+            </div></td>
+          </tr>`).join("")}</tbody></table></div>`
+        : `<div class="empty">${status === "pending" ? "No registrations are waiting for approval." : "No rejected registrations."}</div>`}
+      </div>
+    </div>`;
+
+  $("#approvalsRefresh").addEventListener("click", () => {
+    renderApprovals().catch((e) => toast(e.message, "error"));
+  });
+  $("#view").querySelectorAll("[data-approval-tab]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.approvalsStatus = button.dataset.approvalTab;
+      renderApprovals().catch((e) => toast(e.message, "error"));
+    });
+  });
+  const searchInput = $("#aSearch");
+  searchInput.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+    state.approvalsSearch = searchInput.value.trim();
+    renderApprovals().catch((e) => toast(e.message, "error"));
+  });
+  searchInput.addEventListener("search", () => {
+    if (searchInput.value.trim() === state.approvalsSearch) return;
+    state.approvalsSearch = searchInput.value.trim();
+    renderApprovals().catch((e) => toast(e.message, "error"));
+  });
+
+  const v = $("#view");
+  v.querySelectorAll("[data-approval-view]").forEach((button) => {
+    button.addEventListener("click", () => openApproval(button.dataset.approvalView));
+  });
+  v.querySelectorAll("[data-approval-approve]").forEach((button) => {
+    button.addEventListener("click", () => { approveCandidate(button.dataset.approvalApprove, button.dataset.name); });
+  });
+  v.querySelectorAll("[data-approval-reject]").forEach((button) => {
+    button.addEventListener("click", () => { rejectCandidateForm(button.dataset.approvalReject, button.dataset.name); });
+  });
+  v.querySelectorAll("[data-approval-delete]").forEach((button) => {
+    button.addEventListener("click", () => { deleteCandidate(button.dataset.approvalDelete, button.dataset.name); });
+  });
+}
+
+async function openApproval(id) {
+  const { candidate } = await api("/candidates/" + encodeURIComponent(id));
+  const pending = candidate.status === "pending";
+  const rejected = candidate.status === "rejected";
+  const photo = candidatePhotoSrc(candidate.photo);
+  const reviewed = candidate.reviewed_at
+    ? `${dt(candidate.reviewed_at)}${candidate.reviewed_by ? ` by ${esc(candidate.reviewed_by)}` : ""}`
+    : "Not reviewed yet";
+  const m = modal({
+    title: `Registration — ${candidate.name}`,
+    wide: true,
+    body: `
+      <div class="approval-detail">
+        <div class="approval-photo">
+          <img src="${esc(photo)}" alt="${esc(candidate.name)} photo" />
+          ${badge(candidate.status)}
+        </div>
+        <div class="approval-meta">
+          <div><span>Full name</span><strong>${esc(candidate.name)}</strong></div>
+          <div><span>Login ID</span><strong><code>${esc(candidate.login)}</code></strong></div>
+          <div><span>Candidate ID</span><strong>${esc(candidate.id)}</strong></div>
+          <div><span>Email</span><strong>${esc(candidate.email || "—")}</strong></div>
+          <div><span>Phone</span><strong>${esc(candidate.phone || "—")}</strong></div>
+          <div><span>Submitted</span><strong>${dt(candidate.created_at)}</strong></div>
+          <div><span>Source</span><strong>${candidate.registration_source === "self" ? "Self-registration" : "Created by administrator"}</strong></div>
+          <div><span>Reviewed</span><strong>${reviewed}</strong></div>
+        </div>
+      </div>
+      ${rejected && candidate.rejection_reason ? `<div class="approval-reason"><strong>Rejection reason</strong><span>${esc(candidate.rejection_reason)}</span></div>` : ""}
+      <p class="field-note">${pending
+        ? "Check the photo and contact details before approving. The candidate cannot sign in while the account is pending. The expected approval window is 24 hours."
+        : rejected
+          ? "This application was rejected. You can approve it if the details are now verified, or delete it permanently."
+          : "This account is already active."}</p>`,
+    footer: `<button class="btn" data-close>Close</button>${pending ? `<button class="btn danger" data-modal-reject>Reject</button>` : ""}${pending || rejected ? `<button class="btn primary" data-modal-approve>${rejected ? "Approve anyway" : "Approve"}</button>` : ""}`,
+  });
+
+  m.root.querySelector("[data-modal-approve]")?.addEventListener("click", async (event) => {
+    const button = event.currentTarget;
+    button.disabled = true;
+    if (await approveCandidate(candidate.id, candidate.name)) m.close();
+    else button.disabled = false;
+  });
+  m.root.querySelector("[data-modal-reject]")?.addEventListener("click", () => {
+    m.close();
+    rejectCandidateForm(candidate.id, candidate.name);
   });
 }
 

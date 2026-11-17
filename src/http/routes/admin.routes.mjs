@@ -7,6 +7,7 @@ import * as authService from "../../services/auth.service.mjs";
 import * as overviewService from "../../services/overview.service.mjs";
 import * as assessmentsService from "../../services/assessments.admin.service.mjs";
 import * as candidatesService from "../../services/candidates.service.mjs";
+import * as registrationService from "../../services/registration.service.mjs";
 import * as candidateGroupsService from "../../services/candidate-groups.service.mjs";
 import * as attemptsAdmin from "../../services/attempts.admin.service.mjs";
 import * as feedbackService from "../../services/feedback.service.mjs";
@@ -168,6 +169,14 @@ export function registerAdminRoutes(router) {
   guarded[3]("/api/admin/questions/:id", auth(async (_req, res, { params }) =>
     sendOk(res, await assessmentsService.removeQuestion(Number(params.id)))));
 
+  guarded[0]("/api/admin/approvals", auth(async (_req, res, match) =>
+    sendOk(res, await registrationService.queue({
+      status: (match.url.searchParams.get("status") || "pending").trim(),
+      term: (match.url.searchParams.get("q") || "").trim(),
+    }))));
+  guarded[0]("/api/admin/approvals/count", auth(async (_req, res) =>
+    sendOk(res, { counts: await registrationService.counts() })));
+
   guarded[0]("/api/admin/candidates", auth(async (_req, res, match) => {
     const { page, pageSize, offset } = pageParams(match.url);
     return sendOk(res, await candidatesService.list({ term: (match.url.searchParams.get("q") || "").trim(), page, pageSize, offset }));
@@ -190,6 +199,23 @@ export function registerAdminRoutes(router) {
   guarded[1]("/api/admin/candidates/:id/reset-password", auth(async (req, res, { params }) => {
     await candidatesService.resetPassword(params.id, (await readJson(req)).password);
     return sendOk(res);
+  }));
+  guarded[1]("/api/admin/candidates/:id/approve", auth(async (req, res, { params }, admin) =>
+    sendOk(res, {
+      candidate: await registrationService.approve(params.id, {
+        actor: admin.username,
+        ip: requestIp(req),
+      }),
+    })));
+  guarded[1]("/api/admin/candidates/:id/reject", auth(async (req, res, { params }, admin) => {
+    const body = await readJson(req);
+    return sendOk(res, {
+      candidate: await registrationService.reject(params.id, {
+        reason: body.reason,
+        actor: admin.username,
+        ip: requestIp(req),
+      }),
+    });
   }));
 
   guarded[0]("/api/admin/candidate-groups", auth(async (_req, res) =>
@@ -283,3 +309,5 @@ async function adminOf(req) {
   const admin = await authService.adminFromToken(cookies(req)[ADMIN_COOKIE]);
   return admin || { username: "system" };
 }
+
+const requestIp = (req) => req.socket?.remoteAddress || req.headers["x-forwarded-for"] || "";

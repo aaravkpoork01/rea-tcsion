@@ -28,6 +28,56 @@ candidate's attempt, sets session cookies (`ion_cand`, `cand_master_id`,
 }
 ```
 
+### `GET /IBA/api/register/login-id`, `GET /IBA/api/register/check-login`
+
+Public helpers for self-registration. `login-id` returns a fresh, unused
+10-digit Login ID; `check-login?login=` validates one:
+
+```json
+{ "ok": true, "login": "9871737949", "valid": true, "available": true }
+```
+
+### `POST /IBA/api/register`
+
+Public self-registration. JSON body:
+
+```json
+{
+  "name": "Ravi Sharma",
+  "email": "ravi@example.com",
+  "phone": "9876543210",
+  "password": "…",
+  "login": "9871737949",
+  "photo": "data:image/jpeg;base64,…",
+  "orgId": "726"
+}
+```
+
+At least one of `email`/`phone` is required, `photo` is a required data-URL
+image, and `login` may be omitted to have a 10-digit ID generated server-side.
+The account is created with status `pending` and
+`registration_source: "self"`; it cannot sign in until an administrator
+approves it.
+
+```json
+{
+  "ok": true,
+  "candidate": {
+    "id": "xRgiTm51zr", "login": "9871737949", "name": "Ravi Sharma",
+    "status": "pending", "submittedAt": "…", "approvalDeadline": "…"
+  },
+  "message": "Your registration is awaiting administrator approval…"
+}
+```
+
+Registrations are throttled to 5 submissions per IP per 10 minutes. An email or
+phone already used by an active or pending account is rejected as a duplicate.
+
+`POST /IBA/api/login` and `/IBA/api/login/verify` check the password first, then
+refuse `pending` accounts with a message saying approval can take up to 24 hours,
+and `rejected` accounts with the administrator's reason, before any attempt is
+opened. `active` accounts behave as before; `inactive` accounts stay blocked.
+
 ### `GET /IBA/api/session`, `GET /IBA/api/logout`, `GET /IBA/api/ping`
 
 Session probe, cookie clear + session destroy, and `{ ok:true, now }`.
@@ -116,7 +166,7 @@ cookie; `POST /api/admin/logout`; `GET /api/admin/me`.
 
 | Method | Path | Description |
 | --- | --- | --- |
-| GET | `/api/admin/overview` | Dashboard stats, recent attempts, live attempts |
+| GET | `/api/admin/overview` | Dashboard stats (incl. `stats.pendingApprovals`), recent attempts, live attempts |
 | GET | `/api/admin/assessments` | Assessments with question/attempt/group counts |
 | POST | `/api/admin/assessments` | Create an assessment (optionally imports its paper) |
 | GET / PUT / DELETE | `/api/admin/assessments/:id` | Read, update, delete |
@@ -128,6 +178,10 @@ cookie; `POST /api/admin/logout`; `GET /api/admin/me`.
 | POST | `/api/admin/candidates` | Create a candidate |
 | POST | `/api/admin/candidates/import` | Bulk import from CSV (`login` column required) |
 | GET / PUT / DELETE | `/api/admin/candidates/:id` | Read, update, delete |
+| GET | `/api/admin/approvals?status=pending&q=` | Self-registration review queue (`pending` or `rejected`) with `counts` |
+| GET | `/api/admin/approvals/count` | `{ counts: { pending, rejected } }` for the nav badge and dashboard |
+| POST | `/api/admin/candidates/:id/approve` | Activate a `pending` or `rejected` registration |
+| POST | `/api/admin/candidates/:id/reject` | Reject a `pending` registration; optional `{ reason }` (≤300 chars) shown to the candidate |
 | POST | `/api/admin/candidates/:id/reset-password` | Set a new password |
 | GET | `/api/admin/attempts?status=&assessment=&q=&page=` | List attempts |
 | GET | `/api/admin/attempts/:id` | Attempt detail: candidate, responses, options, audit, feedback |
@@ -143,6 +197,15 @@ cookie; `POST /api/admin/logout`; `GET /api/admin/me`.
 | GET | `/api/admin/export/feedback.csv` | CSV download |
 | GET | `/api/admin/export/candidates.csv` | CSV download |
 | GET | `/api/admin/export/audit.csv` | Recent audit entries as CSV (1000 rows) |
+
+Candidate `status` is `active` (can sit exams), `inactive` (blocked),
+`pending` (self-registered, awaiting approval) or `rejected`. Self-registered
+candidates record `registration_source: "self"`, their submission time
+(`submittedAt` in the registration response, `created_at` in queue rows),
+`reviewed_at`, `reviewed_by` and `rejection_reason`; admin-created candidates
+default to `registration_source: "admin"`. Only `pending`/`rejected`
+registrations can be approved, and only `pending` ones rejected. Review actions
+write `registration_approved` / `registration_rejected` audit events.
 
 ## Client modules (`raw/js/exam/`)
 

@@ -27,15 +27,34 @@ async function ensureCandidateColumns() {
   if (usePostgres) {
     await db.query("ALTER TABLE candidates ADD COLUMN IF NOT EXISTS system_name TEXT NOT NULL DEFAULT ''");
     await db.query("ALTER TABLE candidates ADD COLUMN IF NOT EXISTS group_id TEXT NOT NULL DEFAULT ''");
+    await db.query("ALTER TABLE candidates ADD COLUMN IF NOT EXISTS registration_source TEXT NOT NULL DEFAULT 'admin'");
+    await db.query("ALTER TABLE candidates ADD COLUMN IF NOT EXISTS reviewed_at TEXT");
+    await db.query("ALTER TABLE candidates ADD COLUMN IF NOT EXISTS reviewed_by TEXT NOT NULL DEFAULT ''");
+    await db.query("ALTER TABLE candidates ADD COLUMN IF NOT EXISTS rejection_reason TEXT NOT NULL DEFAULT ''");
+    await db.query("CREATE INDEX IF NOT EXISTS idx_candidates_status ON candidates(status)");
     return;
   }
   const columns = db.prepare("PRAGMA table_info(candidates)").all();
-  if (!columns.some((column) => column.name === "system_name")) {
+  const missing = (name) => !columns.some((column) => column.name === name);
+  if (missing("system_name")) {
     await db.query("ALTER TABLE candidates ADD COLUMN system_name TEXT NOT NULL DEFAULT ''");
   }
-  if (!columns.some((column) => column.name === "group_id")) {
+  if (missing("group_id")) {
     await db.query("ALTER TABLE candidates ADD COLUMN group_id TEXT NOT NULL DEFAULT ''");
   }
+  if (missing("registration_source")) {
+    await db.query("ALTER TABLE candidates ADD COLUMN registration_source TEXT NOT NULL DEFAULT 'admin'");
+  }
+  if (missing("reviewed_at")) {
+    await db.query("ALTER TABLE candidates ADD COLUMN reviewed_at TEXT");
+  }
+  if (missing("reviewed_by")) {
+    await db.query("ALTER TABLE candidates ADD COLUMN reviewed_by TEXT NOT NULL DEFAULT ''");
+  }
+  if (missing("rejection_reason")) {
+    await db.query("ALTER TABLE candidates ADD COLUMN rejection_reason TEXT NOT NULL DEFAULT ''");
+  }
+  await db.query("CREATE INDEX IF NOT EXISTS idx_candidates_status ON candidates(status)");
 }
 
 /** Assessment access and fullscreen policy added after the first release. */

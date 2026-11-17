@@ -9,7 +9,7 @@ const RECENT_LIMIT = 8;
 const LIVE_LIMIT = 8;
 
 export async function overview() {
-  const [attemptCounts, candidates, assessments, feedback, questions, recent, live] = await Promise.all([
+  const [attemptCounts, candidates, assessments, feedback, questions, recent, live, pendingApprovals] = await Promise.all([
     attemptsRepo.overviewCounts(),
     candidatesRepo.count(),
     assessmentsRepo.count(),
@@ -17,6 +17,7 @@ export async function overview() {
     questionsRepo.count(),
     attemptsRepo.recentWithNames(RECENT_LIMIT),
     attemptsRepo.liveWithNames(LIVE_LIMIT),
+    candidatesRepo.countByStatus("pending"),
   ]);
 
   return {
@@ -29,6 +30,7 @@ export async function overview() {
       feedback,
       questions,
       avgScore: attemptCounts.avgScore,
+      pendingApprovals,
     },
     recent,
     live,

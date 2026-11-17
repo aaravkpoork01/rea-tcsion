@@ -47,10 +47,47 @@ export const listExistingIds = async (ids) => {
 };
 
 export const create = async (row) =>
-  run(`INSERT INTO candidates(id, org_id, login, password_hash, name, system_name, group_id, email, phone, photo, status, created_at)
-       VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`,
+  run(`INSERT INTO candidates(id, org_id, login, password_hash, name, system_name, group_id, email, phone, photo, status, registration_source, created_at)
+       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`,
   row.id, row.orgId, row.login, row.passwordHash, row.name, row.systemName || "",
-  row.groupId || "", row.email, row.phone, row.photo || "", row.status, row.createdAt);
+  row.groupId || "", row.email, row.phone, row.photo || "", row.status,
+  row.registrationSource || "admin", row.createdAt);
+
+/**
+ * Existing active/pending account using the same email or phone. Rejected
+ * applications are ignored so an applicant can apply again.
+ */
+export const findLiveByContact = async ({ email, phone }) =>
+  one(`SELECT id, login, name, status FROM candidates
+       WHERE status IN ('active', 'pending')
+         AND ((? <> '' AND LOWER(email) = LOWER(?)) OR (? <> '' AND phone = ?))
+       LIMIT 1`, email || "", email || "", phone || "", phone || "");
+
+/** Registration rows for the admin approval queue. */
+export const listApprovals = async ({ status, term = "", limit = 200 }) => {
+  const clause = term
+    ? "AND (name LIKE ? OR login LIKE ? OR email LIKE ? OR phone LIKE ?)"
+    : "";
+  const args = term ? Array(4).fill(`%${term}%`) : [];
+  return all(`SELECT id, login, name, email, phone, photo, status, registration_source,
+      created_at, last_login_at, reviewed_at, reviewed_by, rejection_reason
+    FROM candidates
+    WHERE status = ? ${clause}
+    ORDER BY created_at DESC LIMIT ?`, status, ...args, limit);
+};
+
+export const countByStatus = async (status) => {
+  const row = await one("SELECT COUNT(*) AS n FROM candidates WHERE status = ?", status);
+  return Number(row?.n ?? 0);
+};
+
+/** Record an approval or rejection decision. */
+export const updateReview = async (id, fields) =>
+  run(`UPDATE candidates
+       SET status = ?, reviewed_at = ?, reviewed_by = ?, rejection_reason = ?
+       WHERE id = ?`,
+  fields.status, fields.reviewedAt || null, fields.reviewedBy || "",
+  fields.rejectionReason || "", id);
 
 export const update = async (id, fields) =>
   run("UPDATE candidates SET login=?, name=?, system_name=?, group_id=?, email=?, phone=?, photo=?, status=? WHERE id=?",

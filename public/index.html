@@ -9,6 +9,7 @@
         <link href="css/style-login.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="css/keyboard.css" />
         <link rel="stylesheet" href="css/number_style.css" />
+        <link rel="stylesheet" href="css/registration.css?v=17.08.16" />
         <style>
             /* Login page only: paper language is selected inside the exam, not here. */
             #multilingualDropdown { display: none !important; }
@@ -383,17 +384,118 @@
 				</td>
 			</tr></table>
                        <a  onclick="signIn()" > <span id="signInLabel" class="btn btn-primary btn-primary-blue" style="line-height: 35px">Verify</span></a>
+                       <div class="register-row">
+                           Don&rsquo;t have an account? <a href="#register" onclick="openRegistration(); return false;">Register</a>
+                           <span class="register-note-line">New registrations need administrator approval, up to 24 hours.</span>
+                       </div>
                     </form>
                 </div>
 
             </div>
 			    <div id="footer">
 			    <center>
-	<div> Version 17.05.21</div></center>
+	<div> <a href="/" style="color:#fff;">Home</a> &middot; Version 17.05.21</div></center>
     <div class="clear"></div>
 </div>
 
         </div>
+
+        <div id="registrationOverlay" class="reg-hidden" role="dialog" aria-modal="true" aria-labelledby="regTitle">
+            <div class="reg-panel" role="document">
+                <div class="reg-head">
+                    <div>
+                        <span class="reg-kicker">Candidate registration</span>
+                        <h2 id="regTitle">Create your account</h2>
+                        <p>Submit your details for administrator approval. You can sign in once your account is active.</p>
+                    </div>
+                    <button type="button" class="reg-close" id="regClose" aria-label="Close registration">&times;</button>
+                </div>
+
+                <div class="reg-body" id="registrationFormWrap">
+                    <form id="registrationForm" class="reg-form" novalidate>
+                        <div class="reg-error" id="registrationError" role="alert"></div>
+                        <div class="reg-layout">
+                            <div class="reg-photo-wrap">
+                                <span class="reg-photo-label">Candidate photo <span class="reg-req">*</span></span>
+                                <div class="reg-photo" id="regPhotoBox" role="button" tabindex="0" aria-label="Upload candidate photo">
+                                    <img id="regPhotoPreview" alt="Candidate photo preview" class="reg-hidden" />
+                                    <span class="reg-photo-empty" id="regPhotoEmpty">
+                                        <span class="reg-photo-icon" aria-hidden="true"></span>
+                                        <strong>Add your photo</strong>
+                                        <span>Click to upload<br />JPG or PNG</span>
+                                    </span>
+                                    <button type="button" class="reg-photo-remove" id="regPhotoRemove" title="Remove photo" aria-label="Remove photo">&times;</button>
+                                    <input type="file" id="regPhotoFile" accept="image/png,image/jpeg,image/webp" aria-label="Choose candidate photo" />
+                                    <span class="reg-photo-hint">Click to upload</span>
+                                </div>
+                                <span class="reg-photo-note" id="regPhotoNote">Passport-style, clear face</span>
+                            </div>
+
+                            <div class="reg-fields">
+                                <div class="reg-field">
+                                    <label for="regName">Full name <span class="reg-req">*</span></label>
+                                    <input id="regName" name="name" type="text" maxlength="80" autocomplete="name" placeholder="As printed on your ID" />
+                                </div>
+                                <div class="reg-grid2">
+                                    <div class="reg-field">
+                                        <label for="regEmail">Email</label>
+                                        <input id="regEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" />
+                                    </div>
+                                    <div class="reg-field">
+                                        <label for="regPhone">Phone</label>
+                                        <input id="regPhone" name="phone" type="tel" inputmode="numeric" maxlength="14" autocomplete="tel" placeholder="10-digit number" />
+                                    </div>
+                                </div>
+                                <div class="reg-note" id="regContactNote">Enter at least one: a valid email address or a 10-digit phone number.</div>
+                                <div class="reg-grid2">
+                                    <div class="reg-field">
+                                        <label for="regPassword">Password <span class="reg-req">*</span></label>
+                                        <input id="regPassword" name="password" type="password" minlength="6" maxlength="128" autocomplete="new-password" placeholder="At least 6 characters" />
+                                    </div>
+                                    <div class="reg-field">
+                                        <label for="regConfirm">Confirm password <span class="reg-req">*</span></label>
+                                        <input id="regConfirm" name="confirm" type="password" minlength="6" maxlength="128" autocomplete="new-password" placeholder="Re-enter password" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="reg-field">
+                            <label for="regLogin">Login ID <span class="reg-req">*</span></label>
+                            <div class="reg-input-action">
+                                <input id="regLogin" name="login" type="text" inputmode="numeric" maxlength="10" pattern="[0-9]{10}" autocomplete="off" spellcheck="false" placeholder="10-digit Login ID" />
+                                <button type="button" class="reg-refresh" id="regLoginRefresh" title="Generate a new Login ID" aria-label="Generate a new Login ID">&#x21bb;</button>
+                            </div>
+                            <span class="reg-note" id="regLoginNote">Type your own 10-digit Login ID or refresh to generate one.</span>
+                        </div>
+
+                        <label class="reg-consent">
+                            <input type="checkbox" id="regConsent" />
+                            <span>I confirm that the details and photograph are mine and correct. I understand that my account stays <strong>pending</strong> until an administrator approves it, which can take up to 24 hours.</span>
+                        </label>
+                    </form>
+                </div>
+
+                <div class="reg-foot" id="registrationFoot">
+                    <button type="button" class="reg-btn" id="regCancel">Cancel</button>
+                    <button type="submit" class="reg-btn reg-btn-primary" id="regSubmit" form="registrationForm">Submit for approval</button>
+                </div>
+
+                <div class="reg-success reg-hidden" id="registrationSuccess">
+                    <div class="reg-success-icon" aria-hidden="true">&#10003;</div>
+                    <h3>Registration submitted</h3>
+                    <p>Your details have been sent to the administrator. Your account is <strong>pending</strong> until it is approved; approval can take up to <strong>24 hours</strong>.</p>
+                    <div class="reg-login-box" id="regSuccessLogin">&mdash;</div>
+                    <div class="reg-deadline">
+                        <strong>Approval window: maximum 24 hours</strong>
+                        <span id="regSuccessDeadline">Expected decision by &mdash;</span>
+                    </div>
+                    <p class="reg-note">Keep this Login ID safe. You will need it, with your password, to sign in after approval. If more than 24 hours have passed, contact the administrator.</p>
+                    <button type="button" class="reg-btn reg-btn-primary" id="regSuccessClose">Back to sign in</button>
+                </div>
+            </div>
+        </div>
+
 		<script>
 	if($.support.msie && $.browser.version <7){
 		alert("Please use IE 7.0 or above");
@@ -426,6 +528,7 @@ function onLoadData(){
 <script src="js/exam/ui-config.js"></script>
 <script src="js/exam/candidate-identity.js"></script>
 <script src="js/exam/inspector-unlock.js"></script>
+<script src="js/registration.js?v=17.08.16"></script>
 
 </body>
 <style>

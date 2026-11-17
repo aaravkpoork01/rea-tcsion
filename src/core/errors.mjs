@@ -16,6 +16,7 @@ export const unauthorized = (message = "Not signed in.") => new AppError(message
 export const forbidden = (message = "Not allowed.") => new AppError(message, 403, "forbidden");
 export const notFound = (message = "Not found.") => new AppError(message, 404, "not_found");
 export const conflict = (message, details) => new AppError(message, 409, "conflict", details);
+export const tooManyRequests = (message = "Too many requests. Please try again later.") => new AppError(message, 429, "rate_limited");
 
 export const isAppError = (error) => error instanceof AppError;
 

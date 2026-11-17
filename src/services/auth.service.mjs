@@ -6,6 +6,7 @@ import { badRequest, conflict, unauthorized, forbidden } from "../core/errors.mj
 import * as sessionsRepo from "../db/repositories/sessions.repo.mjs";
 import * as adminsRepo from "../db/repositories/admins.repo.mjs";
 import * as candidatesRepo from "../db/repositories/candidates.repo.mjs";
+import { PENDING_LOGIN_MESSAGE, REJECTED_LOGIN_MESSAGE } from "./registration.service.mjs";
 
 const CANDIDATE_COOKIE = "ion_cand";
 const ADMIN_COOKIE = "ion_admin";
@@ -122,11 +123,17 @@ export async function requireAdmin(token) {
 /** Verify candidate credentials without touching attempts. */
 export async function checkCandidateCredentials(login, password) {
   const candidate = await candidatesRepo.findByLogin(String(login || "").trim());
-  if (!candidate) throw unauthorized("Invalid Login ID or password.");
-  if (candidate.status !== "active") throw forbidden("Your account is not active. Contact the administrator.");
-  if (!verifyPassword(password ?? "", candidate.password_hash)) {
+  if (!candidate || !verifyPassword(password ?? "", candidate.password_hash)) {
     throw unauthorized("Invalid Login ID or password.");
   }
+  if (candidate.status === "pending") throw forbidden(PENDING_LOGIN_MESSAGE);
+  if (candidate.status === "rejected") {
+    const reason = String(candidate.rejection_reason || "").trim().replace(/[.!?]+$/, "");
+    throw forbidden(reason
+      ? `Your registration was not approved. Reason: ${reason}. Contact the administrator.`
+      : REJECTED_LOGIN_MESSAGE);
+  }
+  if (candidate.status !== "active") throw forbidden("Your account is not active. Contact the administrator.");
   return candidate;
 }
 

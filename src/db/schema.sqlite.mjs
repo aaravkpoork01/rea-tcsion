@@ -137,9 +137,15 @@ CREATE TABLE IF NOT EXISTS candidates (
   phone TEXT NOT NULL DEFAULT '',
   photo TEXT NOT NULL DEFAULT '',
   status TEXT NOT NULL DEFAULT 'active',
+  registration_source TEXT NOT NULL DEFAULT 'admin',
+  reviewed_at TEXT,
+  reviewed_by TEXT NOT NULL DEFAULT '',
+  rejection_reason TEXT NOT NULL DEFAULT '',
   created_at TEXT NOT NULL,
   last_login_at TEXT
 );
+
+CREATE INDEX IF NOT EXISTS idx_candidates_status ON candidates(status);
 
 CREATE TABLE IF NOT EXISTS candidate_groups (
   id TEXT PRIMARY KEY,

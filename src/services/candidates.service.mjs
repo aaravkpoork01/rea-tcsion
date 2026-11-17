@@ -3,6 +3,7 @@ import { hashPassword, newCode } from "../core/crypto.mjs";
 import { nowIso } from "../core/time.mjs";
 import { badRequest, conflict, notFound } from "../core/errors.mjs";
 import { parseCsv } from "../core/csv.mjs";
+import { normalisePhoto } from "../domain/candidate-photo.mjs";
 import * as candidatesRepo from "../db/repositories/candidates.repo.mjs";
 import * as attemptsRepo from "../db/repositories/attempts.repo.mjs";
 import * as candidateGroupsService from "./candidate-groups.service.mjs";
@@ -12,21 +13,7 @@ const publicView = (candidate) => {
   return rest;
 };
 
-const MAX_PHOTO_CHARS = 2_000_000;
-
-/** Accept an uploaded data URL, an http(s) URL or a local image path. */
-function photoValue(value) {
-  const photo = String(value || "").trim();
-  if (!photo) return "";
-  if (photo.length > MAX_PHOTO_CHARS) throw badRequest("Photo is too large.");
-  const allowed = /^data:image\//i.test(photo)
-    || /^https?:\/\//i.test(photo)
-    || /^\//.test(photo)
-    || /^\.{0,2}\//.test(photo)
-    || /^images\//i.test(photo);
-  if (!allowed) throw badRequest("Photo must be an uploaded image or an image URL.");
-  return photo;
-}
+const photoValue = (value) => normalisePhoto(value);
 
 const systemNameValue = (value) => String(value ?? "").trim();
 
@@ -52,6 +39,15 @@ const LOGIN_PATTERN = /^[0-9]{10}$/;
 const CANDIDATE_ID_PATTERN = /^[A-Za-z0-9]{10}$/;
 const LOGIN_ERROR = "Login ID must be exactly 10 digits (numbers only).";
 const CANDIDATE_ID_ERROR = "Candidate ID must be exactly 10 letters or numbers.";
+const CANDIDATE_STATUSES = new Set(["active", "inactive", "pending", "rejected"]);
+
+function statusValue(value, fallback = "active") {
+  const status = String(value ?? "").trim().toLowerCase() || fallback;
+  if (!CANDIDATE_STATUSES.has(status)) {
+    throw badRequest("Candidate status must be active, inactive, pending or rejected.");
+  }
+  return status;
+}
 
 /**
  * Admin candidates have one contact field. A value containing "@" or ending
@@ -145,7 +141,7 @@ export async function create(body) {
     email: contact.email,
     phone: contact.phone,
     photo: photoValue(body.photo),
-    status: String(body.status || "active"),
+    status: statusValue(body.status, "active"),
     createdAt: nowIso(),
   });
   await candidateGroupsService.setForCandidate(id, groupIds);
@@ -183,7 +179,7 @@ export async function update(id, body) {
     email: contact.email,
     phone: contact.phone,
     photo: body.photo === undefined ? candidate.photo : photoValue(body.photo),
-    status: body.status ?? candidate.status,
+    status: statusValue(body.status, candidate.status),
   });
   if (groupIds !== null) await candidateGroupsService.setForCandidate(id, groupIds);
 

@@ -2,10 +2,12 @@
 import { config } from "../../../config/index.mjs";
 import { readJson, readParams, readRaw } from "../body.mjs";
 import { cookies, clearCookie, serialiseCookie } from "../cookies.mjs";
-import { sendJson, sendOk, sendText } from "../respond.mjs";
+import { sendJson, sendOk, sendText, sendCreated } from "../respond.mjs";
+import { tooManyRequests } from "../../core/errors.mjs";
 import { requireAdmin } from "../../services/auth.service.mjs";
 import * as authService from "../../services/auth.service.mjs";
 import * as examService from "../../services/exam.service.mjs";
+import * as registrationService from "../../services/registration.service.mjs";
 import * as resultService from "../../services/result-share.service.mjs";
 import * as settingsService from "../../services/settings.service.mjs";
 import * as candidatesRepo from "../../db/repositories/candidates.repo.mjs";
@@ -32,11 +34,48 @@ const context = (req) => ({
 
 const session = async (req) => authService.candidateFromToken(cookies(req)[CANDIDATE_COOKIE]);
 
+const REGISTER_WINDOW_MS = 10 * 60 * 1000;
+const REGISTER_MAX = 5;
+const registrationHits = new Map();
+
+/** Small in-process guard against registration spam. */
+function throttleRegistration(ip) {
+  const key = String(ip || "unknown");
+  const now = Date.now();
+  const hits = (registrationHits.get(key) || []).filter((time) => now - time < REGISTER_WINDOW_MS);
+  if (hits.length >= REGISTER_MAX) {
+    throw tooManyRequests("Too many registration attempts. Please wait a few minutes and try again.");
+  }
+  hits.push(now);
+  registrationHits.set(key, hits);
+  if (registrationHits.size > 2000) {
+    for (const [address, times] of registrationHits) {
+      if (!times.some((time) => now - time < REGISTER_WINDOW_MS)) registrationHits.delete(address);
+    }
+  }
+}
+
 const setCookies = (entries) => ({
   "Set-Cookie": entries.map((entry) => serialiseCookie(entry.name, entry.value, { maxAge: entry.maxAge, httpOnly: entry.httpOnly })),
 });
 
 export function registerCandidateRoutes(router) {
+  // Public self-registration. New accounts start as `pending` and cannot sign
+  // in until an administrator approves them.
+  router.get("/IBA/api/register/login-id", async (_req, res) => {
+    return sendOk(res, { login: await registrationService.generateLoginId() });
+  });
+
+  router.get("/IBA/api/register/check-login", async (_req, res, { url }) => {
+    return sendOk(res, await registrationService.loginAvailable(url.searchParams.get("login") || ""));
+  });
+
+  router.post("/IBA/api/register", async (req, res) => {
+    throttleRegistration(context(req).ip);
+    const body = await readJson(req);
+    return sendCreated(res, await registrationService.register(body, context(req)));
+  });
+
   router.post("/IBA/api/login/verify", async (req, res) => {
     const params = await readParams(req);
     return sendOk(res, await examService.verifySignIn({

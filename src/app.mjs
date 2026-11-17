@@ -216,7 +216,11 @@ async function servePaperXml(res, pathname) {
 /** Fallback for the mirrored candidate console. */
 async function serveMirror(res, pathname) {
   let target = pathname;
-  if (!target || target === "/" || target === "/OnlineAssessment" || target === "/OnlineAssessment/") {
+  if (!target || target === "/") {
+    // The public landing page; the candidate sign-in screen stays at
+    // /index.html?<orgId>@@<assessmentId> so existing links keep working.
+    target = "/landing.html";
+  } else if (target === "/OnlineAssessment" || target === "/OnlineAssessment/") {
     target = "/index.html";
   } else if (target.startsWith("/OnlineAssessment/")) {
     target = target.slice("/OnlineAssessment".length);
