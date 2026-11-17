@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Assessment Result — Exam Intelligence</title>
-<link rel="stylesheet" href="css/result.css?v=17.11.22" />
+<link rel="stylesheet" href="css/result.css?v=17.11.23" />
 <script src="js/result-brand.js?v=17.11.22" defer></script>
 </head>
 <body>
@@ -30,7 +30,7 @@
       <form id="openForm" class="form-grid">
         <label>Assessment
           <select id="assessmentSelect" name="assessmentId">
-            <option value="">All assessments</option>
+            <option value="" disabled selected>Select assessment</option>
           </select>
         </label>
         <label>Login ID
@@ -59,6 +59,16 @@
     </nav>
   </div>
 </footer>
+
+<div class="modal" id="noticeModal" hidden>
+  <div class="modal-card" role="alertdialog" aria-modal="true" aria-labelledby="noticeTitle" aria-describedby="noticeText">
+    <div class="modal-head" id="noticeTitle">Not found</div>
+    <div class="modal-body">
+      <p id="noticeText"></p>
+      <button class="btn block" id="noticeOk" type="button">OK</button>
+    </div>
+  </div>
+</div>
 
 <script>
 "use strict";
@@ -103,6 +113,32 @@ const showError = (message) => {
 
 const hideError = () => $("#error").classList.remove("show");
 
+const noticeModal = $("#noticeModal");
+let noticeReturnFocus = null;
+
+const showNotice = (title, message) => {
+  noticeReturnFocus = document.activeElement;
+  $("#noticeTitle").textContent = title || "Not found";
+  $("#noticeText").textContent = message || "The requested result was not found.";
+  noticeModal.hidden = false;
+  $("#noticeOk").focus();
+};
+
+const hideNotice = () => {
+  noticeModal.hidden = true;
+  if (noticeReturnFocus && typeof noticeReturnFocus.focus === "function") {
+    noticeReturnFocus.focus();
+  }
+};
+
+$("#noticeOk").addEventListener("click", hideNotice);
+noticeModal.addEventListener("click", (event) => {
+  if (event.target === noticeModal) hideNotice();
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !noticeModal.hidden) hideNotice();
+});
+
 const resetOpenButton = () => {
   const button = $("#openButton");
   if (!button) return;
@@ -120,7 +156,9 @@ async function openResult(candidateId, assessmentId = "", attemptId = "") {
   });
   const data = await response.json().catch(() => ({}));
   if (!response.ok || data.ok === false) {
-    throw new Error(data.error || "Could not open this result.");
+    const error = new Error(data.error || (response.status === 404 ? "Result not found." : "Could not open this result."));
+    error.status = response.status;
+    throw error;
   }
   return data;
 }
@@ -279,6 +317,18 @@ const initialAssessment = params.get("assessment") || "";
 const initialAttempt = params.get("attempt") || "";
 const assessmentSelect = $("#assessmentSelect");
 
+function addAssessmentOption(id, name) {
+  const option = document.createElement("option");
+  option.value = id;
+  option.textContent = name ? `${id} - ${name}` : id;
+  assessmentSelect.appendChild(option);
+}
+
+function disableAssessmentPicker() {
+  assessmentSelect.disabled = true;
+  $("#openButton").disabled = true;
+}
+
 async function loadAssessments() {
   try {
     const response = await fetch("/IBA/api/assessments", {
@@ -286,26 +336,38 @@ async function loadAssessments() {
     });
     const data = await response.json().catch(() => ({}));
     const items = (data && data.assessments) || [];
+
+    assessmentSelect.replaceChildren();
     for (const item of items) {
       const id = String(item.id || "");
       if (!id) continue;
-      const option = document.createElement("option");
-      option.value = id;
-      option.textContent = item.name ? `${id} - ${item.name}` : id;
-      assessmentSelect.appendChild(option);
+      addAssessmentOption(id, item.name ? String(item.name) : "");
     }
+
     if (initialAssessment) {
       const exists = [...assessmentSelect.options].some((option) => option.value === initialAssessment);
-      if (!exists) {
-        const option = document.createElement("option");
-        option.value = initialAssessment;
-        option.textContent = `${initialAssessment} - Assessment`;
-        assessmentSelect.appendChild(option);
-      }
+      if (!exists) addAssessmentOption(initialAssessment, "Assessment");
       assessmentSelect.value = initialAssessment;
     }
+
+    if (!assessmentSelect.options.length) {
+      disableAssessmentPicker();
+      showNotice("Assessment not found", "No assessment is available right now. Please contact your administrator.");
+      return false;
+    }
+
+    if (!assessmentSelect.value) assessmentSelect.selectedIndex = 0;
+    return true;
   } catch {
-    // The Login ID can still open the result; the selector just stays on All.
+    if (initialAssessment) {
+      assessmentSelect.replaceChildren();
+      addAssessmentOption(initialAssessment, "Assessment");
+      assessmentSelect.value = initialAssessment;
+      return true;
+    }
+    disableAssessmentPicker();
+    showNotice("Assessment not found", "The assessment list could not be loaded. Please refresh the page and try again.");
+    return false;
   }
 }
 
@@ -322,9 +384,13 @@ async function submitCandidate(candidateId, assessmentId = initialAssessment, at
   } catch (error) {
     $("#result").hidden = true;
     $("#accessCard").hidden = false;
-    showError(error.message || "Could not open this result.");
+    if (error.status === 404) {
+      showNotice("Result not found", error.message || "No result was found for this Login ID and assessment.");
+    } else {
+      showError(error.message || "Could not open this result.");
+      $("#candidateId").focus();
+    }
     resetOpenButton();
-    $("#candidateId").focus();
   }
 }
 
@@ -340,12 +406,20 @@ $("#openForm").addEventListener("submit", (event) => {
     showError("Enter your Login ID.");
     return;
   }
-  submitCandidate(candidateId, assessmentSelect.value || "");
+  const assessmentId = assessmentSelect.value || "";
+  if (!assessmentId) {
+    showNotice("Assessment not found", "Select the assessment you appeared for, then try again.");
+    return;
+  }
+  submitCandidate(candidateId, assessmentId);
 });
 
 if (initialCandidate) {
   $("#candidateId").value = initialCandidate;
-  loadAssessments().then(() => submitCandidate(initialCandidate, initialAssessment, initialAttempt));
+  loadAssessments().then((ready) => {
+    if (!ready) return;
+    submitCandidate(initialCandidate, assessmentSelect.value || initialAssessment, initialAttempt);
+  });
 } else {
   loadAssessments();
   $("#candidateId").focus();

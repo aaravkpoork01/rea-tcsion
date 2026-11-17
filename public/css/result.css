@@ -177,6 +177,41 @@ input:focus, select:focus {
 }
 .hint a { font-weight: 700; }
 
+/* Notice dialog ----------------------------------------------------------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(16, 28, 40, .55);
+}
+.modal[hidden] { display: none; }
+.modal-card {
+  width: min(420px, 100%);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 22px 60px rgba(10, 22, 34, .35);
+  overflow: hidden;
+}
+.modal-head {
+  padding: 12px 18px;
+  background: var(--ion-primary);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+}
+.modal-body { padding: 18px; }
+.modal-body p {
+  margin: 0 0 16px;
+  color: var(--text);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
 /* Buttons ----------------------------------------------------------------- */
 .btn {
   display: inline-flex;
