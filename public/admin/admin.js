@@ -53,6 +53,44 @@ const fullscreenToggles = (v) => {
 };
 const DEFAULT_CANDIDATE_PHOTO = "/images/NewCandidateImage.jpg";
 
+const VIEW_PERMISSIONS = {
+  dashboard: "dashboard.view",
+  assessments: "assessments.view",
+  questions: "questions.view",
+  candidates: "candidates.view",
+  approvals: "approvals.review",
+  attempts: "attempts.view",
+  live: "live.view",
+  results: "results.view",
+  feedback: "feedback.view",
+  audit: "audit.view",
+  settings: "settings.manage",
+  team: null,
+};
+
+const can = (permission) => Boolean(
+  state.admin && (state.admin.superAdmin || (state.admin.permissions || []).includes(permission)),
+);
+
+const canUseView = (view) => {
+  if (!state.admin) return false;
+  if (view === "team") return Boolean(state.admin.superAdmin || state.admin.canCreateStaff);
+  const permission = VIEW_PERMISSIONS[view];
+  return permission ? can(permission) : false;
+};
+
+const firstAllowedView = () =>
+  [...document.querySelectorAll(".nav-item")]
+    .map((button) => button.dataset.view)
+    .find((view) => canUseView(view)) || "";
+
+function applyNavPermissions() {
+  document.querySelectorAll(".nav-item").forEach((button) => {
+    const view = button.dataset.view;
+    button.classList.toggle("hidden", !canUseView(view));
+  });
+}
+
 async function api(path, options = {}) {
   const res = await fetch("/api/admin" + path, {
     credentials: "same-origin",
@@ -141,7 +179,7 @@ function applyApprovalCounts(counts = {}) {
 }
 
 async function refreshApprovalCounts() {
-  if (!state.admin) return null;
+  if (!state.admin || !can("approvals.review")) return null;
   try {
     const data = await api("/approvals/count");
     applyApprovalCounts(data.counts || {});
@@ -167,12 +205,27 @@ function showLogin() {
 function showApp() {
   $("#loginScreen").classList.add("hidden");
   $("#app").classList.remove("hidden");
-  $("#whoami").textContent = `${state.admin.name || state.admin.username} · ${state.admin.role}`;
+  $("#whoami").textContent = `${state.admin.name || state.admin.username} · ${state.admin.roleLabel || state.admin.role}`;
+  applyNavPermissions();
+  const fallback = firstAllowedView();
+  if (!fallback) {
+    state.view = "";
+    document.querySelectorAll(".nav-item").forEach((b) => b.classList.remove("active"));
+    $("#viewTitle").textContent = "No access";
+    $("#viewSub").textContent = "Ask the super administrator to grant access";
+    $("#topbarActions").innerHTML = "";
+    $("#view").innerHTML = `<div class="card"><div class="card-body">
+      <p style="margin:0 0 6px"><strong>Your account is active but has no permissions yet.</strong></p>
+      <p class="muted small" style="margin:0">Contact the super administrator to assign a role or permissions.</p>
+    </div></div>`;
+    return;
+  }
+  if (!canUseView(state.view)) state.view = fallback;
   setView(state.view);
   refreshApprovalCounts();
   if (state.approvalsTimer) clearInterval(state.approvalsTimer);
   state.approvalsTimer = setInterval(() => {
-    if (state.admin && state.view !== "approvals") refreshApprovalCounts();
+    if (state.admin && state.view !== "approvals" && can("approvals.review")) refreshApprovalCounts();
   }, 60000);
 }
 
@@ -183,61 +236,42 @@ function adminInitials(value) {
 
 async function openProfile() {
   const admin = state.admin || {};
+  const teamAllowed = canUseView("team");
+  const permissionCount = (admin.permissions || []).length;
   const m = modal({
-    title: "Admin profile",
+    title: "My profile",
     wide: true,
     body: `
       <div class="profile-head">
         <span class="profile-avatar">${esc(adminInitials(admin.name || admin.username))}</span>
         <div>
           <strong>${esc(admin.name || admin.username || "Administrator")}</strong>
-          <div class="muted small">@${esc(admin.username || "")} · ${esc(admin.role || "admin")}</div>
+          <div class="muted small">@${esc(admin.username || "")}</div>
         </div>
+        <span class="role-badge ${esc(admin.role || "")}">${esc(admin.roleLabel || admin.role || "")}</span>
       </div>
       <form id="profileForm" class="grid2">
         <label>Full name<input name="name" value="${esc(admin.name || "")}" maxlength="80" required /></label>
         <label>Username<input name="username" value="${esc(admin.username || "")}" maxlength="40" required /></label>
-        <label>Role<input value="${esc(admin.role || "admin")}" disabled /></label>
-        <label>New password<span class="muted small">Leave blank to keep the current password</span><input name="password" type="password" minlength="6" autocomplete="new-password" /></label>
-        <label>Confirm new password<input name="confirm" type="password" minlength="6" autocomplete="new-password" /></label>
+        <label>Role<input value="${esc(admin.roleLabel || admin.role || "")}" disabled /><span class="field-note">Roles and permissions are assigned by the super administrator.</span></label>
+        <label>New password<span class="field-note">Leave blank to keep the current password. Minimum 8 characters with a letter and a number.</span><input name="password" type="password" minlength="8" autocomplete="new-password" /></label>
+        <label>Confirm new password<input name="confirm" type="password" minlength="8" autocomplete="new-password" /></label>
       </form>
       <div class="profile-divider"></div>
-      <div>
-        <div class="profile-section-head"><strong>Administrators</strong><span class="muted small">All accounts that can sign in here</span></div>
-        <div id="adminAccountList" class="admin-account-list"><span class="muted small">Loading…</span></div>
-      </div>
-      <details class="profile-add">
-        <summary>Add another administrator</summary>
-        <form id="addAdminForm" class="grid2">
-          <label>Full name<input name="name" maxlength="80" required /></label>
-          <label>Username<input name="username" maxlength="40" required /></label>
-          <label>Temporary password<input name="password" type="password" minlength="6" required autocomplete="new-password" /></label>
-          <label>Role<select name="role"><option value="admin" selected>admin</option></select></label>
-        </form>
-        <div class="row" style="margin-top:12px">
-          <button type="submit" class="btn primary small" form="addAdminForm">Add administrator</button>
+      <div class="profile-section-head">
+        <div>
+          <strong>Access</strong>
+          <div class="muted small">${admin.superAdmin
+            ? "Super admin — full access to every area, including the team."
+            : `${permissionCount} permission${permissionCount === 1 ? "" : "s"} assigned to your account.`}</div>
         </div>
-      </details>
+        ${teamAllowed ? `<button type="button" class="btn small" id="openTeam">Team &amp; access</button>` : ""}
+      </div>
     `,
     footer: `<button type="button" class="btn danger" id="profileLogout" style="margin-right:auto">Sign out</button>
       <button type="button" class="btn" data-close>Cancel</button>
       <button class="btn primary" type="submit" form="profileForm">Save changes</button>`,
   });
-
-  const renderAdmins = async () => {
-    const target = m.root.querySelector("#adminAccountList");
-    try {
-      const data = await api("/admins");
-      const rows = data.admins || [];
-      target.innerHTML = rows.length ? rows.map((row) => `
-        <div class="admin-account ${Number(row.id) === Number(admin.id) ? "current" : ""}">
-          <span>${esc(row.name || row.username)}</span>
-          <span class="muted small">@${esc(row.username)} · ${esc(row.role)}${Number(row.id) === Number(admin.id) ? " · you" : ""}</span>
-        </div>`).join("") : `<span class="muted small">No administrators found.</span>`;
-    } catch (e) {
-      target.innerHTML = `<span class="muted small">${esc(e.message)}</span>`;
-    }
-  };
 
   m.root.querySelector("#profileForm").addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -262,36 +296,26 @@ async function openProfile() {
     } catch (e) { toast(e.message, "error"); }
   });
 
-  m.root.querySelector("#addAdminForm").addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const data = new FormData(form);
-    try {
-      await api("/admins", {
-        method: "POST",
-        body: {
-          name: data.get("name"),
-          username: data.get("username"),
-          password: data.get("password"),
-          role: data.get("role"),
-        },
-      });
-      form.reset();
-      toast("Administrator added.", "success");
-      renderAdmins();
-    } catch (e) { toast(e.message, "error"); }
-  });
+  if (teamAllowed) {
+    m.root.querySelector("#openTeam").addEventListener("click", () => {
+      m.close();
+      setView("team");
+    });
+  }
 
   m.root.querySelector("#profileLogout").addEventListener("click", async () => {
     await api("/logout", { method: "POST", body: {} }).catch(() => {});
     m.close();
     showLogin();
   });
-
-  renderAdmins();
 }
 
 function setView(view) {
+  if (!canUseView(view)) {
+    const fallback = firstAllowedView();
+    if (!fallback) { showApp(); return; }
+    view = fallback;
+  }
   state.view = view;
   document.querySelectorAll(".nav-item").forEach((b) => b.classList.toggle("active", b.dataset.view === view));
   if (state.liveTimer) { clearInterval(state.liveTimer); state.liveTimer = null; }
@@ -308,6 +332,7 @@ function setView(view) {
     feedback: ["Feedback", "Candidate feedback after submission"],
     audit: ["Audit log", "Proctoring and lifecycle events"],
     settings: ["Settings", "Platform configuration"],
+    team: ["Team & access", "Roles, permissions and account control"],
   };
   const [title, sub] = titles[view] || ["", ""];
   $("#viewTitle").textContent = title;
@@ -324,6 +349,7 @@ function setView(view) {
     feedback: renderFeedback,
     audit: renderAudit,
     settings: renderSettings,
+    team: renderTeam,
   }[view];
   if (render) render().catch((e) => { $("#view").innerHTML = `<div class="card"><div class="card-body">${esc(e.message)}</div></div>`; });
 }
@@ -4198,6 +4224,296 @@ async function renderAudit() {
           </tr>`).join("")}</tbody></table></div>` : `<div class="empty">No audit entries.</div>`}
       </div>
     </div>`;
+}
+
+// ---------------------------------------------------------------------------
+// team & access
+// ---------------------------------------------------------------------------
+
+function permissionChecklist(groups, selected = []) {
+  return `<div class="permission-grid">
+    ${(groups || []).map((group) => `
+      <div class="permission-group">
+        <div class="permission-group-head">${esc(group.group)}</div>
+        ${group.permissions.map((permission) => `
+          <label class="check-row">
+            <input type="checkbox" name="permission" value="${esc(permission.key)}" ${selected.includes(permission.key) ? "checked" : ""} />
+            <span>${esc(permission.label)}</span>
+          </label>`).join("")}
+      </div>`).join("")}
+  </div>`;
+}
+
+const selectedPermissions = (root) =>
+  [...root.querySelectorAll('#permissionBox input[name="permission"]:checked')]
+    .map((input) => input.value);
+
+function setRolePermissions(root, role, rolesByKey) {
+  const panel = root.querySelector("#permissionPanel");
+  const note = root.querySelector("#superPermissionNote");
+  if (!panel) return;
+  const superRole = role === "super_admin";
+  panel.classList.toggle("hidden", superRole);
+  if (note) note.classList.toggle("hidden", !superRole);
+  if (superRole) return;
+  const defaults = new Set(rolesByKey[role]?.permissions || []);
+  root.querySelectorAll('#permissionBox input[name="permission"]').forEach((input) => {
+    input.checked = defaults.has(input.value);
+  });
+}
+
+function openTeamMemberDialog({ catalog, canManage, member = null }) {
+  const editing = Boolean(member);
+  const rolesByKey = Object.fromEntries((catalog.roles || []).map((role) => [role.key, role]));
+  const allowedRoles = canManage
+    ? (catalog.roles || [])
+    : (catalog.roles || []).filter((role) => role.key === "staff");
+  const defaultRole = allowedRoles.find((role) => role.key === "staff")?.key
+    || allowedRoles[0]?.key
+    || "staff";
+  const selectedRole = member?.role || defaultRole;
+  const initialSelected = member?.superAdmin
+    ? []
+    : (member?.permissions || rolesByKey[selectedRole]?.permissions || []);
+  const isSelf = editing && Number(member.id) === Number(state.admin?.id);
+
+  const roleOptions = allowedRoles.map((role) =>
+    `<option value="${esc(role.key)}" ${role.key === selectedRole ? "selected" : ""}>${esc(role.label)}</option>`).join("");
+
+  const permissionsHtml = canManage ? `
+    <div id="permissionPanel" class="${selectedRole === "super_admin" ? "hidden" : ""}">
+      <div class="permission-head">
+        <div>
+          <strong>Permissions</strong>
+          <div class="muted small">Choose exactly what this account may do. Role changes start from that role's defaults.</div>
+        </div>
+        <div class="row">
+          <button type="button" class="btn small" data-perm-action="all">Select all</button>
+          <button type="button" class="btn small" data-perm-action="none">Clear</button>
+          <button type="button" class="btn small" data-perm-action="defaults">Role defaults</button>
+        </div>
+      </div>
+      <div id="permissionBox">${permissionChecklist(catalog.permissionGroups, initialSelected)}</div>
+    </div>
+    <p id="superPermissionNote" class="field-note ${selectedRole === "super_admin" ? "" : "hidden"}">
+      Super Admin always has every permission, including team management. It cannot be limited.
+    </p>
+  ` : `
+    <p class="field-note">Staff accounts receive the default Staff access. The super administrator can customise permissions later.</p>
+  `;
+
+  const m = modal({
+    title: editing ? `Edit ${member.name || member.username}` : "Add team member",
+    wide: true,
+    body: `
+      <form id="teamMemberForm" class="grid2">
+        <label>Full name<input name="name" value="${esc(member?.name || "")}" maxlength="80" required /></label>
+        <label>Username<input name="username" value="${esc(member?.username || "")}" maxlength="40" required autocomplete="off" /></label>
+        <label>Role<select name="role" ${canManage && !isSelf ? "" : "disabled"}>${roleOptions}</select>
+          <span class="field-note">Only a super admin can assign admin and super-admin roles.</span></label>
+        ${editing && canManage ? `<label>Status<select name="status" ${isSelf ? "disabled" : ""}>
+          <option value="active" ${member.status === "active" ? "selected" : ""}>Active</option>
+          <option value="disabled" ${member.status === "disabled" ? "selected" : ""}>Disabled</option>
+        </select><span class="field-note">Disabled accounts are signed out immediately.</span></label>` : ""}
+        ${isSelf ? `<p class="field-note">Use My profile to change your own password. You cannot change your own role or disable yourself.</p>` : `
+          <label>${editing ? "New password (optional)" : "Temporary password"}
+            <input name="password" type="password" minlength="8" ${editing ? "" : "required"} autocomplete="new-password" />
+            <span class="field-note">${editing
+              ? "Leave blank to keep the current password. A reset signs the member out everywhere."
+              : "Minimum 8 characters with at least one letter and one number."}</span>
+          </label>`}
+      </form>
+      <div class="profile-divider"></div>
+      ${permissionsHtml}
+    `,
+    footer: `<button type="button" class="btn" data-close>Cancel</button>
+      <button class="btn primary" type="submit" form="teamMemberForm">${editing ? "Save changes" : "Create account"}</button>`,
+  });
+
+  const form = m.root.querySelector("#teamMemberForm");
+  const roleSelect = form.querySelector("[name=role]");
+
+  if (canManage) {
+    roleSelect.addEventListener("change", () => setRolePermissions(m.root, roleSelect.value, rolesByKey));
+    m.root.querySelectorAll("[data-perm-action]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const action = button.dataset.permAction;
+        m.root.querySelectorAll('#permissionBox input[name="permission"]').forEach((input) => {
+          if (action === "all") input.checked = true;
+          else if (action === "none") input.checked = false;
+          else input.checked = (rolesByKey[roleSelect.value]?.permissions || []).includes(input.value);
+        });
+      });
+    });
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const password = String(data.get("password") || "");
+    if (password && password.length < 8) {
+      toast("Password must be at least 8 characters.", "error");
+      return;
+    }
+    const role = roleSelect.value;
+    const body = {
+      name: data.get("name"),
+      username: data.get("username"),
+      role,
+    };
+    if (editing && canManage) body.status = form.querySelector("[name=status]")?.value || member.status;
+    if (canManage) body.permissions = role === "super_admin" ? [] : selectedPermissions(m.root);
+    if (!editing) body.password = password;
+
+    const submit = m.root.querySelector('button[type="submit"][form="teamMemberForm"]');
+    if (submit) submit.disabled = true;
+    try {
+      if (editing) {
+        await api(`/team/${encodeURIComponent(member.id)}`, { method: "PUT", body });
+        if (password) {
+          await api(`/team/${encodeURIComponent(member.id)}/password`, { method: "POST", body: { password } });
+        }
+      } else {
+        await api("/team", { method: "POST", body });
+      }
+      m.close();
+      if (isSelf) {
+        const me = await api("/me");
+        state.admin = me.admin;
+        applyNavPermissions();
+      }
+      toast(editing ? "Team member updated." : "Account created.", "success");
+      renderTeam().catch((e) => toast(e.message, "error"));
+    } catch (e) {
+      toast(e.message, "error");
+      if (submit) submit.disabled = false;
+    }
+  });
+}
+
+async function renderTeam() {
+  if (!canUseView("team")) {
+    toast("Team management is restricted to the super administrator.", "error");
+    setView(firstAllowedView() || "dashboard");
+    return;
+  }
+  const data = await api("/team");
+  const { team = [], catalog = {}, settings = {}, canManage = false, canCreateStaff = false } = data;
+  const totalPermissions = (catalog.permissionGroups || [])
+    .reduce((total, group) => total + group.permissions.length, 0);
+  const roleGuide = canManage ? `
+    <div class="card">
+      <div class="card-head"><h3>Role guide</h3><span class="sub">Starting points — every permission can be fine-tuned per account</span></div>
+      <div class="card-body">
+        <div class="role-grid">
+          ${(catalog.roles || []).map((role) => `
+            <div class="role-card">
+              <div class="row"><span class="role-badge ${esc(role.key)}">${esc(role.label)}</span></div>
+              <p class="muted small">${esc(role.description)}</p>
+              <div class="small">${role.key === "super_admin" ? "All permissions" : `${role.permissions.length} permissions`}</div>
+            </div>`).join("")}
+        </div>
+      </div>
+    </div>` : "";
+
+  $("#view").innerHTML = `
+    ${canManage ? `
+    <div class="card" style="margin-bottom:14px">
+      <div class="card-head"><h3>Access policy</h3><span class="sub">Super admin only</span></div>
+      <div class="card-body">
+        <label class="policy-row">
+          <input type="checkbox" id="staffPolicy" ${settings.adminCanCreateStaff ? "checked" : ""} />
+          <span>
+            <strong>Allow admins to create staff accounts</strong>
+            <span class="muted small">When off, only the super admin can add anyone. When on, admins can add Staff accounts only — they cannot create admins, change roles or grant permissions.</span>
+          </span>
+        </label>
+      </div>
+    </div>` : ""}
+
+    <div class="card" style="margin-bottom:14px">
+      <div class="card-head">
+        <h3>${canManage ? "Team members" : "Staff accounts"}</h3>
+        <span class="sub">${team.length} account${team.length === 1 ? "" : "s"}</span>
+        ${canCreateStaff ? `<button class="btn primary small" id="teamAdd">${canManage ? "Add member" : "Add staff"}</button>` : ""}
+      </div>
+      <div class="card-body tight">
+        ${team.length ? `<div class="table-wrap"><table>
+          <thead><tr><th>Member</th><th>Role</th><th>Status</th><th>Access</th><th>Last sign-in</th><th></th></tr></thead>
+          <tbody>${team.map((member) => `<tr>
+            <td>
+              <div class="team-person">
+                <span class="team-avatar">${esc(adminInitials(member.name || member.username))}</span>
+                <div>
+                  <strong>${esc(member.name || member.username)}</strong>
+                  <div class="muted small">@${esc(member.username)}${Number(member.id) === Number(state.admin?.id) ? " · you" : ""}</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="role-badge ${esc(member.role)}">${esc(member.roleLabel)}</span></td>
+            <td>${badge(member.status)}</td>
+            <td class="small">${member.superAdmin
+              ? "All permissions"
+              : `${member.permissions.length} of ${totalPermissions}${member.personalized ? " · custom" : " · role default"}`}</td>
+            <td class="small muted">${member.lastLoginAt ? dt(member.lastLoginAt) : "Never"}</td>
+            <td>
+              <div class="row team-actions">
+                ${canManage ? `<button type="button" class="btn small" data-team-edit="${esc(member.id)}">Edit</button>` : ""}
+                ${canManage && Number(member.id) !== Number(state.admin?.id) ? `<button type="button" class="btn small ${member.status === "active" ? "danger" : ""}"
+                  data-team-status="${esc(member.id)}" data-next-status="${member.status === "active" ? "disabled" : "active"}">
+                  ${member.status === "active" ? "Disable" : "Enable"}</button>` : ""}
+              </div>
+            </td>
+          </tr>`).join("")}</tbody>
+        </table></div>` : `<div class="empty">No team members yet.</div>`}
+      </div>
+    </div>
+
+    ${roleGuide}`;
+
+  $("#teamAdd")?.addEventListener("click", () =>
+    openTeamMemberDialog({ catalog, canManage }));
+
+  const policy = $("#staffPolicy");
+  if (policy) {
+    policy.addEventListener("change", async () => {
+      const enabled = policy.checked;
+      policy.disabled = true;
+      try {
+        await api("/team/settings", { method: "PUT", body: { adminCanCreateStaff: enabled } });
+        toast(enabled ? "Admins can now create staff accounts." : "Admins can no longer create staff accounts.", "success");
+      } catch (e) {
+        policy.checked = !enabled;
+        toast(e.message, "error");
+      } finally {
+        policy.disabled = false;
+      }
+    });
+  }
+
+  $("#view").querySelectorAll("[data-team-edit]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const member = team.find((row) => Number(row.id) === Number(button.dataset.teamEdit));
+      if (member) openTeamMemberDialog({ catalog, canManage, member });
+    });
+  });
+
+  $("#view").querySelectorAll("[data-team-status]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const member = team.find((row) => Number(row.id) === Number(button.dataset.teamStatus));
+      if (!member) return;
+      const nextStatus = button.dataset.nextStatus;
+      if (nextStatus === "disabled" && !(await confirmDialog(
+        `Disable @${member.username}? They will be signed out immediately and cannot sign in until re-enabled.`,
+        "Disable account",
+      ))) return;
+      try {
+        await api(`/team/${encodeURIComponent(member.id)}`, { method: "PUT", body: { status: nextStatus } });
+        toast(nextStatus === "disabled" ? "Account disabled." : "Account enabled.", "success");
+        renderTeam().catch((e) => toast(e.message, "error"));
+      } catch (e) { toast(e.message, "error"); }
+    });
+  });
 }
 
 // ---------------------------------------------------------------------------

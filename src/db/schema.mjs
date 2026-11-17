@@ -233,6 +233,11 @@ CREATE TABLE IF NOT EXISTS admins (
   password_hash TEXT NOT NULL,
   name TEXT NOT NULL DEFAULT '',
   role TEXT NOT NULL DEFAULT 'admin',
+  status TEXT NOT NULL DEFAULT 'active',
+  permissions TEXT,
+  created_by INTEGER,
+  last_login_at TEXT NOT NULL DEFAULT '',
+  updated_at TEXT NOT NULL DEFAULT '',
   created_at TEXT NOT NULL
 );
 
@@ -260,6 +265,7 @@ CREATE INDEX IF NOT EXISTS idx_attempts_assessment ON attempts(assessment_id);
 CREATE INDEX IF NOT EXISTS idx_attempts_candidate ON attempts(candidate_id);
 CREATE INDEX IF NOT EXISTS idx_audit_attempt ON audit_log(attempt_id);
 CREATE INDEX IF NOT EXISTS idx_feedback_attempt ON feedback(attempt_id);
+CREATE INDEX IF NOT EXISTS idx_admins_role_status ON admins(role, status);
 `;
 
 /** Resolved for the active backend; callers only ever import `SCHEMA_SQL`. */

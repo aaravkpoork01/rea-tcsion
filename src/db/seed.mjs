@@ -6,7 +6,7 @@ import { hashPassword } from "../core/crypto.mjs";
 import { nowIso } from "../core/time.mjs";
 import { importPaper } from "../domain/paper-import.mjs";
 import { SCHEMA_SQL } from "./schema.mjs";
-import { db, usePostgres } from "./connection.mjs";
+import { db, one, run, usePostgres } from "./connection.mjs";
 import * as orgsRepo from "./repositories/orgs.repo.mjs";
 import * as adminsRepo from "./repositories/admins.repo.mjs";
 import * as assessmentsRepo from "./repositories/assessments.repo.mjs";
@@ -106,6 +106,52 @@ async function ensureAttemptColumns() {
 }
 
 /**
+ * Team/RBAC columns added after the first release. Also promotes the oldest
+ * account when an existing installation has no super administrator, so the
+ * person who already owns the console keeps control after the upgrade.
+ */
+async function ensureAdminColumns() {
+  if (usePostgres) {
+    await db.query("ALTER TABLE admins ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'active'");
+    await db.query("ALTER TABLE admins ADD COLUMN IF NOT EXISTS permissions TEXT");
+    await db.query("ALTER TABLE admins ADD COLUMN IF NOT EXISTS created_by INTEGER");
+    await db.query("ALTER TABLE admins ADD COLUMN IF NOT EXISTS last_login_at TEXT NOT NULL DEFAULT ''");
+    await db.query("ALTER TABLE admins ADD COLUMN IF NOT EXISTS updated_at TEXT NOT NULL DEFAULT ''");
+    await db.query("CREATE INDEX IF NOT EXISTS idx_admins_role_status ON admins(role, status)");
+  } else {
+    const columns = db.prepare("PRAGMA table_info(admins)").all();
+    const missing = (name) => !columns.some((column) => column.name === name);
+    if (missing("status")) {
+      await db.query("ALTER TABLE admins ADD COLUMN status TEXT NOT NULL DEFAULT 'active'");
+    }
+    if (missing("permissions")) {
+      await db.query("ALTER TABLE admins ADD COLUMN permissions TEXT");
+    }
+    if (missing("created_by")) {
+      await db.query("ALTER TABLE admins ADD COLUMN created_by INTEGER");
+    }
+    if (missing("last_login_at")) {
+      await db.query("ALTER TABLE admins ADD COLUMN last_login_at TEXT NOT NULL DEFAULT ''");
+    }
+    if (missing("updated_at")) {
+      await db.query("ALTER TABLE admins ADD COLUMN updated_at TEXT NOT NULL DEFAULT ''");
+    }
+    await db.query("CREATE INDEX IF NOT EXISTS idx_admins_role_status ON admins(role, status)");
+  }
+
+  const total = Number((await one("SELECT COUNT(*) AS n FROM admins"))?.n ?? 0);
+  if (!total) return;
+  const superAdmins = Number((await one(
+    "SELECT COUNT(*) AS n FROM admins WHERE role = 'super_admin'",
+  ))?.n ?? 0);
+  if (superAdmins > 0) return;
+  await run(`UPDATE admins
+    SET role = 'super_admin', status = 'active', updated_at = ?
+    WHERE id = (SELECT id FROM admins ORDER BY id LIMIT 1)`, nowIso());
+  logger.warn("No super administrator existed; promoted the oldest admin account to super_admin.");
+}
+
+/**
  * Older databases stored a single group per candidate. Copy those values into
  * the membership table so the multi-group UI sees them. Assessments that were
  * already restricted keep their restriction instead of becoming open to all.
@@ -134,6 +180,7 @@ export async function ensureSchema() {
         await ensureCandidateColumns();
         await ensureAssessmentColumns();
         await ensureAttemptColumns();
+        await ensureAdminColumns();
         await migrateCandidateGroups();
         logger.debug("Database schema ensured");
       } catch (err) {
@@ -155,7 +202,7 @@ export async function seed() {
       username: config.seed.adminUser,
       passwordHash: hashPassword(config.seed.adminPassword),
       name: "Administrator",
-      role: "admin",
+      role: "super_admin",
       createdAt: nowIso(),
     });
     logger.info(`seeded admin "${config.seed.adminUser}"`);

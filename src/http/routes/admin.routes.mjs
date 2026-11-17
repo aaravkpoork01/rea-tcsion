@@ -2,8 +2,11 @@
 import { cookies, clearCookie, serialiseCookie } from "../cookies.mjs";
 import { readJson } from "../body.mjs";
 import { sendCsv, sendJson, sendOk, sendCreated } from "../respond.mjs";
-import { requireAdmin } from "../../services/auth.service.mjs";
+import { requireAdmin, requirePermission } from "../../services/auth.service.mjs";
 import * as authService from "../../services/auth.service.mjs";
+import * as teamService from "../../services/team.service.mjs";
+import { forbidden } from "../../core/errors.mjs";
+import { isSuperAdmin } from "../../domain/rbac.mjs";
 import * as overviewService from "../../services/overview.service.mjs";
 import * as assessmentsService from "../../services/assessments.admin.service.mjs";
 import * as candidatesService from "../../services/candidates.service.mjs";
@@ -30,12 +33,17 @@ const adminCookie = (token, maxAge) => ({
   "Set-Cookie": serialiseCookie(ADMIN_COOKIE, token, { maxAge, httpOnly: true }),
 });
 
+const selfPayload = async (admin) => ({
+  ...authService.publicAdmin(admin),
+  canCreateStaff: await teamService.canCreateStaff(admin),
+});
+
 export function registerAdminRoutes(router) {
   // ---- session -------------------------------------------------------------
   router.post("/api/admin/login", async (req, res) => {
     const body = await readJson(req);
     const { token, admin } = await authService.loginAdmin(body);
-    return sendOk(res, { admin: authService.publicAdmin(admin) }, adminCookie(token, config.session.adminTtlSec));
+    return sendOk(res, { admin: await selfPayload(admin) }, adminCookie(token, config.session.adminTtlSec));
   });
 
   router.post("/api/admin/logout", async (req, res) => {
@@ -45,8 +53,42 @@ export function registerAdminRoutes(router) {
 
   router.get("/api/admin/me", async (req, res) => {
     const admin = await requireAdmin(cookies(req)[ADMIN_COOKIE]);
-    return sendOk(res, { admin: authService.publicAdmin(admin) });
+    return sendOk(res, { admin: await selfPayload(admin) });
   });
+
+  // ---- team & access -------------------------------------------------------
+  // The service enforces the actor's role and the super-admin policy; these
+  // handlers intentionally do not use the generic permission map because team
+  // management cannot be granted through a permission checkbox.
+  const teamAuth = (handler) => async (req, res, match) => {
+    const admin = await requireAdmin(cookies(req)[ADMIN_COOKIE]);
+    return handler(req, res, match, admin);
+  };
+
+  router.get("/api/admin/team", teamAuth(async (_req, res, _match, admin) =>
+    sendOk(res, await teamService.context(admin))));
+
+  router.post("/api/admin/team", teamAuth(async (req, res, _match, admin) =>
+    sendCreated(res, {
+      member: await teamService.createMember(admin, await readJson(req), { ip: requestIp(req) }),
+    })));
+
+  // Register the fixed setting path before `:id` so it is never captured as an id.
+  router.put("/api/admin/team/settings", teamAuth(async (req, res, _match, admin) =>
+    sendOk(res, {
+      settings: await teamService.updatePolicy(admin, await readJson(req), { ip: requestIp(req) }),
+    })));
+
+  router.put("/api/admin/team/:id", teamAuth(async (req, res, { params }, admin) =>
+    sendOk(res, {
+      member: await teamService.updateMember(admin, params.id, await readJson(req), { ip: requestIp(req) }),
+    })));
+
+  router.post("/api/admin/team/:id/password", teamAuth(async (req, res, { params }, admin) => {
+    const body = await readJson(req);
+    await teamService.resetMemberPassword(admin, params.id, body.password, { ip: requestIp(req) });
+    return sendOk(res);
+  }));
 
   // ---- guarded routes ------------------------------------------------------
   const guarded = [
@@ -56,21 +98,102 @@ export function registerAdminRoutes(router) {
     router.delete.bind(router),
   ];
 
+  /**
+   * Declarative permission policy for the admin API. Rules are checked in
+   * order and the first matching method+path wins. A missing rule denies
+   * everyone except a super admin (defence in depth for newly added routes).
+   */
+  const ROUTE_RULES = [
+    // Self-service profile: any live admin session.
+    ["PUT", /^\/api\/admin\/me$/, null],
+
+    // Exports first so the generic prefixes below cannot claim them.
+    ["GET", /^\/api\/admin\/export\/results\.csv$/, "results.export"],
+    ["GET", /^\/api\/admin\/export\/attempts\.csv$/, "results.export"],
+    ["GET", /^\/api\/admin\/export\/assessments\.csv$/, "assessments.view"],
+    ["GET", /^\/api\/admin\/export\/feedback\.csv$/, "feedback.view"],
+    ["GET", /^\/api\/admin\/export\/candidates\.csv$/, "candidates.view"],
+    ["GET", /^\/api\/admin\/export\/audit\.csv$/, "audit.view"],
+    ["GET", /^\/api\/admin\/export\/questions\.csv$/, "questions.view"],
+
+    // Paper import/removal is a question-bank action, not just assessment config.
+    ["POST", /^\/api\/admin\/assessments\/[^/]+\/questions\/import$/, "questions.manage"],
+    ["DELETE", /^\/api\/admin\/assessments\/[^/]+\/questions$/, "questions.manage"],
+
+    // Assessments, papers, presentation and candidate-group assignment.
+    ["GET", /^\/api\/admin\/assessments(?:\/.*)?$/, "assessments.view"],
+    ["POST", /^\/api\/admin\/assessments(?:\/.*)?$/, "assessments.manage"],
+    ["PUT", /^\/api\/admin\/assessments(?:\/.*)?$/, "assessments.manage"],
+    ["DELETE", /^\/api\/admin\/assessments(?:\/.*)?$/, "assessments.manage"],
+    ["PUT", /^\/api\/admin\/groups\/[^/]+$/, "assessments.manage"],
+    ["DELETE", /^\/api\/admin\/groups\/[^/]+$/, "assessments.manage"],
+    ["PUT", /^\/api\/admin\/sections\/[^/]+$/, "assessments.manage"],
+    ["DELETE", /^\/api\/admin\/sections\/[^/]+$/, "assessments.manage"],
+
+    // Question bank.
+    ["GET", /^\/api\/admin\/questions(?:\/.*)?$/, "questions.view"],
+    ["POST", /^\/api\/admin\/questions(?:\/.*)?$/, "questions.manage"],
+    ["PUT", /^\/api\/admin\/questions(?:\/.*)?$/, "questions.manage"],
+    ["DELETE", /^\/api\/admin\/questions(?:\/.*)?$/, "questions.manage"],
+
+    // Candidate workflows: approvals and password resets have their own grants.
+    ["POST", /^\/api\/admin\/candidates\/[^/]+\/(?:approve|reject)$/, "approvals.review"],
+    ["POST", /^\/api\/admin\/candidates\/[^/]+\/reset-password$/, "candidates.reset_password"],
+    ["GET", /^\/api\/admin\/candidates\/check-(?:login|id)$/, "candidates.view"],
+    ["DELETE", /^\/api\/admin\/candidates\/[^/]+$/, "candidates.delete"],
+    ["PUT", /^\/api\/admin\/candidates\/[^/]+$/, "candidates.manage"],
+    ["POST", /^\/api\/admin\/candidates(?:\/.*)?$/, "candidates.manage"],
+    ["GET", /^\/api\/admin\/candidates(?:\/.*)?$/, "candidates.view"],
+
+    // Registration approval queue.
+    ["GET", /^\/api\/admin\/approvals(?:\/.*)?$/, "approvals.review"],
+
+    // Candidate groups.
+    ["POST", /^\/api\/admin\/candidate-groups(?:\/.*)?$/, "groups.manage"],
+    ["PUT", /^\/api\/admin\/candidate-groups\/[^/]+$/, "groups.manage"],
+    ["DELETE", /^\/api\/admin\/candidate-groups\/[^/]+$/, "groups.manage"],
+    ["GET", /^\/api\/admin\/candidate-groups(?:\/.*)?$/, "candidates.view"],
+
+    // Attempts and live monitoring.
+    ["POST", /^\/api\/admin\/attempts\/[^/]+\/[^/]+$/, "attempts.manage"],
+    ["DELETE", /^\/api\/admin\/attempts\/[^/]+$/, "attempts.manage"],
+    ["GET", /^\/api\/admin\/attempts(?:\/.*)?$/, "attempts.view"],
+    ["GET", /^\/api\/admin\/live$/, "live.view"],
+
+    // Read-only insight pages.
+    ["GET", /^\/api\/admin\/results$/, "results.view"],
+    ["GET", /^\/api\/admin\/feedback$/, "feedback.view"],
+    ["GET", /^\/api\/admin\/audit$/, "audit.view"],
+    ["GET", /^\/api\/admin\/overview$/, "dashboard.view"],
+
+    // Configuration.
+    ["GET", /^\/api\/admin\/settings(?:\/.*)?$/, "settings.manage"],
+    ["PUT", /^\/api\/admin\/settings(?:\/.*)?$/, "settings.manage"],
+    ["GET", /^\/api\/admin\/orgs$/, "settings.manage"],
+  ];
+
+  const permissionRule = (method, pathname) => {
+    const upper = String(method || "").toUpperCase();
+    return ROUTE_RULES.find(([ruleMethod, pattern]) =>
+      ruleMethod === upper && pattern.test(pathname)) || null;
+  };
+
   const auth = (handler) => async (req, res, match) => {
     const admin = await requireAdmin(cookies(req)[ADMIN_COOKIE]);
+    const pathname = new URL(req.url, "http://admin.local").pathname;
+    const rule = permissionRule(req.method, pathname);
+    if (!rule) {
+      // Unknown route: super admins keep access, every other role is denied.
+      if (!isSuperAdmin(admin)) throw forbidden("Your role does not allow this action.");
+    } else if (rule[2]) {
+      requirePermission(admin, rule[2]);
+    }
     return handler(req, res, match, admin);
   };
 
   guarded[2]("/api/admin/me", auth(async (req, res, _match, admin) => {
     const updated = await authService.updateAdminProfile(admin, await readJson(req));
-    return sendOk(res, { admin: authService.publicAdmin(updated) });
-  }));
-
-  guarded[0]("/api/admin/admins", auth(async (_req, res) =>
-    sendOk(res, { admins: await authService.listAdmins() })));
-  guarded[1]("/api/admin/admins", auth(async (req, res) => {
-    const admin = await authService.createAdmin(await readJson(req));
-    return sendCreated(res, { admin: authService.publicAdmin(admin) });
+    return sendOk(res, { admin: await selfPayload(updated) });
   }));
 
   guarded[0]("/api/admin/overview", auth(async (_req, res) => sendOk(res, await overviewService.overview())));

@@ -221,7 +221,7 @@ tbody tr.drop-after td { box-shadow: inset 0 -2px 0 var(--accent); }
 .badge.active { color: #7fe3bb; border-color: #1f5545; background: #10241d; }
 .badge.pending { color: #ffd18a; border-color: #5a4527; background: #241c10; }
 .badge.rejected { color: #ffb4b7; border-color: #5a2a31; background: #241318; }
-.badge.inactive, .badge.archived, .badge.draft { color: var(--muted); }
+.badge.inactive, .badge.archived, .badge.draft, .badge.disabled { color: var(--muted); }
 
 /* forms and toolbars */
 .toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: end; }
@@ -471,6 +471,71 @@ td.actions { flex-wrap: wrap; align-content: flex-start; }
 .admin-account.current { border-color: var(--accent); }
 .profile-add summary { cursor: pointer; font-weight: 600; }
 .profile-add[open] summary { margin-bottom: 14px; }
+
+/* team & access */
+.role-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 700;
+  border: 1px solid var(--line); color: var(--muted); white-space: nowrap;
+  text-transform: uppercase; letter-spacing: .03em;
+}
+.role-badge.super_admin { color: #ffd18a; border-color: #5a4527; background: #241c10; }
+.role-badge.admin { color: #8fc3ff; border-color: #24496f; background: #122235; }
+.role-badge.staff { color: #7fe3bb; border-color: #1f5545; background: #10241d; }
+.role-badge.exam_manager { color: #d3b0ff; border-color: #442e63; background: #1c1428; }
+.role-badge.invigilator { color: #ffb4b7; border-color: #5a2a31; background: #241318; }
+.role-badge.registration_officer { color: #8fe4e8; border-color: #24575a; background: #102426; }
+.role-badge.evaluator { color: #f6c98a; border-color: #5a4527; background: #241c10; }
+.role-badge.viewer { color: var(--muted); }
+
+.team-person { display: flex; align-items: center; gap: 9px; min-width: 170px; }
+.team-avatar {
+  width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--panel-2); border: 1px solid var(--line); color: var(--muted);
+  font-size: 11px; font-weight: 700; flex: none;
+}
+.team-actions { flex-wrap: nowrap; justify-content: flex-end; }
+.team-actions .btn { padding: 4px 9px; font-size: 11.5px; }
+
+.policy-row {
+  display: flex; align-items: flex-start; gap: 11px; cursor: pointer;
+  padding: 11px 12px; border: 1px solid var(--line-soft); border-radius: 10px;
+  background: var(--panel-2);
+}
+.policy-row > input { width: 17px; height: 17px; margin: 1px 0 0; accent-color: var(--accent); flex: none; cursor: pointer; }
+.policy-row > span { display: grid; gap: 3px; }
+
+.role-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.role-card {
+  border: 1px solid var(--line-soft); border-radius: 10px; background: var(--panel-2);
+  padding: 11px 12px; display: grid; gap: 7px; align-content: start;
+}
+.role-card p { margin: 0; }
+
+.permission-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  margin-bottom: 10px; flex-wrap: wrap;
+}
+.permission-head .row { flex-wrap: wrap; }
+.permission-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px;
+  max-height: 360px; overflow: auto;
+  padding: 10px; border: 1px solid var(--line-soft); border-radius: 10px; background: var(--panel-2);
+}
+.permission-group { display: grid; gap: 5px; align-content: start; }
+.permission-group-head {
+  color: var(--muted); font-size: 10.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em; margin-bottom: 2px;
+}
+.check-row {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-size: 12.5px; color: var(--ink); cursor: pointer; line-height: 1.35;
+}
+.check-row input { width: 15px; height: 15px; margin: 1px 0 0; accent-color: var(--accent); flex: none; }
+@media (max-width: 760px) {
+  .permission-head { flex-direction: column; }
+  .team-actions { flex-wrap: wrap; }
+}
 
 /* toast */
 .toast-root { position: fixed; right: 20px; bottom: 20px; display: grid; gap: 8px; z-index: 100; }

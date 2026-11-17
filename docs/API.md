@@ -201,6 +201,54 @@ Auth: `POST /api/admin/login` `{ username, password }` → sets `ion_admin`
 cookie; `POST /api/admin/logout`; `GET /api/admin/me`.
 `GET /api/admin/health` needs no session.
 
+The login and `/me` responses return the signed-in account as
+`{ id, username, name, role, roleLabel, status, superAdmin, permissions, canCreateStaff }`.
+Every `/api/admin/*` route also re-reads that account from the database and
+checks its current role, status and permissions on every request. A disabled or
+downgraded account takes effect immediately; missing permission returns
+`403 { ok:false, code:"forbidden" }`. The browser hides unavailable navigation,
+but the server is the authority.
+
+### Roles, permissions and team management
+
+`super_admin` always has every permission and is the only role that can manage
+accounts. Other presets are starting points; a super admin can fine-tune
+individual permissions per account.
+
+| Role | Intended use |
+| --- | --- |
+| `super_admin` | Full control: team, roles, permissions, settings. Protected against self-demotion and removal of the last active super admin. |
+| `admin` | Day-to-day platform administration. Can add **staff only** when the super admin enables the staff-creation policy. |
+| `staff` | Front-desk/exam-day support: candidates, approvals, attempts and live monitor. |
+| `exam_manager` | Assessments, papers, question bank, candidate groups and result exports. |
+| `invigilator` | Live monitoring and attempt control; no papers, settings or scores. |
+| `registration_officer` | Registration approvals, candidate accounts and candidate groups. |
+| `evaluator` | Results, feedback and result exports; read-only elsewhere. |
+| `viewer` | Read-only assessments, question bank, candidates, live attempts and results. |
+
+Permission keys: `dashboard.view`, `assessments.view`, `assessments.manage`,
+`questions.view`, `questions.manage`, `candidates.view`, `candidates.manage`,
+`candidates.reset_password`, `candidates.delete`, `approvals.review`,
+`groups.manage`, `attempts.view`, `attempts.manage`, `live.view`,
+`results.view`, `results.export`, `feedback.view`, `audit.view` and
+`settings.manage`. Team management is deliberately not a grantable permission.
+
+Administrator/staff passwords must be at least 8 characters and include at
+least one letter and one number.
+
+| Method | Path | Description |
+| --- | --- | --- |
+| GET | `/api/admin/team` | Team context: visible members, role catalog, permission groups, staff-creation policy, `canManage`, `canCreateStaff` |
+| POST | `/api/admin/team` | Create an account `{ name, username, password, role, permissions? }`. Super admin may use any role; an admin with the policy on may create `staff` only (permissions are forced to the staff defaults) |
+| PUT | `/api/admin/team/settings` | Super admin: `{ adminCanCreateStaff }` turns admin staff creation on/off |
+| PUT | `/api/admin/team/:id` | Super admin: update name, username, role, status (`active`/`disabled`) or permissions. Refuses to disable/demote the last active super admin and refuses self-demotion |
+| POST | `/api/admin/team/:id/password` | Super admin: set a member's password and expire all their sessions |
+
+Disabling an account, resetting its password or changing its status expires its
+admin sessions. Team actions are written to the audit log as
+`admin.team.create`, `admin.team.update`, `admin.team.password` and
+`admin.team.policy`.
+
 | Method | Path | Description |
 | --- | --- | --- |
 | GET | `/api/admin/overview` | Dashboard stats (incl. `stats.pendingApprovals`), recent attempts, live attempts |
@@ -234,6 +282,30 @@ cookie; `POST /api/admin/logout`; `GET /api/admin/me`.
 | GET | `/api/admin/export/feedback.csv` | CSV download |
 | GET | `/api/admin/export/candidates.csv` | CSV download |
 | GET | `/api/admin/export/audit.csv` | Recent audit entries as CSV (1000 rows) |
+
+Route-to-permission map (first match wins; unknown routes are super-admin only):
+
+| Routes | Permission |
+| --- | --- |
+| `GET /overview` | `dashboard.view` |
+| `GET /assessments…`, `GET /export/assessments.csv` | `assessments.view` |
+| `POST/PUT/DELETE /assessments…`, `/groups/:id`, `/sections/:id` | `assessments.manage` |
+| `GET /questions…`, `GET /export/questions.csv` | `questions.view` |
+| `POST/PUT/DELETE /questions…`, paper question import/removal | `questions.manage` |
+| `GET /candidates…`, `GET /candidate-groups…`, `GET /export/candidates.csv` | `candidates.view` |
+| `POST/PUT /candidates…`, candidate import | `candidates.manage` |
+| `DELETE /candidates/:id` | `candidates.delete` |
+| `POST /candidates/:id/reset-password` | `candidates.reset_password` |
+| `GET /approvals…`, `POST /candidates/:id/approve|reject` | `approvals.review` |
+| `POST/PUT/DELETE /candidate-groups…` | `groups.manage` |
+| `GET /attempts…` | `attempts.view` |
+| `POST/DELETE /attempts…` | `attempts.manage` |
+| `GET /live` | `live.view` |
+| `GET /results` | `results.view` |
+| `GET /export/results.csv`, `/export/attempts.csv` | `results.export` |
+| `GET /feedback`, `/export/feedback.csv` | `feedback.view` |
+| `GET /audit`, `/export/audit.csv` | `audit.view` |
+| `GET/PUT /settings…`, `GET /orgs` | `settings.manage` |
 
 `PUT /api/admin/settings` accepts `landing_config` (an object keyed by the fields
 returned from `GET /IBA/api/landing`; blank values fall back to the built-in

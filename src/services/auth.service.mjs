@@ -7,6 +7,9 @@ import * as sessionsRepo from "../db/repositories/sessions.repo.mjs";
 import * as adminsRepo from "../db/repositories/admins.repo.mjs";
 import * as candidatesRepo from "../db/repositories/candidates.repo.mjs";
 import { PENDING_LOGIN_MESSAGE, REJECTED_LOGIN_MESSAGE } from "./registration.service.mjs";
+import { adminName, adminUsername, clean } from "../domain/admin-account.mjs";
+import { requireAdminPassword } from "../domain/admin-password.mjs";
+import { effectivePermissions, hasAnyPermission, isSuperAdmin, roleLabel } from "../domain/rbac.mjs";
 
 const CANDIDATE_COOKIE = "ion_cand";
 const ADMIN_COOKIE = "ion_admin";
@@ -46,6 +49,12 @@ export async function loginAdmin({ username, password }) {
   if (!admin || !verifyPassword(password || "", admin.password_hash)) {
     throw unauthorized("Invalid username or password.");
   }
+  if (String(admin.status || "active") !== "active") {
+    throw forbidden("This account is disabled. Contact the super administrator.");
+  }
+  const at = nowIso();
+  await adminsRepo.update(admin.id, { lastLoginAt: at, updatedAt: at });
+  admin.last_login_at = at;
   const token = await openSession("admin", String(admin.id), config.session.adminTtlSec);
   return { token, admin };
 }
@@ -54,70 +63,49 @@ export async function logoutAdmin(token) {
   if (token) await sessionsRepo.remove(token);
 }
 
-const clean = (value) => String(value ?? "").trim();
-
-const validRole = (value) => {
-  const role = clean(value).toLowerCase() || "admin";
-  if (!/^[a-z][a-z0-9_-]{1,24}$/.test(role)) throw badRequest("Role is invalid.");
-  return role;
-};
-
-/** Update the signed-in administrator's own profile. */
+/** Update the signed-in administrator's own profile. Role cannot be changed here. */
 export async function updateAdminProfile(admin, input = {}) {
-  const name = clean(input.name);
+  const name = adminName(input.name);
   const username = clean(input.username);
-  if (!name) throw badRequest("Full name is required.");
   if (!username) throw badRequest("Username is required.");
-  if (username.length < 3) throw badRequest("Username must be at least 3 characters.");
+  if (username !== String(admin.username || "")) adminUsername(username);
   const existing = await adminsRepo.findByUsername(username);
   if (existing && Number(existing.id) !== Number(admin.id)) {
     throw conflict("That username is already in use.");
   }
   const password = String(input.password ?? "");
-  if (password && password.length < 6) throw badRequest("Password must be at least 6 characters.");
+  if (password) requireAdminPassword(password);
   await adminsRepo.update(admin.id, {
     name,
     username,
     ...(password ? { passwordHash: hashPassword(password) } : {}),
+    updatedAt: nowIso(),
   });
   return adminsRepo.findById(admin.id);
 }
-
-/** Create an additional administrator account. */
-export async function createAdmin(input = {}) {
-  const name = clean(input.name);
-  const username = clean(input.username);
-  const password = String(input.password ?? "");
-  const role = validRole(input.role);
-  if (!name) throw badRequest("Full name is required.");
-  if (!username) throw badRequest("Username is required.");
-  if (username.length < 3) throw badRequest("Username must be at least 3 characters.");
-  if (password.length < 6) throw badRequest("Password must be at least 6 characters.");
-  if (await adminsRepo.findByUsername(username)) throw conflict("That username is already in use.");
-  await adminsRepo.create({
-    username,
-    passwordHash: hashPassword(password),
-    name,
-    role,
-    createdAt: nowIso(),
-  });
-  return adminsRepo.findByUsername(username);
-}
-
-export const listAdmins = () => adminsRepo.allRows();
 
 /** @returns {object|null} admin row for a token */
 export async function adminFromToken(token) {
   if (!token) return null;
   const row = await sessionsRepo.findByToken(token, "admin");
   if (!row || row.expires_at < nowIso()) return null;
-  return adminsRepo.findById(Number(row.subject_id));
+  const admin = await adminsRepo.findById(Number(row.subject_id));
+  if (!admin || String(admin.status || "active") !== "active") return null;
+  return admin;
 }
 
 export async function requireAdmin(token) {
   const admin = await adminFromToken(token);
-  if (!admin) throw unauthorized();
+  if (!admin) throw unauthorized("Your session is no longer valid.");
   return admin;
+}
+
+/** Throw a 403 unless the admin has at least one of the given permissions. */
+export function requirePermission(admin, permissions) {
+  const list = Array.isArray(permissions) ? permissions : [permissions];
+  if (!hasAnyPermission(admin, list)) {
+    throw forbidden("Your role does not allow this action.");
+  }
 }
 
 /** Verify candidate credentials without touching attempts. */
@@ -137,9 +125,15 @@ export async function checkCandidateCredentials(login, password) {
   return candidate;
 }
 
+/** Safe administrator payload for the browser. Never includes a password hash. */
 export const publicAdmin = (admin) => ({
   id: admin.id,
   username: admin.username,
   name: admin.name,
   role: admin.role,
+  roleLabel: roleLabel(admin.role),
+  status: admin.status || "active",
+  superAdmin: isSuperAdmin(admin),
+  permissions: effectivePermissions(admin),
+  lastLoginAt: admin.last_login_at || "",
 });
