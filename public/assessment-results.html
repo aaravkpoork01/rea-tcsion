@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Assessment Results — TCS iON</title>
 <meta name="robots" content="noindex, nofollow" />
-<link rel="stylesheet" href="css/result.css?v=17.11.20" />
+<link rel="stylesheet" href="css/result.css?v=17.11.21" />
 </head>
 <body>
 
@@ -14,8 +14,8 @@
     <a class="brand" href="/" aria-label="Assessment Platform home">
       <img class="brand-logo" src="images/collegelogo.png" alt="" />
       <span class="brand-copy">
-        <strong>Assessment Results</strong>
-        <small>TCS iON Assessment Platform</small>
+        <strong>TCS iON</strong>
+        <small>Assessment Platform</small>
       </span>
     </a>
     <span class="topbar-meta">Admin result sheet &middot; submitted only</span>
@@ -72,7 +72,6 @@ let term = "";
 function shell(title, body, actions = "") {
   view.innerHTML = `
     <section class="card auth-card">
-      <div class="panel-head">Assessment results</div>
       <div class="panel-body">
         <h1>${esc(title)}</h1>
         ${body}
@@ -194,7 +193,7 @@ function render() {
   view.innerHTML = `
     <section class="card head-card">
       <div>
-        <div class="eyebrow">${esc(assessment.id)} · submitted results</div>
+        <div class="eyebrow">Submitted results</div>
         <h1>${esc(assessment.name)}</h1>
         <div class="muted">Only candidates who submitted this assessment are listed.</div>
       </div>

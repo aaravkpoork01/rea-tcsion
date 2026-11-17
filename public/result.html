@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Assessment Result — TCS iON</title>
-<link rel="stylesheet" href="css/result.css?v=17.11.20" />
+<link rel="stylesheet" href="css/result.css?v=17.11.21" />
 </head>
 <body>
 
@@ -13,8 +13,8 @@
     <a class="brand" href="/" aria-label="Assessment Platform home">
       <img class="brand-logo" src="images/collegelogo.png" alt="" />
       <span class="brand-copy">
-        <strong>Assessment Result</strong>
-        <small>TCS iON Assessment Platform</small>
+        <strong>TCS iON</strong>
+        <small>Assessment Platform</small>
       </span>
     </a>
     <span class="topbar-meta">Private result &middot; Login ID only</span>
@@ -23,11 +23,15 @@
 
 <div class="wrap">
   <section id="accessCard" class="card unlock">
-    <div class="panel-head">Candidate result</div>
     <div class="panel-body">
       <h1>View your result</h1>
-      <p>Enter your Login ID to open the latest result for your assessment.</p>
+      <p>Choose the assessment you appeared for and enter your Login ID. No password is needed.</p>
       <form id="openForm" class="form-grid">
+        <label>Assessment
+          <select id="assessmentSelect" name="assessmentId">
+            <option value="">All assessments</option>
+          </select>
+        </label>
         <label>Login ID
           <input id="candidateId" name="candidateId" autocomplete="off" spellcheck="false" inputmode="numeric" maxlength="10" placeholder="10-digit Login ID" required />
         </label>
@@ -35,7 +39,7 @@
         <div class="error" id="error" role="alert"></div>
       </form>
       <div class="hint">
-        Use the Login ID provided by your administrator. No password is needed.<br />
+        Use the Login ID provided by your administrator.<br />
         <a href="index.html?726">Back to candidate sign in</a>
       </div>
     </div>
@@ -229,7 +233,7 @@ function renderResult(data) {
   result.innerHTML = `
     <div class="card head-card">
       <div>
-        <div class="eyebrow">${esc(assessment.id)} · Attempt #${attempt.number}</div>
+        <div class="eyebrow">Attempt #${attempt.number}</div>
         <h1>${esc(candidate.name)}</h1>
         <div class="muted">${esc(candidate.login)} · ${esc(assessment.name)}</div>
       </div>
@@ -272,6 +276,37 @@ const params = new URLSearchParams(location.search);
 const initialCandidate = params.get("candidate") || "";
 const initialAssessment = params.get("assessment") || "";
 const initialAttempt = params.get("attempt") || "";
+const assessmentSelect = $("#assessmentSelect");
+
+async function loadAssessments() {
+  try {
+    const response = await fetch("/IBA/api/assessments", {
+      headers: { Accept: "application/json" },
+    });
+    const data = await response.json().catch(() => ({}));
+    const items = (data && data.assessments) || [];
+    for (const item of items) {
+      const id = String(item.id || "");
+      if (!id) continue;
+      const option = document.createElement("option");
+      option.value = id;
+      option.textContent = item.name ? `${id} - ${item.name}` : id;
+      assessmentSelect.appendChild(option);
+    }
+    if (initialAssessment) {
+      const exists = [...assessmentSelect.options].some((option) => option.value === initialAssessment);
+      if (!exists) {
+        const option = document.createElement("option");
+        option.value = initialAssessment;
+        option.textContent = `${initialAssessment} - Assessment`;
+        assessmentSelect.appendChild(option);
+      }
+      assessmentSelect.value = initialAssessment;
+    }
+  } catch {
+    // The Login ID can still open the result; the selector just stays on All.
+  }
+}
 
 async function submitCandidate(candidateId, assessmentId = initialAssessment, attemptId = initialAttempt) {
   hideError();
@@ -304,13 +339,14 @@ $("#openForm").addEventListener("submit", (event) => {
     showError("Enter your Login ID.");
     return;
   }
-  submitCandidate(candidateId);
+  submitCandidate(candidateId, assessmentSelect.value || "");
 });
 
 if (initialCandidate) {
   $("#candidateId").value = initialCandidate;
-  submitCandidate(initialCandidate);
+  loadAssessments().then(() => submitCandidate(initialCandidate, initialAssessment, initialAttempt));
 } else {
+  loadAssessments();
   $("#candidateId").focus();
 }
 </script>
