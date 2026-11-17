@@ -94,3 +94,22 @@ export async function act(id, action, { actor, ip, minutes }) {
 
 export const live = async () => attemptsRepo.listLive();
 export const results = async (filters = {}) => attemptsRepo.listResults(filters);
+
+/**
+ * Submitted results for one assessment only. Used by the per-assessment
+ * Result button so unrelated candidates can never appear in the list.
+ */
+export async function assessmentResults(assessmentId) {
+  const id = String(assessmentId || "").trim();
+  if (!id) throw badRequest("Assessment ID is required.");
+  const assessment = await assessmentsRepo.findById(id);
+  if (!assessment) throw notFound("Assessment not found.");
+  return {
+    assessment: {
+      id: assessment.id,
+      name: assessment.name || assessment.id,
+      durationMinutes: Math.max(0, Number(assessment.duration_min) || 0),
+    },
+    results: await attemptsRepo.listResults({ assessmentId: id, status: "submitted" }),
+  };
+}

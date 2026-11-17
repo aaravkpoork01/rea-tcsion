@@ -580,6 +580,7 @@ async function renderAssessments() {
               <button class="btn small${a.questions > 0 ? "" : " primary"}" data-papers="${esc(a.id)}" title="Upload the question paper CSV or quiz.xml for ${esc(a.id)}">Upload paper</button>
               <button class="btn small" data-edit="${esc(a.id)}">Edit</button>
               <button class="btn small" data-questions="${esc(a.id)}">Questions</button>
+              ${can("results.view") ? `<a class="btn small" href="/assessment-results.html?assessment=${encodeURIComponent(a.id)}" target="_blank" rel="noopener" title="Open submitted results for ${esc(a.id)} on the website">Result</a>` : ""}
               <a class="btn small" href="/index.html?${encodeURIComponent(a.org_id || "")}@@${encodeURIComponent(a.id)}" target="_blank" rel="noopener" title="Open candidate console for ${esc(a.id)}">Entry Point</a>
               <button class="btn small danger" data-del="${esc(a.id)}">Delete</button>
             </td>
@@ -4610,6 +4611,7 @@ const LANDING_GROUPS = [
       ["brandSubtitle", "Brand subtitle"],
       ["navHow", "Navigation — how it works"],
       ["navBefore", "Navigation — before you begin"],
+      ["navResults", "Navigation — results"],
       ["navLogin", "Login button label"],
       ["orgId", "Organisation ID for sign-in links"],
       ["assessmentId", "Sign-in link assessment (optional — leave blank to let candidates choose)"],
@@ -4624,6 +4626,7 @@ const LANDING_GROUPS = [
       ["heroAccent", "Heading — accent line"],
       ["heroPrimary", "Primary button"],
       ["heroSecondary", "Secondary button"],
+      ["heroResults", "Result button"],
       ["heroPoint1", "Bullet 1"],
       ["heroPoint2", "Bullet 2"],
       ["heroPoint3", "Bullet 3"],
@@ -4714,6 +4717,7 @@ const LANDING_GROUPS = [
       ["footerBrand", "Brand line"],
       ["footerLogin", "Login link"],
       ["footerRegister", "Register link"],
+      ["footerResults", "Result link"],
       ["footerCopyright", "Copyright name"],
       ["footerTagline", "Tagline", true],
       ["footerNote", "Footer note", true],

@@ -13,6 +13,8 @@
         <style>
             /* Login page only: paper language is selected inside the exam, not here. */
             #multilingualDropdown { display: none !important; }
+            #login .view-result-row { margin-top: 10px; color: #555; font-size: 12px; text-align: center; }
+            #login .view-result-row a { color: #2d70b6; font-weight: bold; }
         </style>
          <script>
 	    /* var date = new Date(); */
@@ -460,13 +462,14 @@
                            Don&rsquo;t have an account? <a href="#register" onclick="openRegistration(); return false;">Register</a>
                            <span class="register-note-line">New registrations need administrator approval, up to 24 hours.</span>
                        </div>
+                       <div class="view-result-row">Already appeared for an assessment? <a href="result.html">View your result</a></div>
                     </form>
                 </div>
 
             </div>
 			    <div id="footer">
 			    <center>
-	<div> <a href="/" style="color:#fff;">Home</a> &middot; Version 17.05.21</div></center>
+	<div> <a href="/" style="color:#fff;">Home</a> &middot; <a href="result.html" style="color:#fff;">View Result</a> &middot; Version 17.05.21</div></center>
     <div class="clear"></div>
 </div>
 

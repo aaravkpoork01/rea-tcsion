@@ -82,6 +82,22 @@ opened. `active` accounts behave as before; `inactive` accounts stay blocked.
 
 Session probe, cookie clear + session destroy, and `{ ok:true, now }`.
 
+### `POST /IBA/api/result/open`
+
+Public, read-only result lookup used by `result.html`. The body contains the
+candidate's Login ID and an optional assessment/attempt:
+
+```json
+{ "candidateId": "1234567890", "assessmentId": "M65", "attemptId": 42 }
+```
+
+`assessmentId` selects the latest attempt in that assessment. `attemptId` may be
+added to open one exact attempt (used by the admin per-assessment result sheet);
+the attempt must belong to the resolved candidate and assessment. Without an
+assessment, a candidate with attempts in several assessments receives
+`requiresSelection: true` and a chooser. The response never includes candidate
+IDs, passwords or other candidates' data.
+
 `/IBA/api/session` returns `{ authenticated: false }` without a live attempt,
 otherwise:
 
@@ -276,6 +292,7 @@ admin sessions. Team actions are written to the audit log as
 | POST | `/api/admin/attempts/:id/:action` | `force-submit`, `invalidate`, `lock`, `unlock`/`reopen`, `extend` (`{ minutes }`) |
 | GET | `/api/admin/live` | Live in-progress attempts |
 | GET | `/api/admin/results?assessment=` | Submitted results, ranked |
+| GET | `/api/admin/assessments/:id/results` | Submitted results for one assessment only (admin result sheet) |
 | GET | `/api/admin/feedback` | Recent feedback + per-assessment averages |
 | GET | `/api/admin/audit?attempt=&pageSize=` | Audit trail (filtered or recent) |
 | GET | `/api/admin/orgs` | Organisations |
@@ -304,6 +321,7 @@ Route-to-permission map (first match wins; unknown routes are super-admin only):
 | `POST/DELETE /attempts…` | `attempts.manage` |
 | `GET /live` | `live.view` |
 | `GET /results` | `results.view` |
+| `GET /assessments/:id/results` | `results.view` |
 | `GET /export/results.csv`, `/export/attempts.csv` | `results.export` |
 | `GET /feedback`, `/export/feedback.csv` | `feedback.view` |
 | `GET /audit`, `/export/audit.csv` | `audit.view` |

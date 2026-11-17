@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assessment Results — TCS iON</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="stylesheet" href="css/result.css?v=17.11.20" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="/" aria-label="Assessment Platform home">
+      <img class="brand-logo" src="images/collegelogo.png" alt="" />
+      <span class="brand-copy">
+        <strong>Assessment Results</strong>
+        <small>TCS iON Assessment Platform</small>
+      </span>
+    </a>
+    <span class="topbar-meta">Admin result sheet &middot; submitted only</span>
+  </div>
+</header>
+
+<div class="wrap">
+  <main id="view">
+    <div class="card loading">Loading submitted results…</div>
+  </main>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span>&copy; <span id="year">2026</span> TCS iON Assessment Platform</span>
+    <nav class="footer-links" aria-label="Result navigation">
+      <a href="/">Home</a>
+      <a href="/admin/">Admin console</a>
+      <a href="result.html">Candidate result page</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+"use strict";
+
+const $ = (selector, root = document) => root.querySelector(selector);
+const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({
+  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+}[char]));
+
+$("#year").textContent = String(new Date().getFullYear());
+
+const formatDate = (value) => {
+  if (!value) return "—";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "—";
+  return date.toLocaleString(undefined, {
+    year: "numeric", month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit",
+  });
+};
+
+const fmt = (value, digits = 1) => {
+  const number = Number(value);
+  return Number.isFinite(number) ? number.toFixed(digits) : "—";
+};
+
+const assessmentId = (new URLSearchParams(location.search).get("assessment") || "").trim();
+const view = $("#view");
+let assessment = null;
+let rows = [];
+let term = "";
+
+function shell(title, body, actions = "") {
+  view.innerHTML = `
+    <section class="card auth-card">
+      <div class="panel-head">Assessment results</div>
+      <div class="panel-body">
+        <h1>${esc(title)}</h1>
+        ${body}
+        ${actions ? `<div class="auth-actions">${actions}</div>` : ""}
+      </div>
+    </section>`;
+}
+
+function showBlocked(title, message) {
+  shell(
+    title,
+    `<p>${esc(message)}</p>`,
+    `<a class="btn" href="/admin/">Open admin sign-in</a>
+     <a class="btn secondary" href="/">Back to website</a>`,
+  );
+}
+
+function resultUrl(row) {
+  const url = new URL("/result.html", location.origin);
+  url.searchParams.set("candidate", row.login || "");
+  url.searchParams.set("assessment", assessmentId);
+  if (row.id) url.searchParams.set("attempt", String(row.id));
+  return url.toString();
+}
+
+async function copyText(value) {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(value);
+      return true;
+    }
+  } catch {
+    // Clipboard API can be blocked on plain HTTP; fall back below.
+  }
+  const area = document.createElement("textarea");
+  area.value = value;
+  area.setAttribute("readonly", "");
+  area.style.position = "fixed";
+  area.style.left = "-9999px";
+  document.body.appendChild(area);
+  area.select();
+  let ok = false;
+  try { ok = document.execCommand("copy"); } catch { ok = false; }
+  area.remove();
+  return ok;
+}
+
+function visibleRows() {
+  const needle = term.trim().toLowerCase();
+  if (!needle) return rows;
+  return rows.filter((row) =>
+    String(row.candidate || "").toLowerCase().includes(needle)
+    || String(row.login || "").toLowerCase().includes(needle));
+}
+
+function renderRows() {
+  const tbody = $("#sheetRows");
+  if (!tbody) return;
+  const list = visibleRows();
+  const rankByRow = new Map(rows.map((row, index) => [row, index + 1]));
+  const count = $("#rowCount");
+  if (count) count.textContent = `${list.length} of ${rows.length} submission${rows.length === 1 ? "" : "s"}`;
+
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="8">
+      <div class="empty">
+        <strong>${rows.length ? "No matching candidates" : "No submitted results yet"}</strong>
+        <p>${rows.length
+          ? "Try a different name or Login ID."
+          : "Candidates appear here after they submit this assessment. In-progress attempts are not shown."}</p>
+      </div>
+    </td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = list.map((row) => {
+    const rank = rankByRow.get(row) || 1;
+    const percentage = Math.max(0, Math.min(100, Number(row.percentage) || 0));
+    const link = resultUrl(row);
+    return `<tr>
+      <td class="num"><span class="rank${rank <= 3 ? " top" : ""}">${rank}</span></td>
+      <td><strong>${esc(row.candidate || "Candidate")}</strong></td>
+      <td><code>${esc(row.login || "—")}</code></td>
+      <td class="num">#${Number(row.attempt_no) || 1}</td>
+      <td class="num score-cell"><strong>${fmt(row.score, 2)} / ${fmt(row.max_score, 2)}</strong><span>${Number(row.answered) || 0}/${Number(row.total_questions) || 0} answered</span></td>
+      <td style="min-width:130px">
+        <div class="bar" style="min-width:92px"><i style="width:${percentage}%"></i></div>
+        <div class="muted small" style="margin-top:3px">${fmt(row.percentage, 1)}%</div>
+      </td>
+      <td class="muted small">${formatDate(row.submitted_at)}</td>
+      <td>
+        <div class="row-actions">
+          <a class="btn small" href="${esc(link)}" target="_blank" rel="noopener">View result</a>
+          <button class="btn secondary small" type="button" data-copy="${esc(link)}">Copy link</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join("");
+
+  tbody.querySelectorAll("[data-copy]").forEach((button) => button.addEventListener("click", async () => {
+    const ok = await copyText(button.dataset.copy);
+    const original = button.textContent;
+    button.textContent = ok ? "Copied" : "Copy failed";
+    setTimeout(() => { button.textContent = original; }, 1400);
+  }));
+}
+
+function render() {
+  const candidates = new Set(rows.map((row) => row.login || row.candidate)).size;
+  const average = rows.length
+    ? rows.reduce((sum, row) => sum + (Number(row.percentage) || 0), 0) / rows.length
+    : 0;
+  const best = rows.length ? Math.max(...rows.map((row) => Number(row.percentage) || 0)) : 0;
+  const latest = rows.reduce((value, row) => {
+    const time = Date.parse(row.submitted_at || "");
+    return Number.isFinite(time) && time > value ? time : value;
+  }, 0);
+
+  view.innerHTML = `
+    <section class="card head-card">
+      <div>
+        <div class="eyebrow">${esc(assessment.id)} · submitted results</div>
+        <h1>${esc(assessment.name)}</h1>
+        <div class="muted">Only candidates who submitted this assessment are listed.</div>
+      </div>
+      <div class="head-actions no-print">
+        <a class="btn secondary small" href="/admin/">Back to admin</a>
+        <button class="btn secondary small" type="button" id="refreshSheet">Refresh</button>
+      </div>
+    </section>
+
+    <div class="sheet-stats">
+      <div class="stat blue"><div class="k">Submissions</div><div class="v">${rows.length}</div></div>
+      <div class="stat"><div class="k">Candidates</div><div class="v">${candidates}</div></div>
+      <div class="stat green"><div class="k">Average</div><div class="v">${fmt(average, 1)}%</div></div>
+      <div class="stat"><div class="k">Best</div><div class="v">${fmt(best, 1)}%</div></div>
+      <div class="stat"><div class="k">Last submission</div><div class="v" style="font-size:13px;font-weight:600">${latest ? formatDate(new Date(latest).toISOString()) : "—"}</div></div>
+    </div>
+
+    <section class="card">
+      <div class="card-head" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap">
+        <div>
+          <strong>Submitted candidates</strong>
+          <div class="muted small" id="rowCount">${rows.length} submission${rows.length === 1 ? "" : "s"}</div>
+        </div>
+        <label class="no-print" style="max-width:300px;width:100%">Search candidate
+          <input id="sheetSearch" type="search" placeholder="Name or Login ID" autocomplete="off" />
+        </label>
+      </div>
+      <div class="card-body tight">
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th class="num">#</th>
+              <th>Candidate</th>
+              <th>Login ID</th>
+              <th class="num">Attempt</th>
+              <th class="num">Score</th>
+              <th>Percentage</th>
+              <th>Submitted</th>
+              <th></th>
+            </tr></thead>
+            <tbody id="sheetRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <div class="foot">Result links open the candidate result page for that exact submitted attempt. Only the Login ID is needed on that page.</div>`;
+
+  $("#sheetSearch").value = term;
+  $("#sheetSearch").addEventListener("input", (event) => {
+    term = event.target.value;
+    renderRows();
+  });
+  $("#refreshSheet").addEventListener("click", load);
+  renderRows();
+}
+
+async function load() {
+  if (!assessmentId) {
+    shell(
+      "No assessment selected",
+      `<p>Open this page with the <strong>Result</strong> button next to an assessment in the admin console.</p>`,
+      `<a class="btn" href="/admin/">Open admin console</a>
+       <a class="btn secondary" href="/">Back to website</a>`,
+    );
+    return;
+  }
+
+  view.innerHTML = `<div class="card loading">Loading submitted results…</div>`;
+  try {
+    const response = await fetch(`/api/admin/assessments/${encodeURIComponent(assessmentId)}/results`, {
+      credentials: "same-origin",
+      headers: { Accept: "application/json" },
+    });
+    const data = await response.json().catch(() => ({}));
+
+    if (response.status === 401) {
+      showBlocked("Administrator sign-in required", "Sign in to the admin console, then open the assessment Result button again.");
+      return;
+    }
+    if (response.status === 403) {
+      showBlocked("Results access required", "Your account can sign in, but it does not have permission to view results.");
+      return;
+    }
+    if (!response.ok || data.ok === false) {
+      throw new Error(data.error || "Could not load results for this assessment.");
+    }
+
+    assessment = data.assessment || { id: assessmentId, name: assessmentId };
+    // The server already filters submitted results; this guard keeps the page
+    // correct if the endpoint's contract changes later.
+    rows = (data.results || []).filter((row) => row.status === "submitted");
+    render();
+  } catch (error) {
+    shell(
+      "Could not load results",
+      `<p>${esc(error.message || "Please try again.")}</p>`,
+      `<button class="btn" type="button" id="retrySheet">Try again</button>
+       <a class="btn secondary" href="/admin/">Back to admin</a>`,
+    );
+    $("#retrySheet")?.addEventListener("click", load);
+  }
+}
+
+load();
+</script>
+</body>
+</html>

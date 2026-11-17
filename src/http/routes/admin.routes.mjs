@@ -121,6 +121,8 @@ export function registerAdminRoutes(router) {
     ["DELETE", /^\/api\/admin\/assessments\/[^/]+\/questions$/, "questions.manage"],
 
     // Assessments, papers, presentation and candidate-group assignment.
+    // The per-assessment result sheet is a results action, not assessment config.
+    ["GET", /^\/api\/admin\/assessments\/[^/]+\/results$/, "results.view"],
     ["GET", /^\/api\/admin\/assessments(?:\/.*)?$/, "assessments.view"],
     ["POST", /^\/api\/admin\/assessments(?:\/.*)?$/, "assessments.manage"],
     ["PUT", /^\/api\/admin\/assessments(?:\/.*)?$/, "assessments.manage"],
@@ -199,6 +201,8 @@ export function registerAdminRoutes(router) {
   guarded[0]("/api/admin/overview", auth(async (_req, res) => sendOk(res, await overviewService.overview())));
 
   guarded[0]("/api/admin/assessments", auth(async (_req, res) => sendOk(res, { assessments: await assessmentsService.list() })));
+  guarded[0]("/api/admin/assessments/:id/results", auth(async (_req, res, { params }) =>
+    sendOk(res, await attemptsAdmin.assessmentResults(params.id))));
   guarded[1]("/api/admin/assessments", auth(async (req, res) => {
     const result = await assessmentsService.create(await readJson(req));
     return sendCreated(res, result);

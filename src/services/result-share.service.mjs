@@ -48,6 +48,18 @@ export async function openResult(body = {}) {
   if (!candidate) throw notFound("Login ID not found. Check the Login ID and try again.");
 
   const assessmentId = clean(body.assessmentId);
+  // Admin result sheets can point at one exact attempt (for example a submitted
+  // attempt when a newer attempt is still in progress). The Login ID is still
+  // required and the attempt must belong to that candidate and assessment.
+  const attemptId = Number.parseInt(body.attemptId, 10);
+  if (Number.isFinite(attemptId) && attemptId > 0) {
+    const attempt = await attemptsRepo.findById(attemptId);
+    const sameCandidate = attempt && String(attempt.candidate_id) === String(candidate.id);
+    const sameAssessment = !assessmentId || attempt.assessment_id === assessmentId;
+    if (!sameCandidate || !sameAssessment) throw notFound("No attempt found for this assessment.");
+    return buildResult(attempt);
+  }
+
   if (assessmentId) {
     const attempt = await attemptsRepo.findLatest(candidate.id, assessmentId);
     if (!attempt) throw notFound("No attempt found for this assessment.");
