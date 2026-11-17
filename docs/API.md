@@ -95,7 +95,7 @@ Engine action dispatcher. Supported actions:
 | Action | Notes |
 | --- | --- |
 | `getXMLPath?orgId&mockId` | Paper path descriptor incl. `validity: "Live"`, `xmlPath`, `quizPath`, `confPath`; `lastModified` is the newest paper-file mtime (client cache revision) |
-| `getCandidateData?orgId&mockId&candMasterId&attemptNo` | Resume payload: `{ ResponseType: "CAND", Response: <state_json>, quesPaper: <quiz.xml> }`, or `{ Error }` for closed attempts |
+| `getCandidateData?orgId&mockId&candMasterId&attemptNo` | Resume payload: `{ ResponseType: "CANDBACKUP", Response: <state_json>, quesPaper: <quiz.xml> }`, or `{ Error }` for closed attempts |
 | `CandidateSubmit?attemptNo` | Finalises; returns the confirmation text |
 | `updateInterruptions?attemptNo&noOfInterruptions&status` | Audit event |
 | `saveAuditLog`, `saveScanAudit` | Body is a JSON audit payload (array or single entry) |

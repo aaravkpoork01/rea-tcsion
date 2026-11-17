@@ -8,6 +8,7 @@
 	var ENDPOINTS = {
 		backup: "/IBACC/MockCandResponseHandler",
 		finalize: "/IBA/api/finalize",
+		progress: "/IBA/api/progress",
 		state: "/IBA/api/state",
 		feedback: "/IBACC/act?action=savecandfeedback",
 		ping: "/IBA/api/ping"
@@ -59,6 +60,16 @@
 			BackUp: snapshot,
 			BackUpParameters: isFinal ? "storeBackup@@BackUpParamSeparator@@true" : "storeBackup@@BackUpParamSeparator@@false"
 		});
+	}
+
+	/** Small resume checkpoint; keepalive-safe for page teardown. */
+	function saveProgress(payload, options) {
+		return postJson(ENDPOINTS.progress, payload, options);
+	}
+
+	/** Beacon variant for pagehide/visibilitychange. */
+	function saveProgressBeacon(payload) {
+		return beacon(ENDPOINTS.progress, payload);
 	}
 
 	function finalize(payload) {
@@ -113,6 +124,8 @@
 		postJson: postJson,
 		getJson: getJson,
 		saveState: saveState,
+		saveProgress: saveProgress,
+		saveProgressBeacon: saveProgressBeacon,
 		finalize: finalize,
 		fetchState: fetchState,
 		postForm: postForm,

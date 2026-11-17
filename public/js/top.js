@@ -4053,6 +4053,17 @@ function validateQuizPageUrl(isExecutionRequired){
 		isResumed = $.trim(params[1]).split("@@")[4];
 		if(isResumed.indexOf("#")>0)
 			isResumed = isResumed.split("#")[0];
+	}else if(mockId!=undefined && mockId.indexOf("M") != -1 && !isPRMock && !isOffline){
+		// Mock assessments carry no engine-side backup in the original
+		// console. This deployment keeps one, so a relaunch must restore the
+		// saved attempt (ticked answers + remaining time) instead of starting
+		// the paper from scratch with a full timer.
+		isResumed = $.trim(params[1]).split("@@")[4];
+		if(typeof(isResumed) != 'undefined' && isResumed.indexOf("#")>0)
+			isResumed = isResumed.split("#")[0];
+		if(isResumed == undefined || isResumed === "" || isNaN(parseInt(isResumed))){
+			isResumed = (typeof(sessionStorage.isResumed) != 'undefined' && sessionStorage.isResumed !== "") ? sessionStorage.isResumed : "0";
+		}
 	}
 	if(mockId !== null && mockId.length>0){
 		if(typeof(attemptId)!='undefined' && attemptId.indexOf("#")>-1){

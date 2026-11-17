@@ -38,10 +38,81 @@
 		return global.mockVar || null;
 	}
 
+	/**
+	 * Inputs rendering the live question. The engine uses three shapes:
+	 * name="answers<quesId>", class="MCQanswer<quesId>", and, for linked /
+	 * placeholder questions, the generic name="answers" scoped to the
+	 * question container. Only the displayed question may be read from the
+	 * generic bucket, otherwise answers would land on the wrong question.
+	 */
+	function liveInputs(quesId) {
+		var doc = global.document;
+		if (!doc) return [];
+		try {
+			var named = doc.getElementsByName("answers" + quesId);
+			if (named && named.length) return Array.prototype.slice.call(named);
+		} catch (e) { /* ignore */ }
+		try {
+			var classified = doc.querySelectorAll(".MCQanswer" + quesId);
+			if (classified && classified.length) return Array.prototype.slice.call(classified);
+		} catch (e) { /* ignore */ }
+		var mv = snapshot();
+		var current = mv && mv.curQuesBean;
+		if (!current || String(current.quesId) !== String(quesId)) return [];
+		var container = doc.getElementById("quesAnsContent") || doc.getElementById("currentQues");
+		if (container) {
+			var scoped = container.querySelectorAll("input[name='answers']");
+			if (scoped && scoped.length) return Array.prototype.slice.call(scoped);
+		}
+		return [];
+	}
+
+	/**
+	 * Copy the ticked options from the DOM into `mockVar.curQuesBean`.
+	 * The engine only collects MCQ/MSQ selections when the candidate leaves
+	 * the question, so a backup taken between the tick and the navigation
+	 * would otherwise persist an unanswered question.
+	 */
+	function captureAnswers() {
+		var mv = snapshot();
+		var question = mv && mv.curQuesBean;
+		if (!question || question.quesId == null) return false;
+
+		var inputs = liveInputs(question.quesId);
+		if (!inputs.length) return false;
+
+		var picked = [];
+		for (var i = 0; i < inputs.length; i++) {
+			if (inputs[i] && inputs[i].checked && inputs[i].value) picked.push(String(inputs[i].value));
+		}
+		var joined = picked.join(",");
+		var params = question.quesParam || (question.quesParam = {});
+		var previous = String(params.selectedOptId || "");
+
+		if (joined) {
+			if (joined === previous) return false;
+			params.selectedOptId = joined;
+			if (params.status === "marked") params.status = "markedAndAnswered";
+			else if (params.status !== "markedAndAnswered") params.status = "answered";
+			return true;
+		}
+
+		// No ticked option: only clear when this question previously had one,
+		// so an unrendered option list can never wipe an answer.
+		if (previous || params.status === "answered" || params.status === "markedAndAnswered") {
+			params.selectedOptId = "";
+			params.answer = "";
+			params.status = Number(params.isMarked) ? "marked" : "notanswered";
+			return true;
+		}
+		return false;
+	}
+
 	function serialise() {
 		var mv = snapshot();
 		if (!mv) return "";
 		try {
+			captureAnswers();
 			return JSON.stringify(mv);
 		} catch (e) {
 			return "";
@@ -178,6 +249,7 @@
 		refreshIdentity: refreshIdentity,
 		snapshot: snapshot,
 		serialise: serialise,
+		captureAnswers: captureAnswers,
 		evaluateDirty: evaluateDirty,
 		markPosted: markPosted,
 		update: update,

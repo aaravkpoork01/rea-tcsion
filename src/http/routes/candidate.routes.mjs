@@ -110,6 +110,20 @@ export function registerCandidateRoutes(router) {
     return sendJson(res, 200, { ok: true, attemptId: attempt.id });
   });
 
+  // Tiny resume checkpoint (beacon-safe): last tick + remaining time.
+  router.post("/IBA/api/progress", async (req, res) => {
+    const body = await readJson(req);
+    const active = await session(req);
+    if (!active) return sendJson(res, 401, { ok: false });
+    const result = await examService.saveResumePoint({
+      attemptId: body.attemptId,
+      time: body.time,
+      question: body.question,
+      session: active,
+    });
+    return sendJson(res, 200, result);
+  });
+
   const backupHandler = async (req, res) => {
     const active = await session(req);
     // Only a signed-in candidate console may persist a snapshot. Without this

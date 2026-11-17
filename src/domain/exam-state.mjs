@@ -88,6 +88,9 @@ export async function persistSnapshot(attempt, snapshot, options = {}) {
 
   // A blank/stale client state must never erase answers that were already
   // captured by earlier backups (this happened after reopening an attempt).
+  // It must not overwrite the saved resume payload either: `state_json` is
+  // what the relaunched paper is rebuilt from, so storing the fresh blank
+  // paper here would lose both the ticks and the paused timer.
   const existing = await responsesRepo.listForScoring(attempt.id);
   const existingAnswered = existing.filter((row) =>
     String(row.selected || "").trim() || String(row.answer || "").trim()).length;
@@ -97,10 +100,12 @@ export async function persistSnapshot(attempt, snapshot, options = {}) {
       attemptId: attempt.id,
       candidateId: attempt.candidate_id,
       event: "backup-ignored-empty",
-      detail: `incoming answered=0, kept ${existingAnswered} saved response(s)`,
+      detail: `incoming answered=0, kept ${existingAnswered} saved response(s) and the previous resume state`,
       at,
     });
-  } else if (rows.length) {
+    return { answered: existingAnswered, seen };
+  }
+  if (rows.length) {
     await responsesRepo.upsertMany(rows);
   }
 

@@ -3,9 +3,10 @@ import { addSeconds, nowIso } from "../core/time.mjs";
 import { badRequest, unauthorized } from "../core/errors.mjs";
 import * as auditRepo from "../db/repositories/audit.repo.mjs";
 import * as questionsRepo from "../db/repositories/questions.repo.mjs";
+import * as responsesRepo from "../db/repositories/responses.repo.mjs";
 import * as attemptsRepo from "../db/repositories/attempts.repo.mjs";
 import { config } from "../../config/index.mjs";
-import { average, collectRatings } from "../domain/answers.mjs";
+import { average, collectRatings, normaliseAnswer, normaliseSelected } from "../domain/answers.mjs";
 import { finaliseAttempt, isClosed, CLOSED_MESSAGES, persistSnapshot } from "../domain/exam-state.mjs";
 import * as assessmentsService from "./assessments.service.mjs";
 import { paperPath } from "./assessments.service.mjs";
@@ -206,7 +207,9 @@ export async function candidateData({ orgId, assessmentId, candidateId, attemptN
 
   if (isClosed(attempt.status)) return { Error: CLOSED_MESSAGES[attempt.status] };
   if (attempt.state_json) {
-    return { ResponseType: "CAND", Response: attempt.state_json, quesPaper: assessmentsService.quizXml(assessment) };
+    // CANDBACKUP tells the engine the payload is the console's own plain JSON
+    // snapshot (not an "@ED"-encrypted CAND blob), so it parses it directly.
+    return { ResponseType: "CANDBACKUP", Response: attempt.state_json, quesPaper: assessmentsService.quizXml(assessment) };
   }
   return { attemptId: attempt.id, resumed: false };
 }
@@ -296,6 +299,102 @@ export async function finalise({ snapshot, ip, session }) {
   const attempt = await attemptsService.resolveAttemptForSnapshot(snapshot, session);
   if (!attempt) return null;
   return finaliseAttempt(attempt.id, snapshot, { ip }, "bridge");
+}
+
+/**
+ * Small resume checkpoint posted by the client on answer ticks and page
+ * teardown. The full snapshot is hundreds of kilobytes, too large for a
+ * keepalive/beacon request, so the last tick + remaining time would otherwise
+ * be lost when a tab is closed. This merge keeps `state_json` (the payload
+ * used to relaunch the paper) and the single response row current.
+ */
+export async function saveResumePoint({ attemptId, time, question, session }) {
+  const id = Number(attemptId) || Number(session?.attemptId) || 0;
+  if (!id || !session?.candidateId) return { ok: false };
+
+  const attempt = await attemptsRepo.findById(id);
+  if (!attempt || attempt.candidate_id !== session.candidateId) return { ok: false };
+  if (isClosed(attempt.status)) return { ok: false };
+
+  let snapshot = null;
+  if (attempt.state_json) {
+    try { snapshot = JSON.parse(attempt.state_json); } catch { snapshot = null; }
+  }
+  if (!snapshot || !Array.isArray(snapshot.groups)) return { ok: false };
+
+  const remaining = Number(time);
+  if (Number.isFinite(remaining) && remaining >= 0) snapshot.time = Math.round(remaining);
+
+  let touched = null;
+  const extId = question && question.quesId != null ? String(question.quesId) : "";
+  const patchParams = (target) => {
+    if (!target) return;
+    const params = target.quesParam || (target.quesParam = {});
+    if (question.status != null) params.status = String(question.status);
+    if (question.selected !== undefined) params.selectedOptId = normaliseSelected(question.selected);
+    if (question.answer !== undefined) params.answer = normaliseAnswer(question.answer);
+  };
+  if (extId) {
+    for (const group of snapshot.groups) {
+      for (const section of group.secDetails || []) {
+        for (const entry of section.questions || []) {
+          if (String(entry.quesId) === extId) {
+            patchParams(entry);
+            touched = entry;
+          }
+        }
+      }
+    }
+    if (snapshot.curQuesBean && String(snapshot.curQuesBean.quesId) === extId) {
+      patchParams(snapshot.curQuesBean);
+      touched = touched || snapshot.curQuesBean;
+    }
+  }
+
+  let answered = 0;
+  for (const group of snapshot.groups) {
+    for (const section of group.secDetails || []) {
+      for (const entry of section.questions || []) {
+        const status = String(entry?.quesParam?.status || "notanswered");
+        if (status === "answered" || status === "markedAndAnswered") answered += 1;
+      }
+    }
+  }
+
+  const currentGroup = Number(snapshot.currentGrp ?? attempt.current_group ?? 0) || 0;
+  const currentSection = Number(snapshot.groups[currentGroup]?.curSection ?? attempt.current_section ?? 0) || 0;
+  const currentQuestion = Number(snapshot.groups[currentGroup]?.curQues ?? attempt.current_question ?? 0) || 0;
+  const at = nowIso();
+
+  await attemptsRepo.saveState(attempt.id, {
+    at,
+    currentGroup,
+    currentSection,
+    currentQuestion,
+    answered,
+    clientScore: null,
+    fullscreenSeconds: null,
+    fullscreenToggleCount: null,
+    stateJson: JSON.stringify(snapshot),
+  });
+
+  if (touched) {
+    const row = await questionsRepo.findIdByExt(attempt.assessment_id, extId);
+    if (row?.id) {
+      await responsesRepo.upsertMany([{
+        attemptId: attempt.id,
+        questionId: Number(row.id),
+        extId,
+        status: String(touched.quesParam?.status || "notanswered"),
+        selected: normaliseSelected(touched.quesParam?.selectedOptId),
+        answer: normaliseAnswer(touched.quesParam?.answer).slice(0, config.limits.maxAnswerBytes),
+        timeSpent: Number(touched.timespent ?? touched.quesParam?.timespent ?? 0) || 0,
+        updatedAt: at,
+      }]);
+    }
+  }
+
+  return { ok: true, time: snapshot.time, answered };
 }
 
 /** Last persisted snapshot for the signed-in attempt, used by the client resume overlay. */
