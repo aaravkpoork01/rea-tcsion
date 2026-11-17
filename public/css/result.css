@@ -63,12 +63,21 @@ img { border: none; }
   min-width: 0;
 }
 .brand-logo {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(145deg, #1d4f82, #38aae9);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .18);
+}
+.brand-logo img {
   display: block;
-  height: 40px;
-  width: auto;
-  background: #fff;
-  padding: 4px 6px;
-  border-radius: 2px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 .brand-copy { min-width: 0; }
 .brand-copy strong {
@@ -484,7 +493,7 @@ td code { font-size: 12.5px; }
 @media (max-width: 720px) {
   .topbar-inner { padding: 8px 12px; }
   .topbar-meta { display: none; }
-  .brand-logo { height: 34px; }
+  .brand-logo { width: 36px; height: 36px; }
   .brand-copy strong { font-size: 16px; }
   .wrap { padding: 18px 12px 42px; }
   .unlock { margin-top: 18px; }
